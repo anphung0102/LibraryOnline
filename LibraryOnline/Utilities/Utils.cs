@@ -27,6 +27,5 @@ namespace LibraryOnline.Utilities
         //trong đó chưa các thông tin file.
         // còn file thì lưu trong project
 
-        //đợi a chut
     }
 }

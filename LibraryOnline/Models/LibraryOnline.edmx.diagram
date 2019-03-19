@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3aea1487bccc436bb99fe2643d8ee9cb" Name="Diagram1">
+        <EntityTypeShape EntityType="LibraryModel.Ebook" Width="1.5" PointX="8" PointY="5.625" />
+        <EntityTypeShape EntityType="LibraryModel.Essay" Width="1.5" PointX="5" PointY="0.625" />
+        <EntityTypeShape EntityType="LibraryModel.File" Width="1.5" PointX="2.75" PointY="2.375" />
+        <EntityTypeShape EntityType="LibraryModel.Role" Width="1.5" PointX="0.5" PointY="6.375" />
+        <EntityTypeShape EntityType="LibraryModel.Subject" Width="1.5" PointX="2.75" PointY="9.5" />
+        <EntityTypeShape EntityType="LibraryModel.Thesis" Width="1.5" PointX="5" PointY="5.625" />
+        <EntityTypeShape EntityType="LibraryModel.User" Width="1.5" PointX="2.75" PointY="6" />
+        <AssociationConnector Association="LibraryModel.FK_Ebook_File" />
+        <AssociationConnector Association="LibraryModel.FK_Ebook_Subject" />
+        <AssociationConnector Association="LibraryModel.FK_Ebook_User" />
+        <AssociationConnector Association="LibraryModel.FK_Essay_File" />
+        <AssociationConnector Association="LibraryModel.FK_Essay_Subject" />
+        <AssociationConnector Association="LibraryModel.FK_Essay_User" />
+        <AssociationConnector Association="LibraryModel.FK_Thesis_File" />
+        <AssociationConnector Association="LibraryModel.FK_User_Role" />
+        <AssociationConnector Association="LibraryModel.FK_Thesis_Subject" />
+        <AssociationConnector Association="LibraryModel.FK_Thesis_User" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

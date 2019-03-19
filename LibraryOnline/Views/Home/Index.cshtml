@@ -1,0 +1,66 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Index</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <style>
+        #logo {
+            height: 80px;
+            width: 600px;
+        }
+
+        .nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        .nav li {
+            float: left;
+        }
+
+            .nav li a {
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+
+                .nav li a:hover:not(.active) {
+                    background-color: #111;
+                }
+
+        .nav .active {
+            background-color: cornflowerblue;
+        }
+
+        .btn_login {
+            float:right;
+            margin-top:20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div>
+            <img id="logo" src="~/Content/img/logo-lv1.png" />
+            <button type="button" class="btn_login btn btn-info">Đăng nhập</button>
+        </div>
+        <div class="nav">
+            <ul>
+                <li><a class="active" href="#home">Trang chủ</a></li>
+                <li><a href="#news">Danh mục</a></li>
+                <li><a href="#contact">Liên hệ</a></li>
+                
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

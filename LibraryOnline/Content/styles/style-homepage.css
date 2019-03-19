@@ -1,0 +1,94 @@
+﻿/*!
+ * Start Bootstrap - Shop Homepage (https://startbootstrap.com/template-overviews/shop-homepage)
+ * Copyright 2013-2019 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-shop-homepage/blob/master/LICENSE)
+ */
+body {
+    padding-top: 56px;
+}
+
+#navigation ul {
+    margin: 0;
+    padding: 0;
+}
+
+    #navigation ul li {
+        list-style-type: none;
+        display: inline;
+    }
+
+#navigation li:not(:first-child):before {
+    content: " / ";
+}
+
+.khoangcachduoi {
+    margin-bottom: 5px;
+}
+/*.abc ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 5px;
+    width: 200px;
+    background-color: #f1f1f1;
+}
+ .abc li a {
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+ .abc ul li{
+     position:relative;
+     background-color:#0094ff;
+     width:200px;
+ }
+ .abc ul ul{
+     position:absolute;
+     transition: all 0.3s;
+     visibility:hidden;
+     opacity:0;
+
+ }
+ .abc ul li a:hover {
+        background-color: #555;
+        color: white;
+    }*/
+.mainmenu, .submenu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+    /* make ALL links (main and submenu) have padding and background color */
+    .mainmenu a {
+        display: block;
+        background-color: #CCC;
+        text-decoration: none;
+        padding: 10px;
+        color: #000;
+    }
+
+        /* add hover behaviour */
+        .mainmenu a:hover {
+            background-color: #C5C5C5;
+        }
+    .mainmenu li:hover .submenu {
+        display: block;
+        max-height: initial;
+    }
+
+    .submenu a {
+        background-color: #999;
+    }
+
+        /* hover behaviour for links inside .submenu cái hover ra cái sub menu đâu tắt nó đi à mà thôi quen k cần*/
+        .submenu a:hover {
+            background-color: #666;
+        }
+
+
+.submenu {
+    overflow: hidden;
+    max-height: 0;
+    -webkit-transition: all 0.5s ease-out;
+}

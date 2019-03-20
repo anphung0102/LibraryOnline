@@ -1,4 +1,13 @@
-﻿
+﻿@{
+    var user = Session["username"];
+    if (Session["username"] == null || Session["user_id"] == null)
+    {
+        Response.Redirect("~/Login/Index");
+    }
+
+
+}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,6 +54,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Contact</a>
                     </li>
+                    <img style="width:30px;height:30px" id="user_img" src="~/Content/img/user.png" />
+                    <lable id="username">@Session["username"]</lable>
+                    <lable id="userid">@Session["user_id"]</lable>
                 </ul>
             </div>
         </div>
@@ -52,7 +64,7 @@
 
     <!-- Page Content -->
     <div class="container" id="admin-container">
-       
+
         <div class="row">
 
             <div class="col-lg-3">
@@ -132,20 +144,20 @@
                                     <input type="text" class="form-control" id="year" placeholder="Giới thiêu" name="year">
 
                                 </div>
-                                <div class="form-group">
-                                    <label for="text">UserId:</label>
-                                    <input type="text" class="form-control" id="user_id" placeholder="" name="user_id">
+                                @*<div class="form-group">
+                                        <label for="text">UserId:</label>
+                                        <input type="text" class="form-control" id="user_id" placeholder="" name="user_id">
 
-                                </div>
+                                    </div>*@
                                 <div class="form-group">
                                     <label for="text">Browser</label>
 
-                                    <input type="file" name="Files" id="filename" />
+                                    <input type="file" name="Files" multiple id="fileInput" />
                                 </div>
 
                                 <div id="error"></div>
                                 <div style="margin-top:20px">
-                                    <button id="upload" type="submit" class="btn btn-primary">Upload</button>
+                                    <button id="upload" type="button" class="btn btn-primary">Upload</button>
                                 </div>
                             </div>
 
@@ -223,14 +235,9 @@
                         </div>
                     </div>
                 </div>
-                @* thấy nhanh vãi ko :D vài dòng// à sp ơi sp nói lại tại sp ko dùng kia sp cái bt á  *@
-                @* cách thông thường mà e dùng js generate ra html, nó dài dòng. *@
-                @* cách này ngắn gọn, mà knockout lại hỗ trợ tận răng. nhiều thứ, 
-                    tha hồ xài :D dạ oke sp mà sp ơi tính hỏi sp tiếp cái load file hôm bữa á :D *@
-                @* tiếp tục cái này đi e :D cái đó giờ phia r :D để từ a coi :D dạ v giờ sp nghỉ mệt đi e gửi bài cho thằng đật cái có gì e hú sp tiếp:PP
-                    OK e :D a out đây hihi
+
                 @*// phân trang*@
-                @*//ủa e cần nó center hay end ?? *@
+                
                 <div class="col-lg-12 col-md-6 mb-4">
                     <nav aria-label="Page navigation example">
                         <ul class="pagination justify-content-center">
@@ -282,25 +289,58 @@
 
 </html>
 <script>
-    $("#upload").click(function () {
+    $(document).ready(function () {
+        $("#upload").click(function () {
 
-        var ebook = {};
-        ebook.title = $("#title").val(); //get từ textbox
-        ebook.describe = $("#describe").val(); //get từ text boxt
-        ebook.year = $("#year").val(); //get từ textbox
-        ebook.user_id = $("#user_id").val(); //get từ text boxt
-        ebook.filename = $("#filename").val(); //get từ text boxt
-        $.ajax({
-            type: "POST",
-            url: "/api/FileAPI/UploadEbook",
-            data: JSON.stringify(ebook),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (result) {
+            var files = $("#fileInput").get(0).files;
+            var fileData = new FormData();
 
+            for (var i = 0; i < files.length; i++) {
+                fileData.append("fileInput", files[i]);
             }
+            //cái này là lấy thông tin trên text box  title là key tiltle.val() là giá trị 
+            fileData.append("title", $("#title").val());
+            fileData.append("describe", $("#describe").val());
+            fileData.append("author", $("#author").val());
+            fileData.append("year", $("#year").val());
+            fileData.append("userid", $("#userid").text());
+            console.log(fileData);
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:52385/api/FileAPI/UploadFiles",
+                dataType: "json",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data 
+                data: fileData,
+                success: function (result) {
+                    alert(result);
+                }
+            });
+
         });
+
     });
+
+
+    //$("#upload").click(function () {
+
+    //    var ebook = {};
+    //    ebook.title = $("#title").val(); //get từ textbox
+    //    ebook.describe = $("#describe").val(); //get từ text boxt
+    //    ebook.year = $("#year").val(); //get từ textbox
+    //    ebook.user_id = $("#user_id").val(); //get từ text boxt
+    //    ebook.filename = $("#filename").val(); //get từ text box
+    //    $.ajax({
+    //        type: "POST",
+    //        url: "/api/FileAPI/UploadEbook",
+    //        data: JSON.stringify(ebook),
+    //        contentType: "application/json; charset=utf-8",
+    //        dataType: "json",
+    //        success: function (result) {
+
+    //        }
+    //    });
+    //});
 
     //lấy môn học của ebook
     $(document).ready(function () {
@@ -317,26 +357,26 @@
         });
     });
     /// load data
-    $(document).ready(function () {
-        //$.ajax({
-        //    type: "GET",
-        //    url: "/api/FileAPI/Get",
-        //    contentType: "application/json; charset=utf-8",
-        //    dataType: "json",
-        //    success: function (result) {
-        //        console.log(result);
-        //        var $div = $('<div/>').addClass('col-lg-4 col-md-6 mb-4');
-        //        var $div1 = $('<div/>').addClass('card h-100');
-        //        $div.append($div1);
-        //        $.each(result, function (i, v) {
-        //            var $row = $('<div/>').addClass('card-body');
-        //            $("#loadData").append($('<h3/>').html(v.title));
-        //        });
-        //        //$('#loadData').html($div);  // e lấy đc rồi giờ chỉnh cách load ra á sp
-        //        // cachs chỉnh bằng jquery e chưa rành sp chỉ e này nha
-        //        // ok e :D
-        //        //
-        //    }
-        //});
-    });
+    //$(document).ready(function () {
+    //    //$.ajax({
+    //    //    type: "GET",
+    //    //    url: "/api/FileAPI/Get",
+    //    //    contentType: "application/json; charset=utf-8",
+    //    //    dataType: "json",
+    //    //    success: function (result) {
+    //    //        console.log(result);
+    //    //        var $div = $('<div/>').addClass('col-lg-4 col-md-6 mb-4');
+    //    //        var $div1 = $('<div/>').addClass('card h-100');
+    //    //        $div.append($div1);
+    //    //        $.each(result, function (i, v) {
+    //    //            var $row = $('<div/>').addClass('card-body');
+    //    //            $("#loadData").append($('<h3/>').html(v.title));
+    //    //        });
+    //    //        //$('#loadData').html($div);  // e lấy đc rồi giờ chỉnh cách load ra á sp
+    //    //        // cachs chỉnh bằng jquery e chưa rành sp chỉ e này nha
+    //    //        // ok e :D
+    //    //        //
+    //    //    }
+    //    //});
+    //});
 </script>

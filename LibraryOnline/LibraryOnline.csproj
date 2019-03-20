@@ -207,9 +207,6 @@
     <Compile Include="Models\Essay.cs">
       <DependentUpon>LibraryOnline.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\File.cs">
-      <DependentUpon>LibraryOnline.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\LibraryOnline.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -225,13 +222,23 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LibraryOnline.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\PagingParameterModel.cs" />
     <Compile Include="Models\Role.cs">
       <DependentUpon>LibraryOnline.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Subject.cs">
+    <Compile Include="Models\SubjectViewModel.cs" />
+    <Compile Include="Models\Subject_Ebook.cs">
       <DependentUpon>LibraryOnline.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SubjectViewModel.cs" />
+    <Compile Include="Models\Subject_Essay.cs">
+      <DependentUpon>LibraryOnline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Subject_Thesis.cs">
+      <DependentUpon>LibraryOnline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>LibraryOnline.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Thesis.cs">
       <DependentUpon>LibraryOnline.tt</DependentUpon>
     </Compile>
@@ -259,6 +266,7 @@
       <DependentUpon>LibraryOnline.edmx</DependentUpon>
       <LastGenOutput>LibraryOnline.Context.cs</LastGenOutput>
     </Content>
+    <Content Include="Models\LibraryOnline.edmx.sql" />
     <Content Include="Models\LibraryOnline.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>LibraryOnline.edmx</DependentUpon>
@@ -316,7 +324,7 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
-    <Content Include="Content\file\BangDiem.pdf" />
+    <Content Include="Content\Upload\BangDiem.pdf" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

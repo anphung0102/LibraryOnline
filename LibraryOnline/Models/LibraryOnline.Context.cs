@@ -18,7 +18,6 @@ namespace LibraryOnline.Models
         public LibraryEntities()
             : base("name=LibraryEntities")
         {
-            Configuration.ProxyCreationEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -28,9 +27,11 @@ namespace LibraryOnline.Models
     
         public virtual DbSet<Ebook> Ebooks { get; set; }
         public virtual DbSet<Essay> Essays { get; set; }
-        public virtual DbSet<File> Files { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
-        public virtual DbSet<Subject> Subjects { get; set; }
+        public virtual DbSet<Subject_Ebook> Subject_Ebook { get; set; }
+        public virtual DbSet<Subject_Essay> Subject_Essay { get; set; }
+        public virtual DbSet<Subject_Thesis> Subject_Thesis { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Thesis> Theses { get; set; }
         public virtual DbSet<User> Users { get; set; }
     }

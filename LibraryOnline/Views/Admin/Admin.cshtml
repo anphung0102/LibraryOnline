@@ -145,11 +145,11 @@
                                         <input type="text" class="form-control" id="year" placeholder="Giới thiêu" name="year">
 
                                 </div>
-                                @*<div class="form-group">
-                                        <label for="text">UserId:</label>
-                                        <input type="text" class="form-control" id="user_id" placeholder="" name="user_id">
-
-                                    </div>*@
+                                <div class="form-group">
+                                    <label for="text">Môn học:</label>
+                                    <select id="subject" class="form-control">
+                                    </select>
+                            </div>
                                 <div class="form-group">
                                     <label for="text">Browser</label>
 
@@ -300,6 +300,7 @@
             fileData.append("author", $("#author").val());
             fileData.append("year", $("#year").val());
             fileData.append("userid", $("#userid").text());
+            fileData.append("subid", $("#subject option:selected").val());
             console.log(fileData);
             $.ajax({
                 type: "POST",
@@ -342,12 +343,13 @@
     $(document).ready(function () {
         $.ajax({
             type: "GET",
-            url: "/api/FileAPI/GetSubject",
+            url: "/api/FileAPI/GetSubjectEbook",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (result) {
                 $.each(result, function (i, v) {
                     $("#ebook").append("<li><a href=''>" + v.name + "</a></li >");
+                    $("#subject").append("<option value='"+ v.id + "'>" + v.name + "</option>");
                 });
             }
         });

@@ -128,8 +128,10 @@ namespace LibraryOnline.Controllers
             var author = HttpContext.Current.Request["author"];
             var year = HttpContext.Current.Request["year"];
             var userid = HttpContext.Current.Request["userid"];
+            var subid = HttpContext.Current.Request["subid"]; 
             var date_upload = DateTime.Now;
             int user_id = Convert.ToInt32(userid);
+            int sub_id = Convert.ToInt32(subid);
             //mai m làm thêm cái ngày up là Datetime.Now gì đó
             string strExtexsion = Path.GetExtension(httpPostedFile.FileName).Trim();//lấydduooio file
             string a = "";
@@ -146,9 +148,9 @@ namespace LibraryOnline.Controllers
                             author = author,
                             year = year,
                             filename = httpPostedFile.FileName,
-                            //thêm ngày up
                             date_upload = date_upload,
-                          user_id = user_id,
+                            user_id = user_id,
+                            sub_id = sub_id,
                         });
                     db.SaveChanges();//lưu dât thôi cái này t chưa chạy t mới test gửi data từ  ajax qua thôi
                     a = "Thành công";//đc chưa m// oke đc đó còi còn thiếu trường nào thêm vô thôi
@@ -161,9 +163,9 @@ namespace LibraryOnline.Controllers
         }
         ////Lấy môn học của ebook
         ////Lấy môn học của ebook
-        [Route("api/FileAPI/GetSubject")]
+        [Route("api/FileAPI/GetSubjectEbook")]
         [HttpGet]
-        public IEnumerable<Subject_Ebook> GetSubject()
+        public IEnumerable<Subject_Ebook> GetSubjectEbook() 
         {
             return db.Subject_Ebook.ToList();
         }
@@ -187,19 +189,19 @@ namespace LibraryOnline.Controllers
         }
 
         //lấy ebook
-        [Route("api/FileAPI/Get")]
-        [HttpGet]
-        public HttpResponseMessage Get()
-        {
-            List<Ebook> ebook = new List<Ebook>();
-            using (LibraryEntities db = new LibraryEntities())
-            {
-                ebook = db.Ebooks.OrderBy(a => a.title).ToList();
-                HttpResponseMessage response;
-                response = Request.CreateResponse(HttpStatusCode.OK, ebook);
-                return response;
-            }
-        }
+        //[Route("api/FileAPI/Get")]
+        //[HttpGet]
+        //public HttpResponseMessage Get()
+        //{
+        //    List<Ebook> ebook = new List<Ebook>();
+        //    using (LibraryEntities db = new LibraryEntities())
+        //    {
+        //        ebook = db.Ebooks.OrderBy(a => a.title).ToList();
+        //        HttpResponseMessage response;
+        //        response = Request.CreateResponse(HttpStatusCode.OK, ebook);
+        //        return response;
+        //    }
+        //}
 
         ////lấy essay
         //[Route("api/FileAPI/GetEssay")]

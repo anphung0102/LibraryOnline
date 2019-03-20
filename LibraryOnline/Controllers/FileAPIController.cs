@@ -36,7 +36,7 @@ namespace LibraryOnline.Controllers
                 HttpContext.Current.Session["username"] = loginInfo.User;
                 HttpContext.Current.Session["user_id"] = user_id;
                 if (role == 1)
-                    return "/Admin/Index";
+                    return "/Admin/Admin";
 
             }
 
@@ -60,29 +60,84 @@ namespace LibraryOnline.Controllers
 
         }
 
+        //[Route("api/FileAPI/UploadEbook")]
+        //[HttpPost]
+        //public Post UploadEbook(Post post)
+        //{
+        //    // upload file
+        //    foreach (var file in post.Files)
+        //    {
+
+        //        if (file != null && file.ContentLength > 0)
+        //        {
+        //            string temp = RandomString(10, true) + "-";
+        //            var fileName = Path.GetFileName(file.FileName);
+        //            var path = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/file"), temp + fileName);
+        //            file.SaveAs(path);
+        //        }
+        //    }
+        //    using (LibraryEntities db = new LibraryEntities())
+        //    {
+        //        //var fileName = "";
+
+        //        //if (file != null && file.ContentLength > 0)
+        //        //{
+        //        //    // lấy tên tệp tin
+        //        //    fileName = Path.GetFileName(file.FileName);
+        //        //    // lưu trữ tệp tin vào folder ~/App_Data/uploads
+        //        //    var path = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/file/"), fileName);
+        //        //    file.SaveAs(path);
+        //        //}
+        //        //var fileName = Path.GetFileName(ebook.filename);
+        //        //var path = Path.Combine(Server.MapPath("~/Assets/fileupload/user"), fileName);
+        //        //SaveAs(path);
+        //        //ebook.filename = fileName;
+        //        // Check if the request contains multipart/form-data.
+
+        //        db.Ebooks.Add(new Ebook
+        //        {
+        //            title = post.ebook.Title,
+        //            author = post.ebook.Author,
+        //            describe = post.ebook.Describe,
+        //            year = post.ebook.Year,
+        //            //filename = fileName
+        //        });
+        //        db.SaveChanges();
+        //    }
+        //    return post;
+        //}
+
+            //Upload file cho Ebook mình làm trc cái ebook thoi mấy cái kia xong copy qua
         [Route("api/FileAPI/UploadFiles")]
         [HttpPost]
         public string UploadFiles()
         {
-            var httpPostedFile = HttpContext.Current.Request.Files["fileInput"];
+            var httpPostedFile = HttpContext.Current.Request.Files["fileInput"];//lấy file
             if (httpPostedFile != null)
             {
-                var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/Upload/"), httpPostedFile.FileName);
+                //đường dẫn lưu file
+                var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/Upload/"), httpPostedFile.FileName);//tên file
 
                 // Save the uploaded file to "UploadedFiles" folder
+                //lưu file vào đường dẫn
                 httpPostedFile.SaveAs(fileSavePath);
             }
+            //thông tin lấy trên text thông qua key của FormData
             var title = HttpContext.Current.Request["title"];
             var describe = HttpContext.Current.Request["describe"];
             var author = HttpContext.Current.Request["author"];
             var year = HttpContext.Current.Request["year"];
-           
-            string strExtexsion = Path.GetExtension(httpPostedFile.FileName).Trim();
+            var userid = HttpContext.Current.Request["userid"];
+            var date_upload = DateTime.Now;
+            int user_id = Convert.ToInt32(userid);
+            //mai m làm thêm cái ngày up là Datetime.Now gì đó
+            string strExtexsion = Path.GetExtension(httpPostedFile.FileName).Trim();//lấydduooio file
             string a = "";
-            if (strExtexsion == ".pdf")
+            if (strExtexsion == ".pdf")//chỉ cho up pdf
             {
                 using (LibraryEntities db = new LibraryEntities())
                 {
+                    //Add vô bảng ebook những thông tin muốn add chạy thử coi
                     db.Ebooks.Add(
                         new Ebook
                         {
@@ -90,9 +145,13 @@ namespace LibraryOnline.Controllers
                             describe = describe,
                             author = author,
                             year = year,
+                            filename = httpPostedFile.FileName,
+                            //thêm ngày up
+                            date_upload = date_upload,
+                          user_id = user_id,
                         });
-                    db.SaveChanges();
-                    a = "Thành công";
+                    db.SaveChanges();//lưu dât thôi cái này t chưa chạy t mới test gửi data từ  ajax qua thôi
+                    a = "Thành công";//đc chưa m// oke đc đó còi còn thiếu trường nào thêm vô thôi
                 }
             }
             else a = "lỗi";
@@ -104,9 +163,9 @@ namespace LibraryOnline.Controllers
         ////Lấy môn học của ebook
         [Route("api/FileAPI/GetSubject")]
         [HttpGet]
-        public IEnumerable<Subject> GetSubject()
+        public IEnumerable<Subject_Ebook> GetSubject()
         {
-            return db.Subjects.ToList();
+            return db.Subject_Ebook.ToList();
         }
 
 
@@ -117,7 +176,7 @@ namespace LibraryOnline.Controllers
         {
             using (LibraryEntities db = new LibraryEntities())
             {
-                db.Subjects.Add(new Subject
+                db.Subject_Ebook.Add(new Subject_Ebook
                 {
                     name = subject.Name,
                 });
@@ -141,5 +200,20 @@ namespace LibraryOnline.Controllers
                 return response;
             }
         }
+
+        ////lấy essay
+        //[Route("api/FileAPI/GetEssay")]
+        //[HttpGet]
+        //public HttpResponseMessage GetEssay()
+        //{
+        //    List<Essay> essay = new List<Essay>();
+        //    using (LibraryEntities db = new LibraryEntities())
+        //    {
+        //        essay = db.Essays.OrderBy(a => a.title).ToList();
+        //        HttpResponseMessage response;
+        //        response = Request.CreateResponse(HttpStatusCode.OK, essay);
+        //        return response;
+        //    }
+        //}
     }
 }

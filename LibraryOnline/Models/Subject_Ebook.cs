@@ -12,26 +12,18 @@ namespace LibraryOnline.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class File
+    public partial class Subject_Ebook
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public File()
+        public Subject_Ebook()
         {
             this.Ebooks = new HashSet<Ebook>();
-            this.Essays = new HashSet<Essay>();
-            this.Theses = new HashSet<Thesis>();
         }
     
         public int id { get; set; }
-        public string filename { get; set; }
-        public string contentfile { get; set; }
-        public Nullable<System.DateTime> date { get; set; }
+        public string name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Ebook> Ebooks { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Essay> Essays { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Thesis> Theses { get; set; }
     }
 }

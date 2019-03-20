@@ -11,8 +11,7 @@ function AdminViewModel() {
     self.get = function () {
         $.ajax({
             type: "GET",
-            url: "/api/FileAPI/Get", //vai hàm Get ko vậy thôi á hả? :D da chi v thoi  e dang test ok ;e ):)D a đêt chữ test tính coi có gì copy vô 
-            // ai ngờ méo có gì :D trùng hợp vl
+            url: "/api/FileAPI/Get",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (result) {

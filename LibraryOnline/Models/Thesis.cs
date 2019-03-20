@@ -20,12 +20,12 @@ namespace LibraryOnline.Models
         public string instructor { get; set; }
         public string executor1 { get; set; }
         public string executor2 { get; set; }
-        public Nullable<int> file_id { get; set; }
+        public string filename { get; set; }
+        public Nullable<System.DateTime> date_upload { get; set; }
         public Nullable<int> user_id { get; set; }
         public Nullable<int> sub_id { get; set; }
     
-        public virtual File File { get; set; }
-        public virtual Subject Subject { get; set; }
+        public virtual Subject_Thesis Subject_Thesis { get; set; }
         public virtual User User { get; set; }
     }
 }

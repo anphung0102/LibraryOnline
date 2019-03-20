@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="LibraryModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Ebook">
           <Key>
             <PropertyRef Name="id" />
@@ -14,7 +14,7 @@
           <Property Name="author" Type="nvarchar" MaxLength="50" />
           <Property Name="year" Type="nvarchar" MaxLength="50" />
           <Property Name="describe" Type="nvarchar" MaxLength="50" />
-          <Property Name="file_id" Type="int" />
+          <Property Name="filename" Type="nvarchar(max)" />
           <Property Name="date_upload" Type="datetime" />
           <Property Name="user_id" Type="int" />
           <Property Name="sub_id" Type="int" />
@@ -29,18 +29,10 @@
           <Property Name="instructor" Type="nvarchar" MaxLength="50" />
           <Property Name="executor1" Type="nvarchar" MaxLength="50" />
           <Property Name="executor2" Type="nvarchar" MaxLength="50" />
-          <Property Name="file_id" Type="int" />
+          <Property Name="filename" Type="nvarchar(max)" />
+          <Property Name="date_upload" Type="datetime" />
           <Property Name="user_id" Type="int" />
           <Property Name="sub_id" Type="int" />
-        </EntityType>
-        <EntityType Name="File">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="filename" Type="varchar(max)" />
-          <Property Name="contentfile" Type="varchar(max)" />
-          <Property Name="date" Type="datetime" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -50,12 +42,36 @@
           <Property Name="name" Type="nvarchar" MaxLength="50" />
           <Property Name="describe" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <EntityType Name="Subject">
+        <EntityType Name="Subject_Ebook">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Subject_Essay">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Subject_Thesis">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="Thesis">
           <Key>
@@ -67,7 +83,8 @@
           <Property Name="instructor" Type="nvarchar" MaxLength="50" />
           <Property Name="executor1" Type="nvarchar" MaxLength="50" />
           <Property Name="executor2" Type="nvarchar" MaxLength="50" />
-          <Property Name="file_id" Type="int" />
+          <Property Name="filename" Type="nvarchar(max)" />
+          <Property Name="date_upload" Type="datetime" />
           <Property Name="user_id" Type="int" />
           <Property Name="sub_id" Type="int" />
         </EntityType>
@@ -80,23 +97,11 @@
           <Property Name="password" Type="nvarchar" MaxLength="50" />
           <Property Name="role_id" Type="int" />
         </EntityType>
-        <Association Name="FK_Ebook_File">
-          <End Role="File" Type="Self.File" Multiplicity="0..1" />
-          <End Role="Ebook" Type="Self.Ebook" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="File">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Ebook">
-              <PropertyRef Name="file_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Ebook_Subject">
-          <End Role="Subject" Type="Self.Subject" Multiplicity="0..1" />
+          <End Role="Subject_Ebook" Type="Self.Subject_Ebook" Multiplicity="0..1" />
           <End Role="Ebook" Type="Self.Ebook" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Subject">
+            <Principal Role="Subject_Ebook">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Ebook">
@@ -116,23 +121,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Essay_File">
-          <End Role="File" Type="Self.File" Multiplicity="0..1" />
+        <Association Name="FK_Essay_Subject_Essay">
+          <End Role="Subject_Essay" Type="Self.Subject_Essay" Multiplicity="0..1" />
           <End Role="Essay" Type="Self.Essay" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="File">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Essay">
-              <PropertyRef Name="file_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Essay_Subject">
-          <End Role="Subject" Type="Self.Subject" Multiplicity="0..1" />
-          <End Role="Essay" Type="Self.Essay" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Subject">
+            <Principal Role="Subject_Essay">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Essay">
@@ -152,23 +145,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Thesis_File">
-          <End Role="File" Type="Self.File" Multiplicity="0..1" />
+        <Association Name="FK_Thesis_Subject_Thesis">
+          <End Role="Subject_Thesis" Type="Self.Subject_Thesis" Multiplicity="0..1" />
           <End Role="Thesis" Type="Self.Thesis" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="File">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Thesis">
-              <PropertyRef Name="file_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Thesis_Subject">
-          <End Role="Subject" Type="Self.Subject" Multiplicity="0..1" />
-          <End Role="Thesis" Type="Self.Thesis" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Subject">
+            <Principal Role="Subject_Thesis">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Thesis">
@@ -200,44 +181,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="LibraryModelStoreContainer">
+        <EntityContainer Name="StoreContainer">
           <EntitySet Name="Ebook" EntityType="Self.Ebook" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Essay" EntityType="Self.Essay" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="File" EntityType="Self.File" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Subject" EntityType="Self.Subject" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Subject_Ebook" EntityType="Self.Subject_Ebook" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Subject_Essay" EntityType="Self.Subject_Essay" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Subject_Thesis" EntityType="Self.Subject_Thesis" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Thesis" EntityType="Self.Thesis" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Ebook_File" Association="Self.FK_Ebook_File">
-            <End Role="File" EntitySet="File" />
-            <End Role="Ebook" EntitySet="Ebook" />
-          </AssociationSet>
           <AssociationSet Name="FK_Ebook_Subject" Association="Self.FK_Ebook_Subject">
-            <End Role="Subject" EntitySet="Subject" />
+            <End Role="Subject_Ebook" EntitySet="Subject_Ebook" />
             <End Role="Ebook" EntitySet="Ebook" />
           </AssociationSet>
           <AssociationSet Name="FK_Ebook_User" Association="Self.FK_Ebook_User">
             <End Role="User" EntitySet="User" />
             <End Role="Ebook" EntitySet="Ebook" />
           </AssociationSet>
-          <AssociationSet Name="FK_Essay_File" Association="Self.FK_Essay_File">
-            <End Role="File" EntitySet="File" />
-            <End Role="Essay" EntitySet="Essay" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Essay_Subject" Association="Self.FK_Essay_Subject">
-            <End Role="Subject" EntitySet="Subject" />
+          <AssociationSet Name="FK_Essay_Subject_Essay" Association="Self.FK_Essay_Subject_Essay">
+            <End Role="Subject_Essay" EntitySet="Subject_Essay" />
             <End Role="Essay" EntitySet="Essay" />
           </AssociationSet>
           <AssociationSet Name="FK_Essay_User" Association="Self.FK_Essay_User">
             <End Role="User" EntitySet="User" />
             <End Role="Essay" EntitySet="Essay" />
           </AssociationSet>
-          <AssociationSet Name="FK_Thesis_File" Association="Self.FK_Thesis_File">
-            <End Role="File" EntitySet="File" />
-            <End Role="Thesis" EntitySet="Thesis" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Thesis_Subject" Association="Self.FK_Thesis_Subject">
-            <End Role="Subject" EntitySet="Subject" />
+          <AssociationSet Name="FK_Thesis_Subject_Thesis" Association="Self.FK_Thesis_Subject_Thesis">
+            <End Role="Subject_Thesis" EntitySet="Subject_Thesis" />
             <End Role="Thesis" EntitySet="Thesis" />
           </AssociationSet>
           <AssociationSet Name="FK_Thesis_User" Association="Self.FK_Thesis_User">
@@ -256,45 +227,35 @@
         <EntityContainer Name="LibraryEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Ebooks" EntityType="LibraryModel.Ebook" />
           <EntitySet Name="Essays" EntityType="LibraryModel.Essay" />
-          <EntitySet Name="Files" EntityType="LibraryModel.File" />
           <EntitySet Name="Roles" EntityType="LibraryModel.Role" />
-          <EntitySet Name="Subjects" EntityType="LibraryModel.Subject" />
+          <EntitySet Name="Subject_Ebook" EntityType="LibraryModel.Subject_Ebook" />
+          <EntitySet Name="Subject_Essay" EntityType="LibraryModel.Subject_Essay" />
+          <EntitySet Name="Subject_Thesis" EntityType="LibraryModel.Subject_Thesis" />
+          <EntitySet Name="sysdiagrams" EntityType="LibraryModel.sysdiagram" />
           <EntitySet Name="Theses" EntityType="LibraryModel.Thesis" />
           <EntitySet Name="Users" EntityType="LibraryModel.User" />
-          <AssociationSet Name="FK_Ebook_File" Association="LibraryModel.FK_Ebook_File">
-            <End Role="File" EntitySet="Files" />
-            <End Role="Ebook" EntitySet="Ebooks" />
-          </AssociationSet>
           <AssociationSet Name="FK_Ebook_Subject" Association="LibraryModel.FK_Ebook_Subject">
-            <End Role="Subject" EntitySet="Subjects" />
+            <End Role="Subject_Ebook" EntitySet="Subject_Ebook" />
             <End Role="Ebook" EntitySet="Ebooks" />
           </AssociationSet>
           <AssociationSet Name="FK_Ebook_User" Association="LibraryModel.FK_Ebook_User">
             <End Role="User" EntitySet="Users" />
             <End Role="Ebook" EntitySet="Ebooks" />
           </AssociationSet>
-          <AssociationSet Name="FK_Essay_File" Association="LibraryModel.FK_Essay_File">
-            <End Role="File" EntitySet="Files" />
-            <End Role="Essay" EntitySet="Essays" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Essay_Subject" Association="LibraryModel.FK_Essay_Subject">
-            <End Role="Subject" EntitySet="Subjects" />
+          <AssociationSet Name="FK_Essay_Subject_Essay" Association="LibraryModel.FK_Essay_Subject_Essay">
+            <End Role="Subject_Essay" EntitySet="Subject_Essay" />
             <End Role="Essay" EntitySet="Essays" />
           </AssociationSet>
           <AssociationSet Name="FK_Essay_User" Association="LibraryModel.FK_Essay_User">
             <End Role="User" EntitySet="Users" />
             <End Role="Essay" EntitySet="Essays" />
           </AssociationSet>
-          <AssociationSet Name="FK_Thesis_File" Association="LibraryModel.FK_Thesis_File">
-            <End Role="File" EntitySet="Files" />
-            <End Role="Thesis" EntitySet="Theses" />
-          </AssociationSet>
           <AssociationSet Name="FK_User_Role" Association="LibraryModel.FK_User_Role">
             <End Role="Role" EntitySet="Roles" />
             <End Role="User" EntitySet="Users" />
           </AssociationSet>
-          <AssociationSet Name="FK_Thesis_Subject" Association="LibraryModel.FK_Thesis_Subject">
-            <End Role="Subject" EntitySet="Subjects" />
+          <AssociationSet Name="FK_Thesis_Subject_Thesis" Association="LibraryModel.FK_Thesis_Subject_Thesis">
+            <End Role="Subject_Thesis" EntitySet="Subject_Thesis" />
             <End Role="Thesis" EntitySet="Theses" />
           </AssociationSet>
           <AssociationSet Name="FK_Thesis_User" Association="LibraryModel.FK_Thesis_User">
@@ -311,12 +272,11 @@
           <Property Name="author" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="year" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="describe" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="file_id" Type="Int32" />
+          <Property Name="filename" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="date_upload" Type="DateTime" Precision="3" />
           <Property Name="user_id" Type="Int32" />
           <Property Name="sub_id" Type="Int32" />
-          <NavigationProperty Name="File" Relationship="LibraryModel.FK_Ebook_File" FromRole="Ebook" ToRole="File" />
-          <NavigationProperty Name="Subject" Relationship="LibraryModel.FK_Ebook_Subject" FromRole="Ebook" ToRole="Subject" />
+          <NavigationProperty Name="Subject_Ebook" Relationship="LibraryModel.FK_Ebook_Subject" FromRole="Ebook" ToRole="Subject_Ebook" />
           <NavigationProperty Name="User" Relationship="LibraryModel.FK_Ebook_User" FromRole="Ebook" ToRole="User" />
         </EntityType>
         <EntityType Name="Essay">
@@ -329,24 +289,12 @@
           <Property Name="instructor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="executor1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="executor2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="file_id" Type="Int32" />
+          <Property Name="filename" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="date_upload" Type="DateTime" Precision="3" />
           <Property Name="user_id" Type="Int32" />
           <Property Name="sub_id" Type="Int32" />
-          <NavigationProperty Name="File" Relationship="LibraryModel.FK_Essay_File" FromRole="Essay" ToRole="File" />
-          <NavigationProperty Name="Subject" Relationship="LibraryModel.FK_Essay_Subject" FromRole="Essay" ToRole="Subject" />
+          <NavigationProperty Name="Subject_Essay" Relationship="LibraryModel.FK_Essay_Subject_Essay" FromRole="Essay" ToRole="Subject_Essay" />
           <NavigationProperty Name="User" Relationship="LibraryModel.FK_Essay_User" FromRole="Essay" ToRole="User" />
-        </EntityType>
-        <EntityType Name="File">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="filename" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="contentfile" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="date" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Ebooks" Relationship="LibraryModel.FK_Ebook_File" FromRole="File" ToRole="Ebook" />
-          <NavigationProperty Name="Essays" Relationship="LibraryModel.FK_Essay_File" FromRole="File" ToRole="Essay" />
-          <NavigationProperty Name="Theses" Relationship="LibraryModel.FK_Thesis_File" FromRole="File" ToRole="Thesis" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -357,15 +305,39 @@
           <Property Name="describe" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Users" Relationship="LibraryModel.FK_User_Role" FromRole="Role" ToRole="User" />
         </EntityType>
-        <EntityType Name="Subject">
+        <EntityType Name="Subject_Ebook">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Ebooks" Relationship="LibraryModel.FK_Ebook_Subject" FromRole="Subject" ToRole="Ebook" />
-          <NavigationProperty Name="Essays" Relationship="LibraryModel.FK_Essay_Subject" FromRole="Subject" ToRole="Essay" />
-          <NavigationProperty Name="Theses" Relationship="LibraryModel.FK_Thesis_Subject" FromRole="Subject" ToRole="Thesis" />
+          <NavigationProperty Name="Ebooks" Relationship="LibraryModel.FK_Ebook_Subject" FromRole="Subject_Ebook" ToRole="Ebook" />
+        </EntityType>
+        <EntityType Name="Subject_Essay">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Essays" Relationship="LibraryModel.FK_Essay_Subject_Essay" FromRole="Subject_Essay" ToRole="Essay" />
+        </EntityType>
+        <EntityType Name="Subject_Thesis">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Theses" Relationship="LibraryModel.FK_Thesis_Subject_Thesis" FromRole="Subject_Thesis" ToRole="Thesis" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="Thesis">
           <Key>
@@ -377,11 +349,11 @@
           <Property Name="instructor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="executor1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="executor2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="file_id" Type="Int32" />
+          <Property Name="filename" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="date_upload" Type="DateTime" Precision="3" />
           <Property Name="user_id" Type="Int32" />
           <Property Name="sub_id" Type="Int32" />
-          <NavigationProperty Name="File" Relationship="LibraryModel.FK_Thesis_File" FromRole="Thesis" ToRole="File" />
-          <NavigationProperty Name="Subject" Relationship="LibraryModel.FK_Thesis_Subject" FromRole="Thesis" ToRole="Subject" />
+          <NavigationProperty Name="Subject_Thesis" Relationship="LibraryModel.FK_Thesis_Subject_Thesis" FromRole="Thesis" ToRole="Subject_Thesis" />
           <NavigationProperty Name="User" Relationship="LibraryModel.FK_Thesis_User" FromRole="Thesis" ToRole="User" />
         </EntityType>
         <EntityType Name="User">
@@ -397,23 +369,11 @@
           <NavigationProperty Name="Role" Relationship="LibraryModel.FK_User_Role" FromRole="User" ToRole="Role" />
           <NavigationProperty Name="Theses" Relationship="LibraryModel.FK_Thesis_User" FromRole="User" ToRole="Thesis" />
         </EntityType>
-        <Association Name="FK_Ebook_File">
-          <End Type="LibraryModel.File" Role="File" Multiplicity="0..1" />
-          <End Type="LibraryModel.Ebook" Role="Ebook" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="File">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Ebook">
-              <PropertyRef Name="file_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Ebook_Subject">
-          <End Type="LibraryModel.Subject" Role="Subject" Multiplicity="0..1" />
+          <End Type="LibraryModel.Subject_Ebook" Role="Subject_Ebook" Multiplicity="0..1" />
           <End Type="LibraryModel.Ebook" Role="Ebook" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Subject">
+            <Principal Role="Subject_Ebook">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Ebook">
@@ -433,23 +393,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Essay_File">
-          <End Type="LibraryModel.File" Role="File" Multiplicity="0..1" />
+        <Association Name="FK_Essay_Subject_Essay">
+          <End Type="LibraryModel.Subject_Essay" Role="Subject_Essay" Multiplicity="0..1" />
           <End Type="LibraryModel.Essay" Role="Essay" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="File">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Essay">
-              <PropertyRef Name="file_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Essay_Subject">
-          <End Type="LibraryModel.Subject" Role="Subject" Multiplicity="0..1" />
-          <End Type="LibraryModel.Essay" Role="Essay" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Subject">
+            <Principal Role="Subject_Essay">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Essay">
@@ -469,18 +417,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Thesis_File">
-          <End Type="LibraryModel.File" Role="File" Multiplicity="0..1" />
-          <End Type="LibraryModel.Thesis" Role="Thesis" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="File">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Thesis">
-              <PropertyRef Name="file_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_User_Role">
           <End Type="LibraryModel.Role" Role="Role" Multiplicity="0..1" />
           <End Type="LibraryModel.User" Role="User" Multiplicity="*" />
@@ -493,11 +429,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Thesis_Subject">
-          <End Type="LibraryModel.Subject" Role="Subject" Multiplicity="0..1" />
+        <Association Name="FK_Thesis_Subject_Thesis">
+          <End Type="LibraryModel.Subject_Thesis" Role="Subject_Thesis" Multiplicity="0..1" />
           <End Type="LibraryModel.Thesis" Role="Thesis" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Subject">
+            <Principal Role="Subject_Thesis">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Thesis">
@@ -517,19 +453,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="LibraryModelStoreContainer" CdmEntityContainer="LibraryEntities">
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="StoreContainer" CdmEntityContainer="LibraryEntities" >
           <EntitySetMapping Name="Ebooks">
             <EntityTypeMapping TypeName="LibraryModel.Ebook">
               <MappingFragment StoreEntitySet="Ebook">
                 <ScalarProperty Name="sub_id" ColumnName="sub_id" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="date_upload" ColumnName="date_upload" />
-                <ScalarProperty Name="file_id" ColumnName="file_id" />
+                <ScalarProperty Name="filename" ColumnName="filename" />
                 <ScalarProperty Name="describe" ColumnName="describe" />
                 <ScalarProperty Name="year" ColumnName="year" />
                 <ScalarProperty Name="author" ColumnName="author" />
@@ -543,22 +479,13 @@
               <MappingFragment StoreEntitySet="Essay">
                 <ScalarProperty Name="sub_id" ColumnName="sub_id" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
-                <ScalarProperty Name="file_id" ColumnName="file_id" />
+                <ScalarProperty Name="date_upload" ColumnName="date_upload" />
+                <ScalarProperty Name="filename" ColumnName="filename" />
                 <ScalarProperty Name="executor2" ColumnName="executor2" />
                 <ScalarProperty Name="executor1" ColumnName="executor1" />
                 <ScalarProperty Name="instructor" ColumnName="instructor" />
                 <ScalarProperty Name="describe" ColumnName="describe" />
                 <ScalarProperty Name="title" ColumnName="title" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Files">
-            <EntityTypeMapping TypeName="LibraryModel.File">
-              <MappingFragment StoreEntitySet="File">
-                <ScalarProperty Name="date" ColumnName="date" />
-                <ScalarProperty Name="contentfile" ColumnName="contentfile" />
-                <ScalarProperty Name="filename" ColumnName="filename" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -572,11 +499,38 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Subjects">
-            <EntityTypeMapping TypeName="LibraryModel.Subject">
-              <MappingFragment StoreEntitySet="Subject">
+          <EntitySetMapping Name="Subject_Ebook">
+            <EntityTypeMapping TypeName="LibraryModel.Subject_Ebook">
+              <MappingFragment StoreEntitySet="Subject_Ebook">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Subject_Essay">
+            <EntityTypeMapping TypeName="LibraryModel.Subject_Essay">
+              <MappingFragment StoreEntitySet="Subject_Essay">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Subject_Thesis">
+            <EntityTypeMapping TypeName="LibraryModel.Subject_Thesis">
+              <MappingFragment StoreEntitySet="Subject_Thesis">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="LibraryModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -585,7 +539,8 @@
               <MappingFragment StoreEntitySet="Thesis">
                 <ScalarProperty Name="sub_id" ColumnName="sub_id" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
-                <ScalarProperty Name="file_id" ColumnName="file_id" />
+                <ScalarProperty Name="date_upload" ColumnName="date_upload" />
+                <ScalarProperty Name="filename" ColumnName="filename" />
                 <ScalarProperty Name="executor2" ColumnName="executor2" />
                 <ScalarProperty Name="executor1" ColumnName="executor1" />
                 <ScalarProperty Name="instructor" ColumnName="instructor" />
@@ -606,8 +561,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
         </EntityContainerMapping>
-      </Mapping>
-    </edmx:Mappings>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
@@ -621,7 +575,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>

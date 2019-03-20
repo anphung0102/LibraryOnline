@@ -60,51 +60,45 @@ namespace LibraryOnline.Controllers
 
         }
 
-        [Route("api/FileAPI/UploadEbook")]
+        [Route("api/FileAPI/UploadFiles")]
         [HttpPost]
-        public Post UploadEbook(Post post)
+        public string UploadFiles()
         {
-            // upload file
-            foreach (var file in post.Files)
+            var httpPostedFile = HttpContext.Current.Request.Files["fileInput"];
+            if (httpPostedFile != null)
             {
+                var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/Upload/"), httpPostedFile.FileName);
 
-                if (file != null && file.ContentLength > 0)
+                // Save the uploaded file to "UploadedFiles" folder
+                httpPostedFile.SaveAs(fileSavePath);
+            }
+            var title = HttpContext.Current.Request["title"];
+            var describe = HttpContext.Current.Request["describe"];
+            var author = HttpContext.Current.Request["author"];
+            var year = HttpContext.Current.Request["year"];
+           
+            string strExtexsion = Path.GetExtension(httpPostedFile.FileName).Trim();
+            string a = "";
+            if (strExtexsion == ".pdf")
+            {
+                using (LibraryEntities db = new LibraryEntities())
                 {
-                    string temp = RandomString(10, true) + "-";
-                    var fileName = Path.GetFileName(file.FileName);
-                    var path = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/file"), temp + fileName);
-                    file.SaveAs(path);
+                    db.Ebooks.Add(
+                        new Ebook
+                        {
+                            title = title,
+                            describe = describe,
+                            author = author,
+                            year = year,
+                        });
+                    db.SaveChanges();
+                    a = "Thành công";
                 }
             }
-            using (LibraryEntities db = new LibraryEntities())
-            {
-                //var fileName = "";
+            else a = "lỗi";
 
-                //if (file != null && file.ContentLength > 0)
-                //{
-                //    // lấy tên tệp tin
-                //    fileName = Path.GetFileName(file.FileName);
-                //    // lưu trữ tệp tin vào folder ~/App_Data/uploads
-                //    var path = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/file/"), fileName);
-                //    file.SaveAs(path);
-                //}
-                //var fileName = Path.GetFileName(ebook.filename);
-                //var path = Path.Combine(Server.MapPath("~/Assets/fileupload/user"), fileName);
-                //SaveAs(path);
-                //ebook.filename = fileName;
-                // Check if the request contains multipart/form-data.
+            return a;
 
-                db.Ebooks.Add(new Ebook
-                {
-                    title = post.ebook.Title,
-                    author = post.ebook.Author,
-                    describe = post.ebook.Describe,
-                    year = post.ebook.Year,
-                    //filename = fileName
-                });
-                db.SaveChanges();
-            }
-            return post;
         }
         ////Lấy môn học của ebook
         ////Lấy môn học của ebook

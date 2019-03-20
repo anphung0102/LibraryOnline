@@ -1,4 +1,12 @@
-﻿
+﻿@*@{
+            var user = Session["username"];
+            if (Session["username"] == null || Session["user_id"] == null)
+            {
+                Response.Redirect("~/Login/Index");
+            }
+
+
+        }*@
 <!DOCTYPE html>
 <html lang="en">
 
@@ -52,7 +60,7 @@
 
     <!-- Page Content -->
     <div class="container" id="admin-container">
-       
+
         <div class="row">
 
             <div class="col-lg-3">
@@ -112,41 +120,43 @@
 
                             <!-- Modal body -->
                             <div class="modal-body">
-                                <div class="form-group">
-                                    <label for="text">Tiêu đề:</label>
-                                    <input type="text" class="form-control" id="title" placeholder="Tiêu đề" name="title">
+                                <form>
+                                    <div class="form-group">
+                                        <label for="text">Tiêu đề:</label>
+                                        <input type="text" class="form-control" id="title" placeholder="Tiêu đề" name="title">
 
-                                </div>
-                                <div class="form-group">
-                                    <label for="text">Giới thiệu:</label>
-                                    <input type="text" class="form-control" id="describe" placeholder="Giới thiêu" name="describe">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="text">Giới thiệu:</label>
+                                        <input type="text" class="form-control" id="describe" placeholder="Giới thiêu" name="describe">
 
-                                </div>
-                                <div class="form-group">
-                                    <label for="text">Tác giả:</label>
-                                    <input type="text" class="form-control" id="author" placeholder="Tiêu đề" name="author">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="text">Tác giả:</label>
+                                        <input type="text" class="form-control" id="author" placeholder="Tiêu đề" name="author">
 
-                                </div>
-                                <div class="form-group">
-                                    <label for="text">Năm sản xuất:</label>
-                                    <input type="text" class="form-control" id="year" placeholder="Giới thiêu" name="year">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="text">Năm sản xuất:</label>
+                                        <input type="text" class="form-control" id="year" placeholder="Giới thiêu" name="year">
 
-                                </div>
-                                <div class="form-group">
-                                    <label for="text">UserId:</label>
-                                    <input type="text" class="form-control" id="user_id" placeholder="" name="user_id">
+                                    </div>
+                                    @*<div class="form-group">
+            <label for="text">UserId:</label>
+            <input type="text" class="form-control" id="user_id" placeholder="" name="user_id">
 
-                                </div>
-                                <div class="form-group">
-                                    <label for="text">Browser</label>
+        </div>*@
+                                    <div class="form-group">
+                                        <label for="text">Browser</label>
 
-                                    <input type="file" name="Files" id="filename" />
-                                </div>
+                                        <input type="file" name="Files" multiple id="fileInput" />
+                                    </div>
 
-                                <div id="error"></div>
-                                <div style="margin-top:20px">
-                                    <button id="upload" type="submit" class="btn btn-primary">Upload</button>
-                                </div>
+                                    <div id="error"></div>
+                                    <div style="margin-top:20px">
+                                        <button id="upload" type="button" class="btn btn-primary">Upload</button>
+                                    </div>
+                                    </form>
                             </div>
 
                             <!-- Modal footer -->
@@ -225,11 +235,11 @@
                 </div>
                 @* thấy nhanh vãi ko :D vài dòng// à sp ơi sp nói lại tại sp ko dùng kia sp cái bt á  *@
                 @* cách thông thường mà e dùng js generate ra html, nó dài dòng. *@
-                @* cách này ngắn gọn, mà knockout lại hỗ trợ tận răng. nhiều thứ, 
+                @* cách này ngắn gọn, mà knockout lại hỗ trợ tận răng. nhiều thứ,
                     tha hồ xài :D dạ oke sp mà sp ơi tính hỏi sp tiếp cái load file hôm bữa á :D *@
                 @* tiếp tục cái này đi e :D cái đó giờ phia r :D để từ a coi :D dạ v giờ sp nghỉ mệt đi e gửi bài cho thằng đật cái có gì e hú sp tiếp:PP
-                    OK e :D a out đây hihi
-                @*// phân trang*@
+                        OK e :D a out đây hihi
+                    @*// phân trang*@
                 @*//ủa e cần nó center hay end ?? *@
                 <div class="col-lg-12 col-md-6 mb-4">
                     <nav aria-label="Page navigation example">
@@ -256,10 +266,8 @@
 
             </div>
             <!-- /.col-lg-9 -->
-
         </div>
         <!-- /.row -->
-
     </div>
     <!-- /.container -->
     <!-- Footer -->
@@ -271,9 +279,6 @@
         <!-- /.container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript -->
-    @*<script src="vendor/jquery/jquery.min.js"></script>
-        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>*@
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
     <script type='text/javascript' src='~/Scripts/common/knockout-3.5.0.js'></script>
@@ -282,26 +287,35 @@
 
 </html>
 <script>
-    $("#upload").click(function () {
+    $(document).ready(function () {
+        $("#upload").click(function () {
+          
+            var files = $("#fileInput").get(0).files;
+            var fileData = new FormData();
 
-        var ebook = {};
-        ebook.title = $("#title").val(); //get từ textbox
-        ebook.describe = $("#describe").val(); //get từ text boxt
-        ebook.year = $("#year").val(); //get từ textbox
-        ebook.user_id = $("#user_id").val(); //get từ text boxt
-        ebook.filename = $("#filename").val(); //get từ text boxt
-        $.ajax({
-            type: "POST",
-            url: "/api/FileAPI/UploadEbook",
-            data: JSON.stringify(ebook),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (result) {
+            for (var i = 0; i < files.length; i++) {
+                fileData.append("fileInput", files[i]);
+            } 
+            //fileData.append("title", $("#title").val());
+            //fileData.append("describe", $("#describe").val());
+            //fileData.append("author", $("#author").val());
+            //fileData.append("year", $("#year").val());
+            console.log(fileData);
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:52385/api/FileAPI/UploadFiles",
+                dataType: "json",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (result) {
+                    alert(result);
+                }
+            });
 
-            }
         });
-    });
 
+    });
     //lấy môn học của ebook
     $(document).ready(function () {
         $.ajax({
@@ -316,27 +330,5 @@
             }
         });
     });
-    /// load data
-    $(document).ready(function () {
-        //$.ajax({
-        //    type: "GET",
-        //    url: "/api/FileAPI/Get",
-        //    contentType: "application/json; charset=utf-8",
-        //    dataType: "json",
-        //    success: function (result) {
-        //        console.log(result);
-        //        var $div = $('<div/>').addClass('col-lg-4 col-md-6 mb-4');
-        //        var $div1 = $('<div/>').addClass('card h-100');
-        //        $div.append($div1);
-        //        $.each(result, function (i, v) {
-        //            var $row = $('<div/>').addClass('card-body');
-        //            $("#loadData").append($('<h3/>').html(v.title));
-        //        });
-        //        //$('#loadData').html($div);  // e lấy đc rồi giờ chỉnh cách load ra á sp
-        //        // cachs chỉnh bằng jquery e chưa rành sp chỉ e này nha
-        //        // ok e :D
-        //        //
-        //    }
-        //});
-    });
+
 </script>

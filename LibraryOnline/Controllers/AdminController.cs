@@ -11,7 +11,7 @@ namespace LibraryOnline.Controllers
 {
     public class AdminController : Controller
     {
-        // GET: Admin
+        // GET: Adminđdđkdkdk
         public ActionResult Admin()
         {
             //LibraryEntities db = new LibraryEntities();

@@ -189,16 +189,17 @@ namespace LibraryOnline.Controllers
         //lấy ebook
         [Route("api/FileAPI/Get")]
         [HttpGet]
-        public HttpResponseMessage Get()
+        public IEnumerable<Ebook> Get()
         {
-            List<Ebook> ebook = new List<Ebook>();
-            using (LibraryEntities db = new LibraryEntities())
-            {
-                ebook = db.Ebooks.OrderBy(a => a.title).ToList();
-                HttpResponseMessage response;
-                response = Request.CreateResponse(HttpStatusCode.OK, ebook);
-                return response;
-            }
+            //List<Ebook> ebook = new List<Ebook>();
+            //using (LibraryEntities db = new LibraryEntities())
+            //{
+            //    ebook = db.Ebooks.OrderBy(a => a.title).ToList();
+            //    HttpResponseMessage response;
+            //    response = Request.CreateResponse(HttpStatusCode.OK, ebook);
+            //    return response;
+            //}
+            return db.Ebooks.ToList();
         }
 
         ////lấy essay

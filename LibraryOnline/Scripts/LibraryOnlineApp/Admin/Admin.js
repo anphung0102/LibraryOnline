@@ -4,8 +4,7 @@
 
 function AdminViewModel() {
     var self = this;
-    // à giới thiệu, nó có 2 loại tạo cơ bản :D observable cho dữ liệu đơn, và observableArray cho mảng
-    // giờ test thằng đơn trước
+    
     self.testSingle = ko.observable(""); //khai bao rong biến đơn
     self.resultArr = ko.observableArray([]);//khai báo rỗng biến mảng
     self.get = function () {

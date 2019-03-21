@@ -77,7 +77,6 @@
                         <div class="modal" id="CreateSub">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-
                                     <!-- Modal Header -->
                                     <div class="modal-header">
                                         <h4 class="modal-title">Tạo môn học</h4>
@@ -89,12 +88,10 @@
                                     <div id="modal" class="modal-body">
                                         <div class="form-group">
                                             <label for="text">Tiêu đề:</label>
-                                            <input type="text" class="form-control" id="Name" placeholder="Tên môn" name="Name">
-
+                                            <input type="text" class="form-control" id="nameSujectEbook" placeholder="Tên môn" name="Name">
                                         </div>
-
                                         <div style="margin-top:20px">
-                                            <button id="create_sub" type="button" class="btn btn-primary">Tạo</button>
+                                            <button id="create_sub_ebook" type="button" class="btn btn-primary">Tạo</button>
                                         </div>
                                     </div>
                                     <!-- Modal footer -->
@@ -105,7 +102,9 @@
                                 </div>
                             </div>
                         </div>
-                        <ul class="submenu" id="ebook"></ul>
+                        <ul class="submenu" id="loadSubjectOfEbook">
+                            @*load các môn học trong ebook*@
+                        </ul>
                     </li>
                     <li><a href="">Tiểu luận</a></li>
                     <li><a href="">Khóa luận</a></li>
@@ -122,7 +121,7 @@
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
 
-                            <!-- Modal body -->
+                            <!-- Form Upload Ebook -->
                             <div class="modal-body">
                                 <form>
                                     <div class="form-group">
@@ -177,7 +176,6 @@
             <!-- /.col-lg-3 -->
 
             <div class="col-lg-9">
-
                 <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
                     <ol class="carousel-indicators">
                         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -219,22 +217,8 @@
                     </div>
 
                 </div>
-                <div class="row" id="loadData" data-bind="foreach: resultArr">
-                    <div class="col-lg-4 col-md-6 mb-4" data-bind="attr: { id: id}">
-                        <div class="card h-100">
-                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <a href="#" data-bind="text:title"></a>
-                                </h4>
-                                <h5>tác giả:</h5>
-                                <p class="card-text" data-bind="text:author"></p>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9733;</small>
-                            </div>
-                        </div>
-                    </div>
+                <div class="row" id="loadEbook" data-bind="foreach: resultArr">
+                    
                 </div>
 
                 @*// phân trang*@
@@ -287,7 +271,6 @@
 <script>
     $(document).ready(function () {
         $("#upload").click(function () {
-
             var files = $("#fileInput").get(0).files;
             var fileData = new FormData();
 
@@ -315,43 +298,71 @@
             });
 
         });
-
+   
+       
     });
-
-
-    //$("#upload").click(function () {
-
-    //    var ebook = {};
-    //    ebook.title = $("#title").val(); //get từ textbox
-    //    ebook.describe = $("#describe").val(); //get từ text boxt
-    //    ebook.year = $("#year").val(); //get từ textbox
-    //    ebook.user_id = $("#user_id").val(); //get từ text boxt
-    //    ebook.filename = $("#filename").val(); //get từ text box
-    //    $.ajax({
-    //        type: "POST",
-    //        url: "/api/FileAPI/UploadEbook",
-    //        data: JSON.stringify(ebook),
-    //        contentType: "application/json; charset=utf-8",
-    //        dataType: "json",
-    //        success: function (result) {
-
-    //        }
-    //    });
-    //});
+    //Tạo môn học cho ebook
 
     //lấy môn học của ebook
     $(document).ready(function () {
-        $.ajax({
-            type: "GET",
-            url: "/api/FileAPI/GetSubjectEbook",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (result) {
-                $.each(result, function (i, v) {
-                    $("#ebook").append("<li><a href=''>" + v.name + "</a></li >");
-                    $("#subject").append("<option value='"+ v.id + "'>" + v.name + "</option>");
-                });
-            }
+            $.ajax({
+                type: "GET",
+                url: "/api/FileAPI/GetSubjectEbook",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    $.each(result, function (i, v) {
+                        $("#loadSubjectOfEbook").append("<li id='" + v.id + "'><a>" + v.name + "</a></li >");
+                        $("#subject").append("<option value='" + v.id + "'>" + v.name + "</option>");
+
+                        $("#" + v.id).click(function () {
+                            alert(v.id);
+                            $.ajax({
+                                type: "GET",
+                                url: "/api/FileAPI/GetEbook",
+                                data: { id: v.id },  
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (result) {
+                                    $.each(result, function (i, v) {
+                                        var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+                                        data += "<div class='card h-100'>";
+                                        data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
+                                        data += "<div class='card-body'>";
+                                        data += "<h4 class='card-title'>";
+                                        data += "<a href='#' data-bind='text:title'>" + v.title + "</a> </h4>";
+                                        data += "<h5>tác giả: " + v.author + "</h5>";
+                                        data += "<p class='card-text' data-bind='text:author'></p>";
+                                        data += "<div class='card-footer'></div>";
+                                        data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                                        data += " </div></div></div>";
+
+                                        $("#loadEbook").append(data);
+
+
+                                    });
+                                }
+                            });
+                        });
+                    });
+                }
+            });
+        
+        $("#create_sub_ebook").click(function () {
+            var subject = {};
+            subject.name = $("#nameSujectEbook").val();
+            $.ajax({
+                type: "POST",
+                url: "/api/FileAPI/CreateSubject",
+                data: JSON.stringify(subject),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    //$("#loadSubjectOfEbook").append("<li id='" + v.id + "'><a>" + v.name + "</a></li >");
+                    
+
+                }
+            });
         });
     });
     /// load data

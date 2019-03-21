@@ -60,53 +60,7 @@ namespace LibraryOnline.Controllers
 
         }
 
-        //[Route("api/FileAPI/UploadEbook")]
-        //[HttpPost]
-        //public Post UploadEbook(Post post)
-        //{
-        //    // upload file
-        //    foreach (var file in post.Files)
-        //    {
-
-        //        if (file != null && file.ContentLength > 0)
-        //        {
-        //            string temp = RandomString(10, true) + "-";
-        //            var fileName = Path.GetFileName(file.FileName);
-        //            var path = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/file"), temp + fileName);
-        //            file.SaveAs(path);
-        //        }
-        //    }
-        //    using (LibraryEntities db = new LibraryEntities())
-        //    {
-        //        //var fileName = "";
-
-        //        //if (file != null && file.ContentLength > 0)
-        //        //{
-        //        //    // lấy tên tệp tin
-        //        //    fileName = Path.GetFileName(file.FileName);
-        //        //    // lưu trữ tệp tin vào folder ~/App_Data/uploads
-        //        //    var path = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/file/"), fileName);
-        //        //    file.SaveAs(path);
-        //        //}
-        //        //var fileName = Path.GetFileName(ebook.filename);
-        //        //var path = Path.Combine(Server.MapPath("~/Assets/fileupload/user"), fileName);
-        //        //SaveAs(path);
-        //        //ebook.filename = fileName;
-        //        // Check if the request contains multipart/form-data.
-
-        //        db.Ebooks.Add(new Ebook
-        //        {
-        //            title = post.ebook.Title,
-        //            author = post.ebook.Author,
-        //            describe = post.ebook.Describe,
-        //            year = post.ebook.Year,
-        //            //filename = fileName
-        //        });
-        //        db.SaveChanges();
-        //    }
-        //    return post;
-        //}
-
+     
             //Upload file cho Ebook mình làm trc cái ebook thoi mấy cái kia xong copy qua
         [Route("api/FileAPI/UploadFiles")]
         [HttpPost]
@@ -117,8 +71,6 @@ namespace LibraryOnline.Controllers
             {
                 //đường dẫn lưu file
                 var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/Upload/"), httpPostedFile.FileName);//tên file
-
-                // Save the uploaded file to "UploadedFiles" folder
                 //lưu file vào đường dẫn
                 httpPostedFile.SaveAs(fileSavePath);
             }
@@ -189,19 +141,12 @@ namespace LibraryOnline.Controllers
         }
 
         //lấy ebook
-        //[Route("api/FileAPI/Get")]
-        //[HttpGet]
-        //public HttpResponseMessage Get()
-        //{
-        //    List<Ebook> ebook = new List<Ebook>();
-        //    using (LibraryEntities db = new LibraryEntities())
-        //    {
-        //        ebook = db.Ebooks.OrderBy(a => a.title).ToList();
-        //        HttpResponseMessage response;
-        //        response = Request.CreateResponse(HttpStatusCode.OK, ebook);
-        //        return response;
-        //    }
-        //}
+        [Route("api/FileAPI/GetEbook")]
+        [HttpGet]
+        public IEnumerable<Ebook> GetEbook(int id) 
+        {
+             return db.Ebooks.Where(x=>x.sub_id == id).OrderBy(a => a.title).ToList();
+        }
 
         ////lấy essay
         //[Route("api/FileAPI/GetEssay")]

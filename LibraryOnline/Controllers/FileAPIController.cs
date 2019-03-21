@@ -122,7 +122,7 @@ namespace LibraryOnline.Controllers
                 //lưu file vào đường dẫn
                 httpPostedFile.SaveAs(fileSavePath);
             }
-            //thông tin lấy trên text thông qua key của FormData
+            
             var title = HttpContext.Current.Request["title"];
             var describe = HttpContext.Current.Request["describe"];
             var author = HttpContext.Current.Request["author"];
@@ -130,14 +130,14 @@ namespace LibraryOnline.Controllers
             var userid = HttpContext.Current.Request["userid"];
             var date_upload = DateTime.Now;
             int user_id = Convert.ToInt32(userid);
-            //mai m làm thêm cái ngày up là Datetime.Now gì đó
-            string strExtexsion = Path.GetExtension(httpPostedFile.FileName).Trim();//lấydduooio file
+            
+            string strExtexsion = Path.GetExtension(httpPostedFile.FileName).Trim();// lấy đuôi file
             string a = "";
             if (strExtexsion == ".pdf")//chỉ cho up pdf
             {
                 using (LibraryEntities db = new LibraryEntities())
                 {
-                    //Add vô bảng ebook những thông tin muốn add chạy thử coi
+                    //Add vô bảng ebook 
                     db.Ebooks.Add(
                         new Ebook
                         {
@@ -150,8 +150,8 @@ namespace LibraryOnline.Controllers
                             date_upload = date_upload,
                           user_id = user_id,
                         });
-                    db.SaveChanges();//lưu dât thôi cái này t chưa chạy t mới test gửi data từ  ajax qua thôi
-                    a = "Thành công";//đc chưa m// oke đc đó còi còn thiếu trường nào thêm vô thôi
+                    db.SaveChanges();
+                    a = "Thành công";
                 }
             }
             else a = "lỗi";

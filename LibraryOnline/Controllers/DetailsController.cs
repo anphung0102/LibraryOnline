@@ -8,9 +8,10 @@ namespace LibraryOnline.Controllers
 {
     public class DetailsController : Controller
     {
-        // GET: Details
-        public ActionResult Details()
+        // GET: Detail
+        public ActionResult Details(int? id)
         {
+            ViewBag.Id = id;
             return View();
         }
     }

@@ -329,8 +329,8 @@
                                         data += "<div class='card h-100'>";
                                         data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
                                         data += "<div class='card-body'>";
-                                        data += "<h4 class='card-title'>";
-                                        data += "<a href='#' data-bind='text:title'>" + v.title + "</a> </h4>";
+                                        data += "<h4 class='card-title'>";//
+                                        data += "<a href='/Details/Details?id=" + v.id + "'" +  "data-bind='text:title'>" + v.title + "</a> </h4>";
                                         data += "<h5>tác giả: " + v.author + "</h5>";
                                         data += "<p class='card-text' data-bind='text:author'></p>";
                                         data += "<div class='card-footer'></div>";
@@ -338,9 +338,8 @@
                                         data += " </div></div></div>";
 
                                         $("#loadEbook").append(data);
-
-
                                     });
+                                   
                                 }
                             });
                         });

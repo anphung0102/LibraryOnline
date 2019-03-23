@@ -16,5 +16,12 @@ namespace LibraryOnline.Controllers
         {
             return View();
         }
+        // GET: Details
+        public ActionResult Details(int? id)
+        {
+            ViewBag.Id = id;
+            return View();
+        }
+        
     }
 }

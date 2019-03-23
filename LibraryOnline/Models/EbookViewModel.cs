@@ -11,7 +11,7 @@ namespace LibraryOnline.Models
         public string Author { get; set; }
         public string Year { get; set; }
         public string Describe { get; set; }
-        public HttpPostedFileBase FileReferences { get; set; }
+        //public HttpPostedFileBase FileReferences { get; set; }
     }
 
     public class Post

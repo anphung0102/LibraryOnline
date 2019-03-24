@@ -18,15 +18,17 @@
     <!-- Custom styles for this template -->
     <link href="~/Content/styles/style-homepage.css" rel="stylesheet" />
     <style>
-        #detail{
-            margin-top:20px;
+        #detail {
+            margin-top: 20px;
         }
-        #info_details{
-            margin-left:5px;
-            margin-bottom:10px;
+
+        #info_details {
+            margin-left: 5px;
+            margin-bottom: 10px;
         }
-        #button_details{
-            text-align:center;
+
+        #button_details {
+            text-align: center;
         }
     </style>
 </head>
@@ -104,7 +106,7 @@
                 </div><!-- navigation -->
                 @*<h1 class="khoangcachduoi">Products</h1>*@
                 <div class="row" id="detail"></div>
-                    @*<div class="col-lg-12 col-md-6 mb-4">
+                @*<div class="col-lg-12 col-md-6 mb-4">
                         <div class="border">
                             <div class="row">
                                 <div class="col-lg-6">
@@ -127,7 +129,7 @@
                         </div>
                     </div>*@
 
-                    @*<div class="col-lg-4 col-md-6 mb-4">
+                @*<div class="col-lg-4 col-md-6 mb-4">
                         <div class="card h-100">
                             <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
                             <div class="card-body">
@@ -206,7 +208,7 @@
                             </div>
                         </div>
                     </div>*@
-                   
+
                 @*</div>*@
                 <!-- /.row -->
 
@@ -255,9 +257,9 @@
             }
         });
     });
-     // load data 
+     // load data
     $(document).ready(function () {
-       
+
         $.ajax({
             type: "GET",
             url: "http://localhost:52385/api/FileAPI/GetFileById",
@@ -275,16 +277,32 @@
                 data += "<h3>Năm xuất bản: " + v.year + "</h3>";
                 data += "<div><small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9734;<span>(8 đánh giá)</span></small></div>";
                 data += "<div id='button_details'>";
-                data += "<button style=' width: 100px; border - bottom - left - radius: 31px; border - bottom - right - radius: 31px; border - top - left - radius: 31px; border - top - right - radius: 31px; '>đọc</button>";
-                data += "<button style=' margin-left:20px; width: 100px; border - bottom - left - radius: 31px; border - bottom - right - radius: 31px; border - top - left - radius: 31px; border - top - right - radius: 31px; '>Download</button>";
+                //data += "<embed src='/Content/Upload/" + v.filename + "' type='application/pdf' height='300px' width='100%' class='responsive'>";
+                data += "<p id='pdf-link' hidden='hidden'>/Content/Upload/" + v.filename+"</p>";
+                //data += "<button style='width: 100px;' id='read' ><a href='/Content/Upload/" + v.filename + "'></a>đọc</button>";
+                data += "<button style='width: 100px;' id='read' >đọc</button>";
+                //data += '<a href="/Content/Upload/' + v.filename + '" download></a > ';
+                data += `<a href="/Content/Upload/${v.filename}" download>
+                    <input type="button" value="Download" /> </a > `
+                
                 data += " </div></div>";
                 data += "<div class='col-lg-6'><h2>Mô tả:</h2>";
                 data += "<p>" + v.describe + "</p>";
                 data += "</div ></div ></div ></div > ";
                 $("#detail").append(data);
-
             }
         });
     });
- 0
+
+    function openPDF(link) {
+        //alert(link);
+        if (link) {
+            window.open(link);
+        }
+    }
+
+    $("body").on('click','#read',function () {
+        openPDF($('#pdf-link').text());
+    });
+
 </script>

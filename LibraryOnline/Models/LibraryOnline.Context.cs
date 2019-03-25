@@ -18,8 +18,10 @@ namespace LibraryOnline.Models
         public LibraryEntities()
             : base("name=LibraryEntities")
         {
+            Configuration.ProxyCreationEnabled = false;
+
         }
-    
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();

@@ -60,8 +60,8 @@ namespace LibraryOnline.Controllers
 
         }
 
-     
-            //Upload file cho Ebook mình làm trc cái ebook thoi mấy cái kia xong copy qua
+
+        //Upload file cho Ebook 
         [Route("api/FileAPI/UploadFiles")]
         [HttpPost]
         public string UploadFiles()
@@ -70,7 +70,8 @@ namespace LibraryOnline.Controllers
             if (httpPostedFile != null)
             {
                 //đường dẫn lưu file
-                var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/Upload/"), httpPostedFile.FileName);//tên file
+                string temp = RandomString(10, true) + "-";
+                var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/Upload/"), temp + httpPostedFile.FileName);//tên file
                 //lưu file vào đường dẫn
                 httpPostedFile.SaveAs(fileSavePath);
             }
@@ -80,7 +81,7 @@ namespace LibraryOnline.Controllers
             var author = HttpContext.Current.Request["author"];
             var year = HttpContext.Current.Request["year"];
             var userid = HttpContext.Current.Request["userid"];
-            var subid = HttpContext.Current.Request["subid"]; 
+            var subid = HttpContext.Current.Request["subid"];
             var date_upload = DateTime.Now;
             int user_id = Convert.ToInt32(userid);
             int sub_id = Convert.ToInt32(subid);
@@ -105,6 +106,11 @@ namespace LibraryOnline.Controllers
                             sub_id = sub_id,
                         });
                     db.SaveChanges();//lưu dât thôi cái này t chưa chạy t mới test gửi data từ  ajax qua thôi
+                   
+                    var fileinfo = db.Ebooks.OrderByDescending(x => x.id).FirstOrDefault();
+                    var date_up = fileinfo.date_upload.Value.ToString("MM/dd/yyyy");
+                    MyHub.PostFileEbook(fileinfo.id, fileinfo.title, fileinfo.author, fileinfo.describe,
+                        fileinfo.year, fileinfo.filename, date_up);
                     a = "Thành công";//đc chưa m// oke đc đó còi còn thiếu trường nào thêm vô thôi
                 }
             }
@@ -113,31 +119,41 @@ namespace LibraryOnline.Controllers
             return a;
 
         }
+
+
         ////Lấy môn học của ebook
         ////Lấy môn học của ebook
         [Route("api/FileAPI/GetSubjectEbook")]
         [HttpGet]
         public IEnumerable<Subject_Ebook> GetSubjectEbook() 
         {
-            return db.Subject_Ebook.ToList();
+            var a = db.Subject_Ebook.ToList();
+            return a;
         }
 
 
-        //Tạo môn học
+        //Tạo môn học trong Ebook
         [Route("api/FileAPI/CreateSubject")]
         [HttpPost]
-        public SubjectViewModel CreateSubject(SubjectViewModel subject)
+        public string CreateSubject(SubjectViewModel subject)
         {
-            using (LibraryEntities db = new LibraryEntities())
+            var sub = db.Subject_Ebook.Where(x => x.name.Equals(subject.Name)).FirstOrDefault();
+            if(sub != null)
+            {
+                return "Tên môn đã tồn tại! Vui lòng đặt tên khác.";
+            }
+            else
             {
                 db.Subject_Ebook.Add(new Subject_Ebook
                 {
                     name = subject.Name,
                 });
                 db.SaveChanges();
+                var sub_ebook = db.Subject_Ebook.Where(x => x.name.Equals(subject.Name)).FirstOrDefault();
+                
+                MyHub.Post(sub_ebook.id, sub_ebook.name);
+                return "Tạo môn thành công.";
             }
-
-            return subject;
         }
 
         //lấy ebook
@@ -145,7 +161,7 @@ namespace LibraryOnline.Controllers
         [HttpGet]
         public IEnumerable<Ebook> GetEbook(int id) 
         {
-             return db.Ebooks.Where(x=>x.sub_id == id).OrderBy(a => a.title).ToList();
+             return db.Ebooks.Where(x=>x.sub_id == id).ToList();
         }
 
         ////lấy essay

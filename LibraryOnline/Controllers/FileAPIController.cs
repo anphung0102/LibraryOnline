@@ -75,7 +75,7 @@ namespace LibraryOnline.Controllers
                 //lưu file vào đường dẫn
                 httpPostedFile.SaveAs(fileSavePath);
             }
-            //thông tin lấy trên text thông qua key của FormData
+            
             var title = HttpContext.Current.Request["title"];
             var describe = HttpContext.Current.Request["describe"];
             var author = HttpContext.Current.Request["author"];
@@ -85,14 +85,13 @@ namespace LibraryOnline.Controllers
             var date_upload = DateTime.Now;
             int user_id = Convert.ToInt32(userid);
             int sub_id = Convert.ToInt32(subid);
-            //mai m làm thêm cái ngày up là Datetime.Now gì đó
-            string strExtexsion = Path.GetExtension(httpPostedFile.FileName).Trim();//lấydduooio file
+            string strExtexsion = Path.GetExtension(httpPostedFile.FileName).Trim();//lấy đuôi file
             string a = "";
             if (strExtexsion == ".pdf")//chỉ cho up pdf
             {
                 using (LibraryEntities db = new LibraryEntities())
                 {
-                    //Add vô bảng ebook những thông tin muốn add chạy thử coi
+                    //Add vô bảng ebook 
                     db.Ebooks.Add(
                         new Ebook
                         {
@@ -163,7 +162,20 @@ namespace LibraryOnline.Controllers
         {
              return db.Ebooks.Where(x=>x.sub_id == id).ToList();
         }
-
+        //lấy ebook
+        [Route("api/FileAPI/GetEbookDetail")]
+        [HttpGet]
+        public IEnumerable<Ebook> GetEbookDetail(int id)
+        {
+            return db.Ebooks.Where(x => x.id == id).ToList();
+        }
+        //lấy file theo id
+        [Route("api/FileAPI/GetFileById")]
+        [HttpGet]
+        public Ebook GetFileById(int id) 
+        {
+            return db.Ebooks.Where(x => x.id == id).FirstOrDefault();
+        }
         ////lấy essay
         //[Route("api/FileAPI/GetEssay")]
         //[HttpGet]

@@ -258,6 +258,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\img\logo-lv1.png" />
     <Content Include="Content\img\user.png" />
+    <Content Include="Content\styles\login.css" />
     <Content Include="Content\styles\style-homepage.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />

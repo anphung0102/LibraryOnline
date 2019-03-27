@@ -176,19 +176,29 @@ namespace LibraryOnline.Controllers
         {
             return db.Ebooks.Where(x => x.id == id).FirstOrDefault();
         }
-        ////lấy essay
-        //[Route("api/FileAPI/GetEssay")]
-        //[HttpGet]
-        //public HttpResponseMessage GetEssay()
+
+        //xoá ebook
+        [Route("api/FileAPI/DeleteSubjectById")]
+        [HttpPost]
+        public string DeleteSubjectById(Subject_Ebook subject) 
+        {
+            var ebook = db.Ebooks.Where(x => x.sub_id == subject.id).ToList();
+            foreach(var item in ebook)
+            {
+                db.Ebooks.Remove(item);
+                db.SaveChanges();
+            }
+            var sub = db.Subject_Ebook.Where(x => x.id == subject.id).FirstOrDefault();
+            db.Subject_Ebook.Remove(sub);
+            db.SaveChanges();
+            return "Xóa thành công";
+        }
+        //[Route("api/FileAPI/DeleteSubjectById1")]
+        //[HttpPost]
+        //public string DeleteSubjectById1(Subject_Ebook sub) 
         //{
-        //    List<Essay> essay = new List<Essay>();
-        //    using (LibraryEntities db = new LibraryEntities())
-        //    {
-        //        essay = db.Essays.OrderBy(a => a.title).ToList();
-        //        HttpResponseMessage response;
-        //        response = Request.CreateResponse(HttpStatusCode.OK, essay);
-        //        return response;
-        //    }
+        //    return "Xóa thành công"+sub.name;
         //}
+        //sửa ebook
     }
 }

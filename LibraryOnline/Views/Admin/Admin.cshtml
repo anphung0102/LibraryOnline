@@ -4,8 +4,7 @@
     {
         Response.Redirect("~/Login/Index");
     }
-
-
+    
 }
 
 <!DOCTYPE html>
@@ -332,7 +331,19 @@
         //Ẩn hiện form
         $("#btn_upload").hide();
         $("#loadEbook").hide();
-
+        //xóa môn của ebook
+        //function deleteSubEbook(id) {
+        //    $.ajax({
+        //        type: "POST",
+        //        url: "/api/FileAPI/DeleteEbookById",
+        //        data: { Id: id },
+        //        contentType: "application/json; charset=utf-8",
+        //        dataType: "json",
+        //        success: function (result) {
+        //            alert(result);
+        //        }
+        //    });
+        //};
         $.ajax({
             type: "GET",
             url: "/api/FileAPI/GetSubjectEbook",
@@ -342,10 +353,33 @@
                 $.each(result, function (i, v) {
                     //alert(v.name);
                     //load các môn của ebook lên thanh danh mục bên trái
-                    $("#loadSubjectOfEbook").append("<li id='ebook_" + v.id + "'><a>" + v.name + "</a></li >");
-                    //load môn học lên combobox trong form upload file
-                  
-                    //
+                    $("#loadSubjectOfEbook").append("<li id='ebook_" + v.id + "'><a>" + v.name
+                        + "<button " + "id='del_sub_eb_" + v.id + "' type='button' class='btn btn-info far fa-trash-alt'"
+                        + "style='float: right'></button>"
+                        + "<button type='button' class='btn btn-info far fa-file-alt'"
+                        + "style='float: right'></button></a></li >");
+
+                    //xóa môn học khi click vào buttton delete
+                    $("#del_sub_eb_" + v.id).click(function () {
+                        //alert("aaaaaa");
+                        //deleteSubEbook(v.id);
+                        var data = {};
+                        data.id = v.id;
+                        data.name = v.name;
+                        $.ajax({
+                            type: "POST",
+                            url: "/api/FileAPI/DeleteSubjectById",
+                            data: JSON.stringify(data),
+                            //data: { id: v.id },
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (result) {
+                                alert(result);
+                            }
+                        });
+                    });
+                 
+                 
                     //khi click vào môn học sẽ load các file trong môn đó
                     $("#ebook_" + v.id).click(function () {
                         //Ẩn hiện form upload file ở trang chỉ hay uplaod file trong môn học
@@ -401,6 +435,9 @@
             });
         });
     });
+
+   
+    
     //SIGNALR
     $(function () {
         $.connection.hub.logging = true;

@@ -75,15 +75,15 @@ body {
         color: transparent;
     }
 
-    .form-label-group input::-ms-input-placeholder {
+    .form-label-group input:-ms-input-placeholder {
         color: transparent;
     }
 
-    .form-label-group input::-moz-placeholder {
+    .form-label-group input:-moz-placeholder {
         color: transparent;
     }
 
-    .form-label-group input::placeholder {
+    /*.form-label-group input:placeholder {
         color: transparent;
     }
 
@@ -97,7 +97,7 @@ body {
             padding-bottom: calc(var(--input-padding-y) / 3);
             font-size: 12px;
             color: #777;
-        }
+        }*/
 
 .btn-google {
     color: white;

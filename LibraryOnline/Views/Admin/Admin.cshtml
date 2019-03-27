@@ -1,4 +1,7 @@
 ﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml"; ;
+}
+@{
     var user = Session["username"];
     if (Session["username"] == null || Session["user_id"] == null)
     {
@@ -6,61 +9,6 @@
     }
     
 }
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Homepage</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-    <!-- Custom styles for this template -->
-    <link href="~/Content/styles/style-homepage.css" rel="stylesheet" />
-    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
-   
-</head>
-
-<body>
-
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">Online Library</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">
-                            Home
-                            <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Services</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
-                    </li>
-                    <img style="width:30px;height:30px" id="user_img" src="~/Content/img/user.png" />
-                    <lable id="username">@Session["username"]</lable>
-                    <lable id="userid">@Session["user_id"]</lable>
-                </ul>
-            </div>
-        </div>
-    </nav>
 
     <!-- Page Content -->
     <div class="container" id="admin-container">
@@ -72,7 +20,7 @@
                 <h3 class="my-4">Select Category</h3>
                 <ul class="mainmenu">
                     <li>
-                        <a href="#">Ebooks<span class="fas fa-plus" data-toggle="modal" data-target="#CreateSub" style="float:right"></span></a>
+                        <a>Ebooks<span class="fas fa-plus" data-toggle="modal" data-target="#CreateSub" style="float:right"></span></a>
                         <!--The Modal Create-->
                         <div class="modal" id="CreateSub">
                             <div class="modal-dialog">
@@ -222,16 +170,7 @@
 
                 </div>
 
-                @*<div class="d-flex justify-content-between mb-3">
-                        <h1 id="loadFilePageSubject" class="khoangcachduoi" >Products</h1>
-                        <div>
-                            <button id="btn_upload1" type="button" class="btn_login btn btn-success"  data-toggle="modal" data-target="#myModal1" style="margin-top:10px;">Upload</button>
-                        </div>
-
-                    </div>
-                    <div class="row" id="loadEbook1" data-bind="foreach: resultArr">
-
-                    </div>*@
+              
                 @*// phân trang*@
 
                 <div class="col-lg-12 col-md-6 mb-4">
@@ -264,65 +203,41 @@
 
     </div>
     <!-- /.container -->
-    <!-- Footer -->
-    <footer class="py-5 bg-dark">
-        <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; Library Online 2019</p>
-        </div>
+   
 
-        <!-- /.container -->
-    </footer>
+    <script>
+        //Up file
+        $(document).ready(function () {
+            //Upload dữ liệu vào Ebook
+            $("#upload").click(function () {
+                var files = $("#fileInput").get(0).files;
+                var fileData = new FormData();
 
-    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
-    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
-    <script type='text/javascript' src='~/Scripts/common/knockout-3.5.0.js'></script>
-    <!--Script references. -->
-    <!--The jQuery library is required and is referenced by default in _Layout.cshtml. -->
-    <!--Reference the SignalR library. -->
-    <script src="~/Scripts/jquery.signalR-2.4.0.min.js"></script>
-    <!--Reference the autogenerated SignalR hub script. -->
-    <script src="~/signalr/hubs"></script>
-    <!--SignalR script to update the chat page and send messages.-->
-    
-</body>
-
-</html>
-
-
-
-<script>
-    //Up file
-    $(document).ready(function () {
-        //Upload dữ liệu vào Ebook
-        $("#upload").click(function () {
-            var files = $("#fileInput").get(0).files;
-            var fileData = new FormData();
-
-            for (var i = 0; i < files.length; i++) {
-                fileData.append("fileInput", files[i]);
-            }
-            //cái này là lấy thông tin trên text box  title là key tiltle.val() là giá trị
-            fileData.append("title", $("#title").val());
-            fileData.append("describe", $("#describe").val());
-            fileData.append("author", $("#author").val());
-            fileData.append("year", $("#year").val());
-            fileData.append("userid", $("#userid").text());
-            fileData.append("subid", $("#subject option:selected").val());
-            
-            console.log(fileData);
-            $.ajax({
-                type: "POST",
-                url: "http://localhost:52385/api/FileAPI/UploadFiles",
-                dataType: "json",
-                contentType: false, // Not to set any content header
-                processData: false, // Not to process data
-                data: fileData,
-                success: function (result) {
-                    alert(result);
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append("fileInput", files[i]);
                 }
-            });
+                //cái này là lấy thông tin trên text box  title là key tiltle.val() là giá trị
+                fileData.append("title", $("#title").val());
+                fileData.append("describe", $("#describe").val());
+                fileData.append("author", $("#author").val());
+                fileData.append("year", $("#year").val());
+                fileData.append("userid", $("#userid").text());
+                fileData.append("subid", $("#subject option:selected").val());
 
-        });
+                console.log(fileData);
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:52385/api/FileAPI/UploadFiles",
+                    dataType: "json",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: fileData,
+                    success: function (result) {
+                        alert(result);
+                    }
+                });
+
+            });
 
 
     });
@@ -395,40 +310,40 @@
                             dataType: "json",
                             success: function (result) {
 
-                                $.each(result, function (i, v) {
-                                    var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
-                                    data += "<div class='card h-100'>";
-                                    data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
-                                    data += "<div class='card-body'>";
-                                    data += "<h4 class='card-title'>";//
-                                    data += "<a href='/Details/Details?id=" + v.id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
-                                    data += "<h5>tác giả: " + v.author + "</h5>";
-                                    data += "<p class='card-text' data-bind='text:author'></p>";
-                                    data += "<div class='card-footer'></div>";
-                                    data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
-                                    data += " </div></div></div>";
+                                    $.each(result, function (i, v) {
+                                        var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+                                        data += "<div class='card h-100'>";
+                                        data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
+                                        data += "<div class='card-body'>";
+                                        data += "<h4 class='card-title'>";//
+                                        data += "<a href='/Details/Details?id=" + v.id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                                        data += "<h5>tác giả: " + v.author + "</h5>";
+                                        data += "<p class='card-text' data-bind='text:author'></p>";
+                                        data += "<div class='card-footer'></div>";
+                                        data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                                        data += " </div></div></div>";
 
-                                    $("#loadEbook").append(data);
-                                });
-                            }
+                                        $("#loadEbook").append(data);
+                                    });
+                                }
+                            });
                         });
                     });
-                });
-            }
-        });
+                }
+            });
 
-        $("#create_sub_ebook").click(function () {
-            var subject = {};
-            subject.name = $("#nameSujectEbook").val();
-            $.ajax({
-                type: "POST",
-                url: "/api/FileAPI/CreateSubject",
-                data: JSON.stringify(subject),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (result) {
-                    //$("#loadSubjectOfEbook").append("<li id='" + result.id + "'><a>" + result.name + "</a></li >");
-                    alert(result);
+            $("#create_sub_ebook").click(function () {
+                var subject = {};
+                subject.name = $("#nameSujectEbook").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/api/FileAPI/CreateSubject",
+                    data: JSON.stringify(subject),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (result) {
+                        //$("#loadSubjectOfEbook").append("<li id='" + result.id + "'><a>" + result.name + "</a></li >");
+                        alert(result);
 
                     $("#nameSujectEbook").empty();
                 }
@@ -443,32 +358,32 @@
         $.connection.hub.logging = true;
         var chat = $.connection.myHub;
 
-        //SignalR thêm môn học vào Ebook
-        chat.client.postToClient = function (id, name) {
-            $("#loadSubjectOfEbook").append("<li id='" + id + "'><a>" + name + "</a></li >");
-        };
-        //SignalR thêm file 
-        chat.client.postFileEbookToClient = function (id, title, author, describe, filename,
-            date_upload) {
-            var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
-            data += "<div class='card h-100'>";
-            data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
-            data += "<div class='card-body'>";
-            data += "<h4 class='card-title'>";
-            data += "<a href='#' data-bind='text:title'>" + title + "</a> </h4>";
-            data += "<h5>tác giả: " + author + "</h5>";
-            data += "<p class='card-text' data-bind='text:author'></p>";
-            data += "<div class='card-footer'></div>";
-            data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
-            data += " </div></div></div>";
+            //SignalR thêm môn học vào Ebook
+            chat.client.postToClient = function (id, name) {
+                $("#loadSubjectOfEbook").append("<li id='" + id + "'><a>" + name + "</a></li >");
+            };
+            //SignalR thêm file
+            chat.client.postFileEbookToClient = function (id, title, author, describe, filename,
+                date_upload) {
+                var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+                data += "<div class='card h-100'>";
+                data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
+                data += "<div class='card-body'>";
+                data += "<h4 class='card-title'>";
+                data += "<a href='#' data-bind='text:title'>" + title + "</a> </h4>";
+                data += "<h5>tác giả: " + author + "</h5>";
+                data += "<p class='card-text' data-bind='text:author'></p>";
+                data += "<div class='card-footer'></div>";
+                data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                data += " </div></div></div>";
 
-            $("#loadEbook").append(data);
-        };
-        $.connection.hub.start().done(function () {
-            //alert("started");
-        }).fail(function (result) {
-            alert(result);
+                $("#loadEbook").append(data);
+            };
+            $.connection.hub.start().done(function () {
+                //alert("started");
+            }).fail(function (result) {
+                alert(result);
             });
 
-    });  
-</script>
+        });
+    </script>

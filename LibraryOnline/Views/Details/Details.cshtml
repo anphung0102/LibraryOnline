@@ -1,69 +1,7 @@
 ﻿
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Homepage</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="~/Content/styles/style-homepage.css" rel="stylesheet" />
-    <style>
-        #detail {
-            margin-top: 20px;
-        }
-
-        #info_details {
-            margin-left: 5px;
-            margin-bottom: 10px;
-        }
-
-        #button_details {
-            text-align: center;
-        }
-    </style>
-</head>
-
-<body>
-
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">Online Library</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">
-                            Home
-                            <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Services</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml"; ;
+}
     <!-- Page Content -->
     <div class="container">
 
@@ -106,111 +44,6 @@
                 </div><!-- navigation -->
                 @*<h1 class="khoangcachduoi">Products</h1>*@
                 <div class="row" id="detail"></div>
-                @*<div class="col-lg-12 col-md-6 mb-4">
-                        <div class="border">
-                            <div class="row">
-                                <div class="col-lg-6">
-
-                                    <h2>sách</h2>
-                                    <h3>đánh giá:sksksk</h3>
-                                    <div class="">
-                                        <button style=" width:100px; border-bottom-left-radius: 31px; border-bottom-right-radius:31px;border-top-left-radius:31px;border-top-right-radius:31px;">đọc</button>
-                                        <button style="margin-left:10px; width:100px; border-bottom-left-radius: 31px; border-bottom-right-radius:31px;border-top-left-radius:31px;border-top-right-radius:31px;">đọc</button>
-                                    </div>
-
-                                </div>
-                                <div class="col-lg-6">
-                                    <h2>Mô tả</h2>
-                                    <hr />
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>*@
-
-                @*<div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card h-100">
-                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <a href="#">djkkdkd</a>
-                                </h4>
-                                <h5>dfd</h5>
-                                <p class="card-text">đfddfdff</p>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card h-100">
-                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <a href="#">nà ní</a>
-                                </h4>
-                                <h5>osodo</h5>
-                                <p class="card-text">hentai</p>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card h-100">
-                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <a href="#">fddfff</a>
-                                </h4>
-                                <h5>âsasa</h5>
-                                <p class="card-text">dfđfdfdfd!</p>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card h-100">
-                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <a href="#">đfdfdfdf</a>
-                                </h4>
-                                <h5>âsasa</h5>
-                                <p class="card-text">đfdfdf</p>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card h-100">
-                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <a href="#">dđff</a>
-                                </h4>
-                                <h5>áasas</h5>
-                                <p class="card-text">dđs</p>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                            </div>
-                        </div>
-                    </div>*@
-
-                @*</div>*@
-                <!-- /.row -->
 
             </div>
             <!-- /.col-lg-9 -->
@@ -221,21 +54,11 @@
     </div>
     <!-- /.container -->
     <!-- Footer -->
-    <footer class="py-5 bg-dark">
-        <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; Library Online 2019</p>
-        </div>
-        <!-- /.container -->
-    </footer>
+   
 
-    <!-- Bootstrap core JavaScript -->
-    @*<script src="vendor/jquery/jquery.min.js"></script>
-        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>*@
-    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
-    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
 
-</body>
-</html>
+
+
 <script>
     $("#upload").click(function () {
 
@@ -244,7 +67,7 @@
         ebook.describe = $("#describe").val(); //get từ text boxt
         ebook.year = $("#year").val(); //get từ textbox
         ebook.user_id = $("#user_id").val(); //get từ text boxt
-        ebook.filename = $("#filename").val(); //get từ text boxt cái trang dạng này là của admin gv sinh viên mà đâu detail gì đâu. ừa t đng thử nên chép admin qua thoi đang sửa
+        ebook.filename = $("#filename").val(); //get từ text boxt
         $.ajax({
             type: "POST",
             url: "/api/FileAPI/UploadEbook",
@@ -283,7 +106,7 @@
                 //data += '<a href="/Content/Upload/' + v.filename + '" download></a > ';
                 data += `<a href="/Content/Upload/${v.filename}" download>
                     <input type="button" value="Download" /> </a > `
-                
+
                 data += " </div></div>";
                 data += "<div class='col-lg-6'><h2>Mô tả:</h2>";
                 data += "<p>" + v.describe + "</p>";

@@ -189,10 +189,13 @@ namespace LibraryOnline.Controllers
                 db.SaveChanges();
             }
             var sub = db.Subject_Ebook.Where(x => x.id == subject.id).FirstOrDefault();
+            MyHub.DeleteSubject(subject.id);
             db.Subject_Ebook.Remove(sub);
             db.SaveChanges();
+          
             return "Xóa thành công";
         }
+
         //[Route("api/FileAPI/DeleteSubjectById1")]
         //[HttpPost]
         //public string DeleteSubjectById1(Subject_Ebook sub) 

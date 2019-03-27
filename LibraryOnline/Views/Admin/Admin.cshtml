@@ -246,19 +246,8 @@
         //Ẩn hiện form
         $("#btn_upload").hide();
         $("#loadEbook").hide();
-        //xóa môn của ebook
-        //function deleteSubEbook(id) {
-        //    $.ajax({
-        //        type: "POST",
-        //        url: "/api/FileAPI/DeleteEbookById",
-        //        data: { Id: id },
-        //        contentType: "application/json; charset=utf-8",
-        //        dataType: "json",
-        //        success: function (result) {
-        //            alert(result);
-        //        }
-        //    });
-        //};
+
+        //load môn học
         $.ajax({
             type: "GET",
             url: "/api/FileAPI/GetSubjectEbook",
@@ -274,11 +263,14 @@
                         + "<button type='button' class='btn btn-info far fa-file-alt'"
                         + "style='float: right'></button></a></li >");
 
+                  
                     //xóa môn học khi click vào buttton delete
                     $("#del_sub_eb_" + v.id).click(function () {
                         //alert("aaaaaa");
-                        //deleteSubEbook(v.id);
-                        var data = {};
+                        var r = confirm("Bạn có chắc muốn xóa không?");
+                        if (r == true) {
+                            //alert("You pressed OK!");
+                          var data = {};
                         data.id = v.id;
                         data.name = v.name;
                         $.ajax({
@@ -292,6 +284,10 @@
                                 alert(result);
                             }
                         });
+                        }
+                        //else {
+                        //    alert("You pressed Cancel!");
+                        //}
                     });
                  
                  
@@ -357,11 +353,45 @@
     $(function () {
         $.connection.hub.logging = true;
         var chat = $.connection.myHub;
-
             //SignalR thêm môn học vào Ebook
             chat.client.postToClient = function (id, name) {
-                $("#loadSubjectOfEbook").append("<li id='" + id + "'><a>" + name + "</a></li >");
-            };
+                //$("#loadSubjectOfEbook").append("<li id='" + id + "'><a>" + name + "</a></li >");
+                //thêm môn học vừa mới tạo
+                $("#loadSubjectOfEbook").append("<li id='ebook_" + id + "'><a>" + name
+                    + "<button " + "id='del_sub_eb_" + id + "' type='button' class='btn btn-info far fa-trash-alt'"
+                    + "style='float: right'></button>"
+                    + "<button type='button' class='btn btn-info far fa-file-alt'"
+                    + "style='float: right'></button></a></li >");
+                //xóa môn học vừa mới tạo
+                $("#del_sub_eb_" + id).click(function () {
+                    //alert("aaaaaa");
+                    var r = confirm("Bạn có chắc muốn xóa không?");
+                    if (r == true) {
+                        var data = {};
+                        data.id = id;
+                        data.name = name;
+                        $.ajax({
+                            type: "POST",
+                            url: "/api/FileAPI/DeleteSubjectById",
+                            data: JSON.stringify(data),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (result) {
+                                alert(result);
+                                //var chat = $.connection.myHub;
+                                //SignalR thêm môn học vào Ebook
+
+                            }
+                        });
+                    }
+                });
+
+        };
+        chat.client.postToClientDeleteSubject = function (id) {
+            //alert(id);
+            //alert("del");
+            $("li").remove("#ebook_" + id);
+        };
             //SignalR thêm file
             chat.client.postFileEbookToClient = function (id, title, author, describe, filename,
                 date_upload) {

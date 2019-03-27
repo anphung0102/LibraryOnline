@@ -20,7 +20,7 @@
                 <h3 class="my-4">Select Category</h3>
                 <ul class="mainmenu">
                     <li>
-                        <a href="#">Ebooks<span class="fas fa-plus" data-toggle="modal" data-target="#CreateSub" style="float:right"></span></a>
+                        <a>Ebooks<span class="fas fa-plus" data-toggle="modal" data-target="#CreateSub" style="float:right"></span></a>
                         <!--The Modal Create-->
                         <div class="modal" id="CreateSub">
                             <div class="modal-dialog">
@@ -256,7 +256,12 @@
                     $.each(result, function (i, v) {
                         //alert(v.name);
                         //load các môn của ebook lên thanh danh mục bên trái
-                        $("#loadSubjectOfEbook").append("<li id='ebook_" + v.id + "'><a>" + v.name + "</a></li >");
+                        var a = "<div class='d-flex justify-content-between mb-3'>";
+                        a += "<li id='ebook_" + v.id + "'>" + v.name + "</li >";
+                        a += "<div><span class='fas fa-edit' data-toggle='modal' data-target='#myModal' style='float:right; margin-left:10px;'></span><span class='far  fa-trash-alt' data-toggle='modal' data-target='#CreateSub' style='float:right;'></span></div>";
+                        a += "</div >";
+                        $("#loadSubjectOfEbook").append(a);
+                        //$("#loadSubjectOfEbook").append("<li id='ebook_" + v.id + "'>" + v.name + "</li ><span class ='fas fa-edit' style='float:right'></span>");
                         //load môn học lên combobox trong form upload file
 
                         //

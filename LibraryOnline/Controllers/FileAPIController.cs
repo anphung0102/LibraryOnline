@@ -163,6 +163,14 @@ namespace LibraryOnline.Controllers
         {
              return db.Ebooks.Where(x=>x.sub_id == id).ToList();
         }
+
+        //lấy ebookpaging
+        [Route("api/FileAPI/GetEbookPaging")]
+        [HttpGet]
+        public IEnumerable<Ebook> GetEbookPaging(int id)
+        {
+            return db.Ebooks.Where(x => x.sub_id == id).ToArray();
+        }
         //lấy ebook
         [Route("api/FileAPI/GetEbookDetail")]
         [HttpGet]

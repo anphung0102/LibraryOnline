@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using LibraryOnline.Models;
 using Microsoft.AspNet.SignalR;
 
 namespace LibraryOnline
@@ -19,7 +20,10 @@ namespace LibraryOnline
         //{
         //    Clients.All.hello();
         //}
-
+        public static void DeleteSubject(int id)
+        {
+            hubContext.Clients.All.postToClientDeleteSubject(id);
+        }
         public static void Post(int id, string name)
         {
             hubContext.Clients.All.postToClient(id, name);

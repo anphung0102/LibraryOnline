@@ -10,6 +10,7 @@ using System.Text;
 using System.Web;
 using System.Web.Http;
 using System.Data.Entity;
+using Newtonsoft.Json;
 
 namespace LibraryOnline.Controllers
 {
@@ -162,6 +163,14 @@ namespace LibraryOnline.Controllers
         {
              return db.Ebooks.Where(x=>x.sub_id == id).ToList();
         }
+
+        //lấy ebookpaging
+        [Route("api/FileAPI/GetEbookPaging")]
+        [HttpGet]
+        public IEnumerable<Ebook> GetEbookPaging(int id)
+        {
+            return db.Ebooks.Where(x => x.sub_id == id).ToArray();
+        }
         //lấy ebook
         [Route("api/FileAPI/GetEbookDetail")]
         [HttpGet]
@@ -202,17 +211,60 @@ namespace LibraryOnline.Controllers
         {
             var sub = db.Subject_Ebook.Where(x => x.id == subject.id).FirstOrDefault();
 
-            if (sub != null)
+        //[Route("api/FileAPI/DeleteSubjectById1")]
+        //[HttpPost]
+        //public string DeleteSubjectById1(Subject_Ebook sub) 
+        //{
+        //    return "Xóa thành công"+sub.name;
+        //}
+        [Route("api/FileAPI/EbookPaging")]
+        [HttpGet]
+        public IEnumerable<Ebook> EbookPaging(int id,[FromUri]PagingParameterModel pagingparametermodel)
+        {
+
+            // Return List of Customer  
+            var source = db.Ebooks.Where(x => x.id == id).AsQueryable();
+
+            // Get's No of Rows Count   
+            int count = source.Count();
+
+            // Parameter is passed from Query string if it is null then it default Value will be pageNumber:1  
+            int CurrentPage = pagingparametermodel.pageNumber;
+
+            // Parameter is passed from Query string if it is null then it default Value will be pageSize:20  
+            int PageSize = pagingparametermodel.pageSize;
+
+            // Display TotalCount to Records to User  
+            int TotalCount = count;
+
+            // Calculating Totalpage by Dividing (No of Records / Pagesize)  
+            int TotalPages = (int)Math.Ceiling(count / (double)PageSize);
+
+            // Returns List of Customer after applying Paging   
+            var items = source.Skip((CurrentPage - 1) * PageSize).Take(PageSize).ToList();
+
+            // if CurrentPage is greater than 1 means it has previousPage  
+            var previousPage = CurrentPage > 1 ? "Yes" : "No";
+
+            // if TotalPages is greater than CurrentPage means it has nextPage  
+            var nextPage = CurrentPage < TotalPages ? "Yes" : "No";
+
+            // Object which we are going to send in header   
+            var paginationMetadata = new
             {
-                sub.name = subject.name;
-                MyHub.EditSubject(subject.id,subject.name);
-                db.SaveChanges();
-                return "Sửa thành công";
-            }
-            else
-            {
-                return "Sửa không thành công";
-            }
+                totalCount = TotalCount,
+                pageSize = PageSize,
+                currentPage = CurrentPage,
+                totalPages = TotalPages,
+                previousPage,
+                nextPage
+            };
+
+            // Setting Header  
+            HttpContext.Current.Response.Headers.Add("Paging-Headers", JsonConvert.SerializeObject(paginationMetadata));
+            // Returing List of Customers Collections  
+            return items;
+
         }
     }
 }

@@ -213,7 +213,9 @@
     <Compile Include="Controllers\DetailsController.cs" />
     <Compile Include="Controllers\FileAPIController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LecturersController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\UploadAPIController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -240,7 +242,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LibraryOnline.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\PagingParameterModel.cs" />
     <Compile Include="Models\Role.cs">
       <DependentUpon>LibraryOnline.tt</DependentUpon>
     </Compile>
@@ -396,6 +397,8 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Details\Details.cshtml" />
+    <Content Include="Views\Lecturers\Index.cshtml" />
+    <Content Include="Views\Student\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

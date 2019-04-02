@@ -19,43 +19,16 @@
 
             <h3 class="my-4">Select Category</h3>
             <ul class="mainmenu">
-                <li class="mainmenu-item">@* cái mainmenu-item này bao cái thẻ đó bên trong  *@
-                    <a class="mainmenu-item-text">Ebooks<span class="fas fa-plus" data-toggle="modal" data-target="#CreateSub" style="float:right"></span></a>
-                    <!--The Modal Create-->
-                    <div class="modal" id="CreateSub">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <!-- Modal Header -->
-                                <div class="modal-header">
-                                    <h4 class="modal-title">Tạo môn học</h4>
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                </div>
-                                <!-- Modal body -->
-                                <!-- Tạo môn học -->
-                                <div id="modal" class="modal-body">
-                                    <div class="form-group">
-                                        <label for="text">Tiêu đề:</label>
-                                        <input type="text" class="form-control" id="nameSujectEbook" placeholder="Tên môn" name="Name">
-                                    </div>
-                                    <div style="margin-top:20px">
-                                        <button id="create_sub_ebook" type="button" class="btn btn-primary">Tạo</button>
-                                    </div>
-                                </div>
-                                <!-- Modal footer -->
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger btn_close" data-dismiss="modal">Đóng</button>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
+                <li>
+                    <a>Ebooks</a>
+                 
                     <ul class="submenu" id="loadSubjectOfEbook">
                         @*load các môn học trong ebook*@
                     </ul>
                 </li>
                 @* *@
-                <li class="mainmenu-item"><a class="mainmenu-item-text" href="">Tiểu luận</a></li>
-                <li class="mainmenu-item"><a class="mainmenu-item-text" href="">Khóa luận</a></li>
+                <li><a href="">Tiểu luận</a></li>
+                <li><a href="">Khóa luận</a></li>
             </ul>
             @*<h3 class="my-4">Upload</h3>*@
             <!-- Upload phải chọn môn học -->
@@ -151,17 +124,12 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
-            <!-- tạo các tab liên quan -->
+            <!-- tạo các tab liên quan-->
             <div id="navigation">
                 <ul class="breadcrumb">
-                    @*<li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Ebooks</a></li>
-                        <li class="breadcrumb-item active">Product</li>*@
-                   
-                    <li class="breadcrumb-item"><a id="breadcrumb-1" href="#">Admin</a></li>
-                    <li class="breadcrumb-item breadcrumb-item-2" style="display:none;"><a id="breadcrumb-2" href="#"></a></li>
-                    <li class="breadcrumb-item breadcrumb-item-3 active" style="display:none;" id="breadcrumb-3"></li>
-                   
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Ebooks</a></li>
+                    <li class="breadcrumb-item active">Product</li>
                 </ul>
             </div><!-- navigation -->
             <div class="d-flex justify-content-between mb-3">
@@ -256,7 +224,7 @@
 
         // hàm trả về html thông tin file
         function simpleTemplating(result) {
-            var data = "";
+            var data="";
             $.each(result, function (i, v) {
                 data += "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
                 data += "<div class='card h-100'>";
@@ -284,40 +252,11 @@
                 $.each(result, function (i, v) {
                     //alert(v.name);
                     //load các môn của ebook lên thanh danh mục bên trái
-                    $("#loadSubjectOfEbook").append("<li id='ebook_" + v.id + "'><a>" + v.name
-                        + "<button " + "id='del_sub_eb_" + v.id + "' type='button' class='btn btn-info far fa-trash-alt'"
-                        + "style='float: right'></button>"
-                        + "<button type='button' class='btn btn-info far fa-file-alt'"
-                        + "style='float: right'></button></a></li >");
+                    $("#loadSubjectOfEbook").append("<li id='ebook_" + v.id + "'><a>" + v.name+"</a></li >");
 
 
-                    //xóa môn học khi click vào buttton delete
-                    $("#del_sub_eb_" + v.id).click(function () {
-                        //alert("aaaaaa");
-                        var r = confirm("Bạn có chắc muốn xóa không?");
-                        if (r == true) {
-                            //alert("You pressed OK!");
-                            var data = {};
-                            data.id = v.id;
-                            data.name = v.name;
-                            $.ajax({
-                                type: "POST",
-                                url: "/api/FileAPI/DeleteSubjectById",
-                                data: JSON.stringify(data),
-                                //data: { id: v.id },
-                                contentType: "application/json; charset=utf-8",
-                                dataType: "json",
-                                success: function (result) {
-                                    alert(result);
-                                }
-                            });
-                        }
-                        //else {
-                        //    alert("You pressed Cancel!");
-                        //}
-                    });
-                  
-                    $("#ebook_" + v.id).click(function (e) {
+                    //khi click vào môn học sẽ load các file trong môn đó
+                    $("#ebook_" + v.id).click(function () {
                         //Ẩn hiện form upload file ở trang chỉ hay uplaod file trong môn học
                         $("#btn_upload").show();
                         $("#loadEbook").show();
@@ -330,14 +269,7 @@
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             success: function (result) {
-                                /
-                                var tag = $(e.currentTarget).closest('.mainmenu-item');
-                               
-                                var tagText = $(tag).find('.mainmenu-item-text');
-                                $('.breadcrumb-item-2').css("d isplay", "block");
-                                $('.breadcrumb-item-3').css("display", "block");
-                                $('#breadcrumb-2').text($(tagText).text());
-                                $('#breadcrumb-3').text(v.name);
+
                                 //$.each(result, function (i, v) {
                                 //    var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
                                 //    data += "<div class='card h-100'>";
@@ -377,26 +309,6 @@
                 });
             }
         });
-
-        $("#create_sub_ebook").click(function () {
-            var subject = {};
-            subject.name = $("#nameSujectEbook").val();
-            $.ajax({
-                type: "POST",
-                url: "/api/FileAPI/CreateSubject",
-                data: JSON.stringify(subject),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (result) {
-                    //$("#loadSubjectOfEbook").append("<li id='" + result.id + "'><a>" + result.name + "</a></li >");
-                    alert(result);
-
-                    $("#nameSujectEbook").empty();
-                }
-            });
-
-        });
-
     });
 
 

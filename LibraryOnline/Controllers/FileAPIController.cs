@@ -37,7 +37,17 @@ namespace LibraryOnline.Controllers
                 HttpContext.Current.Session["username"] = loginInfo.User;
                 HttpContext.Current.Session["user_id"] = user_id;
                 if (role == 1)
+                {
                     return "/Admin/Admin";
+                }
+                else if(role == 2)
+                {
+                    return "/Lecturers/Index";
+                }
+                else if (role == 3)
+                {
+                    return "/Student/Index";
+                }
 
             }
 
@@ -211,54 +221,8 @@ namespace LibraryOnline.Controllers
         //{
         //    return "Xóa thành công"+sub.name;
         //}
-        [Route("api/FileAPI/EbookPaging")]
-        [HttpGet]
-        public IEnumerable<Ebook> EbookPaging(int id,[FromUri]PagingParameterModel pagingparametermodel)
-        {
+        
 
-            // Return List of Customer  
-            var source = db.Ebooks.Where(x => x.id == id).AsQueryable();
-
-            // Get's No of Rows Count   
-            int count = source.Count();
-
-            // Parameter is passed from Query string if it is null then it default Value will be pageNumber:1  
-            int CurrentPage = pagingparametermodel.pageNumber;
-
-            // Parameter is passed from Query string if it is null then it default Value will be pageSize:20  
-            int PageSize = pagingparametermodel.pageSize;
-
-            // Display TotalCount to Records to User  
-            int TotalCount = count;
-
-            // Calculating Totalpage by Dividing (No of Records / Pagesize)  
-            int TotalPages = (int)Math.Ceiling(count / (double)PageSize);
-
-            // Returns List of Customer after applying Paging   
-            var items = source.Skip((CurrentPage - 1) * PageSize).Take(PageSize).ToList();
-
-            // if CurrentPage is greater than 1 means it has previousPage  
-            var previousPage = CurrentPage > 1 ? "Yes" : "No";
-
-            // if TotalPages is greater than CurrentPage means it has nextPage  
-            var nextPage = CurrentPage < TotalPages ? "Yes" : "No";
-
-            // Object which we are going to send in header   
-            var paginationMetadata = new
-            {
-                totalCount = TotalCount,
-                pageSize = PageSize,
-                currentPage = CurrentPage,
-                totalPages = TotalPages,
-                previousPage,
-                nextPage
-            };
-
-            // Setting Header  
-            HttpContext.Current.Response.Headers.Add("Paging-Headers", JsonConvert.SerializeObject(paginationMetadata));
-            // Returing List of Customers Collections  
-            return items;
-
-        }
+        
     }
 }

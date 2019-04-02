@@ -20,14 +20,28 @@ namespace LibraryOnline
         //{
         //    Clients.All.hello();
         //}
+        //xóa môn học 
         public static void DeleteSubject(int id)
         {
             hubContext.Clients.All.postToClientDeleteSubject(id);
         }
+        ////sủa môn học 
+        //public static void EditSubject()
+        //{
+        //    hubContext.Clients.All.postToClientEditSubject();
+        //}
+       
+        //sủa môn học 
+        public static void EditSubject(int id, string name)
+        {
+            hubContext.Clients.All.postToClientEditSubject(id,name);
+        }
+        //load môn học khi thêm mới
         public static void Post(int id, string name)
         {
             hubContext.Clients.All.postToClient(id, name);
         }
+        //load file khi thêm mới
         public static void PostFileEbook(int id,string title,string author,string describe,string year, string filename,
             string date_upload)
         {

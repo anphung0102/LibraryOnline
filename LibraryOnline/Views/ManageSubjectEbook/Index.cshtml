@@ -1,0 +1,401 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .btn {
+        margin-right: 20px;
+    }
+</style>
+<div class="container">
+    <h2>Quản lý Ebook</h2>
+    <div>
+        <button id="btnAdd" type='button' class='btn btn-danger'>Tạo môn</button>
+    </div>
+
+    <table class='table table-bordered' id="loadsubject">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tên môn</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+<!--Popup edit-->
+<div class="modal" id="EditSub">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Sửa môn học</h4>
+                <button type="button" id="btn_closeX" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <!-- Sửa môn học -->
+            <div id="modal" class="modal-body">
+                <div class="form-group">
+                    <label for="text">Tên môn:</label>
+                    <input type="text" class="form-control" id="EditNameSub_Eb" placeholder="Tên môn" name="Name">
+                </div>
+                <div style="margin-top:20px">
+                    <button id="btnSaveEdit" type="button" class="btn btn-primary">Tạo</button>
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" id="btn_closeEdit" class="btn btn-danger btn_close" data-dismiss="modal">Đóng</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--Popup Add-->
+<!--The Modal Create-->
+<div class="modal" id="AddSub">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Tạo môn học</h4>
+                <button type="button" id="btn_closeX1" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <!-- Tạo môn học -->
+            <div id="modal" class="modal-body">
+                <div class="form-group">
+                    <label for="text">Tên môn:</label>
+                    <input type="text" class="form-control" id="AddNameSub_Eb" placeholder="Tên môn" name="Name">
+                </div>
+                <div style="margin-top:20px">
+                    <button id="btnSaveAdd" type="button" class="btn btn-primary">Tạo</button>
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" id="btn_closeAdd" class="btn btn-danger btn_close" data-dismiss="modal">Đóng</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function clearEditSub() {
+        $("input[id='EditNameSub_Eb']").val("");
+    }
+    function clearAddSub() {
+        $("input[id='AddNameSub_Eb']").val("");
+    }
+    $("#btn_closeX").click(function () {
+        $("#EditSub").hide();
+        clearEditSub();
+    });
+    $("#btn_closeEdit").click(function () {
+        $("#EditSub").hide();
+        clearEditSub();
+    });
+    $("#btn_closeX1").click(function () {
+        $("#AddSub").hide();
+        clearAddSub();
+    });
+    $("#btn_closeAdd").click(function () {
+        $("#AddSub").hide();
+        clearAddSub();
+    });
+    
+    //load môn học ebook
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "/api/EbookAPI/GetSubjectEbook",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                $.each(result, function (i, v) {
+                    var data = "<tr id='" + v.id + "'><td class='id'>" + v.id + "</td><td class='name'>" + v.name + "</td>";
+                    data = data + "<td><button type='button' class='btn btn-danger btnEdit'>Sửa</button>";
+                    data = data + "<button type='button' class='btn btn-danger btnDel'>Xóa</button>" + "</td>";
+                    data = data + "</tr>";
+                    $("#loadsubject").append(data);
+                });
+            }
+        });
+        //tạo môn học ebook
+        
+        $('body').on('click', '#btnAdd', function (e) {
+            debugger;
+            $("#AddSub").show();
+            $("#btnSaveAdd").click(function () {
+                var data = {};
+                data.name = $("input[id='AddNameSub_Eb']").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/api/FileAPI/CreateSubject",
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (result) {
+                         alert(result);
+                    }
+                });
+            });
+           
+        });
+
+        //sửa môn học ebook
+        $('body').on('click', '.btnEdit', function (e) {
+            var tr = $(e.currentTarget).closest('tr');
+            var tagName = $(tr).find('.name');
+            var tagId = $(tr).find('.id');
+            $("input[id='EditNameSub_Eb']").val(tagName.text());
+            $("#EditSub").show();
+
+            $("#btnSaveEdit").click(function () {
+                var data = {};
+                data.id = tagId.text();
+                data.name = $("input[id='EditNameSub_Eb']").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/api/EbookAPI/EditSubjectById",
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (result) {
+                        alert(result);
+                        var id = tagId.text();
+                        var tagName1 = $(`#${id}`).find('.name');
+                        $(tagName1).text(data.name);
+                    }
+                });
+            });
+
+        });
+
+        //xoá môn học ebook
+        $('body').on('click', '.btnDel', function (e) {
+            var tr = $(e.currentTarget).closest('tr');
+            var tagId = $(tr).find('.id');
+            var r = confirm("Bạn có chắc muốn xóa không?");
+            if (r == true) {
+                var data = {};
+                data.id = tagId.text();
+                $.ajax({
+                    type: "POST",
+                    url: "/api/EbookAPI/DeleteSubjectById",
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (result) {
+                        alert(result);
+                        var id = tagId.text();
+                        $('tr').remove(`#${id}`);
+                    }
+                });
+            }
+
+        });
+
+
+    $(function () {
+        $.connection.hub.logging = true;
+        var chat = $.connection.myHub;
+        chat.client.postToClient = function (id, name) {
+            //thêm môn học vừa mới tạo
+            var data = "<tr id='" + id + "'><td class='id'>" + id + "</td><td class='name'>" + name + "</td>";
+            data = data + "<td><button type='button' class='btn btn-danger btnEdit'>Sửa</button>";
+            data = data + "<button type='button' class='btn btn-danger btnDel'>Xóa</button>" + "</td>";
+            data = data + "</tr>";
+            $("tbody").prepend(data);
+          };
+        
+        $.connection.hub.start().done(function () {
+            //alert("started");
+        }).fail(function (result) {
+            alert(result);//còn cái này báo lỗi signalR//a thây r :D OK e
+        });
+
+    });
+
+        //$('body').on('click', '#btnSaveEdit', function (e) {
+        //    var tr = $(e.currentTarget).closest('tr');
+        //    var tagName = $(tr).find('.name');
+        //    var tagId = $(tr).find('.id');
+        //    var data = {};
+        //    data.id = tagId.text();
+        //    data.name = tagName.text();
+        //    $.ajax({
+        //        type: "POST",
+        //        url: "/api/EbookAPI/EditSubjectById",
+        //        dataType: "json",
+        //        data: JSON.stringify(data),
+        //        contentType: "application/json; charset=utf-8",
+        //        dataType: "json",
+        //        success: function (result) {
+        //            alert(result);
+        //            var tagName = $(`#${id}`).find('.name');
+        //            $(tagName).text(name);
+        //        }
+        //    });
+        //});
+    });
+
+
+    ////load môn học
+    //$(document).ready(function () {
+    //    $.ajax({
+    //        type: "GET",
+    //        url: "/api/EbookAPI/GetSubjectEbook",
+    //        dataType: "json",
+    //        contentType: "application/json; charset=utf-8",
+    //        dataType: "json",
+    //        success: function (result) {
+    //            ////alert("aaaaa");
+    //            //btnEdit nằm trong thẻ tr/ Hiểu ko nè? hoi hieu hieu roi anh
+    //            //em con yeu cai jquery nen moi lam id lung tung v a
+    //            //uhm nè :D do chưa rành hết, nên nhìn tụi e làm a nhức đầu luôn á :D
+    //            // xưa code của a cũng v à, rối vãi. THời gian rành r, thì code sẽ gọn, dễ hiểu thui :D
+    //            //cố lên. đây a nói cái chô nãy nè.
+    //            $.each(result, function (i, v) {
+    //                var data = "<tbody><tr id='" + v.id + "'><td  class='id'>" + v.id + "</td><td class='name'>" + v.name + "</td>";
+    //                //var data = "<tbody><tr><td>" + v.id + "</td><td>" + v.name + "</td>";
+    //                //data = data + "<td><a href='/api/EbookAPI/GetSubjectEbook/'" + v.id + "</a>Sửa</button>";
+    //                //data = data + "<button id='btn_del_" + v.id + "' type='button' class='btn btn-danger'>Xóa</button>" + "</td>";
+    //                data = data + "<td><button class='btnEdit' id='btnEdit" + v.id + "' type='button' class='btn btn-danger'>Sửa</button>";
+    //                //data = data + "<button id='btn_del_" + v.id + "' type='button' class='btn btn-danger'>Xóa</button>" + "</td>";
+    //                data = data + "</tr></tbody></table>";
+    //                $("#loadsubject").append(data);
+    //                //$("#btnEdit" + v.id).click(function () {
+    //                //    $("#EditSub").show();
+    //                //    $("input[id='EditNameSub_Eb']").val(v.name);//em gan cai nay chac sai// e coi lại đi
+    //                //    $("#btnEditSubEb").click(function () {
+    //                //        debugger
+    //                //        EditSubEbook(v.id, $("input[id='EditNameSub_Eb']").val());
+    //                //    });
+    //                //});
+    //            }); // đây là e append html vô nè
+    //            //như cái này nè anh em load lên data rồi dùng id cho button khi click tùm lum v đúng k anh
+    //            //button e gán id làm gì đâu @@! để lick vào cái nút sửa xóa á anh
+    //            // e dùng class là đc r @@! tại sao e dùng id :D v sao nó biết thằng id nào mà nó cập nhật ấnh
+    //            //đây a làm cho xem
+    //        }
+    //    });
+
+    //    $('body').on('click', '.btnEdit', function (e) {
+    //        var tr = $(e.currentTarget).closest('tr');//casi ddoanj nay laf sao a anh
+    //        //$(e.currentTarget) cái đoạn đó là e lấy cái element đang target hiện tại
+    //        //.closest('tr') là e lấy cái thẻ tr bao cái element đang đc target
+    //        //alert($(tr).attr('id'));
+    //        //nó vẫn biết thẻ nào mà// hiểu ko
+    //        //Đó e :D
+    //        //thực hành luôn
+    //        var tagName =
+    //            $(tr).find('.name');
+    //        var tagId =
+    //            $(tr).find('.id');
+    //        alert($(tagName).text());
+    //        //vaayh thoi
+    //        //con muốn gán text thì
+    //        //$(tagName).text('abc xýz');
+    //        //OK chưa em :D da hoi hieu hieu roi
+    //        //con may cai jquery nao co ban nua k sp chi em cach dung vs
+    //    });
+    //    //$('body').on('click', '.btnEdit', function (e) {
+    //    //ko phải tự nhiên a rảnh háng làm cái này cho dài dòng nha :D
+    //    // đối với những element bt e chỉ cần $('#id or .class').click(function(){}) OK
+    //    // còn vơi những element e thêm vô bằng cách append html
+    //    //thi e phải dùng cách này, còn ko là ko có gọi sự kiện click đc
+    //    // cứ theo cú pháp của a mà làm :D// OK ha :D
+    //    //vay cai la dung giong anh vay lun ha anh
+    //    //khi e append html vô thì muốn thêm sự kiên cho elemant mới thêm vô thì dùng cái ở trên đó
+    //   // $('body').on('click', '.class or #id tùy theo', function (e) {
+    //    //V thôi nè!! sao thay gi roi qua
+    //    //anh ranh k lam giup em trang nay cho em hoc theo lam dc k anh
+    //    //data của e, e xư lý, a coi cũng mất thời gian lắm.
+    //    // e cứ làm đi, đến đâu hỏi a giúp..da ok anh Cam on anh nhieu nah hihi
+    //    //OK E :D cố lên, càng khó càng hiểu đc nó thì sau mọi thứ nó easy lắm :D ráng đi . a out đây ^^Da ok nah
+    //    //Bye e bye a
+    //});
+
+    //function EditSubEbook(id, name) {
+    //    debugger
+    //    var data = {};
+    //    data.id = id;
+    //    data.name = name;
+    //    $.ajax({
+    //        type: "POST",
+    //        url: "/api/EbookAPI/EditSubjectById",
+    //        dataType: "json",
+    //        data: JSON.stringify(data),
+    //        contentType: "application/json; charset=utf-8",
+    //        dataType: "json",
+    //        success: function (result) {
+    //            console.log('aaaaa');
+    //            alert(result);//cái này là cái thông báo sửa thành công hay k á sp
+    //            // này e có debug. e debug thử xem.
+    //            // còn cai vụ sao show lên cái data cu kìa :D
+    //            // mà cái này cũng đâu cần dùng SignalR làm gì đâu :D xài jquery lun hả anh
+    //            //signalR nếu e muốn realtime chỉnh sửa :D
+    //            //OK cũng tốt :D nhưng nếu ko ai yêu cầu thì e ko cần làm cho phức tạp,
+    //            //e còn nhiều thứ khác mà :D
+    //            //dùng jquery bt là OK r
+    //            //Dạ mà làm kiểu này id đồnhiều quá em loạn lun
+    //            //id gì nhiều e, hiển thị hay trong code
+    //            //e co 2 cai alert nè
+    //            //đây hả e?
+    //            //dạ cái này là api sửa em có dung signalR gì á
+    //            //ủa có 1 cái alert thui mà
+    //            //khi tắt xong click vô cái mới sửa sửa lại á sp
+    //        }
+    //    });
+    //}
+
+    //function clearEditSub() {
+    //    $("input[id='EditNameSub_Eb']").val("");
+    //}
+
+    //$(function () {
+    //    $.connection.hub.logging = true;
+    //    var chat = $.connection.myHub;
+    //    //chat.client.postToClient = function (id, name) {
+    //    //    //thêm môn học vừa mới tạo
+    //    //    $("#loadSubjectOfEbook").append("<li id='ebook_" + id + "'><a>" + name
+    //    //        + "</a></li >");
+    //    //};
+
+    //    chat.client.postToClientEditSubject = function (id, name) {
+    //        var data = "<td>" + id + "</td><td>" + name + "</td>";
+    //        data = data + "<td><button id='btnEdit" + id + "' type='button' class='btn btn-danger'>Sửa</button>";
+    //        debugger
+    //        //$("#loadsubject").remove(data);
+    //        //$("#loadsubject").append(data);
+    //        //xuống đây em thay thế cái cũ thành cái mới cập nhật á sp
+    //        // ok e
+    //        //$('tr .' + id > +" td").replaceWith(data);
+    //        // e để id vô thẻ tr chứ :D e để id vô thẻ tr bên trên chưa? em dùng cái class á sp
+    //        //mà nó chạy sai v nè sp ủa sao nó hết load đc rồi
+    //        //à :D khi load lại page e nhớ dùng Ctrl + f5 load kiểu này thì nó load lại script
+    //        /// thôi vô làm nè // cái nào là unique e nên để dùng id
+    //        var tagName = $(`#${id}`).find('.name');
+    //        $(tagName).text(name);
+    //        //dễ mà ^^
+    //        //ua nó chưa lưu vô db ah :D OK e. mà sao load lên toàn cái text cũ v :D
+    //        // còn phần này, edit xong như v là OK chưa? :D
+    //        //de e coi lai cai sp
+    //        //em bi cấn cái chỗ khi sửa xong rồi click vô sửa lại cái nó sai
+    //        //nó nhảy cái alert 2 lần á sp
+    //    };
+
+    //    $.connection.hub.start().done(function () {
+    //        //alert("started");
+    //    }).fail(function (result) {
+    //        alert(result);//còn cái này báo lỗi signalR//a thây r :D OK e
+    //    });
+
+    //});
+</script>

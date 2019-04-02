@@ -211,10 +211,12 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\DetailsController.cs" />
+    <Compile Include="Controllers\EbookAPIController.cs" />
     <Compile Include="Controllers\FileAPIController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LecturersController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\ManageSubjectEbookController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\UploadAPIController.cs" />
     <Compile Include="Global.asax.cs">
@@ -397,6 +399,7 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Details\Details.cshtml" />
+    <Content Include="Views\ManageSubjectEbook\Index.cshtml" />
     <Content Include="Views\Lecturers\Index.cshtml" />
     <Content Include="Views\Student\Index.cshtml" />
   </ItemGroup>

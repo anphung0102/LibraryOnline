@@ -148,7 +148,7 @@ namespace LibraryOnline.Controllers
         public string CreateSubject(SubjectViewModel subject)
         {
             var sub = db.Subject_Ebook.Where(x => x.name.Equals(subject.Name)).FirstOrDefault();
-            if(sub != null)
+            if (sub != null)
             {
                 return "Tên môn đã tồn tại! Vui lòng đặt tên khác.";
             }
@@ -160,7 +160,7 @@ namespace LibraryOnline.Controllers
                 });
                 db.SaveChanges();
                 var sub_ebook = db.Subject_Ebook.Where(x => x.name.Equals(subject.Name)).FirstOrDefault();
-                
+
                 MyHub.Post(sub_ebook.id, sub_ebook.name);
                 return "Tạo môn thành công.";
             }
@@ -214,6 +214,12 @@ namespace LibraryOnline.Controllers
           
             return "Xóa thành công";
         }
+        //sửa ebook
+        [Route("api/FileAPI/EditSubjectById")]
+        [HttpPost]
+        public string EditSubjectById(Subject_Ebook subject)
+        {
+            var sub = db.Subject_Ebook.Where(x => x.id == subject.id).FirstOrDefault();
 
         //[Route("api/FileAPI/DeleteSubjectById1")]
         //[HttpPost]

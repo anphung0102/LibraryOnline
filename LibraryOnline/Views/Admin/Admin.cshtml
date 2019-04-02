@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml"; ;
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
 }
 @{
     var user = Session["username"];
@@ -275,6 +275,7 @@
             return data;
         }
         //load môn học
+       
         $.ajax({
             type: "GET",
             url: "/api/FileAPI/GetSubjectEbook",

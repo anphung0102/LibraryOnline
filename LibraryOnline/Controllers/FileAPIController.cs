@@ -40,7 +40,7 @@ namespace LibraryOnline.Controllers
                 {
                     return "/Admin/Admin";
                 }
-                else if(role == 2)
+                else if (role == 2)
                 {
                     return "/Lecturers/Index";
                 }
@@ -86,7 +86,7 @@ namespace LibraryOnline.Controllers
                 //lưu file vào đường dẫn
                 httpPostedFile.SaveAs(fileSavePath);
             }
-            
+
             var title = HttpContext.Current.Request["title"];
             var describe = HttpContext.Current.Request["describe"];
             var author = HttpContext.Current.Request["author"];
@@ -116,7 +116,7 @@ namespace LibraryOnline.Controllers
                             sub_id = sub_id,
                         });
                     db.SaveChanges();//lưu dât thôi cái này t chưa chạy t mới test gửi data từ  ajax qua thôi
-                   
+
                     var fileinfo = db.Ebooks.OrderByDescending(x => x.id).FirstOrDefault();
                     var date_up = fileinfo.date_upload.Value.ToString("MM/dd/yyyy");
                     MyHub.PostFileEbook(fileinfo.id, fileinfo.title, fileinfo.author, fileinfo.describe,
@@ -135,7 +135,7 @@ namespace LibraryOnline.Controllers
         ////Lấy môn học của ebook
         [Route("api/FileAPI/GetSubjectEbook")]
         [HttpGet]
-        public IEnumerable<Subject_Ebook> GetSubjectEbook() 
+        public IEnumerable<Subject_Ebook> GetSubjectEbook()
         {
             var a = db.Subject_Ebook.ToList();
             return a;
@@ -162,16 +162,16 @@ namespace LibraryOnline.Controllers
                 var sub_ebook = db.Subject_Ebook.Where(x => x.name.Equals(subject.Name)).FirstOrDefault();
 
                 MyHub.Post(sub_ebook.id, sub_ebook.name);
-                return "Tạo môn thành công.";
             }
+            return "Tạo môn thành công.";
         }
 
         //lấy ebook
         [Route("api/FileAPI/GetEbook")]
         [HttpGet]
-        public IEnumerable<Ebook> GetEbook(int id) 
+        public IEnumerable<Ebook> GetEbook(int id)
         {
-             return db.Ebooks.Where(x=>x.sub_id == id).ToList();
+            return db.Ebooks.Where(x => x.sub_id == id).ToList();
         }
 
         //lấy ebookpaging
@@ -191,7 +191,7 @@ namespace LibraryOnline.Controllers
         //lấy file theo id
         [Route("api/FileAPI/GetFileById")]
         [HttpGet]
-        public Ebook GetFileById(int id) 
+        public Ebook GetFileById(int id)
         {
             return db.Ebooks.Where(x => x.id == id).FirstOrDefault();
         }
@@ -199,10 +199,10 @@ namespace LibraryOnline.Controllers
         //xoá ebook
         [Route("api/FileAPI/DeleteSubjectById")]
         [HttpPost]
-        public string DeleteSubjectById(Subject_Ebook subject) 
+        public string DeleteSubjectById(Subject_Ebook subject)
         {
             var ebook = db.Ebooks.Where(x => x.sub_id == subject.id).ToList();
-            foreach(var item in ebook)
+            foreach (var item in ebook)
             {
                 db.Ebooks.Remove(item);
                 db.SaveChanges();
@@ -211,24 +211,25 @@ namespace LibraryOnline.Controllers
             MyHub.DeleteSubject(subject.id);
             db.Subject_Ebook.Remove(sub);
             db.SaveChanges();
-          
+
             return "Xóa thành công";
         }
-        //sửa ebook
-        [Route("api/FileAPI/EditSubjectById")]
-        [HttpPost]
-        public string EditSubjectById(Subject_Ebook subject)
-        {
-            var sub = db.Subject_Ebook.Where(x => x.id == subject.id).FirstOrDefault();
-
-        //[Route("api/FileAPI/DeleteSubjectById1")]
+        ////sửa ebook
+        //[Route("api/FileAPI/EditSubjectById")]
         //[HttpPost]
-        //public string DeleteSubjectById1(Subject_Ebook sub) 
+        //public string EditSubjectById(Subject_Ebook subject)
         //{
-        //    return "Xóa thành công"+sub.name;
-        //}
-        
+        //    var sub = db.Subject_Ebook.Where(x => x.id == subject.id).FirstOrDefault();
 
-        
+        //    //[Route("api/FileAPI/DeleteSubjectById1")]
+        //    //[HttpPost]
+        //    //public string DeleteSubjectById1(Subject_Ebook sub) 
+        //    //{
+        //    //    return "Xóa thành công"+sub.name;
+        //    //}
+
+
+            
+        //}
     }
 }

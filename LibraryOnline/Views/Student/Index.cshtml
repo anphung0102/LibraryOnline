@@ -1,0 +1,219 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml"; ;
+}
+@{
+    var user = Session["username"];
+    if (Session["username"] == null || Session["user_id"] == null)
+    {
+        Response.Redirect("~/Login/Index");
+    }
+
+}
+
+<!-- Page Content -->
+<div class="container" id="admin-container">
+
+    <div class="row">
+
+        <div class="col-lg-3">
+
+            <h3 class="my-4">Select Category</h3>
+            <ul class="mainmenu">
+                <li>
+                    <a>Ebooks</a>
+
+                    <ul class="submenu" id="loadSubjectOfEbook">
+                        @*load các môn học trong ebook*@
+                    </ul>
+                </li>
+                @* *@
+                <li><a href="">Tiểu luận</a></li>
+                <li><a href="">Khóa luận</a></li>
+            </ul>
+        </div>
+        <!-- /.col-lg-3 -->
+
+        <div class="col-lg-9">
+            <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner" role="listbox">
+                    <div class="carousel-item active">
+                        <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="First slide">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide">
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+            <!-- tạo các tab liên quan-->
+            <div id="navigation">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Ebooks</a></li>
+                    <li class="breadcrumb-item active">Product</li>
+                </ul>
+            </div><!-- navigation -->
+            <div class="d-flex justify-content-between mb-3">
+                <h1 id="loadFilePageHome" class="khoangcachduoi">Products</h1>
+               
+            </div>
+            <div class="row" id="loadEbook" data-bind="foreach: resultArr">
+
+            </div>
+
+
+            @*// phân trang*@
+
+            <div class="col-lg-12 col-md-6 mb-4">
+                @*<nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center" id="paging">
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>*@
+
+                <div id="pagination-container" class="pagination justify-content-center"></div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.col-lg-9 -->
+    </div>
+    <!-- /.row -->
+
+
+</div>
+<!-- /.container -->
+
+
+<script>
+   
+
+
+   
+    //lấy môn học của ebook
+    $(document).ready(function () {
+        //Ẩn hiện form
+        $("#btn_upload").hide();
+        $("#loadEbook").hide();
+
+        // hàm trả về html thông tin file
+        function simpleTemplating(result) {
+            var data="";
+            $.each(result, function (i, v) {
+                data += "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+                data += "<div class='card h-100'>";
+                data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
+                data += "<div class='card-body'>";
+                data += "<h4 class='card-title'>";//
+                data += "<a href='/Details/Details?id=" + v.id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                data += "<h5>tác giả: " + v.author + "</h5>";
+                data += "<p class='card-text' data-bind='text:author'></p>";
+                data += "<div class='card-footer'></div>";
+                data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                data += " </div></div></div>";
+            });
+            //data += "</div>";
+            //debugger;
+            return data;
+        }
+        //load môn học
+        $.ajax({
+            type: "GET",
+            url: "/api/FileAPI/GetSubjectEbook",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                $.each(result, function (i, v) {
+                    //alert(v.name);
+                    //load các môn của ebook lên thanh danh mục bên trái
+                    $("#loadSubjectOfEbook").append("<li id='ebook_" + v.id + "'><a>" + v.name+"</a></li >");
+
+
+                    //khi click vào môn học sẽ load các file trong môn đó
+                    $("#ebook_" + v.id).click(function () {
+                        //Ẩn hiện form upload file ở trang chỉ hay uplaod file trong môn học
+                        
+                        $("#loadEbook").show();
+                        $("#subject").append("<option value='" + v.id + "'>" + v.name + "</option>");
+                        $("#loadEbook").empty();
+                        $.ajax({
+                            type: "GET",
+                            url: "/api/FileAPI/GetEbook",
+                            data: { id: v.id },
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (result) {
+
+                                //$.each(result, function (i, v) {
+                                //    var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+                                //    data += "<div class='card h-100'>";
+                                //    data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
+                                //    data += "<div class='card-body'>";
+                                //    data += "<h4 class='card-title'>";//
+                                //    data += "<a href='/Details/Details?id=" + v.id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                                //    data += "<h5>tác giả: " + v.author + "</h5>";
+                                //    data += "<p class='card-text' data-bind='text:author'></p>";
+                                //    data += "<div class='card-footer'></div>";
+                                //    data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                                //    data += " </div></div></div>";
+
+                                //    $("#loadEbook").append(data);
+                                //});
+                                $('#pagination-container').pagination({
+                                    dataSource: function (done) {
+                                        $.ajax({
+                                            type: 'GET',
+                                            url: '/api/FileAPI/GetEbookPaging',
+                                            data: { id: v.id },
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "json",
+                                            success: function (response) {
+                                                done(response);
+                                            }
+                                        });
+                                    },
+                                    callback: function (data, pagination) {
+                                        var html = simpleTemplating(data);
+                                        $('#loadEbook').html(html);
+                                    }
+                                })
+                            }
+                        });
+                    });
+                });
+            }
+        });
+    });
+
+
+
+   
+</script>

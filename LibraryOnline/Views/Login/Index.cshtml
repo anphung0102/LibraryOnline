@@ -47,7 +47,7 @@
         loginInfo.Pass = $("#pwd").val(); //get từ text boxt
         $.ajax({
             type: "POST",
-            url: "/api/Login/Login",
+            url: "/api/LoginAPI/Login",
             data: JSON.stringify(loginInfo),
             contentType: "application/json; charset=utf-8",
             dataType: "json",

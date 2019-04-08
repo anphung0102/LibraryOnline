@@ -93,9 +93,12 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="username" Type="nvarchar" MaxLength="50" />
-          <Property Name="password" Type="nvarchar" MaxLength="50" />
-          <Property Name="role_id" Type="int" />
+          <Property Name="username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="role_id" Type="int" Nullable="false" />
+          <Property Name="fullname" Type="nvarchar" MaxLength="50" />
+          <Property Name="mssv" Type="nchar" MaxLength="10" />
+          <Property Name="class_id" Type="nchar" MaxLength="10" />
         </EntityType>
         <Association Name="FK_Ebook_Subject">
           <End Role="Subject_Ebook" Type="Self.Subject_Ebook" Multiplicity="0..1" />
@@ -170,7 +173,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_User_Role">
-          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
           <End Role="User" Type="Self.User" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Role">
@@ -361,9 +364,12 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="role_id" Type="Int32" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="role_id" Type="Int32" Nullable="false" />
+          <Property Name="fullname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="mssv" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="class_id" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="Ebooks" Relationship="LibraryModel.FK_Ebook_User" FromRole="User" ToRole="Ebook" />
           <NavigationProperty Name="Essays" Relationship="LibraryModel.FK_Essay_User" FromRole="User" ToRole="Essay" />
           <NavigationProperty Name="Role" Relationship="LibraryModel.FK_User_Role" FromRole="User" ToRole="Role" />
@@ -418,7 +424,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_User_Role">
-          <End Type="LibraryModel.Role" Role="Role" Multiplicity="0..1" />
+          <End Type="LibraryModel.Role" Role="Role" Multiplicity="1" />
           <End Type="LibraryModel.User" Role="User" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Role">
@@ -553,6 +559,9 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="LibraryModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
+                <ScalarProperty Name="mssv" ColumnName="mssv" />
+                <ScalarProperty Name="fullname" ColumnName="fullname" />
                 <ScalarProperty Name="role_id" ColumnName="role_id" />
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="username" ColumnName="username" />

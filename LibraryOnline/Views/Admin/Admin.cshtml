@@ -278,20 +278,46 @@
        
         $.ajax({
             type: "GET",
-            url: "/api/FileAPI/GetSubjectEbook",
+            url: "/api/Admin/GetSubjectEbook",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (result) {
                 $.each(result, function (i, v) {
                     //alert(v.name);
                     //load các môn của ebook lên thanh danh mục bên trái
-                    //$("#loadSubjectOfEbook").append("<li id='ebook_" + v.id + "'><a>" + v.name
-                    //    + "<button " + "id='del_sub_eb_" + v.id + "' type='button' class='btn btn-info far fa-trash-alt'"
-                    //    + "style='float: right'></button>"
-                    //    + "<button type='button' class='btn btn-info far fa-file-alt'"
-                    //    + "style='float: right'></button></a></li >");
-                    $("#loadSubjectOfEbook").append("<li id='ebook_" + v.id + "'><a>" + v.name + "</a></li >");
+                    $("#loadSubjectOfEbook").append("<li id='ebook_" + v.id + "'><a>" + v.name
+                        + "<button " + "id='del_sub_eb_" + v.id + "' type='button' class='btn btn-info far fa-trash-alt'"
+                        + "style='float: right'></button>"
+                        + "<button type='button' class='btn btn-info far fa-file-alt'"
+                        + "style='float: right'></button></a></li >");
 
+
+                    //xóa môn học khi click vào buttton delete
+                    $("#del_sub_eb_" + v.id).click(function () {
+                        //alert("aaaaaa");
+                        var r = confirm("Bạn có chắc muốn xóa không?");
+                        if (r == true) {
+                            //alert("You pressed OK!");
+                            var data = {};
+                            data.id = v.id;
+                            data.name = v.name;
+                            $.ajax({
+                                type: "POST",
+                                url: "/api/FileAPI/DeleteSubjectById",
+                                data: JSON.stringify(data),
+                                //data: { id: v.id },
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (result) {
+                                    alert(result);
+                                }
+                            });
+                        }
+                        //else {
+                        //    alert("You pressed Cancel!");
+                        //}
+                    });
+                  
                     $("#ebook_" + v.id).click(function (e) {
                         //Ẩn hiện form upload file ở trang chỉ hay uplaod file trong môn học
                         $("#btn_upload").show();
@@ -300,7 +326,7 @@
                         $("#loadEbook").empty();
                         $.ajax({
                             type: "GET",
-                            url: "/api/FileAPI/GetEbook",
+                            url: "/api/Admin/GetEbook",
                             data: { id: v.id },
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
@@ -332,7 +358,7 @@
                                     dataSource: function (done) {
                                         $.ajax({
                                             type: 'GET',
-                                            url: '/api/FileAPI/GetEbookPaging',
+                                            url: '/api/Admin/GetEbookPaging',
                                             data: { id: v.id },
                                             contentType: "application/json; charset=utf-8",
                                             dataType: "json",
@@ -358,7 +384,7 @@
             subject.name = $("#nameSujectEbook").val();
             $.ajax({
                 type: "POST",
-                url: "/api/FileAPI/CreateSubject",
+                url: "/api/Admin/CreateSubject",
                 data: JSON.stringify(subject),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -384,20 +410,14 @@
         chat.client.postToClient = function (id, name) {
             $("#loadSubjectOfEbook").append("<li id='ebook_" + id + "'><a>" + name + "</a></li >");
             //thêm môn học vừa mới tạo
-            //$("#loadSubjectOfEbook").append("<li id='ebook_" + id + "'><a>" + name
-            //    + "<button " + "id='del_sub_eb_" + id + "' type='button' class='btn btn-info far fa-trash-alt'"
-            //    + "style='float: right'></button>"
-            //    + "<button type='button' class='btn btn-info far fa-file-alt'"
-            //    + "style='float: right'></button></a></li >");
-        };
-        chat.client.postToClientDeleteSubject = function (id) {
-            //alert(id);
-            //alert("del");
-            $("li").remove("#ebook_" + id);
+            $("#loadSubjectOfEbook").append("<li id='ebook_" + id + "'><a>" + name
+                + "</a></li >");
+
+
         };
         //SignalR thêm file
         chat.client.postFileEbookToClient = function (id, title, author, describe, filename,
-            date_upload) {
+            date_upload,user) {
             var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
             data += "<div class='card h-100'>";
             data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";

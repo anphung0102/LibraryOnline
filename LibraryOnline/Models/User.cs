@@ -25,7 +25,10 @@ namespace LibraryOnline.Models
         public int id { get; set; }
         public string username { get; set; }
         public string password { get; set; }
-        public Nullable<int> role_id { get; set; }
+        public int role_id { get; set; }
+        public string fullname { get; set; }
+        public string mssv { get; set; }
+        public string class_id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Ebook> Ebooks { get; set; }

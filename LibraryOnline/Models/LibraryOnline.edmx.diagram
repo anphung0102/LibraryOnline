@@ -6,14 +6,14 @@
     <edmx:Diagrams>
       <Diagram DiagramId="3aea1487bccc436bb99fe2643d8ee9cb" Name="Diagram1">
         <EntityTypeShape EntityType="LibraryModel.Ebook" Width="1.5" PointX="5.25" PointY="1.5" />
-        <EntityTypeShape EntityType="LibraryModel.Essay" Width="1.5" PointX="5.25" PointY="5.375" />
+        <EntityTypeShape EntityType="LibraryModel.Essay" Width="1.5" PointX="8.25" PointY="5.375" />
         <EntityTypeShape EntityType="LibraryModel.Role" Width="1.5" PointX="0.75" PointY="6.125" />
         <EntityTypeShape EntityType="LibraryModel.Subject_Ebook" Width="1.5" PointX="3" PointY="2.25" />
-        <EntityTypeShape EntityType="LibraryModel.Subject_Essay" Width="1.5" PointX="3" PointY="9.25" />
-        <EntityTypeShape EntityType="LibraryModel.Subject_Thesis" Width="1.5" PointX="6" PointY="10.25" />
+        <EntityTypeShape EntityType="LibraryModel.Subject_Essay" Width="1.5" PointX="6" PointY="10.25" />
+        <EntityTypeShape EntityType="LibraryModel.Subject_Thesis" Width="1.5" PointX="3" PointY="10.25" />
         <EntityTypeShape EntityType="LibraryModel.sysdiagram" Width="1.5" PointX="7.75" PointY="0.75" />
-        <EntityTypeShape EntityType="LibraryModel.Thesis" Width="1.5" PointX="8.25" PointY="5.375" />
-        <EntityTypeShape EntityType="LibraryModel.User" Width="1.5" PointX="3" PointY="5.75" />
+        <EntityTypeShape EntityType="LibraryModel.Thesis" Width="1.5" PointX="5.25" PointY="5.375" />
+        <EntityTypeShape EntityType="LibraryModel.User" Width="1.5" PointX="3" PointY="5.5" />
         <AssociationConnector Association="LibraryModel.FK_Ebook_Subject" />
         <AssociationConnector Association="LibraryModel.FK_Ebook_User" />
         <AssociationConnector Association="LibraryModel.FK_Essay_Subject_Essay" />

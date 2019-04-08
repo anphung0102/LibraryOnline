@@ -25,12 +25,12 @@ namespace LibraryOnline
         {
             hubContext.Clients.All.postToClientDeleteSubject(id);
         }
-        ////sủa môn học 
-        //public static void EditSubject()
+        //sủa file ebook
+        //public static void EditFileEbook(string title,string author,string describe,int year, string filename,string date_upload)
         //{
-        //    hubContext.Clients.All.postToClientEditSubject();
+        //    hubContext.Clients.All.EditFileEbook(title,author,describe,year,filename,date_upload);
         //}
-       
+
         //sủa môn học 
         public static void EditSubject(int id, string name)
         {
@@ -43,10 +43,10 @@ namespace LibraryOnline
         }
         //load file khi thêm mới
         public static void PostFileEbook(int id,string title,string author,string describe,string year, string filename,
-            string date_upload)
+            string date_upload,string user,string subject)
         {
             hubContext.Clients.All.postFileEbookToClient(id, title, author, describe, year, filename,
-            date_upload);
+            date_upload, user, subject);
         }
     }
 }

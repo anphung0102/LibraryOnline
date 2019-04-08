@@ -1,0 +1,82 @@
+﻿***Computer Sercurity
+o integrity,(tính toàn vẹn)
+o availability, and (tính sẵn sàng)
+o confidentiality (tính bảo mật)
+*Key Term[Terminology]
+-Attack: hành động cố ý hoặc không cố ý gây ra thiệt hại hoặc thỏa hiệp với thông 
+tin và hệ thống hỗ trợ nó.
+-Threats: một loại đối tượng, người hoặc các thực thể khác đại diện cho một
+nguy cơ tiềm ẩn 
+Threat Agent:một trường hợp cụ thể hoặc một thành phần của một mối đe dọa tổng quát hơn
+-Vulnerability: điểm yếu hoặc lỗi trong một hệ thống hoặc cơ chế bảo vệ mà
+phơi bày thông tin để tấn công hoặc hư hỏng.
+-Hacking: Tốt: sử dụng máy tính hoặc hệ thống để thưởng thức; Xấu: bất hợp pháp
+truy cập vào máy tính hoặc hệ thống
+-Risk: Khả năng đe dọa sẽ khai thác một lỗ hổng có kết quả có hại
+-Subject: một thực thể hoạt động tương tác với một hệ thống thông tin và các nguyên nhân
+thông tin để di chuyển qua hệ thống cho một mục đích cuối cùng cụ thể
+-Object: một thực thể thụ động trong hệ thống thông tin nhận hoặc chứa
+thông tin
+-Access: đối tượng hoặc chủ thể khả năng sử dụng, thao tác, sửa đổi   
+hoặc ảnh hưởng đến chủ thể và đối tượng khác.
+-Asset: tài nguyên tổ chức được bảo vệ
+-Control, Safegual or countermeasure:cơ chế bảo mật, chính sách 
+hoặc các thủ tục có thể thành công chóng lại tấn công,giảm rủi ro,
+giải quyết lỗ hỗng và cải thiện an ninh.
+-Exploit: tận dụng các điểm yếu lỗ hổng trong hệ thống
+-Exposure: một trường hợp duy nhất bị hở để gây tổn hại
+-Security Blueprint: kê hoạch thực hiện các biện pháp an ninh mới
+trong tổ chức
+-Security Model: tập hợp các quy tắc bảo mật cụ thể đại diện cho thực hiện chính s
+sách an ninh.
+-Security Posture ỏ Security Profile:một nhãn chung cho sự kết hợp 
+của các chính sách, thủ tục, công nghệ,và chương trình tạo nên 
+tổng thể nỗ lực bảo mật hiện tại.
+
+*Vulnerabilities (lỗ hổng)
+-Bị hỏng
+-Rò rỉ
+-Không có hoặc rất chậm
+*Attcak:
+-Active attack: nỗ lực để thay đổi tài nguyên hệ thống hoặc 
+ảnh hưởng đến hoạt động của họ (Nơi diễn ra khi một thực thể
+giả vờ là một thực thể khác)
+-Passive attack: nỗ lực tìm hiểu hoặc sủ dụng thông tin từ hệ thống không làm 
+không ảnh hưởng đến tài nguyên hệ thống(lấy nội dung trong đường truyền)
+-Inside attack: được khỏi động bởi một thực thể bên trong hệ thống, nó được ủy quyền
+để truy cập tài nguyên hệ thống nhưng sử dụng chúng theo cách không
+được chấp nhận bởi những người đã cho phép.
+-Outside attack: khởi tạo từ bên ngoài bởi một người không ủy quyền 
+hoặc người sủ dụng hợp pháp của hệ thống.
+* Countermeasure (biện pháp đối phó)
+o Detect (phát hiện)
+o Prevent (ngăn chặn)
+o Recover (phục hồi)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,69 +1,21 @@
 ﻿using LibraryOnline.Models;
-using LibraryOnline.Utilities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Web;
 using System.Web.Http;
-using System.Data.Entity;
-using Newtonsoft.Json;
 
-namespace LibraryOnline.Controllers
+namespace LibraryOnline.Controllers.API
 {
-    public class LoginInfo
+    public class AdminController : ApiController
     {
-        public string User { get; set; }
-        public string Pass { get; set; }
-    }
-
-    public class FileAPIController : ApiController
-    {
-        //
         private LibraryEntities db = new LibraryEntities();
-        [Route("api/FileAPI/Login")]
-        [HttpPost]
-        public string Login(LoginInfo loginInfo)
-        {
-            using (LibraryEntities db = new LibraryEntities())
-            {
-                var role = db.Users.Where(x => x.username == loginInfo.User && x.password == loginInfo.Pass)
-                          .Select(x => x.role_id).FirstOrDefault();
-                var user_id = db.Users.Where(x => x.username == loginInfo.User && x.password == loginInfo.Pass)
-                    .Select(x => x.id).FirstOrDefault();
-                HttpContext.Current.Session["username"] = loginInfo.User;
-                HttpContext.Current.Session["user_id"] = user_id;
-                if (role == 1)
-                    return "/Admin/Admin";
-
-            }
-
-            return "";
-        }
-
-
-        private string RandomString(int size, bool lowerCase)
-        {
-            StringBuilder sb = new StringBuilder();
-            char c;
-            Random rand = new Random();
-            for (int i = 0; i < size; i++)
-            {
-                c = Convert.ToChar(Convert.ToInt32(rand.Next(65, 87)));
-                sb.Append(c);
-            }
-            if (lowerCase)
-                return sb.ToString().ToLower();
-            return sb.ToString();
-
-        }
-
-
         //Upload file cho Ebook 
-        [Route("api/FileAPI/UploadFiles")]
+        [Route("api/Admin/UploadFiles")]
         [HttpPost]
         public string UploadFiles()
         {
@@ -71,12 +23,11 @@ namespace LibraryOnline.Controllers
             if (httpPostedFile != null)
             {
                 //đường dẫn lưu file
-                string temp = RandomString(10, true) + "-";
                 var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/Upload/"), httpPostedFile.FileName);//tên file
                 //lưu file vào đường dẫn
                 httpPostedFile.SaveAs(fileSavePath);
             }
-            
+
             var title = HttpContext.Current.Request["title"];
             var describe = HttpContext.Current.Request["describe"];
             var author = HttpContext.Current.Request["author"];
@@ -90,7 +41,7 @@ namespace LibraryOnline.Controllers
             string a = "";
             if (strExtexsion == ".pdf")//chỉ cho up pdf
             {
-                string temp = RandomString(10, true) + "-";
+             
                 using (LibraryEntities db = new LibraryEntities())
                 {
                     //Add vô bảng ebook 
@@ -107,12 +58,12 @@ namespace LibraryOnline.Controllers
                             sub_id = sub_id,
                         });
                     db.SaveChanges();//lưu dât thôi cái này t chưa chạy t mới test gửi data từ  ajax qua thôi
-                    var user = db.Users.Where(x => x.id == user_id).Select(x=>x.username).FirstOrDefault();
+                    var user = db.Users.Where(x => x.id == user_id).Select(x => x.username).FirstOrDefault();
                     var subject = db.Subject_Ebook.Where(x => x.id == sub_id).Select(x => x.name).FirstOrDefault();
                     var fileinfo = db.Ebooks.OrderByDescending(x => x.id).FirstOrDefault();
                     var date_up = fileinfo.date_upload.Value.ToString("MM/dd/yyyy");
                     MyHub.PostFileEbook(fileinfo.id, fileinfo.title, fileinfo.author, fileinfo.describe,
-                        fileinfo.year, fileinfo.filename, date_up, user,subject);
+                        fileinfo.year, fileinfo.filename, date_up, user, subject);
                     a = "Thành công";
                 }
             }
@@ -125,9 +76,9 @@ namespace LibraryOnline.Controllers
 
         ////Lấy môn học của ebook
         ////Lấy môn học của ebook
-        [Route("api/FileAPI/GetSubjectEbook")]
+        [Route("api/Admin/GetSubjectEbook")]
         [HttpGet]
-        public IEnumerable<Subject_Ebook> GetSubjectEbook() 
+        public IEnumerable<Subject_Ebook> GetSubjectEbook()
         {
             var a = db.Subject_Ebook.ToList();
             return a;
@@ -135,7 +86,7 @@ namespace LibraryOnline.Controllers
 
 
         //Tạo môn học trong Ebook
-        [Route("api/FileAPI/CreateSubject")]
+        [Route("api/Admin/CreateSubject")]
         [HttpPost]
         public string CreateSubject(SubjectViewModel subject)
         {
@@ -159,42 +110,42 @@ namespace LibraryOnline.Controllers
         }
 
         //lấy ebook
-        [Route("api/FileAPI/GetEbook")]
+        [Route("api/Admin/GetEbook")]
         [HttpGet]
-        public IEnumerable<Ebook> GetEbook(int id) 
+        public IEnumerable<Ebook> GetEbook(int id)
         {
-             return db.Ebooks.Where(x=>x.sub_id == id).ToList();
+            return db.Ebooks.Where(x => x.sub_id == id).ToList();
         }
 
         //lấy ebookpaging
-        [Route("api/FileAPI/GetEbookPaging")]
+        [Route("api/Admin/GetEbookPaging")]
         [HttpGet]
         public IEnumerable<Ebook> GetEbookPaging(int id)
         {
             return db.Ebooks.Where(x => x.sub_id == id).ToArray();
         }
         //lấy ebook
-        [Route("api/FileAPI/GetEbookDetail")]
+        [Route("api/Admin/GetEbookDetail")]
         [HttpGet]
         public IEnumerable<Ebook> GetEbookDetail(int id)
         {
             return db.Ebooks.Where(x => x.id == id).ToList();
         }
         //lấy file theo id
-        [Route("api/FileAPI/GetFileById")]
+        [Route("api/Admin/GetFileById")]
         [HttpGet]
-        public Ebook GetFileById(int id) 
+        public Ebook GetFileById(int id)
         {
             return db.Ebooks.Where(x => x.id == id).FirstOrDefault();
         }
 
         //xoá ebook
-        [Route("api/FileAPI/DeleteSubjectById")]
+        [Route("api/Admin/DeleteSubjectById")]
         [HttpPost]
-        public string DeleteSubjectById(Subject_Ebook subject) 
+        public string DeleteSubjectById(Subject_Ebook subject)
         {
             var ebook = db.Ebooks.Where(x => x.sub_id == subject.id).ToList();
-            foreach(var item in ebook)
+            foreach (var item in ebook)
             {
                 db.Ebooks.Remove(item);
                 db.SaveChanges();
@@ -203,7 +154,7 @@ namespace LibraryOnline.Controllers
             MyHub.DeleteSubject(subject.id);
             db.Subject_Ebook.Remove(sub);
             db.SaveChanges();
-          
+
             return "Xóa thành công";
         }
         //sửa ebook
@@ -219,9 +170,9 @@ namespace LibraryOnline.Controllers
         //{
         //    return "Xóa thành công"+sub.name;
         //}
-        [Route("api/FileAPI/EbookPaging")]
+        [Route("api/Admin/EbookPaging")]
         [HttpGet]
-        public IEnumerable<Ebook> EbookPaging(int id,[FromUri]PagingParameterModel pagingparametermodel)
+        public IEnumerable<Ebook> EbookPaging(int id, [FromUri]PagingParameterModel pagingparametermodel)
         {
 
             // Return List of Customer  

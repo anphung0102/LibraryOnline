@@ -1,0 +1,388 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .btn {
+        margin-right: 20px;
+    }
+</style>
+<div class="container">
+    <h2>Quản lý Ebook</h2>
+    <div>
+        <button id="btnAdd" type='button' class='btn btn-danger'>Tạo môn</button>
+    </div>
+
+    <table class='table table-bordered' id="loadfile">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tiêu đề</th>
+                <th>Tác giả</th>
+                <th>Năm xuất bản</th>
+                <th>Mô tả</th>
+                <th>Tên file</th>
+                <th>Ngày đăng</th>
+                <th>Người đăng</th>
+                <th>Môn</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+<!--Popup edit-->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Sửa</h4>
+                <button type="button" class="close" id="btnX" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Form Upload Ebook -->
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="text">Tiêu đề:</label>
+                        <input type="text" class="form-control" id="title" placeholder="Tiêu đề" name="title">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="text">Giới thiệu:</label>
+                        <input type="text" class="form-control" id="describe" placeholder="Giới thiêu" name="describe">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="text">Tác giả:</label>
+                        <input type="text" class="form-control" id="author" placeholder="Tiêu đề" name="author">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="text">Năm sản xuất:</label>
+                        <input type="text" class="form-control" id="year" placeholder="Giới thiêu" name="year">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="text">Môn học:</label>
+                        <select id="subject" class="form-control"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="text">Browser</label>
+
+                        <input type="file" name="Files" multiple id="fileInput" />
+                        <div id="filename"></div>
+                    </div>
+
+                    <div id="error"></div>
+                    <div style="margin-top:20px">
+                        <button id="upload" type="button" class="btn btn-primary">Upload</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="btnClose" data-dismiss="modal">Close</button>
+            </div>
+
+
+        </div>
+    </div>
+    <!-- Modal footer -->
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+    </div>
+</div>
+</div>
+
+<!--Popup Add-->
+<div class="modal" id="myModalAdd">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Thêm</h4>
+                <button type="button" class="close" id="btnX1" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Form Upload Ebook -->
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="text">Tiêu đề:</label>
+                        <input type="text" class="form-control" id="titleAdd" placeholder="Tiêu đề" name="titleAdd">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="text">Giới thiệu:</label>
+                        <input type="text" class="form-control" id="describeAdd" placeholder="Giới thiêu" name="describeAdd">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="text">Tác giả:</label>
+                        <input type="text" class="form-control" id="authorAdd" placeholder="Tiêu đề" name="authorAdd">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="text">Năm sản xuất:</label>
+                        <input type="text" class="form-control" id="yearAdd" placeholder="Năm" name="yearAdd">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="text">Môn học:</label>
+                        <select id="subjectAdd" class="form-control"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="text">Browser</label>
+
+                        <input type="file" name="FilesAdd" multiple id="fileInputAdd" />
+                        <div id="filenameAdd"></div>
+                    </div>
+
+                    <div id="error"></div>
+                    <div style="margin-top:20px">
+                        <button id="uploadAdd" type="button" class="btn btn-primary">Upload</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="btnClose1" data-dismiss="modal">Close</button>
+            </div>
+
+
+        </div>
+    </div>
+    <!-- Modal footer -->
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+    </div>
+</div>
+</div>
+
+<script>
+    //clear input trong form
+    function clearFile() {
+        $("input[class='title']").val("");
+        $("input[class='describe']").val("");
+        $("input[class='author']").val("");
+        $("input[class='year']").val("");
+    }
+    function clearAddFile() {
+        $("input[class='titleAdd']").val("");
+        $("input[class='describeAdd']").val("");
+        $("input[class='authorAdd']").val("");
+        $("input[class='yearAdd']").val("");
+    }
+
+    $("#btnX").click(function () {
+        $("#myModal").hide();
+        clearFile();
+    });
+    $("#btnClose").click(function () {
+        $("#myModal").hide();
+        clearFile();
+    });
+    $("#btnX1").click(function () {
+        $("#myModalAdd").hide();
+        clearAddFile();
+    });
+    $("#btnClose1").click(function () {
+        $("#myModalAdd").hide();
+        clearAddFile();
+    });
+    //
+    //load môn học ebook
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "/api/EbookAPI/GetFile",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                console.log(result);
+                
+                $.each(result, function (i, v) {
+                   
+                    var data = "<tr id='" + v.id + "'><td class='id'>" + v.id + "</td>";
+                    data = data + "<td class='title'>" + v.title + "</td>";
+                    data = data + "<td class='author'>" + v.author + "</td>";
+                    data = data + "<td class='year'>" + v.year + "</td>";
+                    data = data + "<td class='describe'>" + v.describe + "</td>";
+                    data = data + "<td class='filename'>" + v.filename + "</td>";
+                    data = data + "<td class='date_upload'>" + v.date_upload + "</td>";
+                    //data = data + "<td class='user'>" + v.user.username + "</td>";
+                    data = data + "<td class='user'>" + v.username + "</td>";
+                    data = data + "<td class='subject'>" + v.subject + "</td>";
+                    data = data + "<td><button type='button' class='btn btn-danger btnEdit'>Sửa</button>";
+                    data = data + "<button type='button' class='btn btn-danger btnDel'>Xóa</button>" + "</td>";
+                    data = data + "</tr>";
+                    $("#loadfile").append(data);
+                });
+            }
+        });
+        //load môn học
+        $.ajax({
+            type: "GET",
+            url: "/api/FileAPI/GetSubjectEbook",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                $.each(result, function (i, v) {
+                    //alert(v.name);
+                    $("#subjectAdd").append("<option value='" + v.id + "'>" + v.name + "</option>");
+                });
+            }
+        });
+
+        //thêm file
+        $('body').on('click', '#btnAdd', function () {
+            clearAddFile();
+            $("#myModalAdd").show();
+            $("#uploadAdd").click(function () {
+                var files = $("#fileInputAdd").get(0).files;
+                var fileData = new FormData();
+
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append("fileInput", files[i]);
+                }
+                fileData.append("title", $("input[id='titleAdd']").val());
+                fileData.append("describe", $("input[id='describeAdd']").val());
+                fileData.append("author", $("input[id='authorAdd']").val());
+                fileData.append("year", $("input[id='yearAdd']").val());
+                fileData.append("userid", $("#userid").text());
+                fileData.append("subid", $("#subjectAdd option:selected").val());
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/FileAPI/UploadFiles",
+                    data: fileData,
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    dataType: "json",
+                    success: function (result) {
+                        alert(result);
+                        $("#myModalAdd").hide();
+                    }
+                });
+            });
+
+        });
+
+        //còn thiếu gán môn học
+        //sửa file
+        $('body').on('click', '.btnEdit', function (e) {
+            var tr = $(e.currentTarget).closest('tr');
+            $("input[id='id']").val($(tr).find('.id').text());
+            $("input[id='title']").val($(tr).find('.title').text());
+            $("input[id='describe']").val($(tr).find('.describe').text());
+            $("input[id='author']").val($(tr).find('.author').text());
+            $("input[id='year']").val($(tr).find('.year').text());
+            $("input[id='subject']").val($(tr).find('.subject').text());
+
+            $("#myModal").show();
+            $("#upload").click(function () {
+                var files = $("#fileInput").get(0).files;
+                var fileData = new FormData();
+
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append("fileInput", files[i]);
+                }
+                fileData.append("id", $(tr).find('.id').text());
+                fileData.append("title", $("input[id='title']").val());
+                fileData.append("describe", $("input[id='describe']").val());
+                fileData.append("author", $("input[id='author']").val());
+                fileData.append("year", $("input[id='year']").val());
+                var _filename = files[0].name;
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:52385/api/EbookAPI/EditFileById",
+                    dataType: "json",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: fileData,
+                    success: function (result) {
+                        if (result == 'Sửa thành công') {
+                            var _id = $(tr).find('.id').text();
+                            var _title = $(`#${_id}`).find('.title');
+                            $(_title).text($("input[id='title']").val());
+                            var _describe = $(`#${_id}`).find('.describe');
+                            $(_describe).text($("input[id='describe']").val());
+                            var _author = $(`#${_id}`).find('.author');
+                            $(_author).text($("input[id='author']").val());
+                            var _year = $(`#${_id}`).find('.year');
+                            $(_year).text($("input[id='year']").val());
+                            var _file = $(`#${_id}`).find('.filename');
+                            $(_file).text(_filename);
+                            alert(result);
+                        }
+                        else alert(result);
+                    }
+                });
+
+            });
+
+        });
+        //xóa file
+        $('body').on('click', '.btnDel', function (e) {
+            var tr = $(e.currentTarget).closest('tr');
+            var tagId = $(tr).find('.id');
+            var r = confirm("Bạn có chắc muốn xóa không?");
+            if (r == true) {
+                var data = {};
+                data.id = tagId.text();
+                $.ajax({
+                    type: "POST",
+                    url: "/api/EbookAPI/DeleteFileById",
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (result) {
+                        alert(result);
+                        var id = tagId.text();
+                        $('tr').remove(`#${id}`);
+                    }
+                });
+            }
+
+        });
+
+    });
+    
+
+    //SIGNALR
+    $(function () {
+        $.connection.hub.logging = true;
+        var chat = $.connection.myHub;
+        
+        //SignalR thêm file
+        chat.client.postFileEbookToClient = function (id, title, author, describe, year, filename,
+            date_upload, user, subject) {
+            var data = "<tr id='" + id + "'><td class='id'>" + id + "</td>";
+            data = data + "<td class='title'>" + title + "</td>";
+            data = data + "<td class='author'>" + author + "</td>";
+            data = data + "<td class='year'>" + year + "</td>";
+            data = data + "<td class='describe'>" + describe + "</td>";
+            data = data + "<td class='filename'>" + filename + "</td>";
+            data = data + "<td class='date_upload'>" + date_upload + "</td>";
+            data = data + "<td class='user'>" + user + "</td>";
+            data = data + "<td class='user'>" + subject + "</td>";
+            data = data + "<td><button type='button' class='btn btn-danger btnEdit'>Sửa</button>";
+            data = data + "<button type='button' class='btn btn-danger btnDel'>Xóa</button>" + "</td>";
+            data = data + "</tr>";
+            $("tbody").prepend(data);
+        };
+        $.connection.hub.start().done(function () {
+            //alert("started");
+        }).fail(function (result) {
+            alert(result);
+        });
+
+    });
+</script>
+

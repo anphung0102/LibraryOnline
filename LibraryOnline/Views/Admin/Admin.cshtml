@@ -255,25 +255,25 @@
         $("#loadEbook").hide();
 
         // hàm trả về html thông tin file
-        function simpleTemplating(result) {
-            var data = "";
-            $.each(result, function (i, v) {
-                data += "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
-                data += "<div class='card h-100'>";
-                data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
-                data += "<div class='card-body'>";
-                data += "<h4 class='card-title'>";//
-                data += "<a href='/Details/Details?id=" + v.id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
-                data += "<h5>tác giả: " + v.author + "</h5>";
-                data += "<p class='card-text' data-bind='text:author'></p>";
-                data += "<div class='card-footer'></div>";
-                data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
-                data += " </div></div></div>";
-            });
-            //data += "</div>";
-            //debugger;
-            return data;
-        }
+        //function simpleTemplating(result) {
+        //    var data = "";
+        //    $.each(result, function (i, v) {
+        //        data += "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+        //        data += "<div class='card h-100'>";
+        //        data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
+        //        data += "<div class='card-body'>";
+        //        data += "<h4 class='card-title'>";//
+        //        data += "<a href='/Details/Details?id=" + v.id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+        //        data += "<h5>tác giả: " + v.author + "</h5>";
+        //        data += "<p class='card-text' data-bind='text:author'></p>";
+        //        data += "<div class='card-footer'></div>";
+        //        data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+        //        data += " </div></div></div>";
+        //    });
+        //    //data += "</div>";
+        //    //debugger;
+        //    return data;
+        //}
         //load môn học
        
         $.ajax({
@@ -285,39 +285,13 @@
                 $.each(result, function (i, v) {
                     //alert(v.name);
                     //load các môn của ebook lên thanh danh mục bên trái
-                    $("#loadSubjectOfEbook").append("<li id='ebook_" + v.id + "'><a>" + v.name
-                        + "<button " + "id='del_sub_eb_" + v.id + "' type='button' class='btn btn-info far fa-trash-alt'"
-                        + "style='float: right'></button>"
-                        + "<button type='button' class='btn btn-info far fa-file-alt'"
-                        + "style='float: right'></button></a></li >");
+                    //$("#loadSubjectOfEbook").append("<li id='ebook_" + v.id + "'><a>" + v.name
+                    //    + "<button " + "id='del_sub_eb_" + v.id + "' type='button' class='btn btn-info far fa-trash-alt'"
+                    //    + "style='float: right'></button>"
+                    //    + "<button type='button' class='btn btn-info far fa-file-alt'"
+                    //    + "style='float: right'></button></a></li >");
+                    $("#loadSubjectOfEbook").append("<li id='ebook_" + v.id + "'><a>" + v.name + "</a></li >");
 
-
-                    //xóa môn học khi click vào buttton delete
-                    $("#del_sub_eb_" + v.id).click(function () {
-                        //alert("aaaaaa");
-                        var r = confirm("Bạn có chắc muốn xóa không?");
-                        if (r == true) {
-                            //alert("You pressed OK!");
-                            var data = {};
-                            data.id = v.id;
-                            data.name = v.name;
-                            $.ajax({
-                                type: "POST",
-                                url: "/api/FileAPI/DeleteSubjectById",
-                                data: JSON.stringify(data),
-                                //data: { id: v.id },
-                                contentType: "application/json; charset=utf-8",
-                                dataType: "json",
-                                success: function (result) {
-                                    alert(result);
-                                }
-                            });
-                        }
-                        //else {
-                        //    alert("You pressed Cancel!");
-                        //}
-                    });
-                  
                     $("#ebook_" + v.id).click(function (e) {
                         //Ẩn hiện form upload file ở trang chỉ hay uplaod file trong môn học
                         $("#btn_upload").show();
@@ -339,21 +313,21 @@
                                 $('.breadcrumb-item-3').css("display", "block");
                                 $('#breadcrumb-2').text($(tagText).text());
                                 $('#breadcrumb-3').text(v.name);
-                                //$.each(result, function (i, v) {
-                                //    var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
-                                //    data += "<div class='card h-100'>";
-                                //    data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
-                                //    data += "<div class='card-body'>";
-                                //    data += "<h4 class='card-title'>";//
-                                //    data += "<a href='/Details/Details?id=" + v.id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
-                                //    data += "<h5>tác giả: " + v.author + "</h5>";
-                                //    data += "<p class='card-text' data-bind='text:author'></p>";
-                                //    data += "<div class='card-footer'></div>";
-                                //    data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
-                                //    data += " </div></div></div>";
+                                $.each(result, function (i, v) {
+                                    var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+                                    data += "<div class='card h-100'>";
+                                    data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
+                                    data += "<div class='card-body'>";
+                                    data += "<h4 class='card-title'>";//
+                                    data += "<a href='/Details/Details?id=" + v.id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                                    data += "<h5>tác giả: " + v.author + "</h5>";
+                                    data += "<p class='card-text' data-bind='text:author'></p>";
+                                    data += "<div class='card-footer'></div>";
+                                    data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                                    data += " </div></div></div>";
 
-                                //    $("#loadEbook").append(data);
-                                //});
+                                    $("#loadEbook").append(data);
+                                });
                                 $('#pagination-container').pagination({
                                     dataSource: function (done) {
                                         $.ajax({
@@ -408,37 +382,13 @@
         var chat = $.connection.myHub;
         //SignalR thêm môn học vào Ebook
         chat.client.postToClient = function (id, name) {
-            //$("#loadSubjectOfEbook").append("<li id='" + id + "'><a>" + name + "</a></li >");
+            $("#loadSubjectOfEbook").append("<li id='ebook_" + id + "'><a>" + name + "</a></li >");
             //thêm môn học vừa mới tạo
-            $("#loadSubjectOfEbook").append("<li id='ebook_" + id + "'><a>" + name
-                + "<button " + "id='del_sub_eb_" + id + "' type='button' class='btn btn-info far fa-trash-alt'"
-                + "style='float: right'></button>"
-                + "<button type='button' class='btn btn-info far fa-file-alt'"
-                + "style='float: right'></button></a></li >");
-            //xóa môn học vừa mới tạo
-            $("#del_sub_eb_" + id).click(function () {
-                //alert("aaaaaa");
-                var r = confirm("Bạn có chắc muốn xóa không?");
-                if (r == true) {
-                    var data = {};
-                    data.id = id;
-                    data.name = name;
-                    $.ajax({
-                        type: "POST",
-                        url: "/api/FileAPI/DeleteSubjectById",
-                        data: JSON.stringify(data),
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (result) {
-                            alert(result);
-                            //var chat = $.connection.myHub;
-                            //SignalR thêm môn học vào Ebook
-
-                        }
-                    });
-                }
-            });
-
+            //$("#loadSubjectOfEbook").append("<li id='ebook_" + id + "'><a>" + name
+            //    + "<button " + "id='del_sub_eb_" + id + "' type='button' class='btn btn-info far fa-trash-alt'"
+            //    + "style='float: right'></button>"
+            //    + "<button type='button' class='btn btn-info far fa-file-alt'"
+            //    + "style='float: right'></button></a></li >");
         };
         chat.client.postToClientDeleteSubject = function (id) {
             //alert(id);

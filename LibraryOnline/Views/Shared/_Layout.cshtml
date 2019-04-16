@@ -29,6 +29,10 @@
     <link href="~/Content/styles/pagination.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
 
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    @*<link href="~/Scripts/rateit.css" rel="stylesheet" type="text/css">
+    <script src="~/Scripts/jquery.rateit.js"></script>
+    <script src="~/Scripts/jquery.rateit.min.js"></script>*@
 </head>
 
 <body>
@@ -56,6 +60,12 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Contact</a>
+                    </li>
+                    <li class="search-container">
+                        <form action="/Search/Index" >
+                            <input type="text" placeholder="Search.." name="search" id="searchData">
+                            <button type="submit" id="search"><i class="fa fa-search"></i></button>
+                        </form>
                     </li>
                     <img style="width:30px;height:30px" id="user_img" src="~/Content/img/user.png" />
                     <lable id="username">@Session["username"]</lable>
@@ -94,6 +104,5 @@
 </body>
 
 </html>
-
 
 

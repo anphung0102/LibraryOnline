@@ -81,7 +81,7 @@ namespace LibraryOnline.Controllers
             if (httpPostedFile != null)
             {
                 //đường dẫn lưu file
-                string temp = RandomString(10, true) + "-";
+                //string temp = RandomString(10, true) + "-";
                 var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/Upload/"), httpPostedFile.FileName);//tên file
                 //lưu file vào đường dẫn
                 httpPostedFile.SaveAs(fileSavePath);

@@ -26,14 +26,19 @@ namespace LibraryOnline.Controllers.API
                 var role = db.Users.Where(x => x.username == loginInfo.User && x.password == loginInfo.Pass)
                           .Select(x => x.role_id).FirstOrDefault();
                 var user_id = db.Users.Where(x => x.username == loginInfo.User && x.password == loginInfo.Pass).FirstOrDefault();
-                HttpContext.Current.Session["username"] = loginInfo.User;
-                HttpContext.Current.Session["user_id"] = user_id.id;
-                HttpContext.Current.Session["fullname"] = user_id.fullname;
+                if(user_id != null)
+                {
+                    HttpContext.Current.Session["username"] = loginInfo.User;
+                    HttpContext.Current.Session["user_id"] = user_id.id;
+                    HttpContext.Current.Session["fullname"] = user_id.fullname;
+                }
                 if (role == 1)
                     return "/Admin/Admin";
 
             }
             return "";
         }
+
+
     }
 }

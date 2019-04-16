@@ -81,23 +81,18 @@
                             <div class="form-group">
                                 <label for="text">Giới thiệu:</label>
                                 <input type="text" class="form-control" id="describe" placeholder="Giới thiêu" name="describe">
-
+                                
                             </div>
                             <div class="form-group">
                                 <label for="text">Tác giả:</label>
-                                <input type="text" class="form-control" id="author" placeholder="Tiêu đề" name="author">
+                                <input type="text" class="form-control" id="author" placeholder="Tác giả" name="author">
 
                             </div>
                             <div class="form-group">
-                                <label for="text">Năm sản xuất:</label>
-                                <input type="text" class="form-control" id="year" placeholder="Giới thiêu" name="year">
+                                <label for="text">Năm xuất bản:</label>
+                                <input type="text" class="form-control" id="year" placeholder="Năm" name="year">
 
                             </div>
-                            @*<div class="form-group" >
-                                    <label for="text">Mon hoc:</label>
-                                    <input type="text" class="form-control" id="subject" placeholder="Giới thiêu" name="year">
-
-                                </div>*@
                             <div class="form-group">
                                 <label for="text">Môn học:</label>
                                 <select id="subject" class="form-control"></select>
@@ -168,6 +163,7 @@
         <div class="d-flex justify-content-between mb-3">
             <h1 id="loadFilePageHome" class="khoangcachduoi">Products</h1>
             <div>
+                @*<button id="btn_upload" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#myModal" style="margin-top:10px;">Upload</button>*@
                 <button id="btn_upload" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#myModal" style="margin-top:10px;">Upload</button>
             </div>
 
@@ -207,17 +203,24 @@
     <!-- /.col-lg-9 -->
 </div>
 <!-- /.row -->
-
-
 </div>
 <!-- /.container -->
 
 
 <script>
+    //clear form tạo file
+    function clearFormFile() {
+        $("input[class='title']").val("");
+        $("input[class='describe']").val("");
+        $("input[class='author']").val("");
+        $("input[class='year']").val("");
+        $("input[class='Files']").val("");
+    }
     //Up file
     $(document).ready(function () {
         //Upload dữ liệu vào Ebook
         $("#upload").click(function () {
+            clearFormFile();
             var files = $("#fileInput").get(0).files;
             var fileData = new FormData();
 
@@ -231,17 +234,18 @@
             fileData.append("year", $("#year").val());
             fileData.append("userid", $("#userid").text());
             fileData.append("subid", $("#subject option:selected").val());
-
+           
             console.log(fileData);
             $.ajax({
                 type: "POST",
-                url: "http://localhost:52385/api/FileAPI/UploadFiles",
+                url: "/api/AdminAPI/UploadFiles",
                 dataType: "json",
                 contentType: false, // Not to set any content header
                 processData: false, // Not to process data
                 data: fileData,
                 success: function (result) {
                     alert(result);
+                    clearFormFile();
                 }
             });
 
@@ -254,11 +258,11 @@
         //Ẩn hiện form
         $("#btn_upload").hide();
         $("#loadEbook").hide();
-
         // hàm trả về html thông tin file
         function simpleTemplating(result) {
             var data = "";
             $.each(result, function (i, v) {
+                
                 data += "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
                 data += "<div class='card h-100'>";
                 data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
@@ -271,26 +275,19 @@
                 data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
                 data += " </div></div></div>";
             });
-            //data += "</div>";
-            //debugger;
             return data;
         }
         //load môn học
-
         $.ajax({
             type: "GET",
-            url: "/api/FileAPI/GetSubjectEbook",
+            url: "/api/AdminAPI/GetSubjectEbook",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (result) {
                 $.each(result, function (i, v) {
-                    //alert(v.name);
                     //load các môn của ebook lên thanh danh mục bên trái
-                    $("#loadSubjectOfEbook").append("<li id='ebook_" + v.id + "'><a>" + v.name +
-                        "</a></li >");
-
-                    
-
+                    $("#loadSubjectOfEbook").append("<li id='ebook_" + v.id + "'><a>" + v.name +"</a></li >");
+                    //click môn học load file
                     $("#ebook_" + v.id).click(function (e) {
                         //Ẩn hiện form upload file ở trang chỉ hay uplaod file trong môn học
                         $("#btn_upload").show();
@@ -299,7 +296,7 @@
                         $("#loadEbook").empty();
                         $.ajax({
                             type: "GET",
-                            url: "/api/FileAPI/GetEbook",
+                            url: "/api/AdminAPI/GetEbook",
                             data: { id: v.id },
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
@@ -331,7 +328,7 @@
                                     dataSource: function (done) {
                                         $.ajax({
                                             type: 'GET',
-                                            url: '/api/FileAPI/GetEbookPaging',
+                                            url: '/api/AdminAPI/GetEbookPaging',
                                             data: { id: v.id },
                                             contentType: "application/json; charset=utf-8",
                                             dataType: "json",
@@ -351,13 +348,13 @@
                 });
             }
         });
-
+        //tạo môn ebook
         $("#create_sub_ebook").click(function () {
             var subject = {};
             subject.name = $("#nameSujectEbook").val();
             $.ajax({
                 type: "POST",
-                url: "/api/FileAPI/CreateSubject",
+                url: "/api/AdminAPI/CreateSubject",
                 data: JSON.stringify(subject),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",

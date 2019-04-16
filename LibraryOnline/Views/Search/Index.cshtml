@@ -1,0 +1,100 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*@{
+        var user = Session["username"];
+        if (Session["username"] == null || Session["user_id"] == null)
+        {
+            Response.Redirect("~/Login/Index");
+        }
+
+    }*@
+
+<div class="d-flex justify-content-between mb-3">
+    <h1>Kết quả tìm kiếm:</h1>
+</div>
+<div class="row" id="loadDataSearch" data-bind="foreach: resultArr">
+
+</div>
+@*// phân trang*@
+
+<div class="col-lg-12 col-md-6 mb-4">
+    <div id="pagination-container" class="pagination justify-content-center"></div>
+</div>
+
+@*<script>
+    $(document).ready(function () {
+        var val = '@ViewBag.Search';
+        $.ajax({
+            type: "GET",
+            url: "/api/SearchAPI/Search",
+            data: { search: val },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                var data = "";
+                $.each(result, function (i, v) {
+                    data += "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+                    data += "<div class='card h-100'>";
+                    data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
+                    data += "<div class='card-body'>";
+                    data += "<h4 class='card-title'>";//
+                    data += "<a href='/Details/Details?id=" + v.id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                    data += "<h5>tác giả: " + v.author + "</h5>";
+                    data += "<p class='card-text' data-bind='text:author'></p>";
+                    data += "<div class='card-footer'></div>";
+                    data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                    data += " </div></div></div>";
+                    $("#loadDataSearch").append(data);
+                });
+            }
+        });
+    });
+
+</script>*@
+
+
+
+<script>
+        $(document).ready(function () {
+            // hàm trả về html thông tin file
+            function simpleTemplating(result) {
+                var data = "";
+                $.each(result, function (i, v) {
+                    data += "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+                    data += "<div class='card h-100'>";
+                    data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
+                    data += "<div class='card-body'>";
+                    data += "<h4 class='card-title'>";//
+                    data += "<a href='/Details/Details?id=" + v.id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                    data += "<h5>tác giả: " + v.author + "</h5>";
+                    data += "<p class='card-text' data-bind='text:author'></p>";
+                    data += "<div class='card-footer'></div>";
+                    data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                    data += " </div></div></div>";
+                });
+                return data;
+            }
+                $('#pagination-container').pagination({
+                    dataSource: function (done) {
+                        var val = '@ViewBag.Search';
+                        $.ajax({
+                            type: 'GET',
+                            url: 'http://localhost:52385/api/SearchAPI/Search',
+                            data: {search:val},
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (response) {
+                                done(response);
+                            }
+                        });
+                    },
+                    callback: function (data, pagination) {
+                        console.log(data);
+                        var html = simpleTemplating(data);
+                        $('#loadDataSearch').html(html);
+                    }
+                })
+        });
+    </script>
+

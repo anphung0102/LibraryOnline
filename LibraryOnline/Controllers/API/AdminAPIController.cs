@@ -17,7 +17,7 @@ namespace LibraryOnline.Controllers.API
         //Upload file cho Ebook 
         [Route("api/AdminAPI/UploadFiles")]
         [HttpPost]
-        public string UploadFiles()
+        public HttpResponseMessage UploadFiles()
         {
             var httpPostedFile = HttpContext.Current.Request.Files["fileInput"];//lấy file
             if (httpPostedFile != null)
@@ -38,7 +38,7 @@ namespace LibraryOnline.Controllers.API
             int user_id = Convert.ToInt32(userid);
             int sub_id = Convert.ToInt32(subid);
             string strExtexsion = Path.GetExtension(httpPostedFile.FileName).Trim();//lấy đuôi file
-            string a = "";
+            
             if (strExtexsion == ".pdf")//chỉ cho up pdf
             {
              
@@ -64,12 +64,11 @@ namespace LibraryOnline.Controllers.API
                     var date_up = fileinfo.date_upload.Value.ToString("MM/dd/yyyy");
                     MyHub.PostFileEbook(fileinfo.id, fileinfo.title, fileinfo.author, fileinfo.describe,
                         fileinfo.year, fileinfo.filename, date_up, user, subject);
-                    a = "Thành công";
+                 
+                    return Request.CreateResponse("Thành công");
                 }
             }
-            else a = "lỗi";
-
-            return a;
+            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Lỗi!!!");
 
         }
 

@@ -10,10 +10,10 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="title" Type="nvarchar" MaxLength="50" />
-          <Property Name="author" Type="nvarchar" MaxLength="50" />
+          <Property Name="title" Type="nvarchar(max)" />
+          <Property Name="author" Type="nvarchar(max)" />
           <Property Name="year" Type="nvarchar" MaxLength="50" />
-          <Property Name="describe" Type="nvarchar" MaxLength="50" />
+          <Property Name="describe" Type="nvarchar(max)" />
           <Property Name="filename" Type="nvarchar(max)" />
           <Property Name="date_upload" Type="datetime" />
           <Property Name="user_id" Type="int" />
@@ -271,10 +271,10 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="author" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="author" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="year" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="describe" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="describe" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="filename" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="date_upload" Type="DateTime" Precision="3" />
           <Property Name="user_id" Type="Int32" />

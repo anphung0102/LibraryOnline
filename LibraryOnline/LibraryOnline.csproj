@@ -219,7 +219,9 @@
     <Compile Include="Controllers\LecturersController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ManageSubjectEbookController.cs" />
+    <Compile Include="Controllers\ReadFileDetailsController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\UploadAPIController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -281,6 +283,14 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\style1.css" />
+    <Content Include="Content\Datatables\datatables.css" />
+    <Content Include="Content\Datatables\dataTables.editor.min.js" />
+    <Content Include="Content\Datatables\datatables.js" />
+    <Content Include="Content\Datatables\editor.dataTables.min.css" />
+    <Content Include="Content\Datatables\jquery.dataTables.min.css" />
+    <Content Include="Content\Datatables\jquery.dataTables.min.js" />
+    <Content Include="Content\img\logo-login.png" />
     <Content Include="Content\img\logo-lv1.png" />
     <Content Include="Content\img\user.png" />
     <Content Include="Content\styles\details.css" />
@@ -404,6 +414,8 @@
     <Content Include="Views\ManageSubjectEbook\Index.cshtml" />
     <Content Include="Views\Lecturers\Index.cshtml" />
     <Content Include="Views\Student\Index.cshtml" />
+    <Content Include="Views\Test\Index.cshtml" />
+    <Content Include="Views\ReadFileDetails\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

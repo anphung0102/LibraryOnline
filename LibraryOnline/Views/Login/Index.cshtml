@@ -8,6 +8,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/css/style1.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -17,7 +18,7 @@
 
 <body>
     <div class="container">
-        <h2>Đăng nhập</h2>
+        @*<h2>Đăng nhập</h2>
 
         <div class="form-group">
             <label for="email">Email:</label>
@@ -32,8 +33,27 @@
         <div id="error"></div>
         <div style="margin-top:20px">
             <button id="login" type="submit" class="btn btn-primary">Login</button>
-        </div>
+        </div>*@
+        <!--Form đăng nhập-->
+        <form action="/Login/Index" method="post" id="login1" class="form-signin" role="form">
+            <div align="center">
 
+                <img src="~/Content/img/logo-login.png" /> <br />
+            </div>
+
+            <br />
+            <div class="form-group">
+                <label for="email" style="color: gray">User name</label></br>
+                <input type="email" name="email" id="email" class="form-control" required><br />
+
+                <label for="pwd" style="color: gray">Password:</label> </br>
+                <input type="password" name="pswd" class="form-control" id="pwd" required>
+            </div>
+            <div id="error"></div>
+            <div style="margin-top:20px">
+                <button id="login" type="submit" class="btn btn-primary">Login</button>
+            </div>
+        </form>
 
     </div>
 

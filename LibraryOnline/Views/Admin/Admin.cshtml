@@ -304,6 +304,7 @@
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             success: function (result) {
+                                console.log(v);
 
                                 var tag = $(e.currentTarget).closest('.mainmenu-item');
 
@@ -341,8 +342,8 @@
                                         });
                                     },
                                     callback: function (data, pagination) {
-                                        var html = simpleTemplating(data);
-                                        $('#loadEbook').html(html);
+                                        //var html = simpleTemplating(data);
+                                        //$('#loadEbook').html(html);
                                     }
                                 })
                             }

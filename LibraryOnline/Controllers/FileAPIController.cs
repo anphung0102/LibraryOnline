@@ -117,12 +117,12 @@ namespace LibraryOnline.Controllers
                             sub_id = sub_id,
                         });
                     db.SaveChanges();//lưu dât thôi cái này t chưa chạy t mới test gửi data từ  ajax qua thôi
-                    var user = db.Users.Where(x => x.id == user_id).Select(x=>x.username).FirstOrDefault();
+                    var user = db.Users.Where(x => x.id == user_id).Select(x => x.username).FirstOrDefault();
                     var subject = db.Subject_Ebook.Where(x => x.id == sub_id).Select(x => x.name).FirstOrDefault();
                     var fileinfo = db.Ebooks.OrderByDescending(x => x.id).FirstOrDefault();
                     var date_up = fileinfo.date_upload.Value.ToString("MM/dd/yyyy");
                     MyHub.PostFileEbook(fileinfo.id, fileinfo.title, fileinfo.author, fileinfo.describe,
-                        fileinfo.year, fileinfo.filename, date_up, user,subject);
+                        fileinfo.year, fileinfo.filename, date_up, user, subject);
                     a = "Thành công";
                 }
             }
@@ -139,11 +139,12 @@ namespace LibraryOnline.Controllers
         [HttpGet]
         public IEnumerable<Subject_Ebook> GetSubjectEbook()
         {
-            var a = db.Subject_Ebook.ToList();
-            return a;
+            //var a = db.Subject_Ebook.ToList();
+            //return a;
+            return db.Subject_Ebook.ToList();
         }
 
-
+       
         //Tạo môn học trong Ebook
         [Route("api/FileAPI/CreateSubject")]
         [HttpPost]
@@ -163,7 +164,7 @@ namespace LibraryOnline.Controllers
                 db.SaveChanges();
                 var sub_ebook = db.Subject_Ebook.Where(x => x.name.Equals(subject.Name)).FirstOrDefault();
 
-                MyHub.Post(sub_ebook.id, sub_ebook.name);
+                //MyHub.Post(sub_ebook.id, sub_ebook.name);
             }
             return "Tạo môn thành công.";
         }
@@ -237,7 +238,7 @@ namespace LibraryOnline.Controllers
         //    //}
 
 
-            
+
         //}
     }
 }

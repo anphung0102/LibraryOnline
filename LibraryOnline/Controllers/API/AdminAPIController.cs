@@ -41,7 +41,7 @@ namespace LibraryOnline.Controllers.API
             string a = "";
             if (strExtexsion == ".pdf")//chỉ cho up pdf
             {
-             
+
                 using (LibraryEntities db = new LibraryEntities())
                 {
                     //Add vô bảng ebook 
@@ -84,16 +84,19 @@ namespace LibraryOnline.Controllers.API
             return a;
         }
 
-
+        
         //Tạo môn học trong Ebook
         [Route("api/AdminAPI/CreateSubject")]
         [HttpPost]
-        public string CreateSubject(SubjectViewModel subject)
+        public SubjectCreationResult CreateSubject(SubjectViewModel subject)
         {
             var sub = db.Subject_Ebook.Where(x => x.name.Equals(subject.Name)).FirstOrDefault();
             if (sub != null)
             {
-                return "Tên môn đã tồn tại! Vui lòng đặt tên khác.";
+                return new SubjectCreationResult
+                {
+                    IsSuccess = false
+                };
             }
             else
             {
@@ -104,8 +107,13 @@ namespace LibraryOnline.Controllers.API
                 db.SaveChanges();
                 var sub_ebook = db.Subject_Ebook.Where(x => x.name.Equals(subject.Name)).FirstOrDefault();
 
-                MyHub.Post(sub_ebook.id, sub_ebook.name);
-                return "Tạo môn thành công.";
+                //MyHub.Post(sub_ebook.id, sub_ebook.name);
+                return new SubjectCreationResult
+                {
+                    IsSuccess = true,
+                    Id = sub_ebook.id,
+                    Name = sub_ebook.name
+                };
             }
         }
 
@@ -157,13 +165,13 @@ namespace LibraryOnline.Controllers.API
 
             return "Xóa thành công";
         }
-       
+
         [Route("api/AdminAPI/DeleteSubjectById1")]
         [HttpPost]
         public string DeleteSubjectById1(Subject_Ebook sub)
         {
             return "Xóa thành công" + sub.name;
         }
-      
+
     }
 }

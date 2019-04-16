@@ -9,7 +9,11 @@ namespace LibraryOnline.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-       
-
     }
+
+    public class SubjectCreationResult : SubjectViewModel
+    {
+        public bool IsSuccess { get; set; }
+    }
+
 }

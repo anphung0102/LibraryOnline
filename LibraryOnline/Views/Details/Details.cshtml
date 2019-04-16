@@ -99,10 +99,11 @@
                 data += "<h3>Năm xuất bản: " + v.year + "</h3>";
                 data += "<div><small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9734;<span>(8 đánh giá)</span></small></div>";
                 data += "<div id='button_details'>";
-                //data += "<embed src='/Content/Upload/" + v.filename + "' type='application/pdf' height='300px' width='100%' class='responsive'>";
+                data += "<embed src='/Content/Upload/" + v.filename + "' type='application/pdf' height='300px' width='100%' class='responsive'>";
                 data += "<p id='pdf-link' hidden='hidden'>/Content/Upload/" + v.filename+"</p>";
                 //data += "<button style='width: 100px;' id='read' ><a href='/Content/Upload/" + v.filename + "'></a>đọc</button>";
-                data += "<button style='width: 100px;' id='read' >đọc</button>";
+                //data += "<button style='width: 100px;' id='read' >đọc</button>";
+                data += "<a href='/ReadFileDetails/Index?id=" + v.id + "'" + "data-bind='text:title'>đọc</a>";
                 //data += '<a href="/Content/Upload/' + v.filename + '" download></a > ';
                 data += `<a href="/Content/Upload/${v.filename}" download>
                     <input type="button" value="Download" /> </a > `

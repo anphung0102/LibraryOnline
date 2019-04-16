@@ -1,0 +1,74 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+
+    <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.0/css/select.dataTables.min.css">
+
+    <link type="text/css" href="~/Content/Datatables/editor.dataTables.min.css" rel="stylesheet" />
+
+
+</head>
+
+<body>
+    <div>
+        <table id="loadsubject" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+        </table>
+    </div>
+    <script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src=" https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js"></script>
+
+    @*<script type="text/javascript" charset="utf8" src="~/Content/Datatables/dataTables.editor.min.js"></script>*@
+
+    <script type="text/javascript">
+        var editor; 
+
+        $.ajax({
+            type: "GET",
+            url: "/api/FileAPI/GetSubjectEbook",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                InitTable(data);
+            }
+        });
+
+        function InitTable(data) {
+            $('#loadsubject').DataTable({
+                data: data,
+                "columns": [
+                    { "data": "id" },
+                    { "data": "name" },
+                    {
+                        "render": function (data, type, row) {
+                            return '<a href="">Edit</a>';
+                        }
+                    }
+                ]
+            });
+        }
+
+
+
+    </script>
+</body>
+</html>

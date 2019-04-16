@@ -11,11 +11,11 @@ using System.Web.Http;
 
 namespace LibraryOnline.Controllers.API
 {
-    public class AdminController : ApiController
+    public class AdminAPIController : ApiController
     {
         private LibraryEntities db = new LibraryEntities();
         //Upload file cho Ebook 
-        [Route("api/Admin/UploadFiles")]
+        [Route("api/AdminAPI/UploadFiles")]
         [HttpPost]
         public string UploadFiles()
         {
@@ -76,7 +76,7 @@ namespace LibraryOnline.Controllers.API
 
         ////Lấy môn học của ebook
         ////Lấy môn học của ebook
-        [Route("api/Admin/GetSubjectEbook")]
+        [Route("api/AdminAPI/GetSubjectEbook")]
         [HttpGet]
         public IEnumerable<Subject_Ebook> GetSubjectEbook()
         {
@@ -86,7 +86,7 @@ namespace LibraryOnline.Controllers.API
 
 
         //Tạo môn học trong Ebook
-        [Route("api/Admin/CreateSubject")]
+        [Route("api/AdminAPI/CreateSubject")]
         [HttpPost]
         public string CreateSubject(SubjectViewModel subject)
         {
@@ -110,7 +110,7 @@ namespace LibraryOnline.Controllers.API
         }
 
         //lấy ebook
-        [Route("api/Admin/GetEbook")]
+        [Route("api/AdminAPI/GetEbook")]
         [HttpGet]
         public IEnumerable<Ebook> GetEbook(int id)
         {
@@ -118,21 +118,21 @@ namespace LibraryOnline.Controllers.API
         }
 
         //lấy ebookpaging
-        [Route("api/Admin/GetEbookPaging")]
+        [Route("api/AdminAPI/GetEbookPaging")]
         [HttpGet]
         public IEnumerable<Ebook> GetEbookPaging(int id)
         {
             return db.Ebooks.Where(x => x.sub_id == id).ToArray();
         }
         //lấy ebook
-        [Route("api/Admin/GetEbookDetail")]
+        [Route("api/AdminAPI/GetEbookDetail")]
         [HttpGet]
         public IEnumerable<Ebook> GetEbookDetail(int id)
         {
             return db.Ebooks.Where(x => x.id == id).ToList();
         }
         //lấy file theo id
-        [Route("api/Admin/GetFileById")]
+        [Route("api/AdminAPI/GetFileById")]
         [HttpGet]
         public Ebook GetFileById(int id)
         {
@@ -140,7 +140,7 @@ namespace LibraryOnline.Controllers.API
         }
 
         //xoá ebook
-        [Route("api/Admin/DeleteSubjectById")]
+        [Route("api/AdminAPI/DeleteSubjectById")]
         [HttpPost]
         public string DeleteSubjectById(Subject_Ebook subject)
         {
@@ -157,67 +157,13 @@ namespace LibraryOnline.Controllers.API
 
             return "Xóa thành công";
         }
-        //sửa ebook
-        //[Route("api/FileAPI/EditSubjectById")]
-        //[HttpPost]
-        //public string EditSubjectById(Subject_Ebook subject)
-        //{
-        //    var sub = db.Subject_Ebook.Where(x => x.id == subject.id).FirstOrDefault();
-
-        //[Route("api/FileAPI/DeleteSubjectById1")]
-        //[HttpPost]
-        //public string DeleteSubjectById1(Subject_Ebook sub) 
-        //{
-        //    return "Xóa thành công"+sub.name;
-        //}
-        [Route("api/Admin/EbookPaging")]
-        [HttpGet]
-        public IEnumerable<Ebook> EbookPaging(int id, [FromUri]PagingParameterModel pagingparametermodel)
+       
+        [Route("api/AdminAPI/DeleteSubjectById1")]
+        [HttpPost]
+        public string DeleteSubjectById1(Subject_Ebook sub)
         {
-
-            // Return List of Customer  
-            var source = db.Ebooks.Where(x => x.id == id).AsQueryable();
-
-            // Get's No of Rows Count   
-            int count = source.Count();
-
-            // Parameter is passed from Query string if it is null then it default Value will be pageNumber:1  
-            int CurrentPage = pagingparametermodel.pageNumber;
-
-            // Parameter is passed from Query string if it is null then it default Value will be pageSize:20  
-            int PageSize = pagingparametermodel.pageSize;
-
-            // Display TotalCount to Records to User  
-            int TotalCount = count;
-
-            // Calculating Totalpage by Dividing (No of Records / Pagesize)  
-            int TotalPages = (int)Math.Ceiling(count / (double)PageSize);
-
-            // Returns List of Customer after applying Paging   
-            var items = source.Skip((CurrentPage - 1) * PageSize).Take(PageSize).ToList();
-
-            // if CurrentPage is greater than 1 means it has previousPage  
-            var previousPage = CurrentPage > 1 ? "Yes" : "No";
-
-            // if TotalPages is greater than CurrentPage means it has nextPage  
-            var nextPage = CurrentPage < TotalPages ? "Yes" : "No";
-
-            // Object which we are going to send in header   
-            var paginationMetadata = new
-            {
-                totalCount = TotalCount,
-                pageSize = PageSize,
-                currentPage = CurrentPage,
-                totalPages = TotalPages,
-                previousPage,
-                nextPage
-            };
-
-            // Setting Header  
-            HttpContext.Current.Response.Headers.Add("Paging-Headers", JsonConvert.SerializeObject(paginationMetadata));
-            // Returing List of Customers Collections  
-            return items;
-
+            return "Xóa thành công" + sub.name;
         }
+      
     }
 }

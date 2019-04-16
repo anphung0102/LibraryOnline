@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml"; 
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{
     var user = Session["username"];
@@ -19,193 +19,194 @@
 
             <h3 class="my-4">Select Category</h3>
             <ul class="mainmenu">
-                <li class="mainmenu-item">@* cái mainmenu-item này bao cái thẻ đó bên trong  *@
-                    <a class="mainmenu-item-text">Ebooks<span class="fas fa-plus" data-toggle="modal" data-target="#CreateSub" style="float:right"></span></a>
-                    <!--The Modal Create-->
-                    <div class="modal" id="CreateSub">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <!-- Modal Header -->
-                                <div class="modal-header">
-                                    <h4 class="modal-title">Tạo môn học</h4>
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                </div>
-                                <!-- Modal body -->
-                                <!-- Tạo môn học -->
-                                <div id="modal" class="modal-body">
-                                    <div class="form-group">
-                                        <label for="text">Tiêu đề:</label>
-                                        <input type="text" class="form-control" id="nameSujectEbook" placeholder="Tên môn" name="Name">
-                                    </div>
-                                    <div style="margin-top:20px">
-                                        <button id="create_sub_ebook" type="button" class="btn btn-primary">Tạo</button>
-                                    </div>
-                                </div>
-                                <!-- Modal footer -->
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger btn_close" data-dismiss="modal">Đóng</button>
-                                </div>
-
+                <li class="mainmenu-item">
+                    @* cái mainmenu-item này bao cái thẻ đó bên trong  *@
+                <a class="mainmenu-item-text">Ebooks<span class="fas fa-plus" data-toggle="modal" data-target="#CreateSub" style="float:right"></span></a>
+                <!--The Modal Create-->
+                <div class="modal" id="CreateSub">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Tạo môn học</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
-                        </div>
-                    </div>
-                    <ul class="submenu" id="loadSubjectOfEbook">
-                        @*load các môn học trong ebook*@
-                    </ul>
-                </li>
-                @* *@
-                <li class="mainmenu-item"><a class="mainmenu-item-text" href="">Tiểu luận</a></li>
-                <li class="mainmenu-item"><a class="mainmenu-item-text" href="">Khóa luận</a></li>
-            </ul>
-            @*<h3 class="my-4">Upload</h3>*@
-            <!-- Upload phải chọn môn học -->
-            <div class="modal" id="myModal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-
-                        <!-- Modal Header -->
-                        <div class="modal-header">
-                            <h4 class="modal-title">Upload</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        </div>
-
-                        <!-- Form Upload Ebook -->
-                        <div class="modal-body">
-                            <form>
+                            <!-- Modal body -->
+                            <!-- Tạo môn học -->
+                            <div id="modal" class="modal-body">
                                 <div class="form-group">
                                     <label for="text">Tiêu đề:</label>
-                                    <input type="text" class="form-control" id="title" placeholder="Tiêu đề" name="title">
-
+                                    <input type="text" class="form-control" id="nameSujectEbook" placeholder="Tên môn" name="Name">
                                 </div>
-                                <div class="form-group">
-                                    <label for="text">Giới thiệu:</label>
-                                    <input type="text" class="form-control" id="describe" placeholder="Giới thiêu" name="describe">
-
-                                </div>
-                                <div class="form-group">
-                                    <label for="text">Tác giả:</label>
-                                    <input type="text" class="form-control" id="author" placeholder="Tiêu đề" name="author">
-
-                                </div>
-                                <div class="form-group">
-                                    <label for="text">Năm sản xuất:</label>
-                                    <input type="text" class="form-control" id="year" placeholder="Giới thiêu" name="year">
-
-                                </div>
-                                @*<div class="form-group" >
-                                        <label for="text">Mon hoc:</label>
-                                        <input type="text" class="form-control" id="subject" placeholder="Giới thiêu" name="year">
-
-                                    </div>*@
-                                <div class="form-group">
-                                    <label for="text">Môn học:</label>
-                                    <select id="subject" class="form-control"></select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="text">Browser</label>
-
-                                    <input type="file" name="Files" multiple id="fileInput" />
-                                </div>
-
-                                <div id="error"></div>
                                 <div style="margin-top:20px">
-                                    <button id="upload" type="button" class="btn btn-primary">Upload</button>
+                                    <button id="create_sub_ebook" type="button" class="btn btn-primary">Tạo</button>
                                 </div>
-                        </div>
+                            </div>
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger btn_close" data-dismiss="modal">Đóng</button>
+                            </div>
 
-                        <!-- Modal footer -->
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                         </div>
-
                     </div>
                 </div>
-            </div>
-        </div>
-        <!-- /.col-lg-3 -->
-
-        <div class="col-lg-9">
-            <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                </ol>
-                <div class="carousel-inner" role="listbox">
-                    <div class="carousel-item active">
-                        <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="First slide">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide">
-                    </div>
-                </div>
-                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>
-            <!-- tạo các tab liên quan -->
-            <div id="navigation">
-                <ul class="breadcrumb">
-                    @*<li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Ebooks</a></li>
-                        <li class="breadcrumb-item active">Product</li>*@
-                   
-                    <li class="breadcrumb-item"><a id="breadcrumb-1" href="#">Admin</a></li>
-                    <li class="breadcrumb-item breadcrumb-item-2" style="display:none;"><a id="breadcrumb-2" href="#"></a></li>
-                    <li class="breadcrumb-item breadcrumb-item-3 active" style="display:none;" id="breadcrumb-3"></li>
-                   
+                <ul class="submenu" id="loadSubjectOfEbook">
+                    @*load các môn học trong ebook*@
                 </ul>
-            </div><!-- navigation -->
-            <div class="d-flex justify-content-between mb-3">
-                <h1 id="loadFilePageHome" class="khoangcachduoi">Products</h1>
-                <div>
-                    <button id="btn_upload" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#myModal" style="margin-top:10px;">Upload</button>
+            </li>
+            @* *@
+            <li class="mainmenu-item"><a class="mainmenu-item-text" href="">Tiểu luận</a></li>
+            <li class="mainmenu-item"><a class="mainmenu-item-text" href="">Khóa luận</a></li>
+        </ul>
+        @*<h3 class="my-4">Upload</h3>*@
+        <!-- Upload phải chọn môn học -->
+        <div class="modal" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Upload</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Form Upload Ebook -->
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="text">Tiêu đề:</label>
+                                <input type="text" class="form-control" id="title" placeholder="Tiêu đề" name="title">
+
+                            </div>
+                            <div class="form-group">
+                                <label for="text">Giới thiệu:</label>
+                                <input type="text" class="form-control" id="describe" placeholder="Giới thiêu" name="describe">
+
+                            </div>
+                            <div class="form-group">
+                                <label for="text">Tác giả:</label>
+                                <input type="text" class="form-control" id="author" placeholder="Tiêu đề" name="author">
+
+                            </div>
+                            <div class="form-group">
+                                <label for="text">Năm sản xuất:</label>
+                                <input type="text" class="form-control" id="year" placeholder="Giới thiêu" name="year">
+
+                            </div>
+                            @*<div class="form-group" >
+                                    <label for="text">Mon hoc:</label>
+                                    <input type="text" class="form-control" id="subject" placeholder="Giới thiêu" name="year">
+
+                                </div>*@
+                            <div class="form-group">
+                                <label for="text">Môn học:</label>
+                                <select id="subject" class="form-control"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="text">Browser</label>
+
+                                <input type="file" name="Files" multiple id="fileInput" />
+                            </div>
+
+                            <div id="error"></div>
+                            <div style="margin-top:20px">
+                                <button id="upload" type="button" class="btn btn-primary">Upload</button>
+                            </div>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+
                 </div>
-
             </div>
-            <div class="row" id="loadEbook" data-bind="foreach: resultArr">
-
-            </div>
-
-
-            @*// phân trang*@
-
-            <div class="col-lg-12 col-md-6 mb-4">
-                @*<nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-center" id="paging">
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>*@
-
-                <div id="pagination-container" class="pagination justify-content-center"></div>
-            </div>
-            <!-- /.row -->
         </div>
-        <!-- /.col-lg-9 -->
     </div>
-    <!-- /.row -->
+    <!-- /.col-lg-3 -->
+
+    <div class="col-lg-9">
+        <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner" role="listbox">
+                <div class="carousel-item active">
+                    <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="First slide">
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide">
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide">
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+        <!-- tạo các tab liên quan -->
+        <div id="navigation">
+            <ul class="breadcrumb">
+                @*<li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Ebooks</a></li>
+                    <li class="breadcrumb-item active">Product</li>*@
+
+                <li class="breadcrumb-item"><a id="breadcrumb-1" href="#">Admin</a></li>
+                <li class="breadcrumb-item breadcrumb-item-2" style="display:none;"><a id="breadcrumb-2" href="#"></a></li>
+                <li class="breadcrumb-item breadcrumb-item-3 active" style="display:none;" id="breadcrumb-3"></li>
+
+            </ul>
+        </div><!-- navigation -->
+        <div class="d-flex justify-content-between mb-3">
+            <h1 id="loadFilePageHome" class="khoangcachduoi">Products</h1>
+            <div>
+                <button id="btn_upload" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#myModal" style="margin-top:10px;">Upload</button>
+            </div>
+
+        </div>
+        <div class="row" id="loadEbook" data-bind="foreach: resultArr">
+
+        </div>
+
+
+        @*// phân trang*@
+
+        <div class="col-lg-12 col-md-6 mb-4">
+            @*<nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center" id="paging">
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>*@
+
+            <div id="pagination-container" class="pagination justify-content-center"></div>
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.col-lg-9 -->
+</div>
+<!-- /.row -->
 
 
 </div>
@@ -275,49 +276,21 @@
         //    return data;
         //}
         //load môn học
-       
+
         $.ajax({
             type: "GET",
-            url: "/api/Admin/GetSubjectEbook",
+            url: "/api/FileAPI/GetSubjectEbook",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (result) {
                 $.each(result, function (i, v) {
                     //alert(v.name);
                     //load các môn của ebook lên thanh danh mục bên trái
-                    $("#loadSubjectOfEbook").append("<li id='ebook_" + v.id + "'><a>" + v.name
-                        + "<button " + "id='del_sub_eb_" + v.id + "' type='button' class='btn btn-info far fa-trash-alt'"
-                        + "style='float: right'></button>"
-                        + "<button type='button' class='btn btn-info far fa-file-alt'"
-                        + "style='float: right'></button></a></li >");
+                    $("#loadSubjectOfEbook").append("<li id='ebook_" + v.id + "'><a>" + v.name +
+                        "</a></li >");
 
+                    
 
-                    //xóa môn học khi click vào buttton delete
-                    $("#del_sub_eb_" + v.id).click(function () {
-                        //alert("aaaaaa");
-                        var r = confirm("Bạn có chắc muốn xóa không?");
-                        if (r == true) {
-                            //alert("You pressed OK!");
-                            var data = {};
-                            data.id = v.id;
-                            data.name = v.name;
-                            $.ajax({
-                                type: "POST",
-                                url: "/api/FileAPI/DeleteSubjectById",
-                                data: JSON.stringify(data),
-                                //data: { id: v.id },
-                                contentType: "application/json; charset=utf-8",
-                                dataType: "json",
-                                success: function (result) {
-                                    alert(result);
-                                }
-                            });
-                        }
-                        //else {
-                        //    alert("You pressed Cancel!");
-                        //}
-                    });
-                  
                     $("#ebook_" + v.id).click(function (e) {
                         //Ẩn hiện form upload file ở trang chỉ hay uplaod file trong môn học
                         $("#btn_upload").show();
@@ -326,14 +299,14 @@
                         $("#loadEbook").empty();
                         $.ajax({
                             type: "GET",
-                            url: "/api/Admin/GetEbook",
+                            url: "/api/FileAPI/GetEbook",
                             data: { id: v.id },
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             success: function (result) {
-                                
+
                                 var tag = $(e.currentTarget).closest('.mainmenu-item');
-                               
+
                                 var tagText = $(tag).find('.mainmenu-item-text');
                                 $('.breadcrumb-item-2').css("d isplay", "block");
                                 $('.breadcrumb-item-3').css("display", "block");
@@ -358,7 +331,7 @@
                                     dataSource: function (done) {
                                         $.ajax({
                                             type: 'GET',
-                                            url: '/api/Admin/GetEbookPaging',
+                                            url: '/api/FileAPI/GetEbookPaging',
                                             data: { id: v.id },
                                             contentType: "application/json; charset=utf-8",
                                             dataType: "json",
@@ -384,7 +357,7 @@
             subject.name = $("#nameSujectEbook").val();
             $.ajax({
                 type: "POST",
-                url: "/api/Admin/CreateSubject",
+                url: "/api/FileAPI/CreateSubject",
                 data: JSON.stringify(subject),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -408,16 +381,20 @@
         var chat = $.connection.myHub;
         //SignalR thêm môn học vào Ebook
         chat.client.postToClient = function (id, name) {
-            $("#loadSubjectOfEbook").append("<li id='ebook_" + id + "'><a>" + name + "</a></li >");
+            $("#loadSubjectOfEbook").append("<li id='" + id + "'><a>" + name + "</a></li >");
             //thêm môn học vừa mới tạo
-            $("#loadSubjectOfEbook").append("<li id='ebook_" + id + "'><a>" + name
-                + "</a></li >");
-
+            //$("#loadSubjectOfEbook").append("<li id='ebook_" + id + "'><a>" + name
+            //    + "<button " + "id='del_sub_eb_" + id + "' type='button' class='btn btn-info far fa-trash-alt'"
+            //    + "style='float: right'></button>"
+            //    + "<button type='button' class='btn btn-info far fa-file-alt'"
+            //    + "style='float: right'></button></a></li >");
+           
 
         };
+        
         //SignalR thêm file
         chat.client.postFileEbookToClient = function (id, title, author, describe, filename,
-            date_upload,user) {
+            date_upload) {
             var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
             data += "<div class='card h-100'>";
             data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";

@@ -9,7 +9,7 @@ using System.Web.Http;
 
 namespace LibraryOnline.Controllers.API
 {
-    public class LoginController : ApiController
+    public class LoginAPIController : ApiController
     {
         public class LoginInfo
         {
@@ -17,7 +17,7 @@ namespace LibraryOnline.Controllers.API
             public string Pass { get; set; }
         }
         private LibraryEntities db = new LibraryEntities();
-        [Route("api/Login/Login")]
+        [Route("api/LoginAPI/Login")]
         [HttpPost]
         public string Login(LoginInfo loginInfo)
         {

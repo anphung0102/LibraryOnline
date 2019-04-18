@@ -28,19 +28,37 @@ namespace LibraryOnline.Controllers
         //sửa ebook
         [Route("api/EbookAPI/EditSubjectById")]
         [HttpPost]
-        public string EditSubjectById(Subject_Ebook subject)
+        public SubjectCreationResult EditSubjectById(Subject_Ebook subject)
         {
-            var sub = db.Subject_Ebook.Where(x => x.id == subject.id).FirstOrDefault();
+            //var sub = db.Subject_Ebook.Where(x => x.id == subject.id).FirstOrDefault();
 
-            if (sub != null)
+            //if (sub != null)
+            //{
+            //    sub.name = subject.name;
+            //    db.SaveChanges();
+            //    return "Sửa thành công";
+            //}
+            //else
+            //{
+            //    return "Sửa không thành công";
+            //}
+
+            var sub = db.Subject_Ebook.Where(x => x.id == subject.id).FirstOrDefault();
+            if (sub == null)
             {
-                sub.name = subject.name;
-                db.SaveChanges();
-                return "Sửa thành công";
+                return new SubjectCreationResult
+                {
+                    IsSuccess = false
+                };
             }
             else
             {
-                return "Sửa không thành công";
+                sub.name = subject.name;
+                db.SaveChanges();
+                return new SubjectCreationResult
+                {
+                    IsSuccess = true
+                };
             }
         }
 

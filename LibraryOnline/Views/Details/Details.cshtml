@@ -139,13 +139,13 @@
                 data += "<p>Tác giả: " + v.author + "</p>";
                 data += "<p>Năm xuất bản: " + v.year + "</p>";
                 data += "<div id='button_details'>";
-                data += "<embed src='/Content/Upload/" + v.filename + "' type='application/pdf' height='300px' width='100%' class='responsive'>";
+                //data += "<embed src='/Content/Upload/" + v.filename + "' type='application/pdf' height='300px' width='100%' class='responsive'>";
                 data += "<p id='pdf-link' hidden='hidden'>/Content/Upload/" + v.filename+"</p>";
                 //data += "<button style='width: 100px;' id='read' ><a href='/Content/Upload/" + v.filename + "'></a>đọc</button>";
                 //data += "<button style='width: 100px;' id='read' >đọc</button>";
-                data += "<a href='/ReadFileDetails/Index?id=" + v.id + "'" + "data-bind='text:title'>đọc</a>";
+                data += "<button style='width: 100px;'><a href='/ReadFileDetails/Index?id=" + v.id + "'" + "data-bind='text:title'>đọc</a></button>";
                 //data += '<a href="/Content/Upload/' + v.filename + '" download></a > ';
-                data += `<a href="/Content/Upload/${v.filename}" download>
+                data += `<a href="/Content/Upload/${v.filename}" >
                     <input type="button" value="Download" /></a >`
 
                 data += " </div></div>";

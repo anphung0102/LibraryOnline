@@ -211,6 +211,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\API\AdminAPIController.cs" />
+    <Compile Include="Controllers\API\LecturerAPIController.cs" />
     <Compile Include="Controllers\API\LoginAPIController.cs" />
     <Compile Include="Controllers\API\SearchAPIController.cs" />
     <Compile Include="Controllers\DetailsController.cs" />
@@ -298,6 +299,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\style1.css" />
+    <Content Include="Content\css\styles.minc726.css" />
     <Content Include="Content\Datatables\datatables.css" />
     <Content Include="Content\Datatables\dataTables.editor.min.js" />
     <Content Include="Content\Datatables\datatables.js" />
@@ -441,6 +443,10 @@
     <Content Include="Scripts\jquery.rateit.min.js.map" />
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\ReadFileDetails\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
+    <Content Include="Views\Shared\_LayoutStudent.cshtml" />
+    <Content Include="Views\Shared\_LayoutLecturer.cshtml" />
+    <Content Include="Views\Lecturers\Manage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

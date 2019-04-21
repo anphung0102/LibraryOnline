@@ -1,0 +1,375 @@
+﻿@{
+    Layout = null;
+}
+
+
+@*<link href="https://editor.datatables.net/extensions/Editor/js/dataTables.editor.min.js" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js" rel="stylesheet" />*@
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css" rel="stylesheet" />
+<script type="text/javascript">
+
+</script>
+<style>
+    .btn {
+        margin-right: 20px;
+    }
+</style>
+<div class="container">
+    <h2>Quản lý Ebook</h2>
+    <div>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+            Open modal
+        </button>
+        <button id="btnEdit" type='button' class='btn btn-danger'>Sửa</button>
+        <button id="btnDel" type='button' class='btn btn-danger'>Xóa</button>
+    </div>
+
+
+    <table id="loadsubject" class="table table-bordered table-striped dataTable no-footer" role="grid" aria-describedby="crudTable_info">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tên môn</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+<!--Popup edit-->
+<div class="modal" id="EditSub">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Sửa môn học</h4>
+                <button type="button" id="btn_closeX" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <!-- Sửa môn học -->
+            <div id="modal" class="modal-body">
+                <div class="form-group">
+                    <label for="text">Tên môn:</label>
+                    <input type="text" class="form-control" id="EditNameSub_Eb" placeholder="Tên môn" name="Name">
+                </div>
+                <div style="margin-top:20px">
+                    <button id="btnSaveEdit" type="button" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" id="btn_closeEdit" class="btn btn-danger btn_close" data-dismiss="modal">Đóng</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--Popup Add-->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Upload</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Form Upload Ebook -->
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="text">Tiêu đề:</label>
+                        <input type="text" class="form-control" id="title" placeholder="Tiêu đề" name="title">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="text">Giới thiệu:</label>
+                        <input type="text" class="form-control" id="describe" placeholder="Giới thiêu" name="describe">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="text">Tác giả:</label>
+                        <input type="text" class="form-control" id="author" placeholder="Tiêu đề" name="author">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="text">Năm sản xuất:</label>
+                        <input type="text" class="form-control" id="year" placeholder="Giới thiêu" name="year">
+
+                    </div>
+                    @*<div class="form-group" >
+                        <label for="text">Mon hoc:</label>
+                        <input type="text" class="form-control" id="subject" placeholder="Giới thiêu" name="year">
+
+                    </div>*@
+                    <div class="form-group">
+                        <label for="text">Môn học:</label>
+                        <select id="loadSubjectOfEbook" class="custom - select"></select>
+                        @*<div id="loadSubjectOfEbook"></div>*@
+                    </div>
+                    <div class="form-group">
+                        <label for="text">Browser</label>
+
+                        <input type="file" name="Files" multiple id="fileInput" />
+                    </div>
+
+                    <div id="error"></div>
+                    <div style="margin-top:20px">
+                        <button id="upload" type="button" class="btn btn-primary">Upload</button>
+                    </div>
+                    </form>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Content/Datatables/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/jquery.signalR-2.4.0.min.js"></script>
+<!--Reference the autogenerated SignalR hub script. -->
+<script src="~/signalr/hubs"></script>
+
+<!--Xóa môn-->
+<script>
+    //hàm xóa
+    function DeleteEbook(id) {
+        var r = confirm("Bạn có chắc muốn xóa không?");
+
+        if (r == true) {
+            var data = {};
+            data.id = id;
+            $.ajax({
+                type: "POST",
+                url: "/api/EbookAPI/DeleteSubjectById",
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    alert(result);
+                }
+            });
+        }
+    }
+
+    var index = 0;
+    var flag = false;
+    $(document).ready(function () {
+        //click vào row của datatable
+        $('#loadsubject tbody').on('click', 'tr', function () {
+            flag = true;
+            var table = $('#loadsubject').DataTable();
+            var rowCurrent = $(this);
+            console.log("index", rowCurrent);
+            index = rowCurrent[0].sectionRowIndex;
+            console.log("rowCurrent", index);
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            }
+            else {
+                table.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+
+        });
+        //xóa 1 row datatable
+        $('#btnDel').click(function () {
+            var table = $('#loadsubject').DataTable();
+            console.log("aaa", table.rows({ selected: true }).data());
+            var rowData = table.rows({ selected: true }).data()[index]['id'];
+            console.log("rowData", rowData);
+            if (flag == true) {
+                DeleteEbook(rowData);
+                table.row('.selected').remove().draw(false);
+            }
+        });
+        $('body').on('click', '#btnEdit', function (e) {
+            var table = $('#loadsubject').DataTable();
+            var name = table.rows({ selected: true }).data()[index]['name'];
+            alert(name);
+            $("input[id='EditNameSub_Eb']").val(name);
+            $("#EditSub").show();
+        });
+        $("#btnSaveEdit").click(function () {
+            var table = $('#loadsubject').DataTable();
+            var id = table.rows({ selected: true }).data()[index]['id'];
+            var name = table.rows({ selected: true }).data()[index]['name'];
+            var data = {};
+            data.id = id;
+            data.name = name;
+            $.ajax({
+                type: "POST",
+                url: "/api/EbookAPI/EditSubjectById",
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result.isSuccess) {
+                        alert("Sửa thành công.");
+                        //add row datatable
+                        var t = $('#loadsubject').DataTable();
+                        //t.row.edit({
+                        //    "id": id,
+                        //    "name": name
+                        //}).draw();
+                        alert(index);
+                        t.row(index).edit({
+                            name: name
+                        });
+                    } else {
+                        alert("Sửa không thành công.");
+                    }
+                }
+            });
+        });
+    });
+</script>
+<!--Tạo môn học-->
+<script>
+    $.ajax({
+        type: "GET",
+        url: "/api/FileAPI/GetSubjectEbook",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+
+            $.each(result, function (i, v) {
+                //alert(v.name);
+                //load các môn của ebook lên thanh danh mục bên trái
+                //$("#loadSubjectOfEbook").append("<li id='ebook_" + v.id + "'><a>" + v.name + "</a></li >");
+                $("#loadSubjectOfEbook").append("<option value='"+v.id+"'>" + v.name + "</option>");
+            });
+        }
+    });
+      $(document).ready(function () {
+        //Upload dữ liệu vào Ebook
+        $("#upload").click(function () {
+            var files = $("#fileInput").get(0).files;
+            var fileData = new FormData();
+
+            for (var i = 0; i < files.length; i++) {
+                fileData.append("fileInput", files[i]);
+            }
+            //cái này là lấy thông tin trên text box  title là key tiltle.val() là giá trị
+            fileData.append("title", $("#title").val());
+            fileData.append("describe", $("#describe").val());
+            fileData.append("author", $("#author").val());
+            fileData.append("year", $("#year").val());
+            fileData.append("userid",@Session["user_id"]);
+            fileData.append("subid", $("#loadSubjectOfEbook option:selected").val()); 
+
+            console.log(fileData);
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:52385/api/FileAPI/UploadFiles",
+                dataType: "json",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (result) {
+                    alert(result);
+                    var t = $('#loadsubject').DataTable();
+                    t.row.add({
+                        "id": result.id,
+                        "name": result.title
+                    }).draw();
+                }
+            });
+
+        });
+
+
+    });
+    $("#btnSaveAdd").click(function () {
+        var data = {};
+        data.name = $("input[id='AddNameSub_Eb']").val();
+        $.ajax({
+            type: "POST",
+            url: "/api/AdminAPI/CreateSubject",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                if (result.isSuccess) {
+                    alert("Tạo môn thành công.");
+                    //add row datatable
+                    var t = $('#loadsubject').DataTable();
+                    t.row.add({
+                        "id": result.id,
+                        "name": result.name
+                    }).draw();
+                } else {
+                    alert("Tên môn đã tồn tại! Vui lòng đặt tên khác.");
+                }
+            }
+        });
+    });
+</script>
+<!--Sửa môn học-->
+<script>
+    
+</script>
+<!--Load môn học-->
+<script>
+    //load môn học ebook
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "/api/LecturerAPI/GetEbook_Lecturer",
+                data: {id:@ViewBag.Id},
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    InitTable(data);
+                }
+            });
+            function InitTable(data) {
+                $('#loadsubject').DataTable({
+                    data: data,
+                    "columns": [
+                        { "data": "id" },
+                        { "data": "title" },
+                        { "data": "title" },
+                        { "data": "title" },
+
+
+                    ]
+                });
+            }
+            function clearEditSub() {
+                $("input[id='EditNameSub_Eb']").val("");
+            }
+            function clearAddSub() {
+                $("input[id='AddNameSub_Eb']").val("");
+            }
+            $("#btn_closeX").click(function () {
+                $("#EditSub").hide();
+                clearEditSub();
+            });
+            $("#btn_closeEdit").click(function () {
+                $("#EditSub").hide();
+                clearEditSub();
+            });
+            //$("#btn_closeX1").click(function () {
+            //    $("#AddSub").hide();
+            //    clearAddSub();
+            //});
+            //$("#btn_closeAdd").click(function () {
+            //    $("#AddSub").hide();
+            //    clearAddSub();
+            //});
+        });
+
+</script>

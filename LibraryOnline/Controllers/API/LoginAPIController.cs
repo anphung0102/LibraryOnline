@@ -31,10 +31,18 @@ namespace LibraryOnline.Controllers.API
                     HttpContext.Current.Session["username"] = loginInfo.User;
                     HttpContext.Current.Session["user_id"] = user_id.id;
                     HttpContext.Current.Session["fullname"] = user_id.fullname;
+                    HttpContext.Current.Session["role_id"] = user_id.role_id;
                 }
                 if (role == 1)
                     return "/Admin/Admin";
-
+                else if (role == 2)
+                {
+                    return "/Lecturers/Index";
+                }
+                else if (role == 3)
+                {
+                    return "/Student/Index";
+                }
             }
             return "";
         }

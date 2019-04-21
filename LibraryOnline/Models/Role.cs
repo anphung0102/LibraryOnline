@@ -12,12 +12,12 @@ namespace LibraryOnline.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Role
+    public partial class ROLE
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Role()
+        public ROLE()
         {
-            this.Users = new HashSet<User>();
+            this.USERS = new HashSet<USER>();
         }
     
         public int id { get; set; }
@@ -25,6 +25,6 @@ namespace LibraryOnline.Models
         public string describe { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<USER> USERS { get; set; }
     }
 }

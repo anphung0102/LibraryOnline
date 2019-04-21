@@ -12,20 +12,21 @@ namespace LibraryOnline.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Essay
+    public partial class ESSAY
     {
         public int id { get; set; }
+        public string essay_id { get; set; }
         public string title { get; set; }
-        public string describe { get; set; }
         public string instructor { get; set; }
         public string executor1 { get; set; }
         public string executor2 { get; set; }
+        public string describe { get; set; }
         public string filename { get; set; }
         public Nullable<System.DateTime> date_upload { get; set; }
         public Nullable<int> user_id { get; set; }
         public Nullable<int> sub_id { get; set; }
     
-        public virtual Subject_Essay Subject_Essay { get; set; }
-        public virtual User User { get; set; }
+        public virtual SUBJECTESSAY SUBJECTESSAY { get; set; }
+        public virtual USER USER { get; set; }
     }
 }

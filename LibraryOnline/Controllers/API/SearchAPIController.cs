@@ -10,12 +10,12 @@ namespace LibraryOnline.Controllers.API
 {
     public class SearchAPIController : ApiController
     {
-        private LibraryEntities db = new LibraryEntities();
+        private LibraryOnlineEntities db = new LibraryOnlineEntities();
         [Route("api/SearchAPI/Search")]
         [HttpGet]
-        public IEnumerable<Ebook> Search(string search)//nay gio nhâm cái nay :D
+        public IEnumerable<EBOOK> Search(string search)//nay gio nhâm cái nay :D
         {
-            var data = db.Ebooks.Where(x => x.title.Contains(search) ||
+            var data = db.EBOOKS.Where(x => x.title.Contains(search) ||
              x.author.Contains(search) ||
             x.describe.Contains(search)).ToList();
             return data;

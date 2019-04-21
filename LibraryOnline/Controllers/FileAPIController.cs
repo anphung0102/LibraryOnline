@@ -23,18 +23,18 @@ namespace LibraryOnline.Controllers
     public class FileAPIController : ApiController
     {
         //
-        private LibraryEntities db = new LibraryEntities();
+        private LibraryOnlineEntities db = new LibraryOnlineEntities();
         [Route("api/FileAPI/Login")]
         [HttpPost]
         public string Login(LoginInfo loginInfo)
         {
-            using (LibraryEntities db = new LibraryEntities())
+            using (LibraryOnlineEntities db = new LibraryOnlineEntities())
             {
-                var role = db.Users.Where(x => x.username == loginInfo.User && x.password == loginInfo.Pass)
-                          .Select(x => x.role_id).FirstOrDefault();
-                var user_id = db.Users.Where(x => x.username == loginInfo.User && x.password == loginInfo.Pass)
+                var role = db.USERS.Where(x => x.username == loginInfo.User && x.pass == loginInfo.Pass)
+                          .Select(x => x.rode_id).FirstOrDefault();
+                var user_id = db.USERS.Where(x => x.username == loginInfo.User && x.pass == loginInfo.Pass)
                     .Select(x => x.id).FirstOrDefault();
-                var fullname = db.Users.Where(x => x.username == loginInfo.User && x.password == loginInfo.Pass)
+                var fullname = db.USERS.Where(x => x.username == loginInfo.User && x.pass == loginInfo.Pass)
                     .Select(x => x.fullname).FirstOrDefault();
                 HttpContext.Current.Session["username"] = loginInfo.User;
                 HttpContext.Current.Session["user_id"] = user_id;
@@ -104,11 +104,11 @@ namespace LibraryOnline.Controllers
             if (strExtexsion == ".pdf")//chỉ cho up pdf
             {
                 string temp = RandomString(10, true) + "-";
-                using (LibraryEntities db = new LibraryEntities())
+                using (LibraryOnlineEntities db = new LibraryOnlineEntities())
                 {
                     //Add vô bảng ebook 
-                    db.Ebooks.Add(
-                        new Ebook
+                    db.EBOOKS.Add(
+                        new EBOOK
                         {
                             title = title,
                             describe = describe,
@@ -120,9 +120,9 @@ namespace LibraryOnline.Controllers
                             sub_id = sub_id,
                         });
                     db.SaveChanges();//lưu dât thôi cái này t chưa chạy t mới test gửi data từ  ajax qua thôi
-                    var user = db.Users.Where(x => x.id == user_id).Select(x => x.username).FirstOrDefault();
-                    var subject = db.Subject_Ebook.Where(x => x.id == sub_id).Select(x => x.name).FirstOrDefault();
-                    var fileinfo = db.Ebooks.OrderByDescending(x => x.id).FirstOrDefault();
+                    var user = db.USERS.Where(x => x.id == user_id).Select(x => x.username).FirstOrDefault();
+                    var subject = db.SUBJECTEBOOKs.Where(x => x.id == sub_id).Select(x => x.name).FirstOrDefault();
+                    var fileinfo = db.EBOOKS.OrderByDescending(x => x.id).FirstOrDefault();
                     var date_up = fileinfo.date_upload.Value.ToString("MM/dd/yyyy");
                     MyHub.PostFileEbook(fileinfo.id, fileinfo.title, fileinfo.author, fileinfo.describe,
                         fileinfo.year, fileinfo.filename, date_up, user, subject);
@@ -140,11 +140,11 @@ namespace LibraryOnline.Controllers
         ////Lấy môn học của ebook
         [Route("api/FileAPI/GetSubjectEbook")]
         [HttpGet]
-        public IEnumerable<Subject_Ebook> GetSubjectEbook()
+        public IEnumerable<SUBJECTEBOOK> GetSubjectEbook()
         {
             //var a = db.Subject_Ebook.ToList();
             //return a;
-            return db.Subject_Ebook.ToList();
+            return db.SUBJECTEBOOKs.ToList();
         }
 
        
@@ -153,19 +153,19 @@ namespace LibraryOnline.Controllers
         [HttpPost]
         public string CreateSubject(SubjectViewModel subject)
         {
-            var sub = db.Subject_Ebook.Where(x => x.name.Equals(subject.Name)).FirstOrDefault();
+            var sub = db.SUBJECTEBOOKs.Where(x => x.name.Equals(subject.Name)).FirstOrDefault();
             if (sub != null)
             {
                 return "Tên môn đã tồn tại! Vui lòng đặt tên khác.";
             }
             else
             {
-                db.Subject_Ebook.Add(new Subject_Ebook
+                db.SUBJECTEBOOKs.Add(new SUBJECTEBOOK
                 {
                     name = subject.Name,
                 });
                 db.SaveChanges();
-                var sub_ebook = db.Subject_Ebook.Where(x => x.name.Equals(subject.Name)).FirstOrDefault();
+                var sub_ebook = db.SUBJECTEBOOKs.Where(x => x.name.Equals(subject.Name)).FirstOrDefault();
 
                 //MyHub.Post(sub_ebook.id, sub_ebook.name);
             }
@@ -175,47 +175,47 @@ namespace LibraryOnline.Controllers
         //lấy ebook
         [Route("api/FileAPI/GetEbook")]
         [HttpGet]
-        public IEnumerable<Ebook> GetEbook(int id)
+        public IEnumerable<EBOOK> GetEbook(int id)
         {
-            return db.Ebooks.Where(x => x.sub_id == id).ToList();
+            return db.EBOOKS.Where(x => x.sub_id == id).ToList();
         }
 
         //lấy ebookpaging
         [Route("api/FileAPI/GetEbookPaging")]
         [HttpGet]
-        public IEnumerable<Ebook> GetEbookPaging(int id)
+        public IEnumerable<EBOOK> GetEbookPaging(int id)
         {
-            return db.Ebooks.Where(x => x.sub_id == id).ToArray();
+            return db.EBOOKS.Where(x => x.sub_id == id).ToArray();
         }
         //lấy ebook
         [Route("api/FileAPI/GetEbookDetail")]
         [HttpGet]
-        public IEnumerable<Ebook> GetEbookDetail(int id)
+        public IEnumerable<EBOOK> GetEbookDetail(int id)
         {
-            return db.Ebooks.Where(x => x.id == id).ToList();
+            return db.EBOOKS.Where(x => x.id == id).ToList();
         }
         //lấy file theo id
         [Route("api/FileAPI/GetFileById")]
         [HttpGet]
-        public Ebook GetFileById(int id)
+        public EBOOK GetFileById(int id)
         {
-            return db.Ebooks.Where(x => x.id == id).FirstOrDefault();
+            return db.EBOOKS.Where(x => x.id == id).FirstOrDefault();
         }
 
         //xoá ebook
         [Route("api/FileAPI/DeleteSubjectById")]
         [HttpPost]
-        public string DeleteSubjectById(Subject_Ebook subject)
+        public string DeleteSubjectById(SUBJECTEBOOK subject)
         {
-            var ebook = db.Ebooks.Where(x => x.sub_id == subject.id).ToList();
+            var ebook = db.EBOOKS.Where(x => x.sub_id == subject.id).ToList();
             foreach (var item in ebook)
             {
-                db.Ebooks.Remove(item);
+                db.EBOOKS.Remove(item);
                 db.SaveChanges();
             }
-            var sub = db.Subject_Ebook.Where(x => x.id == subject.id).FirstOrDefault();
+            var sub = db.SUBJECTEBOOKs.Where(x => x.id == subject.id).FirstOrDefault();
             MyHub.DeleteSubject(subject.id);
-            db.Subject_Ebook.Remove(sub);
+            db.SUBJECTEBOOKs.Remove(sub);
             db.SaveChanges();
 
             return "Xóa thành công";

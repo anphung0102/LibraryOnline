@@ -16,16 +16,16 @@ namespace LibraryOnline.Controllers.API
             public string User { get; set; }
             public string Pass { get; set; }
         }
-        private LibraryEntities db = new LibraryEntities();
+        private LibraryOnlineEntities db = new LibraryOnlineEntities();
         [Route("api/LoginAPI/Login")]
         [HttpPost]
         public string Login(LoginInfo loginInfo)
         {
-            using (LibraryEntities db = new LibraryEntities())
+            using (LibraryOnlineEntities db = new LibraryOnlineEntities())
             {
-                var role = db.Users.Where(x => x.username == loginInfo.User && x.password == loginInfo.Pass)
-                          .Select(x => x.role_id).FirstOrDefault();
-                var user_id = db.Users.Where(x => x.username == loginInfo.User && x.password == loginInfo.Pass).FirstOrDefault();
+                var role = db.USERS.Where(x => x.username == loginInfo.User && x.pass == loginInfo.Pass)
+                          .Select(x => x.rode_id).FirstOrDefault();
+                var user_id = db.USERS.Where(x => x.username == loginInfo.User && x.pass == loginInfo.Pass).FirstOrDefault();
                 if(user_id != null)
                 {
                     HttpContext.Current.Session["username"] = loginInfo.User;

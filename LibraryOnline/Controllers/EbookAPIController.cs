@@ -15,20 +15,20 @@ namespace LibraryOnline.Controllers
 {
     public class EbookAPIController : ApiController
     {
-        private LibraryEntities db = new LibraryEntities();
+        private LibraryOnlineEntities db = new LibraryOnlineEntities();
         //lấy môn học
         [Route("api/EbookAPI/GetSubjectEbook")]
         [HttpGet]
-        public IEnumerable<Subject_Ebook> GetSubjectEbook()
+        public IEnumerable<SUBJECTEBOOK> GetSubjectEbook()
         {
-            var a = db.Subject_Ebook.ToList();
+            var a = db.SUBJECTEBOOKs.ToList();
             return a;
         }
 
         //sửa ebook
         [Route("api/EbookAPI/EditSubjectById")]
         [HttpPost]
-        public SubjectCreationResult EditSubjectById(Subject_Ebook subject)
+        public SubjectCreationResult EditSubjectById(SUBJECTEBOOK subject)
         {
             //var sub = db.Subject_Ebook.Where(x => x.id == subject.id).FirstOrDefault();
 
@@ -43,7 +43,7 @@ namespace LibraryOnline.Controllers
             //    return "Sửa không thành công";
             //}
 
-            var sub = db.Subject_Ebook.Where(x => x.id == subject.id).FirstOrDefault();
+            var sub = db.SUBJECTEBOOKs.Where(x => x.id == subject.id).FirstOrDefault();
             if (sub == null)
             {
                 return new SubjectCreationResult
@@ -65,25 +65,25 @@ namespace LibraryOnline.Controllers
         ////Lấy môn học của ebook
         [Route("api/EbookAPI/LoadSubjectEbook")]
         [HttpGet]
-        public IEnumerable<Subject_Ebook> LoadSubjectEbook()
+        public IEnumerable<SUBJECTEBOOK> LoadSubjectEbook()
         {
-            var a = db.Subject_Ebook.ToList();
+            var a = db.SUBJECTEBOOKs.ToList();
             return a;
         }
 
         //xoá ebook
         [Route("api/EbookAPI/DeleteSubjectById")]
         [HttpPost]
-        public string DeleteSubjectById(Subject_Ebook subject)
+        public string DeleteSubjectById(SUBJECTEBOOK subject)
         {
-            var ebook = db.Ebooks.Where(x => x.sub_id == subject.id).ToList();
+            var ebook = db.EBOOKS.Where(x => x.sub_id == subject.id).ToList();
             foreach (var item in ebook)
             {
-                db.Ebooks.Remove(item);
+                db.EBOOKS.Remove(item);
                 db.SaveChanges();
             }
-            var sub = db.Subject_Ebook.Where(x => x.id == subject.id).FirstOrDefault();
-            db.Subject_Ebook.Remove(sub);
+            var sub = db.SUBJECTEBOOKs.Where(x => x.id == subject.id).FirstOrDefault();
+            db.SUBJECTEBOOKs.Remove(sub);
             db.SaveChanges();
 
             return "Xóa thành công";
@@ -103,7 +103,7 @@ namespace LibraryOnline.Controllers
         [HttpGet]
         public object GetFile()
         {
-            var data = db.Ebooks.Include(x=>x.User).Select(x=>new {
+            var data = db.EBOOKS.Include(x=>x.USER).Select(x=>new {
                 id = x.id,
                 title = x.title,
                 author = x.author,
@@ -111,7 +111,7 @@ namespace LibraryOnline.Controllers
                 describe = x.describe,
                 filename = x.filename,
                 date_upload = x.date_upload,
-                username = x.User.username
+                username = x.USER.username
             }).ToList();
             
             return data;
@@ -145,7 +145,7 @@ namespace LibraryOnline.Controllers
             var userid = HttpContext.Current.Request["userid"];
             var date_upload = DateTime.Now;
             int _id = Convert.ToInt32(id);
-            var file = db.Ebooks.Where(x => x.id == _id).FirstOrDefault();
+            var file = db.EBOOKS.Where(x => x.id == _id).FirstOrDefault();
 
             if (file != null)
             {
@@ -193,12 +193,12 @@ namespace LibraryOnline.Controllers
         //xoá file 
         [Route("api/EbookAPI/DeleteFileById")]
         [HttpPost]
-        public string DeleteFileById(Subject_Ebook subject)
+        public string DeleteFileById(SUBJECTEBOOK subject)
         {
-            var ebook = db.Ebooks.Where(x => x.id == subject.id).ToList();
+            var ebook = db.EBOOKS.Where(x => x.id == subject.id).ToList();
             foreach (var item in ebook)
             {
-                db.Ebooks.Remove(item);
+                db.EBOOKS.Remove(item);
                 db.SaveChanges();
             }
             return "Xóa thành công";

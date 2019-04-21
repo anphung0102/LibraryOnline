@@ -12,9 +12,10 @@ namespace LibraryOnline.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Ebook
+    public partial class EBOOK
     {
         public int id { get; set; }
+        public string ebook_id { get; set; }
         public string title { get; set; }
         public string author { get; set; }
         public string year { get; set; }
@@ -24,7 +25,7 @@ namespace LibraryOnline.Models
         public Nullable<int> user_id { get; set; }
         public Nullable<int> sub_id { get; set; }
     
-        public virtual Subject_Ebook Subject_Ebook { get; set; }
-        public virtual User User { get; set; }
+        public virtual SUBJECTEBOOK SUBJECTEBOOK { get; set; }
+        public virtual USER USER { get; set; }
     }
 }

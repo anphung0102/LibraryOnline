@@ -12,18 +12,19 @@ namespace LibraryOnline.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Subject_Thesis
+    public partial class SUBJECTTHESI
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Subject_Thesis()
+        public SUBJECTTHESI()
         {
-            this.Theses = new HashSet<Thesis>();
+            this.Theses = new HashSet<THESIS>();
         }
     
         public int id { get; set; }
+        public string subthesis_id { get; set; }
         public string name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Thesis> Theses { get; set; }
+        public virtual ICollection<THESIS> Theses { get; set; }
     }
 }

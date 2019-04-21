@@ -228,11 +228,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Ebook.cs">
+    <Compile Include="Models\EBOOK.cs">
       <DependentUpon>LibraryOnline.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EbookViewModel.cs" />
-    <Compile Include="Models\Essay.cs">
+    <Compile Include="Models\ESSAY.cs">
       <DependentUpon>LibraryOnline.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\LibraryOnline.Context.cs">
@@ -250,26 +250,32 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LibraryOnline.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\Role.cs">
+    <Compile Include="Models\ROLE.cs">
+      <DependentUpon>LibraryOnline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>LibraryOnline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagrams_Result.cs">
+      <DependentUpon>LibraryOnline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SUBJECTEBOOK.cs">
+      <DependentUpon>LibraryOnline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SUBJECTESSAY.cs">
+      <DependentUpon>LibraryOnline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SUBJECTTHESI.cs">
       <DependentUpon>LibraryOnline.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SubjectViewModel.cs" />
-    <Compile Include="Models\Subject_Ebook.cs">
-      <DependentUpon>LibraryOnline.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Subject_Essay.cs">
-      <DependentUpon>LibraryOnline.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Subject_Thesis.cs">
-      <DependentUpon>LibraryOnline.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>LibraryOnline.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Thesis.cs">
+    <Compile Include="Models\THESIS.cs">
       <DependentUpon>LibraryOnline.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\User.cs">
+    <Compile Include="Models\USER.cs">
       <DependentUpon>LibraryOnline.tt</DependentUpon>
     </Compile>
     <Compile Include="MyHub.cs" />
@@ -311,11 +317,6 @@
       <LastGenOutput>LibraryOnline.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Models\LibraryOnline.edmx.sql" />
-    <Content Include="Models\LibraryOnline.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>LibraryOnline.edmx</DependentUpon>
-      <LastGenOutput>LibraryOnline.cs</LastGenOutput>
-    </Content>
     <Content Include="Areas\HelpPage\Views\Web.config" />
     <Content Include="Areas\HelpPage\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\ResourceModel.cshtml" />
@@ -338,12 +339,10 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <EntityDeploy Include="Models\LibraryOnline.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>LibraryOnline.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\LibraryOnline.edmx.diagram">
+    <Content Include="Models\LibraryOnline.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>LibraryOnline.edmx</DependentUpon>
+      <LastGenOutput>LibraryOnline.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -372,6 +371,13 @@
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="Content\Upload\BangDiem.pdf" />
+    <EntityDeploy Include="Models\LibraryOnline.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>LibraryOnline.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\LibraryOnline.edmx.diagram">
+      <DependentUpon>LibraryOnline.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

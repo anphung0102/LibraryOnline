@@ -12,30 +12,30 @@ namespace LibraryOnline.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class USER
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public User()
+        public USER()
         {
-            this.Ebooks = new HashSet<Ebook>();
-            this.Essays = new HashSet<Essay>();
-            this.Theses = new HashSet<Thesis>();
+            this.EBOOKS = new HashSet<EBOOK>();
+            this.ESSAYS = new HashSet<ESSAY>();
+            this.Theses = new HashSet<THESIS>();
         }
     
         public int id { get; set; }
         public string username { get; set; }
-        public string password { get; set; }
-        public int role_id { get; set; }
+        public string pass { get; set; }
+        public int rode_id { get; set; }
         public string fullname { get; set; }
-        public string mssv { get; set; }
+        public string code_id { get; set; }
         public string class_id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Ebook> Ebooks { get; set; }
+        public virtual ICollection<EBOOK> EBOOKS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Essay> Essays { get; set; }
-        public virtual Role Role { get; set; }
+        public virtual ICollection<ESSAY> ESSAYS { get; set; }
+        public virtual ROLE ROLE { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Thesis> Theses { get; set; }
+        public virtual ICollection<THESIS> Theses { get; set; }
     }
 }

@@ -12,18 +12,19 @@ namespace LibraryOnline.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Subject_Ebook
+    public partial class SUBJECTEBOOK
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Subject_Ebook()
+        public SUBJECTEBOOK()
         {
-            this.Ebooks = new HashSet<Ebook>();
+            this.EBOOKS = new HashSet<EBOOK>();
         }
     
         public int id { get; set; }
+        public string subebook_id { get; set; }
         public string name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Ebook> Ebooks { get; set; }
+        public virtual ICollection<EBOOK> EBOOKS { get; set; }
     }
 }

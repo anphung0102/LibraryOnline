@@ -232,7 +232,7 @@
             fileData.append("describe", $("#describe").val());
             fileData.append("author", $("#author").val());
             fileData.append("year", $("#year").val());
-            fileData.append("userid", $("#userid").text());
+            fileData.append("userid", @Session["user_id"]);
             fileData.append("subid", $("#subject option:selected").val());
            
             console.log(fileData);
@@ -362,8 +362,11 @@
                 dataType: "json",
                 success: function (result) {
                     //$("#loadSubjectOfEbook").append("<li id='" + result.id + "'><a>" + result.name + "</a></li >");
-                    alert(result);
-
+                    if (result.isSuccess) {
+                        alert("Tạo môn thành công.");
+                    } else {
+                        alert("Tên môn đã tồn tại! Vui lòng đặt tên khác.");
+                    }
                     $("#nameSujectEbook").empty();
                 }
             });

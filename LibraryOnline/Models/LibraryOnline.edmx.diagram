@@ -4,23 +4,25 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="3aea1487bccc436bb99fe2643d8ee9cb" Name="Diagram1">
-        <EntityTypeShape EntityType="LibraryModel.Ebook" Width="1.5" PointX="5.25" PointY="1.5" />
-        <EntityTypeShape EntityType="LibraryModel.Essay" Width="1.5" PointX="8.25" PointY="5.375" />
-        <EntityTypeShape EntityType="LibraryModel.Role" Width="1.5" PointX="0.75" PointY="6.125" />
-        <EntityTypeShape EntityType="LibraryModel.Subject_Ebook" Width="1.5" PointX="3" PointY="2.25" />
-        <EntityTypeShape EntityType="LibraryModel.Subject_Essay" Width="1.5" PointX="6" PointY="10.25" />
-        <EntityTypeShape EntityType="LibraryModel.Subject_Thesis" Width="1.5" PointX="3" PointY="10.25" />
-        <EntityTypeShape EntityType="LibraryModel.sysdiagram" Width="1.5" PointX="7.75" PointY="0.75" />
-        <EntityTypeShape EntityType="LibraryModel.Thesis" Width="1.5" PointX="5.25" PointY="5.375" />
-        <EntityTypeShape EntityType="LibraryModel.User" Width="1.5" PointX="3" PointY="5.5" />
-        <AssociationConnector Association="LibraryModel.FK_Ebook_Subject" />
-        <AssociationConnector Association="LibraryModel.FK_Ebook_User" />
-        <AssociationConnector Association="LibraryModel.FK_Essay_Subject_Essay" />
-        <AssociationConnector Association="LibraryModel.FK_Essay_User" />
-        <AssociationConnector Association="LibraryModel.FK_User_Role" />
-        <AssociationConnector Association="LibraryModel.FK_Thesis_Subject_Thesis" />
-        <AssociationConnector Association="LibraryModel.FK_Thesis_User" />
+      <Diagram DiagramId="c5b7d41af25548709b91d32f07d3f025" Name="Diagram1">
+        <EntityTypeShape EntityType="LibraryOnlineFinalModel.Ebook" Width="1.5" PointX="5.25" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryOnlineFinalModel.Essay" Width="1.5" PointX="8.25" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryOnlineFinalModel.RateStar" Width="1.5" PointX="7.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryOnlineFinalModel.Role" Width="1.5" PointX="0.75" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryOnlineFinalModel.SearchFile" Width="1.5" PointX="9.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryOnlineFinalModel.Subject_Ebook" Width="1.5" PointX="3" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryOnlineFinalModel.Subject_Essay" Width="1.5" PointX="6" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryOnlineFinalModel.Subject_Thesis" Width="1.5" PointX="3" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryOnlineFinalModel.sysdiagram" Width="1.5" PointX="10.75" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryOnlineFinalModel.Thesis" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryOnlineFinalModel.User" Width="1.5" PointX="3" PointY="6" IsExpanded="true" />
+        <AssociationConnector Association="LibraryOnlineFinalModel.fk_EBOOKS_SUBJECTEBOOK" ManuallyRouted="false" />
+        <AssociationConnector Association="LibraryOnlineFinalModel.fk_EBOOKS_USERS" ManuallyRouted="false" />
+        <AssociationConnector Association="LibraryOnlineFinalModel.fk_EBOOKS_SUBJECTESSAY" ManuallyRouted="false" />
+        <AssociationConnector Association="LibraryOnlineFinalModel.fk_ESSAYS_USERS" ManuallyRouted="false" />
+        <AssociationConnector Association="LibraryOnlineFinalModel.fk_USERS_ROLES" ManuallyRouted="false" />
+        <AssociationConnector Association="LibraryOnlineFinalModel.fk_EBOOKS_SUBJECTTHESIS" ManuallyRouted="false" />
+        <AssociationConnector Association="LibraryOnlineFinalModel.fk_THESIS_USERS" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

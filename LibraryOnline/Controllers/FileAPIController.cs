@@ -23,12 +23,12 @@ namespace LibraryOnline.Controllers
     public class FileAPIController : ApiController
     {
         //
-        private LibraryEntities db = new LibraryEntities();
+        private LibraryOnlineFinalEntities db = new LibraryOnlineFinalEntities();
         [Route("api/FileAPI/Login")]
         [HttpPost]
         public string Login(LoginInfo loginInfo)
         {
-            using (LibraryEntities db = new LibraryEntities())
+            using (LibraryOnlineFinalEntities db = new LibraryOnlineFinalEntities())
             {
                 var role = db.Users.Where(x => x.username == loginInfo.User && x.password == loginInfo.Pass)
                           .Select(x => x.role_id).FirstOrDefault();
@@ -101,7 +101,7 @@ namespace LibraryOnline.Controllers
             if (strExtexsion == ".pdf")//chỉ cho up pdf
             {
                 string temp = RandomString(10, true) + "-";
-                using (LibraryEntities db = new LibraryEntities())
+                using (LibraryOnlineFinalEntities db = new LibraryOnlineFinalEntities())
                 {
                     //Add vô bảng ebook 
                     db.Ebooks.Add(

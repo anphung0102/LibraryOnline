@@ -13,7 +13,7 @@ namespace LibraryOnline.Controllers.API
 {
     public class AdminAPIController : ApiController
     {
-        private LibraryEntities db = new LibraryEntities();
+        private LibraryOnlineFinalEntities db = new LibraryOnlineFinalEntities();
         //Upload file cho Ebook 
         [Route("api/AdminAPI/UploadFiles")]
         [HttpPost]
@@ -42,12 +42,13 @@ namespace LibraryOnline.Controllers.API
             if (strExtexsion == ".pdf")//chỉ cho up pdf
             {
 
-                using (LibraryEntities db = new LibraryEntities())
+                using (LibraryOnlineFinalEntities db = new LibraryOnlineFinalEntities())
                 {
                     //Add vô bảng ebook 
                     db.Ebooks.Add(
                         new Ebook
                         {
+                            ebook_id = "",
                             title = title,
                             describe = describe,
                             author = author,
@@ -101,6 +102,7 @@ namespace LibraryOnline.Controllers.API
             {
                 db.Subject_Ebook.Add(new Subject_Ebook
                 {
+                    subebook_id = "",
                     name = subject.Name,
                 });
                 db.SaveChanges();

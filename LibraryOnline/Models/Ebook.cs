@@ -15,6 +15,7 @@ namespace LibraryOnline.Models
     public partial class Ebook
     {
         public int id { get; set; }
+        public string ebook_id { get; set; }
         public string title { get; set; }
         public string author { get; set; }
         public string year { get; set; }

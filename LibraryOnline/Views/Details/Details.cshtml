@@ -2,9 +2,10 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml"; ;
 }
-<link href="~/Scripts/rateit.css" rel="stylesheet" type="text/css">
-<script src="~/Scripts/jquery.rateit.js"></script>
-<script src="~/Scripts/jquery.rateit.min.js"></script>
+@*<link href="~/Scripts/rateit.css" rel="stylesheet" type="text/css">
+    <script src="~/Scripts/jquery.rateit.js"></script>
+    <script src="~/Scripts/jquery.rateit.min.js"></script>
+    <link href="~/Scripts/jquery-3.3.1.slim.min.map" rel="stylesheet" type="text/css">*@
 <!-- Page Content -->
 <div class="container">
 
@@ -47,32 +48,36 @@
             </div><!-- navigation -->
             @*<h1 class="khoangcachduoi">Products</h1>*@
             <div class="row" id="detail">
-
             </div>
             <div class='col-lg-12 col-md-6 mb-4'>
                 <div class='border'>
                     <div class="row" id='info_details'>
                         <div class='col-lg-6'>
                             <div>Đánh giá:</div>
-                            <div id="rateit-demo" class='rateit'></div>
-                            <button id="btnrate">Đánh giá</button>
-                            <button onclick="alert($('#rateit-demo').rateit('value'))">Get value</button>
+                            <div class="rateit" id="rateit_star1" data-productid="123"></div>
+                            <button id="btnRate">Gửi</button>
                         </div>
                     </div>
                 </div>
             </div>
-
-
         </div>
         <!-- /.col-lg-9 -->
 
     </div>
     <!-- /.row -->
-
 </div>
 <!-- /.container -->
 <!-- Footer -->
 
+<script>
+    $(document).ready(function () {
+        $("#btnRate").click(function () {
+
+            var a = $('#rateit_star1').rateit('value');
+            alert(a);
+        });
+    });
+</script>
 <script>
     $("#upload").click(function () {
 
@@ -93,35 +98,9 @@
             }
         });
     });
-    $('#rateit-demo').rateit({
-        // min value
-        min: 0,
-        // max value
-        max: 5,
-        // step size
-        step: 0.5,
-        // 'bg', 'font'
-        mode: 'bg',
-        // custom icon
-        icon: '★',
-        // size of star
-        starwidth: 16,
-        starheight: 16,
-        // is readonly?
-        readonly: false,
-        // is resetable?
-        resetable: true,
-        // is preset?
-        ispreset: false
-    });
-    //$('#rateit-demo').rateit('value');
-    $("#btnrate").click(function () {
-
-        alert($('#rateit-demo').rateit());
-    });
      // load data
     $(document).ready(function () {
-     
+
         $.ajax({
             type: "GET",
             url: "http://localhost:52385/api/FileAPI/GetFileById",
@@ -138,6 +117,7 @@
                 data += "<h2>" + v.title + "</h2>";
                 data += "<p>Tác giả: " + v.author + "</p>";
                 data += "<p>Năm xuất bản: " + v.year + "</p>";
+
                 data += "<div id='button_details'>";
                 data += "<embed src='/Content/Upload/" + v.filename + "' type='application/pdf' height='300px' width='100%' class='responsive'>";
                 data += "<p id='pdf-link' hidden='hidden'>/Content/Upload/" + v.filename+"</p>";
@@ -158,7 +138,7 @@
         });
     });
 
-  
+
     function openPDF(link) {
         //alert(link);
         if (link) {

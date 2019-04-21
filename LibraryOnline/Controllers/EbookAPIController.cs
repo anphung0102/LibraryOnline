@@ -15,7 +15,7 @@ namespace LibraryOnline.Controllers
 {
     public class EbookAPIController : ApiController
     {
-        private LibraryEntities db = new LibraryEntities();
+        private LibraryOnlineFinalEntities db = new LibraryOnlineFinalEntities();
         //lấy môn học
         [Route("api/EbookAPI/GetSubjectEbook")]
         [HttpGet]

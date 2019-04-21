@@ -16,12 +16,12 @@ namespace LibraryOnline.Controllers.API
             public string User { get; set; }
             public string Pass { get; set; }
         }
-        private LibraryEntities db = new LibraryEntities();
+        private LibraryOnlineFinalEntities db = new LibraryOnlineFinalEntities();
         [Route("api/LoginAPI/Login")]
         [HttpPost]
         public string Login(LoginInfo loginInfo)
         {
-            using (LibraryEntities db = new LibraryEntities())
+            using (LibraryOnlineFinalEntities db = new LibraryOnlineFinalEntities())
             {
                 var role = db.Users.Where(x => x.username == loginInfo.User && x.password == loginInfo.Pass)
                           .Select(x => x.role_id).FirstOrDefault();

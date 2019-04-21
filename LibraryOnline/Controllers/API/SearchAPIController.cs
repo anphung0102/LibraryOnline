@@ -10,7 +10,7 @@ namespace LibraryOnline.Controllers.API
 {
     public class SearchAPIController : ApiController
     {
-        private LibraryEntities db = new LibraryEntities();
+        private LibraryOnlineFinalEntities db = new LibraryOnlineFinalEntities();
         [Route("api/SearchAPI/Search")]
         [HttpGet]
         public IEnumerable<Ebook> Search(string search)//nay gio nhâm cái nay :D

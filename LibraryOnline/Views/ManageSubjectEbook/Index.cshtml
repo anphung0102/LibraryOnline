@@ -156,14 +156,14 @@
         $('body').on('click', '#btnEdit', function (e) {
             var table = $('#loadsubject').DataTable();
             var name = table.rows({ selected: true }).data()[index]['name'];
-            alert(name);
+            //alert(name);
             $("input[id='EditNameSub_Eb']").val(name);
             $("#EditSub").show();
     });
         $("#btnSaveEdit").click(function () {
             var table = $('#loadsubject').DataTable();
             var id = table.rows({ selected: true }).data()[index]['id'];
-            var name = table.rows({ selected: true }).data()[index]['name'];
+            var name = $("input[id='EditNameSub_Eb']").val();
             var data = {};
             data.id = id;
             data.name = name;
@@ -176,22 +176,15 @@
                 success: function (result) {
                     if (result.isSuccess) {
                         alert("Sửa thành công.");
-                        //add row datatable
-                        var t = $('#loadsubject').DataTable();
-                        //t.row.edit({
-                        //    "id": id,
-                        //    "name": name
-                        //}).draw();
-                        alert(index);
-                        t.row(index).edit({
-                            name: name
-                        });
+
                     } else {
                         alert("Sửa không thành công.");
                     }
                 }
             });
+
         });
+       
     });
 </script>
 <!--Tạo môn học-->

@@ -10,7 +10,7 @@ namespace LibraryOnline.Controllers.API
 {
     public class LecturerAPIController : ApiController
     {
-        private LibraryEntities db = new LibraryEntities();
+        private LibraryOnlineFinalEntities db = new LibraryOnlineFinalEntities();
         //lấy ds ebook 
         [Route("api/LecturerAPI/GetEbook_Lecturer")]
         [HttpGet]

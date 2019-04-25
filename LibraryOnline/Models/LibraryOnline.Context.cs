@@ -37,7 +37,7 @@ namespace LibraryOnline.Models
         public virtual DbSet<Subject_Essay> Subject_Essay { get; set; }
         public virtual DbSet<Subject_Thesis> Subject_Thesis { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
-        public virtual DbSet<Thesis> Theses { get; set; }
+        public virtual DbSet<Thesis> Thesis { get; set; }
         public virtual DbSet<User> Users { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)

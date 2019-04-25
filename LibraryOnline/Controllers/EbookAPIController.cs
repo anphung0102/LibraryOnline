@@ -203,5 +203,23 @@ namespace LibraryOnline.Controllers
             }
             return "Xóa thành công";
         }
+
+        //xoá ebook
+        [Route("api/EbookAPI/DeleteFileUploadById")]
+        [HttpPost]
+        public string DeleteFileUploadById(Ebook subject)
+        {
+            //var ebook = db.Ebooks.Where(x => x.sub_id == subject.id).ToList();
+            //foreach (var item in ebook)
+            //{
+            //    db.Ebooks.Remove(item);
+            //    db.SaveChanges();
+            //}
+            var sub = db.Ebooks.Where(x => x.id == subject.id).FirstOrDefault();
+            db.Ebooks.Remove(sub);
+            db.SaveChanges();
+
+            return "Xóa thành công";
+        }
     }
 }

@@ -34,6 +34,7 @@ namespace LibraryOnline.Controllers.API
             var year = HttpContext.Current.Request["year"];
             var userid = HttpContext.Current.Request["userid"];
             var subid = HttpContext.Current.Request["subid"];
+            var username = HttpContext.Current.Request["username"];
             var date_upload = DateTime.Now;
             int user_id = Convert.ToInt32(userid);
             int sub_id = Convert.ToInt32(subid);
@@ -58,6 +59,25 @@ namespace LibraryOnline.Controllers.API
                             user_id = user_id,
                             sub_id = sub_id,
                         });
+                    db.SaveChanges();
+                    var book_id = db.Ebooks.OrderByDescending(x => x.id).Select(x=>x.ebook_id).FirstOrDefault();
+                    db.SearchFiles.Add(
+                      new SearchFile
+                      {
+                          book_id = book_id,
+                          title = title,
+                          author = author,
+                          year = year,
+                          instructor = "",
+                          executor1 = "",
+                          executor2 = "",
+                          describe = describe,
+                          filename = httpPostedFile.FileName,
+                          date_upload = date_upload,
+                          user_id = user_id,
+                          sub_id = sub_id,
+                          username = username
+                      });
                     db.SaveChanges();//lưu dât thôi cái này t chưa chạy t mới test gửi data từ  ajax qua thôi
                     var user = db.Users.Where(x => x.id == user_id).Select(x => x.username).FirstOrDefault();
                     var subject = db.Subject_Ebook.Where(x => x.id == sub_id).Select(x => x.name).FirstOrDefault();
@@ -143,9 +163,9 @@ namespace LibraryOnline.Controllers.API
         //lấy file theo id
         [Route("api/AdminAPI/GetFileById")]
         [HttpGet]
-        public Ebook GetFileById(int id)
+        public Ebook GetFileById(string ebook_id)
         {
-            return db.Ebooks.Where(x => x.id == id).FirstOrDefault();
+            return db.Ebooks.Where(x => x.ebook_id == ebook_id).FirstOrDefault();
         }
 
         //xoá ebook
@@ -173,6 +193,37 @@ namespace LibraryOnline.Controllers.API
         {
             return "Xóa thành công" + sub.name;
         }
-
+        //lưu đánh giá sách
+        [Route("api/AdminAPI/SaveRate")]
+        [HttpPost]
+        public RateStarResult SaveRate(RateStarModel ratemodel)
+        {
+            var temp = db.RateStars.Where(x => x.book_id == ratemodel.BookId).FirstOrDefault();
+            if (temp != null)
+            {
+                temp.rate = ratemodel.Rate;
+                db.SaveChanges();
+                return new RateStarResult
+                {
+                    IsSuccess = true
+                };
+            }
+            else
+            {
+                db.RateStars.Add(new RateStar
+                {
+                  book_id = ratemodel.BookId,
+                  usename = ratemodel.Username,
+                  user_id = ratemodel.UserId,
+                  rate = ratemodel.Rate
+                });
+                db.SaveChanges();
+               
+                return new RateStarResult
+                {
+                    IsSuccess = true
+                };
+            }
+        }
     }
 }

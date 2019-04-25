@@ -9,11 +9,11 @@
 </div>
 <script>
  $(document).ready(function () {
-
+      var val = '@ViewBag.Id';
         $.ajax({
             type: "GET",
-            url: "http://localhost:52385/api/FileAPI/GetFileById",
-            data: {id:@ViewBag.Id},
+            url: "http://localhost:52385/api/AdminAPI/GetFileById",
+            data: { ebook_id: val},
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (v) {
@@ -21,7 +21,7 @@
                var data = "<div class='col-lg-12 col-md-6 mb-4' >";
                 data += "<h2>Sách: " + v.title + "</h2>";
                 data += "<embed src='/Content/Upload/" + v.filename + "' type='application/pdf' height='500px' width='100%' class='responsive'>";
-               
+
                 data += "</div > ";
                 $("#loadfile").append(data);
             }

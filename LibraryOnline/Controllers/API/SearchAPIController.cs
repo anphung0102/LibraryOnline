@@ -13,9 +13,9 @@ namespace LibraryOnline.Controllers.API
         private LibraryOnlineFinalEntities db = new LibraryOnlineFinalEntities();
         [Route("api/SearchAPI/Search")]
         [HttpGet]
-        public IEnumerable<Ebook> Search(string search)//nay gio nhâm cái nay :D
+        public IEnumerable<SearchFile> Search(string search)
         {
-            var data = db.Ebooks.Where(x => x.title.Contains(search) ||
+            var data = db.SearchFiles.Where(x => x.title.Contains(search) ||
              x.author.Contains(search) ||
             x.describe.Contains(search)).ToList();
             return data;

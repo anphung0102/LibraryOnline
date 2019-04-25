@@ -9,9 +9,9 @@ namespace LibraryOnline.Controllers
     public class DetailsController : Controller
     {
         // GET: Detail
-        public ActionResult Details(int? id)
+        public ActionResult Details(string ebook_id) 
         {
-            ViewBag.Id = id;
+            ViewBag.ID = ebook_id; 
             return View();
         }
     }

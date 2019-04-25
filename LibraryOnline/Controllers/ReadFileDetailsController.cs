@@ -9,9 +9,9 @@ namespace LibraryOnline.Controllers
     public class ReadFileDetailsController : Controller
     {
         // GET: ReadFileDetails
-        public ActionResult Index(int ? id)
+        public ActionResult Index(string ebook_id)
         {
-            ViewBag.Id = id;
+            ViewBag.Id = ebook_id;
             return View();
         }
     }

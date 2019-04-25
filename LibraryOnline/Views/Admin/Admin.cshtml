@@ -202,13 +202,15 @@
                 fileData.append("fileInput", files[i]);
             }
             //cái này là lấy thông tin trên text box  title là key tiltle.val() là giá trị
+           
             fileData.append("title", $("#title").val());
             fileData.append("describe", $("#describe").val());
             fileData.append("author", $("#author").val());
             fileData.append("year", $("#year").val());
             fileData.append("userid", @Session["user_id"]);
             fileData.append("subid", $("#subject option:selected").val());
-         
+            fileData.append("username", '@Session["fullname"]');
+
             console.log(fileData);
             $.ajax({
                 type: "POST",
@@ -276,7 +278,7 @@
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             success: function (result) {
-                                console.log(v);
+                                console.log(result);
 
                                 var tag = $(e.currentTarget).closest('.mainmenu-item');
 
@@ -286,12 +288,13 @@
                                 $('#breadcrumb-2').text($(tagText).text());
                                 $('#breadcrumb-3').text(v.name);
                                 $.each(result, function (i, v) {
+                                    console.log("ebookid",v.ebook_id);
                                     var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
                                     data += "<div class='card h-100'>";
                                     data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
                                     data += "<div class='card-body'>";
                                     data += "<h4 class='card-title'>";//
-                                    data += "<a href='/Details/Details?id=" + v.id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                                    data += "<a href='/Details/Details?ebook_id=" + v.ebook_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
                                     data += "<h5>tác giả: " + v.author + "</h5>";
                                     data += "<p class='card-text' data-bind='text:author'></p>";
                                     data += "<div class='card-footer'></div>";

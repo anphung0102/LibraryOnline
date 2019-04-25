@@ -254,6 +254,7 @@
     <Compile Include="Models\RateStar.cs">
       <DependentUpon>LibraryOnline.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RateStarModel.cs" />
     <Compile Include="Models\Role.cs">
       <DependentUpon>LibraryOnline.tt</DependentUpon>
     </Compile>

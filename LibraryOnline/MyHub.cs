@@ -48,5 +48,12 @@ namespace LibraryOnline
             hubContext.Clients.All.postFileEbookToClient(id, title, author, describe, year, filename,
             date_upload, user, subject);
         }
+
+        public static void PostFileEssay(int id, string title, string instructor, string executor1, string executor2, string describe, string filename,
+            string date_upload, string user, string subject)
+        {
+            hubContext.Clients.All.postFileEssayToClient(id, title, instructor, executor1, executor2, describe, filename,
+            date_upload, user, subject);
+        }
     }
 }

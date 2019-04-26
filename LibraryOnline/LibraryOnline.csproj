@@ -213,6 +213,7 @@
     <Compile Include="Controllers\API\AdminAPIController.cs" />
     <Compile Include="Controllers\API\LecturerAPIController.cs" />
     <Compile Include="Controllers\API\LoginAPIController.cs" />
+    <Compile Include="Controllers\API\ManageOfAdminAPIController.cs" />
     <Compile Include="Controllers\API\SearchAPIController.cs" />
     <Compile Include="Controllers\DetailsController.cs" />
     <Compile Include="Controllers\EbookAPIController.cs" />
@@ -220,7 +221,11 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LecturersController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\ManageSubEssayOfAdminController.cs" />
     <Compile Include="Controllers\ManageSubjectEbookController.cs" />
+    <Compile Include="Controllers\ManageSubThesisOfAdminController.cs" />
+    <Compile Include="Controllers\ManageUploadEssayOfAdminController.cs" />
+    <Compile Include="Controllers\ManageUploadThesisOfAdminController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\ReadFileDetailsController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
@@ -236,6 +241,7 @@
     <Compile Include="Models\Essay.cs">
       <DependentUpon>LibraryOnline.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EssayViewModel.cs" />
     <Compile Include="Models\LibraryOnline.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -282,6 +288,7 @@
     <Compile Include="Models\Thesis.cs">
       <DependentUpon>LibraryOnline.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ThesisViewModel.cs" />
     <Compile Include="Models\User.cs">
       <DependentUpon>LibraryOnline.tt</DependentUpon>
     </Compile>
@@ -447,7 +454,11 @@
     <Content Include="Views\Shared\_LayoutStudent.cshtml" />
     <Content Include="Views\Shared\_LayoutLecturer.cshtml" />
     <Content Include="Views\Lecturers\Manage.cshtml" />
-    <Content Include="Views\Admin\ManageUpload.cshtml" />
+    <Content Include="Views\Admin\ManageUploadEbook.cshtml" />
+    <Content Include="Views\ManageSubEssayOfAdmin\Index.cshtml" />
+    <Content Include="Views\ManageSubThesisOfAdmin\Index.cshtml" />
+    <Content Include="Views\ManageUploadEssayOfAdmin\Index.cshtml" />
+    <Content Include="Views\ManageUploadThesisOfAdmin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

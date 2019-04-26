@@ -29,4 +29,6 @@ namespace LibraryOnline.Models
         //public HttpPostedFileBase file { get; set; }
         public IEnumerable<HttpPostedFileBase> Files { get; set; }
     }
+    // cái post là gì v m có cần tạo ko k cần
+    // v chỉ tạo mấy thằng trên thoi ok
 }

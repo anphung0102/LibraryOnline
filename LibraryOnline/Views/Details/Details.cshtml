@@ -9,10 +9,10 @@
     {
         Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     }
-    //if (Session["role_id"].ToString() == "1")
-    //{
-    //    Layout = "~/Views/Shared/_LayoutLecturer.cshtml";
-    //}.  
+    if (Session["role_id"].ToString() == "2")
+    {
+        Layout = "~/Views/Shared/_LayoutLecturer.cshtml";
+    }
     if (Session["role_id"].ToString() == "3")
     {
         Layout = "~/Views/Shared/_LayoutStudent.cshtml";

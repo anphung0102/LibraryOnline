@@ -82,7 +82,7 @@ namespace LibraryOnline.Controllers.API
                     var user = db.Users.Where(x => x.id == user_id).Select(x => x.username).FirstOrDefault();
                     var subject = db.Subject_Ebook.Where(x => x.id == sub_id).Select(x => x.name).FirstOrDefault();
                     var fileinfo = db.Ebooks.OrderByDescending(x => x.id).FirstOrDefault();
-                    var date_up = fileinfo.date_upload.Value.ToString("MM/dd/yyyy");
+                    var date_up = fileinfo.date_upload.ToString("MM/dd/yyyy");
                     MyHub.PostFileEbook(fileinfo.id, fileinfo.title, fileinfo.author, fileinfo.describe,
                         fileinfo.year, fileinfo.filename, date_up, user, subject);
                  
@@ -192,6 +192,66 @@ namespace LibraryOnline.Controllers.API
         public string DeleteSubjectById1(Subject_Ebook sub)
         {
             return "Xóa thành công" + sub.name;
+        }
+        // lấy ds ebook quyền admin
+        [Route("api/AdminAPI/GetEbookByAdmin")]
+        [HttpGet]
+        public IEnumerable<Ebook> GetEbookByAdmin()
+        {
+           
+            return db.Ebooks.ToList(); ;
+        }
+        // Tiểu luận
+        // lấy ds môn tiểu luận
+        [Route("api/AdminAPI/GetSubjectEssay")]
+        [HttpGet]
+        public IEnumerable<Subject_Essay> GetSubjectEssay()
+        {
+
+            return db.Subject_Essay.ToList(); 
+        }
+
+        // lấy ds tiểu luận
+        [Route("api/AdminAPI/GetEssay")]
+        [HttpGet]
+        public IEnumerable<Essay> GetEssay(int id)
+        {
+         
+                var a= db.Essays.Where(x => x.sub_id == id).ToList();
+            return a;
+        }
+
+        // lấy ds tiểu luận phân trang
+        [Route("api/AdminAPI/GetEssayPaging")]
+        [HttpGet]
+        public IEnumerable<Essay> GetEssayPaging(int id)
+        {
+            return db.Essays.Where(x => x.sub_id == id).ToArray();
+        }
+        //Khóa luận
+        // lấy ds môn khóa luận
+        [Route("api/AdminAPI/GetSubjectThesis")]
+        [HttpGet]
+        public IEnumerable<Subject_Thesis> GetSubjectThesis()
+        {
+
+            return db.Subject_Thesis.ToList();
+        }
+        [Route("api/AdminAPI/GetThesis")]
+        [HttpGet]
+        public IEnumerable<Thesis> GetThesis(int id)
+        {
+
+            var a = db.Thesis.Where(x => x.sub_id == id).ToList();
+            return a;
+        }
+
+        // lấy ds tiểu luận phân trang
+        [Route("api/AdminAPI/GetThesisPaging")]
+        [HttpGet]
+        public IEnumerable<Thesis> GetThesisPaging(int id)
+        {
+            return db.Thesis.Where(x => x.sub_id == id).ToArray();
         }
         //lưu đánh giá sách
         [Route("api/AdminAPI/SaveRate")]

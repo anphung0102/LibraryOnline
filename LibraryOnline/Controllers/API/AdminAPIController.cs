@@ -92,7 +92,92 @@ namespace LibraryOnline.Controllers.API
             return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Lỗi!!!");
 
         }
+        //Upload file cho Ebook 
+        [Route("api/AdminAPI/UploadFileEssay")]
+        [HttpPost]
+        public HttpResponseMessage UploadFileEssay()
+        {
+            var httpPostedFile = HttpContext.Current.Request.Files["fileInput"];//lấy file
+            if (httpPostedFile != null)
+            {
+                //đường dẫn lưu file
+                var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/Upload/"), httpPostedFile.FileName);//tên file
+                //lưu file vào đường dẫn
+                httpPostedFile.SaveAs(fileSavePath);
+            }
 
+            var title = HttpContext.Current.Request["title"];
+            var describe = HttpContext.Current.Request["describe"];
+            var instructor = HttpContext.Current.Request["instructor"];
+            var executor1 = HttpContext.Current.Request["student1"];
+            var executor2 = HttpContext.Current.Request["student2"];
+            var year = HttpContext.Current.Request["year"];
+            var userid = HttpContext.Current.Request["userid"];
+            var subid = HttpContext.Current.Request["subid"];
+            var date_upload = DateTime.Now;
+            //int course = Convert.ToInt32(year);
+            int user_id = Convert.ToInt32(userid);
+            int sub_id = Convert.ToInt32(subid);
+            string strExtexsion = Path.GetExtension(httpPostedFile.FileName).Trim();//lấy đuôi file
+            // ví dụ
+            var temp = db.Essays.Where(x => x.title.Equals(title)).FirstOrDefault();
+            if (temp != null)
+            {
+               // thông báo trung tên mnguowcj lại cho lưu
+            }
+            if (strExtexsion == ".pdf")//chỉ cho up pdf
+            {
+
+                using (LibraryOnlineFinalEntities db = new LibraryOnlineFinalEntities())
+                {
+                    //Add vô bảng ebook 
+                    db.Essays.Add(
+                        new Essay
+                        {
+                            essay_id = "",
+                            title = title,
+                            describe = describe,
+                            instructor = instructor,
+                            executor1= executor1,
+                            executor2= executor2,
+                            //course = year,
+                            filename = httpPostedFile.FileName,
+                            date_upload = date_upload,
+                            user_id = user_id,
+                            sub_id = sub_id,
+                        });
+                    db.SaveChanges();
+                    var book_id = db.Essays.OrderByDescending(x => x.id).Select(x => x.essay_id).FirstOrDefault();
+
+                    db.SearchFiles.Add(
+                      new SearchFile
+                      {
+                          book_id = book_id,
+                          title = title,
+                          author = "",
+                          year = "",
+                          instructor = instructor,
+                          executor1 = executor1,
+                          executor2 = executor2,
+                          describe = describe,
+                          filename = httpPostedFile.FileName,
+                          date_upload = date_upload,
+                          user_id = user_id,
+                          sub_id = sub_id
+                      });
+                    db.SaveChanges();//lưu dât thôi cái này t chưa chạy t mới test gửi data từ  ajax qua thôi
+                    var user = db.Users.Where(x => x.id == user_id).Select(x => x.username).FirstOrDefault();
+                    var subject = db.Subject_Essay.Where(x => x.id == sub_id).Select(x => x.name).FirstOrDefault();
+                    var fileinfo = db.Essays.OrderByDescending(x => x.id).FirstOrDefault();
+                    var date_up = fileinfo.date_upload.ToString("MM/dd/yyyy");
+                    MyHub.PostFileEssay(fileinfo.id, fileinfo.title, fileinfo.instructor,fileinfo.executor1,fileinfo.executor2, fileinfo.describe, fileinfo.filename, date_up, user, subject);
+
+                    return Request.CreateResponse("Thành công");
+                }
+            }
+            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Lỗi!!!");
+
+        }
 
         ////Lấy môn học của ebook
         ////Lấy môn học của ebook

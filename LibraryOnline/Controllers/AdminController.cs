@@ -22,7 +22,7 @@ namespace LibraryOnline.Controllers
             ViewBag.Id = id;
             return View();
         }
-        public ActionResult ManageUpload()
+        public ActionResult ManageUploadEbook()
         {
             return View();
         }

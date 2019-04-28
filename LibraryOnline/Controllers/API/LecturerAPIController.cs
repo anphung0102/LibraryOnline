@@ -87,7 +87,7 @@ namespace LibraryOnline.Controllers.API
                     Author = loadebook.author,
                     Year = loadebook.year,
                     FileName =loadebook.filename,
-                    Date_Upload = loadebook.date_upload
+                    //Date_Upload = loadebook.date_upload
                 };
             }
         }

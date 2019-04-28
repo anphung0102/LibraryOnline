@@ -21,7 +21,7 @@ namespace LibraryOnline.Models
         public string year { get; set; }
         public string describe { get; set; }
         public string filename { get; set; }
-        public System.DateTime date_upload { get; set; }
+        public Nullable<System.DateTime> date_upload { get; set; }
         public Nullable<int> user_id { get; set; }
         public Nullable<int> sub_id { get; set; }
     

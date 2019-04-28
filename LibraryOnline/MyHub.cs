@@ -34,7 +34,7 @@ namespace LibraryOnline
         //sủa môn học 
         public static void EditSubject(int id, string name)
         {
-            hubContext.Clients.All.postToClientEditSubject(id,name);
+            hubContext.Clients.All.postToClientEditSubject(id, name);
         }
         //load môn học khi thêm mới
         public static void Post(int id, string name)
@@ -42,11 +42,27 @@ namespace LibraryOnline
             hubContext.Clients.All.postToClient(id, name);
         }
         //load file khi thêm mới
-        public static void PostFileEbook(int id,string title,string author,string describe,string year, string filename,
-            string date_upload,string user,string subject)
+        public static void PostFileEbook(int id, string title, string author, string describe, string year, string filename,
+            string date_upload, string user, string subject)
         {
             hubContext.Clients.All.postFileEbookToClient(id, title, author, describe, year, filename,
             date_upload, user, subject);
+        }
+
+        //load file khi thêm mới KHÓA LUẬN
+        public static void PostFileThesis(int id, string title, string instructor, string executor1,
+             string executor2, string describe, string filename,
+            string date_upload, string user, string subject)
+        {
+            hubContext.Clients.All.postFileThesisToClient(id, title, instructor, executor1, executor1,
+                describe, filename, date_upload, user, subject);
+        }
+        //load số sao được đánh giá
+        public static void LoadNumberStar(int oneStar, int twoStar, int threeStar, 
+            int fourStar, int fiveStar)
+        {
+            hubContext.Clients.All.loadNumberStar(oneStar,twoStar,threeStar,
+            fourStar,fiveStar);
         }
     }
 }

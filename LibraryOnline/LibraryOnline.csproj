@@ -213,6 +213,7 @@
     <Compile Include="Controllers\API\AdminAPIController.cs" />
     <Compile Include="Controllers\API\LecturerAPIController.cs" />
     <Compile Include="Controllers\API\LoginAPIController.cs" />
+    <Compile Include="Controllers\API\RateAPIController.cs" />
     <Compile Include="Controllers\API\SearchAPIController.cs" />
     <Compile Include="Controllers\DetailsController.cs" />
     <Compile Include="Controllers\EbookAPIController.cs" />
@@ -261,7 +262,13 @@
     <Compile Include="Models\SearchFile.cs">
       <DependentUpon>LibraryOnline.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_helpdiagramdefinition1_Result.cs">
+      <DependentUpon>LibraryOnline.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>LibraryOnline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagrams1_Result.cs">
       <DependentUpon>LibraryOnline.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_helpdiagrams_Result.cs">

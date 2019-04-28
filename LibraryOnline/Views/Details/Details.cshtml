@@ -25,9 +25,9 @@
 @*<link href="~/Scripts/jquery-3.3.1.slim.min.map" rel="stylesheet" type="text/css">*@
 <!-- Page Content -->
 <style>
-    .class1{
-        margin-left:10px;
-        margin-right:4px;
+    .class1 {
+        margin-left: 10px;
+        margin-right: 4px;
     }
 </style>
 <div class="container">
@@ -71,76 +71,7 @@
             </div><!-- navigation -->
             @*<h1 class="khoangcachduoi">Products</h1>*@
             <div class="row" id="detail" style="float:left;width:60%">
-            </div>
-            <div class="row" style="margin-top:20px;">
-                <div class='col-lg-12 col-md-6 mb-4'>
-                    <div class='border'>
-                        <div class="row" id='info_details' style="height:300px">
-                            <div class='col-lg-6'>
-                                <div>Đánh giá:</div>
-                                <div class="rateit" id="rateit_star1" data-rateit-step="1" data-productid="123"></div>
-                                <button id="btnRate">Gửi</button>
-                                <div>Thống kê:</div>
-                                <div class="row">
-                                    <p class="class1">Rất hay</p><div class="rateit" data-rateit-value="5" data-rateit-readonly="true"></div>
-                                    <a href="">Số người đánh giá</a>
-                                </div>
-                                <div class="row">
-                                    <p class="class1">Hay</p><div class="rateit" data-rateit-value="4" data-rateit-readonly="true"></div>
-                                </div>
-                                <div class="row">
-                                    <p class="class1">Vừa phải</p><div class="rateit" data-rateit-value="3" data-rateit-readonly="true"></div>
-
-                                </div>
-                                <div class="row">
-                                    <p class="class1">Tệ</p><div class="rateit" data-rateit-value="2" data-rateit-readonly="true"></div>
-
-                                </div>
-                                <div class="row">
-                                    <p class="class1">Quá tệ</p><div class="rateit" data-rateit-value="1" data-rateit-readonly="true"></div>
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-           
-        </div>
-        <!-- /.col-lg-9 -->
-
-    </div>
-    <!-- /.row -->
-</div>
-<!-- /.container -->
-<!-- Footer -->
-
-<script>
-    $(document).ready(function () {
-        $("#btnRate").click(function () {
-            var data = {};
-            data.rate = $('#rateit_star1').rateit('value');
-            data.bookid = '@ViewBag.ID';
-            data.username = $("#fullname").html();
-            data.userid = $("#userid").html();
-            console.log("bookid",data);
-            $.ajax({
-                type: "POST",
-                url: "/api/AdminAPI/SaveRate",
-                data: JSON.stringify(data),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (result) {
-                    if (result.isSuccess) {
-                        alert("Bạn đã đánh giá sách!");
-                    }
-                }
-            });
-        });
-    });
-</script>
-<script>
+                <script>
     $("#upload").click(function () {
 
         var ebook = {};
@@ -162,7 +93,7 @@
     });
      // load data
     $(document).ready(function () {
-         var val = '@ViewBag.ID';
+        var val = '@ViewBag.ID';
         $.ajax({
             type: "GET",
             url: "http://localhost:52385/api/AdminAPI/GetFileById",
@@ -177,16 +108,16 @@
                 data += "<div class='row' id='info_details'>";
                 data += "<div class='col-lg-6'>";
                 data += "<h2>" + v.title + "</h2>";
-                data += "<p>Tác giả: " + v.author + "</p>";
-                data += "<p>Năm xuất bản: " + v.year + "</p>";
+                data += "<p><b>Tác giả: </b>"  + v.author + "</p>";
+                data += "<p><b>Năm xuất bản: </b>" + v.year + "</p>";
                 data += "<div id='rate' class='rateit'></div>";
                 data += "<div id='button_details'>";
                 data += "<p id='pdf-link' hidden='hidden'>/Content/Upload/" + v.filename+"</p>";
-                data += "<button style='width: 100px;'><a href='/ReadFileDetails/Index?ebook_id=" + v.ebook_id + "'" + "data-bind='text:title'>đọc</a></button>";
-          
-                data += `<a href="/Content/Upload/${v.filename}" >
-                    <input type="button" value="Download" /></a >`
+                data += "<button type='button' class='btn btn-info' style='width: 100px;'><a href='/ReadFileDetails/Index?ebook_id=" + v.ebook_id + "'" +
+                    "style='color:white;text-decoration: none;' data-bind='text:title'>Xem</a></button>";
 
+                data += `<a href="/Content/Upload/${v.filename}" ><input type="button" value="Download" /></a >`
+                //data += `<button type='button' class='btn btn-info' style='width: 100px;'><a href=/Content/Upload/${v.filename } style='color:white;text-decoration: none;'>Dowload</a></button>`;
                 data += " </div>";
                 data += "<div><h2>Mô tả:</h2>";
                 data += "<p>" + v.describe + "</p>";
@@ -209,4 +140,199 @@
         openPDF($('#pdf-link').text());
     });
 
+                </script>
+
+            </div>
+            <div class="row" style="margin-top:20px;">
+                <div class='col-md-12'>
+                    <div class='border'>
+                        <div class="row" id='info_details' style="height:300px">
+                            <div class="col-md-4">
+                                <div style="background-color:lightskyblue;font-size:20px;text-align:center"><b>Đánh giá:</b></div>
+                                <div style="text-align:center">
+                                    <div class="rateit" id="rateit_star1" data-rateit-step="1" data-productid="123"></div>
+                                    <button id="btnRate" type="button" class="btn btn-info">Gửi</button>
+                                </div>
+                                
+                            </div>
+                            <div class="col-md-8">
+                                <div style="background-color:lightskyblue;font-size:20px;text-align:center"><b>Thống kê:</b></div>
+                                <div class="row">
+                                 <div class="rateit col-md-6" data-rateit-value="5" data-rateit-readonly="true"></div>
+                                    <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal5"><span id="fiveStar"></span> đánh giá</a></div>
+                                </div>
+                                <div class="row">
+                                    <div class="rateit col-md-6" data-rateit-value="4" data-rateit-readonly="true"></div>
+                                    <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal4"><span id="fourStar"></span> đánh giá</a></div>
+                                </div>
+                                <div class="row">
+                                   <div class="rateit col-md-6" data-rateit-value="3" data-rateit-readonly="true"></div>
+                                    <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal3"><span id="threeStar"></span> đánh giá</a></div>
+                                </div>
+                                <div class="row">
+                                   <div class="rateit col-md-6" data-rateit-value="2" data-rateit-readonly="true"></div>
+                                    <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal2"><span id="twoStar"></span> đánh giá</a></div>
+                                </div>
+                                <div class="row">
+                                    <div class="rateit col-md-6" data-rateit-value="1" data-rateit-readonly="true"></div>
+                                    <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal1"><span id="oneStar"></span> đánh giá</a></div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.col-lg-9 -->
+    </div>
+    <!-- /.row -->
+</div>
+
+<!-- /.container -->
+<!-- Footer -->
+<!-- thống kê -->
+<script>
+    $(document).ready(function () {
+        function refreshListUserRate() {
+            $("#listUserRate1").empty();
+            $("#listUserRate2").empty();
+            $("#listUserRate3").empty();
+            $("#listUserRate4").empty();
+            $("#listUserRate5").empty();
+        }
+        function loadNumberStar() {
+            $.ajax({
+                type: "GET",
+                url: "/api/RateAPIAPI/GetRateStar",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    console.log("aa", result);
+                    $("#oneStar").text(result.oneStarCount);
+                    $.each(result.listRateOneStar, function (i, v) {
+                        $("#listUserRate1").append("<div>" + v + "</div>");
+                    });
+                    $("#twoStar").text(result.twoStarCount);
+                    $.each(result.listRateTwoStar, function (i, v) {
+                        $("#listUserRate2").append("<div>" + v + "</div>");
+                    });
+                    $("#threeStar").text(result.threeStarCount);
+                    $.each(result.listRateThreeStar, function (i, v) {
+                        $("#listUserRate3").append("<div>" + v + "</div>");
+                    });
+                    $("#fourStar").text(result.fourStarCount);
+                    $.each(result.listRateFourStar, function (i, v) {
+                        $("#listUserRate4").append("<div>" + v + "</div>");
+                    });
+                    $("#fiveStar").text(result.fiveStarCount);
+                    $.each(result.listRateFiveStar, function (i, v) {
+                        $("#listUserRate5").append("<div>" + v + "</div>");
+                    });
+                }
+            });
+        }
+        refreshListUserRate();
+        loadNumberStar();
+        $("#btnRate").click(function () {
+            var data = {};
+            data.rate = $('#rateit_star1').rateit('value');
+            data.bookid = '@ViewBag.ID';
+            data.username = $("#fullname").html();
+            data.userid = $("#userid").html();
+            console.log("bookid",data);
+            $.ajax({
+                type: "POST",
+                url: "/api/AdminAPI/SaveRate",
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result.isSuccess) {
+                        alert("Bạn đã đánh giá sách!");
+                        refreshListUserRate();
+                        loadNumberStar();
+                    }
+                }
+            });
+        });
+      
+    });
 </script>
+
+<!--Modal xem dnh sách người đánh giá-->
+<!-- 1 Sao-->
+<div id="myModal1" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" id="listUserRate1">
+                <!--Danh sách người đánh giá-->
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- 2 Sao-->
+<div id="myModal2" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" id="listUserRate2">
+                <!--Danh sách người đánh giá-->
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- 3 Sao-->
+<div id="myModal3" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" id="listUserRate3">
+                <!--Danh sách người đánh giá-->
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- 4 Sao-->
+<div id="myModal4" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" id="listUserRate4">
+                <!--Danh sách người đánh giá-->
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- 5 Sao-->
+<div id="myModal5" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" id="listUserRate5">
+                <!--Danh sách người đánh giá-->
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -124,7 +124,7 @@ namespace LibraryOnline.Controllers
                     var user = db.Users.Where(x => x.id == user_id).Select(x => x.username).FirstOrDefault();
                     var subject = db.Subject_Ebook.Where(x => x.id == sub_id).Select(x => x.name).FirstOrDefault();
                     var fileinfo = db.Ebooks.OrderByDescending(x => x.id).FirstOrDefault();
-                    var date_up = fileinfo.date_upload.ToString("MM/dd/yyyy");
+                    var date_up = date_upload.ToString("MM/dd/yyyy");
                     MyHub.PostFileEbook(fileinfo.id, fileinfo.title, fileinfo.author, fileinfo.describe,
                         fileinfo.year, fileinfo.filename, date_up, user, subject);
                     a = "Thành công";

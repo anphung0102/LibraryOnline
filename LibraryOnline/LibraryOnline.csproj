@@ -226,6 +226,7 @@
     <Compile Include="Controllers\ManageSubThesisOfAdminController.cs" />
     <Compile Include="Controllers\ManageUploadEssayOfAdminController.cs" />
     <Compile Include="Controllers\ManageUploadThesisOfAdminController.cs" />
+    <Compile Include="Controllers\ManageUserController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\ReadFileDetailsController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
@@ -292,6 +293,7 @@
     <Compile Include="Models\User.cs">
       <DependentUpon>LibraryOnline.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="MyHub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -313,6 +315,8 @@
     <Content Include="Content\Datatables\editor.dataTables.min.css" />
     <Content Include="Content\Datatables\jquery.dataTables.min.css" />
     <Content Include="Content\Datatables\jquery.dataTables.min.js" />
+    <Content Include="Content\img\banner.png" />
+    <Content Include="Content\img\banner1.png" />
     <Content Include="Content\img\logo-login.png" />
     <Content Include="Content\delete.gif" />
     <Content Include="Content\img\logo-lv1.png" />
@@ -459,6 +463,7 @@
     <Content Include="Views\ManageSubThesisOfAdmin\Index.cshtml" />
     <Content Include="Views\ManageUploadEssayOfAdmin\Index.cshtml" />
     <Content Include="Views\ManageUploadThesisOfAdmin\Index.cshtml" />
+    <Content Include="Views\ManageUser\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

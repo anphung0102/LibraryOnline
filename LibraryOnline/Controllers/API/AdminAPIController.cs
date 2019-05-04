@@ -318,5 +318,31 @@ namespace LibraryOnline.Controllers.API
         {
             return db.Thesis.Where(x => x.sub_id == id).ToArray();
         }
+
+        // lấy dữ liệu test
+        [Route("api/AdminAPI/GetEssay1")]
+        [HttpGet]
+        public IEnumerable<Essay> GetEssay1()
+        {
+
+            return db.Essays.ToList().Take(3);
+        }
+        // lấy dữ liệu test
+        [Route("api/AdminAPI/GetEbook1")]
+        [HttpGet]
+        public IEnumerable<Ebook> GetEbook1()
+        {
+
+            return db.Ebooks.ToList().Take(3);
+        }
+
+        // lấy dữ liệu test
+        [Route("api/AdminAPI/GetThesis")]
+        [HttpGet]
+        public IEnumerable<Thesis> GetThesis1()
+        {
+
+            return db.Thesis.ToList().Take(3);
+        }
     }
 }

@@ -340,5 +340,84 @@ namespace LibraryOnline.Controllers.API
 
             return "Xóa thành công";
         }
+
+        // lấy ds User
+        // lấy ds thesis quyền admin
+        [Route("api/ManageOfAdminAPI/GetUsers")]
+        [HttpGet]
+        public IEnumerable<User> GetUsers()
+        {
+
+            return db.Users.ToList(); ;
+        }
+        //xoá User
+        [Route("api/ManageOfAdminAPI/DeleteUser")]
+        [HttpPost]
+        public string DeleteUser(User user)
+        {
+            var sub = db.Users.Where(x => x.id == user.id).FirstOrDefault();
+            db.Users.Remove(sub);
+            db.SaveChanges();
+
+            return "Xóa thành công";
+        }
+
+        [Route("api/ManageOfAdminAPI/AddUsers")]
+        [HttpPost]
+        public UserCreationResult AddUsers()
+        {
+            var username = HttpContext.Current.Request["email"];
+            var password = HttpContext.Current.Request["password"];
+            var role = HttpContext.Current.Request["role"];
+            var studentid = HttpContext.Current.Request["studentid"];
+            var name = HttpContext.Current.Request["name"];
+            var classid = HttpContext.Current.Request["classid"];
+
+            int role_id = Convert.ToInt32(role);
+
+            var sub = db.Users.Where(x => x.mssv.Equals(studentid)).FirstOrDefault();//này làm gì làm lấy so sánh đồ giống cái m làm t sửa lại
+
+            if (sub != null)
+            {
+                return new UserCreationResult
+                {
+                    IsSuccess = false
+                };
+            }
+            else
+            {
+               
+                    db.Users.Add(new User
+                    {
+                        
+                        username = username,
+                        password = password,
+                        role_id = role_id,
+                        mssv = studentid,
+                        fullname = name,
+                        
+                        class_id = classid,
+                       
+                    });
+                    db.SaveChanges();
+                
+
+                var loaduser = db.Users.Where(x => x.mssv.Equals(studentid)).FirstOrDefault();
+
+                //MyHub.Post(sub_ebook.id, sub_ebook.name);
+                return new UserCreationResult
+                {
+                    IsSuccess = true,
+                    Id = loaduser.id,
+                    UserName = loaduser.username,
+                    PassWord = loaduser.password,
+                    Role_Id = loaduser.role_id,
+                    Mssv = loaduser.mssv,
+                    FullName = loaduser.fullname,
+                    Class_Id = loaduser.class_id
+                  
+                };
+            }
+        }
     }
 }

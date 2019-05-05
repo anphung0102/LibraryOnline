@@ -66,59 +66,9 @@
                 </ul>
             </div><!-- navigation -->
             @*<h1 class="khoangcachduoi">Products</h1>*@
-            <div class="row" id="detail">
-            </div>
-            <div class="row">
-                <div class='col-lg-12 col-md-6 mb-4'>
-                    <div class='border'>
-                        <div class="row" id='info_details'>
-                            <div class='col-lg-12'>
-                                <div>Đánh giá:</div>
-                                <div class="rateit" id="rateit_star1" data-productid="123"></div>
-                                <button id="btnRate">Gửi</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /.col-lg-9 -->
+            <div class="row" id="detail" style="float:left;width:60%">
 
-    </div>
-    <!-- /.row -->
-</div>
-<!-- /.container -->
-<!-- Footer -->
-
-<script>
-    $(document).ready(function () {
-        $("#btnRate").click(function () {
-
-            var a = $('#rateit_star1').rateit('value');
-            alert(a);
-        });
-    });
-</script>
-<script>
-    $("#upload").click(function () {
-
-        var ebook = {};
-        ebook.title = $("#title").val(); //get từ textbox
-        ebook.describe = $("#describe").val(); //get từ text boxt
-        ebook.year = $("#year").val(); //get từ textbox
-        ebook.user_id = $("#user_id").val(); //get từ text boxt
-        ebook.filename = $("#filename").val(); //get từ text boxt
-        $.ajax({
-            type: "POST",
-            url: "/api/FileAPI/UploadEbook",
-            data: JSON.stringify(ebook),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (result) {
-
-            }
-        });
-    });
+                <script>
      // load data
                     $(document).ready(function () {
                         var val = '@ViewBag.ID';
@@ -253,14 +203,29 @@
                     </div>
                 </div>
             </div>
+
+
         </div>
         <!-- /.col-lg-9 -->
+
     </div>
     <!-- /.row -->
 </div>
+<!-- /.container -->
+<!-- Footer -->
+
+<script>
+    $(document).ready(function () {
+        $("#btnRate").click(function () {
+            var a = $('#rateit_star1').rateit('value');
+            alert(a);
+        });
+    });
+</script>
+
 
 <!-- Modal -->
-<div class="modal fade" id="counter" role="dialog" >
+<div class="modal fade" id="counter" role="dialog">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
@@ -269,7 +234,7 @@
             <div class="modal-body">
                 <span id="counter" class="timer"></span> <br />
                 <div id="loadfile"></div>
-                
+
             </div>
         </div>
     </div>
@@ -284,7 +249,7 @@
 
         $(document).ready(function () {
         $('.timer').countimer();
-        
+
     });
  $(document).ready(function () {
       var val = '@ViewBag.Id';
@@ -304,7 +269,7 @@
                 $("#loadfile").append(data);
             }
      });
-     
+
     });
 
         function refreshListUserRate() {

@@ -618,7 +618,7 @@ namespace LibraryOnline.Controllers.API
         public IEnumerable<Thesis> GetThesis1()
         {
 
-            return db.Thesis.ToList().Take(3);
+            return db.Theses.ToList().Take(3);
         }
     }
 }

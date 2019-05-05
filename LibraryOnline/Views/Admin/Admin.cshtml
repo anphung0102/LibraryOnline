@@ -23,17 +23,13 @@
 
 <!-- Page Content -->
 <div class="container" id="admin-container">
-
     <div class="row">
-
         <div class="col-lg-3">
-
             <h3 class="my-4">Select Category</h3>
             <ul class="mainmenu">
                 <li class="mainmenu-item">
                     @* cái mainmenu-item này bao cái thẻ đó bên trong  *@
                     <a class="mainmenu-item-text">Ebooks</a>
-
                     <ul class="submenu" id="loadSubjectOfEbook">
                         @*load các môn học trong ebook*@
                     </ul>
@@ -585,6 +581,11 @@
                     $("#btn_upload1").show();
                     $("#btn_upload2").hide();
                     $("#btn_upload").hide();
+                    $("#essay").show();
+                    $("#thesis").hide();
+                    $("#loadThesis").hide();
+                    $("#ebook").hide();
+                    $("#loadEbook").hide();
                     $("#loadEssay").show();
                     $("#subjectE").append("<option value='" + v.id + "'>" + v.name + "</option>");
                     //$("#subjectE").val(v.name);
@@ -609,12 +610,12 @@
                             $('#breadcrumb-3').text(v.name);
 
                                     //$("#loadEbook").append(data);
-                                });
+                                //});
                                 $('#pagination-container').pagination({
                                     dataSource: function (done) {
                                         $.ajax({
                                             type: 'GET',
-                                            url: '/api/AdminAPI/GetThesisPaging',
+                                            url: '/api/AdminAPI/GetEssayPaging',
                                             data: { id: v.id },
                                             contentType: "application/json; charset=utf-8",
                                             dataType: "json",
@@ -625,7 +626,7 @@
                                     },
                                     callback: function (data, pagination) {
                                         var html = simpleTemplating1(data);
-                                        $('#loadThesis').html(html);
+                                        $('#loadEssay').html(html);
                                     }
                                 })
                             }
@@ -708,7 +709,7 @@
         return data;
     }
 
-    // load môn tiểu luận
+    // load môn khóaluận
     $.ajax({
         type: "GET",
         url: "/api/AdminAPI/GetSubjectThesis",
@@ -726,17 +727,12 @@
                     $("#btn_upload").hide();
                     $("#loadThesis").show();
                     $("#subjectT").append("<option value='" + v.id + "'>" + v.name + "</option>");
-                    //$("#subjectT").val(v.name);
-                    $("#loadEssay").empty();
-                    $("#loadEbook").empty();
-                    $("#loadThesis").empty();
+                    $("#essay").hide();
+                    $("#thesis").show();
+                    $("#loadThesis").show();
                     $("#ebook").hide();
-                    $("#thesis").hide();
-                    $("#essay").show();
                     $("#loadEbook").hide();
-                    $("#loadThesis").hide();
-                    $("#loadEssay").show();
-                    $("#subjectE").append("<option value='" + v.id + "'>" + v.name + "</option>");
+                    $("#loadEssay").hide();
                     $("#loadEssay").empty();
                     $("#loadEbook").empty();
                     $.ajax({
@@ -869,7 +865,7 @@
                     data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
                     data += "<div class='card-body'>";
                     data += "<h4 class='card-title'>";//
-                    data += "<a href='/Details/Details?id=" + v.id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                    data += "<a href='/Details/Details?ebook_id=" + v.ebook_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
                     data += "<h5>tác giả: " + v.author + "</h5>";
                     data += "<p class='card-text' data-bind='text:author'></p>";
                     //data += "<div class='card-footer'></div>";
@@ -898,7 +894,7 @@
                     data1 += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
                     data1 += "<div class='card-body'>";
                     data1 += "<h4 class='card-title'>";//
-                    data1 += "<a href='/Details/Details?id=" + v.id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                    data1 += "<a href='/Details/DetailsEssay?essay_id=" + v.essay_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
                     data1 += "<h5>giáo viên hd: " + v.instructor + "</h5>";
                     data1 += "<p class='card-text' data-bind='text:author'></p>";
                     //data += "<div class='card-footer'></div>";
@@ -926,7 +922,7 @@
                     data1 += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
                     data1 += "<div class='card-body'>";
                     data1 += "<h4 class='card-title'>";//
-                    data1 += "<a href='/Details/Details?id=" + v.id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                    data1 += "<a href='/Details/DetailsThesis?thesis_id=" + v.thesis_id+ "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
                     data1 += "<h5>giáo viên hd: " + v.instructor + "</h5>";
                     data1 += "<p class='card-text' data-bind='text:author'></p>";
                     //data += "<div class='card-footer'></div>";

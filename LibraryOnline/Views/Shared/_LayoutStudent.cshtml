@@ -74,9 +74,24 @@
                                 <div id="fullname" hidden>@Session["fullname"]</div>
                                 <small>Tài khoản: <span>@Session["username"]</span></small>
                             </div>
-                            <lable  id="userid">@Session["user_id"]</lable>
+                            <lable id="userid">@Session["user_id"]</lable>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="http://localhost:52385">Logout</a>
+                            <a class="dropdown-item" id="logout">Logout</a>
+                            <script>
+                                $(document).ready(function () {
+                                    $("#logout").click(function () {
+                                        $.ajax({
+                                            type: 'GET',
+                                            url: '/api/LoginAPI/Logout',
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "json",
+                                            success: function (response) {
+                                                window.location.href = response;
+                                            }
+                                        });
+                                    });
+                                });
+                            </script>
 
                         </div>
                     </li>

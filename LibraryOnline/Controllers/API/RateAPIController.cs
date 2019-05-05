@@ -13,32 +13,32 @@ namespace LibraryOnline.Controllers.API
         private LibraryOnlineFinalEntities db = new LibraryOnlineFinalEntities();
         [Route("api/RateAPIAPI/GetRateStar")]
         [HttpGet]
-        public object GetRateStar()
+        public object GetRateStar(string book_id)
         {
-            var oneStarCount = db.RateStars.Where(x => x.rate == 1).Count();
+            var oneStarCount = db.RateStars.Where(x => x.rate == 1 && x.book_id == book_id).Count();
             var listRateOneStar = (from r in db.RateStars
                                    from u in db.Users
-                                   where r.user_id == u.id && r.rate == 1
+                                   where r.user_id == u.id && r.rate == 1 && r.book_id == book_id
                                    select u.fullname).ToList();
-            var twoStarCount = db.RateStars.Where(x => x.rate == 2).Count();
+            var twoStarCount = db.RateStars.Where(x => x.rate == 2 && x.book_id == book_id).Count();
             var listRateTwoStar = (from r in db.RateStars
                                    from u in db.Users
-                                   where r.user_id == u.id && r.rate == 2
+                                   where r.user_id == u.id && r.rate == 2 && r.book_id == book_id
                                    select u.fullname).ToList();
-            var threeStarCount = db.RateStars.Where(x => x.rate == 3).Count();
+            var threeStarCount = db.RateStars.Where(x => x.rate == 3 && x.book_id == book_id).Count();
             var listRateThreeStar = (from r in db.RateStars
                                    from u in db.Users
-                                   where r.user_id == u.id && r.rate == 3
+                                   where r.user_id == u.id && r.rate == 3 && r.book_id == book_id
                                      select u.fullname).ToList();
-            var fourStarCount = db.RateStars.Where(x => x.rate == 4).Count();
+            var fourStarCount = db.RateStars.Where(x => x.rate == 4 && x.book_id == book_id).Count();
             var listRateFourStar = (from r in db.RateStars
                                    from u in db.Users
-                                   where r.user_id == u.id && r.rate == 4
+                                   where r.user_id == u.id && r.rate == 4 && r.book_id == book_id
                                     select u.fullname).ToList();
-            var fiveStarCount = db.RateStars.Where(x => x.rate == 5).Count();
+            var fiveStarCount = db.RateStars.Where(x => x.rate == 5 && x.book_id == book_id).Count();
             var listRateFiveStar = (from r in db.RateStars
                                     from u in db.Users
-                                    where r.user_id == u.id && r.rate == 5
+                                    where r.user_id == u.id && r.rate == 5 && r.book_id == book_id
                                     select u.fullname).ToList();
             MyHub.LoadNumberStar(oneStarCount, twoStarCount, threeStarCount,
                 fourStarCount, fiveStarCount);

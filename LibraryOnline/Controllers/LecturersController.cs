@@ -18,5 +18,15 @@ namespace LibraryOnline.Controllers
             ViewBag.Id = id;
             return View();
         }
+        public ActionResult ManageEssay(int? id)
+        {
+            ViewBag.Id = id;
+            return View();
+        }
+        public ActionResult ManageThesis(int? id)
+        {
+            ViewBag.Id = id;
+            return View();
+        }
     }
 }

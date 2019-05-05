@@ -42,6 +42,7 @@
                 <th>GVHD</th>
                 <th>Sinh viên 1</th>
                 <th>Sinh viên 2</th>
+                <th>Khóa</th>
                 <th>Mô tả</th>
                 <th>Tên file</th>
                 <th>Ngày Up</th>
@@ -98,7 +99,7 @@
                     </div>
                     <div class="form-group">
                         <label for="text">Giới thiệu:</label>
-                        <input type="text" class="form-control" id="describeT placeholder="Giới thiêu" name="describe">
+                        <input type="text" class="form-control" id="describeT" placeholder="Giới thiêu" name="describe">
 
                     </div>
                     <div class="form-group">
@@ -116,11 +117,11 @@
                         <input type="text" class="form-control" id="student2T" placeholder="Sinh viên 2" name="student2">
 
                     </div>
-                    @*<div class="form-group">
+                    <div class="form-group">
                             <label for="text">Khóa:</label>
-                            <input type="text" class="form-control" id="yearE" placeholder="Năm" name="year">
+                            <input type="text" class="form-control" id="courseT" placeholder="Khóa" name="course">
 
-                        </div>*@
+                        </div>
                     <div class="form-group">
                         <label for="text">Bộ môn:</label>
                         <select id="loadSubjectOfEbook" class="form-control"></select>
@@ -267,26 +268,6 @@
       $(document).ready(function () {
         //Upload dữ liệu vào Ebook
           $("#uploadEssay").click(function () {
-             // var data = new FormData();
-
-              //var files = $("#fileInput").get(0).files;
-
-              //// Add the uploaded image content to the form data collection
-              //if (files.length > 0) {
-              //    data.append("UploadedFiles", files[0]);
-              //}
-              //var files = $('#fileInput').prop('files')[0];
-              @*var data = {};
-              data.title = $("input[id='title']").val();
-              data.describe = $("input[id='describe']").val();
-              data.author = $("input[id='author']").val();
-              data.year = $("input[id='year']").val();
-              data.author = $("input[id='author']").val();
-              data.year = $("input[id='year']").val();
-              data.subid = $("#loadSubjectOfEbook option:selected").val();
-              data.userid = @Session["user_id"];
-              data.file = files;
-              console.log(data);*@
               var files = $("#fileInputT").get(0).files;
             var data = new FormData();
 
@@ -301,13 +282,14 @@
               data.append("student2", $("#student2T").val());
               data.append("userid",@Session["user_id"]);
               data.append("subid", $("#loadSubjectOfEbook option:selected").val());
-
+              data.append("course", $("#courseT").val());
 
             console.log(data);
             $.ajax({
 
                 type: "POST",
-                url: "/api/ManageOfAdminAPI/UploadThesis",
+                //url: "/api/ManageOfAdminAPI/UploadThesis",AdminAPI/UploadFilesThesis
+                url: "/api/AdminAPI/UploadFilesThesis", 
                 dataType: "json",
                 contentType: false,
                 processData: false,
@@ -317,7 +299,7 @@
                 //dataType: "json",
                 success: function (result) {
                     if (result.isSuccess) {
-                        alert("Tạo môn thành công.");
+                        alert("Upload thành công.");
                         console.log("aaa", result);
                         //add row datatable
                         var t = $('#loadsubject').DataTable();
@@ -328,12 +310,13 @@
                             "instructor": result.instructor,
                             "executor1": result.executor1,
                             "executor2": result.executor2,
+                            "cource": result.course,
                             "describe": result.describe,
                             "filename": result.fileName,
                             "date_upload": result.date_Upload
                         }).draw();
                     } else {
-                        alert("Tên môn đã tồn tại! Vui lòng đặt tên khác.");
+                        alert("Upload không thành công.");
                     }
                 }
             });
@@ -371,6 +354,7 @@
                     { "data": "instructor" },
                     { "data": "executor1" },
                     { "data": "executor2" },
+                    { "data": "cource" },
                     { "data": "describe" },
                     { "data": "filename" },
                     { "data": "date_upload" },

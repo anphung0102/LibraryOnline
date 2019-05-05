@@ -17,7 +17,7 @@ namespace LibraryOnline.Controllers.API
         //Upload file cho Ebook 
         [Route("api/AdminAPI/UploadFiles")]
         [HttpPost]
-        public HttpResponseMessage UploadFiles()
+        public EbookCreationResult UploadFiles()
         {
             var httpPostedFile = HttpContext.Current.Request.Files["fileInput"];//lấy file
             if (httpPostedFile != null)
@@ -34,7 +34,7 @@ namespace LibraryOnline.Controllers.API
             var year = HttpContext.Current.Request["year"];
             var userid = HttpContext.Current.Request["userid"];
             var subid = HttpContext.Current.Request["subid"];
-            var username = HttpContext.Current.Request["username"];
+            //var username = HttpContext.Current.Request["username"];
             var date_upload = DateTime.Now;
             int user_id = Convert.ToInt32(userid);
             int sub_id = Convert.ToInt32(subid);
@@ -58,6 +58,8 @@ namespace LibraryOnline.Controllers.API
                             date_upload = date_upload,
                             user_id = user_id,
                             sub_id = sub_id,
+                            countView = 0,
+                            countDowload = 0
                         });
                     db.SaveChanges();
                     var book_id = db.Ebooks.OrderByDescending(x => x.id).Select(x=>x.ebook_id).FirstOrDefault();
@@ -76,7 +78,8 @@ namespace LibraryOnline.Controllers.API
                           date_upload = date_upload,
                           user_id = user_id,
                           sub_id = sub_id,
-                          username = username
+                          //username = username,
+                          type = "ebook"
                       });
                     db.SaveChanges();//lưu dât thôi cái này t chưa chạy t mới test gửi data từ  ajax qua thôi
                     var user = db.Users.Where(x => x.id == user_id).Select(x => x.username).FirstOrDefault();
@@ -85,17 +88,35 @@ namespace LibraryOnline.Controllers.API
                     var date_up = date_upload.ToString("MM/dd/yyyy");
                     MyHub.PostFileEbook(fileinfo.id, fileinfo.title, fileinfo.author, fileinfo.describe,
                         fileinfo.year, fileinfo.filename, date_up, user, subject);
-                 
-                    return Request.CreateResponse("Thành công");
+                    var loadebook = db.Ebooks.OrderByDescending(x => x.id).Take(1).FirstOrDefault();
+                    var ebook_id = db.Ebooks.Where(x => x.id == loadebook.id).Select(x => x.ebook_id).FirstOrDefault();
+
+                    return new EbookCreationResult
+                    {
+                        IsSuccess = true,
+                        Id = loadebook.id,
+                        Ebook_Id = ebook_id,
+                        Title = loadebook.title,
+                        Describe = loadebook.describe,
+                        Author = loadebook.author,
+                        Year = loadebook.year,
+                        FileName = loadebook.filename,
+                        Date_Upload = loadebook.date_upload.Value.ToString("dd/MM/yyyy")
+                    };
+                    //return Request.CreateResponse("Thành công");
                 }
             }
-            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Lỗi!!!");
+            return new EbookCreationResult
+            {
+                IsSuccess = false,
+            };
+                //return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Lỗi!!!");
 
-        }
+            }
         //Upload file cho Ebook 
         [Route("api/AdminAPI/UploadFileEssay")]
         [HttpPost]
-        public HttpResponseMessage UploadFileEssay()
+        public EssayCreationResult UploadFileEssay()
         {
             var httpPostedFile = HttpContext.Current.Request.Files["fileInput"];//lấy file
             if (httpPostedFile != null)
@@ -111,20 +132,19 @@ namespace LibraryOnline.Controllers.API
             var instructor = HttpContext.Current.Request["instructor"];
             var executor1 = HttpContext.Current.Request["student1"];
             var executor2 = HttpContext.Current.Request["student2"];
-            var year = HttpContext.Current.Request["year"];
+            var course = HttpContext.Current.Request["course"];
             var userid = HttpContext.Current.Request["userid"];
             var subid = HttpContext.Current.Request["subid"];
             var date_upload = DateTime.Now;
-            //int course = Convert.ToInt32(year);
             int user_id = Convert.ToInt32(userid);
             int sub_id = Convert.ToInt32(subid);
             string strExtexsion = Path.GetExtension(httpPostedFile.FileName).Trim();//lấy đuôi file
             // ví dụ
-            var temp = db.Essays.Where(x => x.title.Equals(title)).FirstOrDefault();
-            if (temp != null)
-            {
-               // thông báo trung tên mnguowcj lại cho lưu
-            }
+            //var temp = db.Essays.Where(x => x.title.Equals(title)).FirstOrDefault();
+            //if (temp != null)
+            //{
+            //   // thông báo trung tên mnguowcj lại cho lưu
+            //}
             if (strExtexsion == ".pdf")//chỉ cho up pdf
             {
 
@@ -138,13 +158,16 @@ namespace LibraryOnline.Controllers.API
                             title = title,
                             describe = describe,
                             instructor = instructor,
-                            executor1= executor1,
-                            executor2= executor2,
+                            executor1 = executor1,
+                            executor2 = executor2,
                             //course = year,
                             filename = httpPostedFile.FileName,
                             date_upload = date_upload,
                             user_id = user_id,
                             sub_id = sub_id,
+                            course = course,
+                            countView = 0,
+                            countDowload = 0
                         });
                     db.SaveChanges();
                     var book_id = db.Essays.OrderByDescending(x => x.id).Select(x => x.essay_id).FirstOrDefault();
@@ -163,20 +186,42 @@ namespace LibraryOnline.Controllers.API
                           filename = httpPostedFile.FileName,
                           date_upload = date_upload,
                           user_id = user_id,
-                          sub_id = sub_id
+                          sub_id = sub_id,
+                          type = "essay"
                       });
                     db.SaveChanges();//lưu dât thôi cái này t chưa chạy t mới test gửi data từ  ajax qua thôi
                     var user = db.Users.Where(x => x.id == user_id).Select(x => x.username).FirstOrDefault();
                     var subject = db.Subject_Essay.Where(x => x.id == sub_id).Select(x => x.name).FirstOrDefault();
                     var fileinfo = db.Essays.OrderByDescending(x => x.id).FirstOrDefault();
-                    var date_up = fileinfo.date_upload.ToString("MM/dd/yyyy");
-                    MyHub.PostFileEssay(fileinfo.id, fileinfo.title, fileinfo.instructor,fileinfo.executor1,fileinfo.executor2, fileinfo.describe, fileinfo.filename, date_up, user, subject);
+                    var date_up = date_upload.ToString("MM/dd/yyyy");
+                    MyHub.PostFileEssay(fileinfo.id, fileinfo.essay_id, fileinfo.title, fileinfo.instructor, fileinfo.executor1, fileinfo.executor2, fileinfo.describe, fileinfo.filename, date_up, user, subject);
 
-                    return Request.CreateResponse("Thành công");
+                    var loadessay = db.Essays.OrderByDescending(x=>x.id).Take(1).FirstOrDefault();
+                    var essay_id = db.Essays.Where(x => x.id == loadessay.id).Select(x => x.essay_id).FirstOrDefault();
+                    //MyHub.Post(sub_ebook.id, sub_ebook.name);
+                    return new EssayCreationResult
+                    {
+                        IsSuccess = true,
+                        Id = loadessay.id,
+                        Essay_Id = essay_id,
+                        Title = loadessay.title,
+                        Describe = loadessay.describe,
+                        Instructor = loadessay.instructor,
+                        Executor1 = loadessay.executor1,
+                        Executor2 = loadessay.executor2,
+                        FileName = loadessay.filename,
+                        Date_Upload = loadessay.date_upload.Value.ToString("dd/MM/yyyy"),
+                        Course = loadessay.course
+                    };
+                    //return Request.CreateResponse("Thành công");
                 }
             }
-            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Lỗi!!!");
-
+            return new EssayCreationResult
+            {
+                IsSuccess = false
+            };
+                // return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Lỗi!!!");
+                
         }
 
         ////Lấy môn học của ebook
@@ -211,13 +256,15 @@ namespace LibraryOnline.Controllers.API
                     name = subject.Name,
                 });
                 db.SaveChanges();
-                var sub_ebook = db.Subject_Ebook.Where(x => x.name.Equals(subject.Name)).FirstOrDefault();
-
-                //MyHub.Post(sub_ebook.id, sub_ebook.name);
+                //var sub_ebook = db.Subject_Ebook.Where(x => x.name.Equals(subject.Name)).FirstOrDefault();
+                var sub_ebook = db.Subject_Ebook.OrderByDescending(x => x.id).Take(1).FirstOrDefault();
+                var subebook_id = db.Subject_Ebook.Where(x => x.id == sub_ebook.id).Select(x => x.subebook_id).FirstOrDefault();
+                
                 return new SubjectCreationResult
                 {
                     IsSuccess = true,
                     Id = sub_ebook.id,
+                    Subebook_Id = subebook_id,
                     Name = sub_ebook.name
                 };
             }
@@ -252,7 +299,20 @@ namespace LibraryOnline.Controllers.API
         {
             return db.Ebooks.Where(x => x.ebook_id == ebook_id).FirstOrDefault();
         }
-
+        //lấy file theo id của tiểu luận
+        [Route("api/AdminAPI/GetFileEssayById")]
+        [HttpGet]
+        public Essay GetFileEssayById(string essay_id)
+        {
+            return db.Essays.Where(x => x.essay_id == essay_id).FirstOrDefault();
+        }
+        //lấy file theo id của khóa luận
+        [Route("api/AdminAPI/GetFileThesisById")]
+        [HttpGet]
+        public Thesis GetFileThesisById(string thesis_id)
+        {
+            return db.Theses.Where(x => x.thesis_id == thesis_id).FirstOrDefault();
+        }
         //xoá ebook
         [Route("api/AdminAPI/DeleteSubjectById")]
         [HttpPost]
@@ -375,7 +435,7 @@ namespace LibraryOnline.Controllers.API
 
         //Upload Khóa Luận
         [Route("api/AdminAPI/UploadFilesThesis")]
-        public HttpResponseMessage UploadFilesThesis()
+        public ThesisCreationResult UploadFilesThesis()
         {
             var httpPostedFile = HttpContext.Current.Request.Files["fileInput"];//lấy file
             if (httpPostedFile != null)
@@ -391,7 +451,7 @@ namespace LibraryOnline.Controllers.API
             var instructor = HttpContext.Current.Request["instructor"];
             var student1 = HttpContext.Current.Request["student1"];
             var student2 = HttpContext.Current.Request["student2"]; 
-            var year = HttpContext.Current.Request["year"];
+            var course = HttpContext.Current.Request["course"];
             var userid = HttpContext.Current.Request["userid"];
             var subid = HttpContext.Current.Request["subid"];
             var date_upload = DateTime.Now;
@@ -401,7 +461,6 @@ namespace LibraryOnline.Controllers.API
 
             if (strExtexsion == ".pdf")//chỉ cho up pdf
             {
-
                 using (LibraryOnlineFinalEntities db = new LibraryOnlineFinalEntities())
                 {
                     //Add vô bảng ebook 
@@ -418,6 +477,9 @@ namespace LibraryOnline.Controllers.API
                             date_upload = date_upload,
                             user_id = user_id,
                             sub_id = sub_id,
+                            cource = course,
+                            countView = 0,
+                            countDowload = 0
                         });
                     db.SaveChanges();
                     var book_id = db.Theses.OrderByDescending(x => x.id).Select(x => x.thesis_id).FirstOrDefault();
@@ -436,23 +498,101 @@ namespace LibraryOnline.Controllers.API
                           filename = httpPostedFile.FileName,
                           date_upload = date_upload,
                           user_id = user_id,
-                          sub_id = sub_id
+                          sub_id = sub_id,
+                          type = "thesis"
                       });
                     db.SaveChanges();//lưu dât thôi cái này t chưa chạy t mới test gửi data từ  ajax qua thôi
                     var user = db.Users.Where(x => x.id == user_id).Select(x => x.username).FirstOrDefault();
                     var subject = db.Subject_Thesis.Where(x => x.id == sub_id).Select(x => x.name).FirstOrDefault();
                     var fileinfo = db.Theses.OrderByDescending(x => x.id).FirstOrDefault();
                     var date_up = date_upload.ToString("dd/MM/yyyy");
-                    MyHub.PostFileThesis(fileinfo.id, fileinfo.title, fileinfo.instructor, fileinfo.executor1,
+                    MyHub.PostFileThesis(fileinfo.id, fileinfo.thesis_id, fileinfo.title, fileinfo.instructor, fileinfo.executor1,
                         fileinfo.executor1, fileinfo.describe, fileinfo.filename, date_up, user, subject);
+                    var loadthesis = db.Theses.OrderByDescending(x => x.id).Take(1).FirstOrDefault();
+                    var thesis_id = db.Theses.Where(x => x.id == loadthesis.id).Select(x => x.thesis_id).FirstOrDefault();
 
-                    return Request.CreateResponse("Thành công");
+                    return new ThesisCreationResult
+                    {
+                        IsSuccess = true,
+                        Id = loadthesis.id,
+                        Thesis_Id = thesis_id,
+                        Title = loadthesis.title,
+                        Describe = loadthesis.describe,
+                        Instructor = loadthesis.instructor,
+                        Executor1 = loadthesis.executor1,
+                        Executor2 = loadthesis.executor2,
+                        FileName = loadthesis.filename,
+                        Date_Upload = loadthesis.date_upload.Value.ToString("dd/MM/yyyy"),
+                        Course = loadthesis.cource
+                    };
+                    //return Request.CreateResponse("Thành công");
                 }
             }
-            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Lỗi!!!");
+            return new ThesisCreationResult
+            {
+                IsSuccess = false,
+            };
+                // return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Lỗi!!!");
 
+            }
+        public class ViewAndUploadModel
+        {
+            public string ID { get; set; }
+            public int count { get; set; }
         }
-
-
+        [Route("api/AdminAPI/UpdateViewEbook")]
+        [HttpPost]
+        public IHttpActionResult UpdateViewEbook(ViewAndUploadModel model)
+        {
+            var temp = db.Ebooks.Where(x => x.ebook_id == model.ID).FirstOrDefault();
+            temp.countView = model.count;
+            db.SaveChanges();
+            return Ok();
+        }
+        [Route("api/AdminAPI/UpdateDowEbook")]
+        [HttpPost]
+        public IHttpActionResult UpdateDowEbook(ViewAndUploadModel model)
+        {
+            var temp = db.Ebooks.Where(x => x.ebook_id == model.ID).FirstOrDefault();
+            temp.countDowload = model.count;
+            db.SaveChanges();
+            return Ok();
+        }
+        [Route("api/AdminAPI/UpdateViewEssay")]
+        [HttpPost]
+        public IHttpActionResult UpdateViewEssay(ViewAndUploadModel model)
+        {
+            var temp = db.Essays.Where(x => x.essay_id == model.ID).FirstOrDefault();
+            temp.countView = model.count;
+            db.SaveChanges();
+            return Ok();
+        }
+        [Route("api/AdminAPI/UpdateDowEssay")]
+        [HttpPost]
+        public IHttpActionResult UpdateDowEssay(ViewAndUploadModel model)
+        {
+            var temp = db.Essays.Where(x => x.essay_id == model.ID).FirstOrDefault();
+            temp.countDowload = model.count;
+            db.SaveChanges();
+            return Ok();
+        }
+        [Route("api/AdminAPI/UpdateViewThesis")]
+        [HttpPost]
+        public IHttpActionResult UpdateViewThesis(ViewAndUploadModel model)
+        {
+            var temp = db.Theses.Where(x => x.thesis_id == model.ID).FirstOrDefault();
+            temp.countView = model.count;
+            db.SaveChanges();
+            return Ok();
+        }
+        [Route("api/AdminAPI/UpdateDowThesis")]
+        [HttpPost]
+        public IHttpActionResult UpdateDowThesis(ViewAndUploadModel model)
+        {
+            var temp = db.Theses.Where(x => x.thesis_id == model.ID).FirstOrDefault();
+            temp.countDowload = model.count;
+            db.SaveChanges();
+            return Ok();
+        }
     }
 }

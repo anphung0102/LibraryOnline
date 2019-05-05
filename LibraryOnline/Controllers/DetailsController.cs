@@ -14,5 +14,15 @@ namespace LibraryOnline.Controllers
             ViewBag.ID = ebook_id; 
             return View();
         }
+        public ActionResult DetailsEssay(string essay_id)
+        {
+            ViewBag.ID = essay_id;
+            return View();
+        }
+        public ActionResult DetailsThesis(string thesis_id)
+        {
+            ViewBag.ID = thesis_id;
+            return View();
+        }
     }
 }

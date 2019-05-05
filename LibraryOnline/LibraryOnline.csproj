@@ -374,6 +374,8 @@
     <Content Include="Scripts\common\pagination.js" />
     <Content Include="Scripts\common\pagination.min.js" />
     <Content Include="Scripts\delete.gif" />
+    <Content Include="Scripts\dist\ez.countimer.js" />
+    <Content Include="Scripts\dist\ez.countimer.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -467,6 +469,12 @@
     <Content Include="Views\ManageSubThesisOfAdmin\Index.cshtml" />
     <Content Include="Views\ManageUploadEssayOfAdmin\Index.cshtml" />
     <Content Include="Views\ManageUploadThesisOfAdmin\Index.cshtml" />
+    <Content Include="Views\Details\DetailsEssay.cshtml" />
+    <Content Include="Views\ReadFileDetails\Essay.cshtml" />
+    <Content Include="Views\Details\DetailsThesis.cshtml" />
+    <Content Include="Views\ReadFileDetails\Thesis.cshtml" />
+    <Content Include="Views\Lecturers\ManageEssay.cshtml" />
+    <Content Include="Views\Lecturers\ManageThesis.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

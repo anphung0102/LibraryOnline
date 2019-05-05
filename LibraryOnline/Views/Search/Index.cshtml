@@ -22,53 +22,30 @@
         <div id="pagination-container" class="pagination justify-content-center"></div>
     </div>
 </div>
-
-
-@*<script>
-    $(document).ready(function () {
-        var val = '@ViewBag.Search';
-        $.ajax({
-            type: "GET",
-            url: "/api/SearchAPI/Search",
-            data: { search: val },
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (result) {
-                var data = "";
-                $.each(result, function (i, v) {
-                    data += "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
-                    data += "<div class='card h-100'>";
-                    data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
-                    data += "<div class='card-body'>";
-                    data += "<h4 class='card-title'>";//
-                    data += "<a href='/Details/Details?id=" + v.id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
-                    data += "<h5>tác giả: " + v.author + "</h5>";
-                    data += "<p class='card-text' data-bind='text:author'></p>";
-                    data += "<div class='card-footer'></div>";
-                    data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
-                    data += " </div></div></div>";
-                    $("#loadDataSearch").append(data);
-                });
-            }
-        });
-    });
-
-</script>*@
-
-
-
 <script>
         $(document).ready(function () {
             // hàm trả về html thông tin file
             function simpleTemplating(result) {
                 var data = "";
                 $.each(result, function (i, v) {
+                    var typebook = "";
+                    //console.log("type", v.type.trim());
+                    if (v.type.trim() == "ebook") {
+                        typebook = "<a href='/Details/Details?ebook_id=" + v.book_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                    }
+                    else if (v.type.trim() == "essay") {
+                        typebook = "<a href='/Details/DetailsEssay?essay_id=" + v.book_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                    }
+                    else if (v.type.trim() == "thesis") {
+                        typebook = "<a href='/Details/DetailsThesis?thesis_id=" + v.book_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                    }
                     data += "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
                     data += "<div class='card h-100'>";
                     data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
                     data += "<div class='card-body'>";
                     data += "<h4 class='card-title'>";//
-                    data += "<a href='/Details/Details?ebook_id=" + v.book_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                    //data += "<a href='/Details/Details?ebook_id=" + v.book_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                    data += typebook;
                     data += "<h5>tác giả: " + v.author + "</h5>";
                     data += "<p class='card-text' data-bind='text:author'></p>";
                     data += "<div class='card-footer'></div>";

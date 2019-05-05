@@ -19,6 +19,8 @@
           <Property Name="date_upload" Type="datetime" />
           <Property Name="user_id" Type="int" />
           <Property Name="sub_id" Type="int" />
+          <Property Name="countView" Type="int" />
+          <Property Name="countDowload" Type="int" />
         </EntityType>
         <EntityType Name="Essay">
           <Key>
@@ -35,6 +37,9 @@
           <Property Name="date_upload" Type="datetime" />
           <Property Name="user_id" Type="int" />
           <Property Name="sub_id" Type="int" />
+          <Property Name="course" Type="nchar" MaxLength="10" />
+          <Property Name="countView" Type="int" />
+          <Property Name="countDowload" Type="int" />
         </EntityType>
         <EntityType Name="RateStar">
           <Key>
@@ -42,7 +47,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="book_id" Type="nvarchar" MaxLength="10" Nullable="false" />
-          <Property Name="usename" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="usename" Type="nvarchar" MaxLength="50" />
           <Property Name="user_id" Type="int" Nullable="false" />
           <Property Name="rate" Type="int" Nullable="false" />
         </EntityType>
@@ -72,6 +77,7 @@
           <Property Name="user_id" Type="int" />
           <Property Name="sub_id" Type="int" />
           <Property Name="username" Type="nvarchar" MaxLength="50" />
+          <Property Name="type" Type="nchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="Subject_Ebook">
           <Key>
@@ -122,6 +128,9 @@
           <Property Name="date_upload" Type="datetime" />
           <Property Name="user_id" Type="int" />
           <Property Name="sub_id" Type="int" />
+          <Property Name="cource" Type="nchar" MaxLength="10" />
+          <Property Name="countView" Type="int" />
+          <Property Name="countDowload" Type="int" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -448,6 +457,8 @@
           <Property Name="sub_id" Type="Int32" />
           <NavigationProperty Name="Subject_Ebook" Relationship="LibraryOnlineFinalModel.fk_EBOOKS_SUBJECTEBOOK" FromRole="Ebook" ToRole="Subject_Ebook" />
           <NavigationProperty Name="User" Relationship="LibraryOnlineFinalModel.fk_EBOOKS_USERS" FromRole="Ebook" ToRole="User" />
+          <Property Name="countView" Type="Int32" />
+          <Property Name="countDowload" Type="Int32" />
         </EntityType>
         <EntityType Name="Essay">
           <Key>
@@ -466,6 +477,9 @@
           <Property Name="sub_id" Type="Int32" />
           <NavigationProperty Name="Subject_Essay" Relationship="LibraryOnlineFinalModel.fk_EBOOKS_SUBJECTESSAY" FromRole="Essay" ToRole="Subject_Essay" />
           <NavigationProperty Name="User" Relationship="LibraryOnlineFinalModel.fk_ESSAYS_USERS" FromRole="Essay" ToRole="User" />
+          <Property Name="course" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="countView" Type="Int32" />
+          <Property Name="countDowload" Type="Int32" />
         </EntityType>
         <EntityType Name="RateStar">
           <Key>
@@ -473,7 +487,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="book_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="usename" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="usename" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="user_id" Type="Int32" Nullable="false" />
           <Property Name="rate" Type="Int32" Nullable="false" />
           <NavigationProperty Name="User" Relationship="LibraryOnlineFinalModel.FK_RateStar_Users" FromRole="RateStar" ToRole="User" />
@@ -505,6 +519,7 @@
           <Property Name="user_id" Type="Int32" />
           <Property Name="sub_id" Type="Int32" />
           <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="type" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="Subject_Ebook">
           <Key>
@@ -560,6 +575,9 @@
           <Property Name="sub_id" Type="Int32" />
           <NavigationProperty Name="Subject_Thesis" Relationship="LibraryOnlineFinalModel.fk_EBOOKS_SUBJECTTHESIS" FromRole="Thesis" ToRole="Subject_Thesis" />
           <NavigationProperty Name="User" Relationship="LibraryOnlineFinalModel.fk_THESIS_USERS" FromRole="Thesis" ToRole="User" />
+          <Property Name="cource" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="countView" Type="Int32" />
+          <Property Name="countDowload" Type="Int32" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -694,6 +712,8 @@
           <EntitySetMapping Name="Ebooks">
             <EntityTypeMapping TypeName="LibraryOnlineFinalModel.Ebook">
               <MappingFragment StoreEntitySet="Ebook">
+                <ScalarProperty Name="countDowload" ColumnName="countDowload" />
+                <ScalarProperty Name="countView" ColumnName="countView" />
                 <ScalarProperty Name="sub_id" ColumnName="sub_id" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="date_upload" ColumnName="date_upload" />
@@ -710,6 +730,9 @@
           <EntitySetMapping Name="Essays">
             <EntityTypeMapping TypeName="LibraryOnlineFinalModel.Essay">
               <MappingFragment StoreEntitySet="Essay">
+                <ScalarProperty Name="countDowload" ColumnName="countDowload" />
+                <ScalarProperty Name="countView" ColumnName="countView" />
+                <ScalarProperty Name="course" ColumnName="course" />
                 <ScalarProperty Name="sub_id" ColumnName="sub_id" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="date_upload" ColumnName="date_upload" />
@@ -747,6 +770,7 @@
           <EntitySetMapping Name="SearchFiles">
             <EntityTypeMapping TypeName="LibraryOnlineFinalModel.SearchFile">
               <MappingFragment StoreEntitySet="SearchFile">
+                <ScalarProperty Name="type" ColumnName="type" />
                 <ScalarProperty Name="username" ColumnName="username" />
                 <ScalarProperty Name="sub_id" ColumnName="sub_id" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
@@ -805,6 +829,9 @@
           <EntitySetMapping Name="Theses">
             <EntityTypeMapping TypeName="LibraryOnlineFinalModel.Thesis">
               <MappingFragment StoreEntitySet="Thesis">
+                <ScalarProperty Name="countDowload" ColumnName="countDowload" />
+                <ScalarProperty Name="countView" ColumnName="countView" />
+                <ScalarProperty Name="cource" ColumnName="cource" />
                 <ScalarProperty Name="sub_id" ColumnName="sub_id" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="date_upload" ColumnName="date_upload" />

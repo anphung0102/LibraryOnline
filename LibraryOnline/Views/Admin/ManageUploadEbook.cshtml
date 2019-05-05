@@ -253,9 +253,6 @@
         success: function (result) {
 
             $.each(result, function (i, v) {
-                //alert(v.name);
-                //load các môn của ebook lên thanh danh mục bên trái
-                //$("#loadSubjectOfEbook").append("<li id='ebook_" + v.id + "'><a>" + v.name + "</a></li >");
                 $("#loadSubjectOfEbook").append("<option value='"+v.id+"'>" + v.name + "</option>");
             });
         }
@@ -264,27 +261,8 @@
         //Upload dữ liệu vào Ebook
           $("#upload").click(function () {
               var data = new FormData();
-
-              //var files = $("#fileInput").get(0).files;
-
-              //// Add the uploaded image content to the form data collection
-              //if (files.length > 0) {
-              //    data.append("UploadedFiles", files[0]);
-              //}
-              //var files = $('#fileInput').prop('files')[0];
-              @*var data = {};
-              data.title = $("input[id='title']").val();
-              data.describe = $("input[id='describe']").val();
-              data.author = $("input[id='author']").val();
-              data.year = $("input[id='year']").val();
-              data.author = $("input[id='author']").val();
-              data.year = $("input[id='year']").val();
-              data.subid = $("#loadSubjectOfEbook option:selected").val();
-              data.userid = @Session["user_id"];
-              data.file = files;
-              console.log(data);*@
              var files = $("#fileInput").get(0).files;
-            var data = new FormData();
+             var data = new FormData();
 
               for (var i = 0; i < files.length; i++) {
                   data.append("fileInput", files[i]);
@@ -300,17 +278,14 @@
             $.ajax({
 
                 type: "POST",
-                url: "http://localhost:52385/api/LecturerAPI/UploadEbooks",
+                url: "http://localhost:52385/api/AdminAPI/UploadFiles",
                 dataType: "json",
                 contentType: false,
                 processData: false,
                 data: data,
-
-                //contentType: "application/json; charset=utf-8",
-                //dataType: "json",
                 success: function (result) {
                     if (result.isSuccess) {
-                        alert("Tạo môn thành công.");
+                        alert("Upload thành công.");
                         console.log("aaa", result);
                         //add row datatable
                         var t = $('#loadsubject').DataTable();
@@ -325,7 +300,7 @@
                             "date_upload": result.date_Upload
                         }).draw();
                     } else {
-                        alert("Tên môn đã tồn tại! Vui lòng đặt tên khác.");
+                        alert("Upload không thành công.");
                     }
                 }
             });

@@ -8,38 +8,29 @@
     {
         Response.Redirect("~/Login/Index");
     }
-    //if (Session["role_id"].ToString() == "1")
-    //{
-    //    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-    //}
-    //if (Session["role_id"].ToString() == "2")
-    //{
-    //    Layout = "~/Views/Shared/_LayoutLecturer.cshtml";
-    //}
-    //if (Session["role_id"].ToString() == "3")
-    //{
-    //    Layout = "~/Views/Shared/_LayoutStudent.cshtml";
-    //}
+    if (Session["role_id"].ToString() == "1")
+    {
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
+    if (Session["role_id"].ToString() == "2")
+    {
+        Layout = "~/Views/Shared/_LayoutLecturer.cshtml";
+    }
+    if (Session["role_id"].ToString() == "3")
+    {
+        Layout = "~/Views/Shared/_LayoutStudent.cshtml";
+    }
 }
-
 <div class="container">
-    <span id="counter" class="timer"></span> <br /> 
-    <input class="timer" type="text" value="" name="timer" />
     <div id="loadfile"></div>
-    <span id="counter1">aaaaaa</span>
-
 </div>
 <script>
-    $(document).ready(function () {
-        $('.timer').countimer();
-        
-    });
  $(document).ready(function () {
       var val = '@ViewBag.Id';
         $.ajax({
             type: "GET",
-            url: "http://localhost:52385/api/AdminAPI/GetFileById",
-            data: { ebook_id: val},
+            url: "http://localhost:52385/api/AdminAPI/GetFileEssayById",
+            data: { essay_id: val},
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (v) {
@@ -51,7 +42,6 @@
                 data += "</div > ";
                 $("#loadfile").append(data);
             }
-     });
-     
+        });
     });
 </script>

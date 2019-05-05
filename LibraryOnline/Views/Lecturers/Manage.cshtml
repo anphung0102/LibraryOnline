@@ -264,25 +264,7 @@
         //Upload dữ liệu vào Ebook
           $("#upload").click(function () {
               var data = new FormData();
-
-              //var files = $("#fileInput").get(0).files;
-
-              //// Add the uploaded image content to the form data collection
-              //if (files.length > 0) {
-              //    data.append("UploadedFiles", files[0]);
-              //}
-              //var files = $('#fileInput').prop('files')[0];
-              @*var data = {};
-              data.title = $("input[id='title']").val();
-              data.describe = $("input[id='describe']").val();
-              data.author = $("input[id='author']").val();
-              data.year = $("input[id='year']").val();
-              data.author = $("input[id='author']").val();
-              data.year = $("input[id='year']").val();
-              data.subid = $("#loadSubjectOfEbook option:selected").val();
-              data.userid = @Session["user_id"];
-              data.file = files;
-              console.log(data);*@
+              
              var files = $("#fileInput").get(0).files;
             var data = new FormData();
 
@@ -300,7 +282,8 @@
             $.ajax({
                 
                 type: "POST",
-                url: "http://localhost:52385/api/LecturerAPI/UploadEbooks",
+                //url: "http://localhost:52385/api/LecturerAPI/UploadEbooks",
+                url: "http://localhost:52385/api/AdminAPI/UploadFiles",
                 dataType: "json",
                 contentType: false,
                 processData: false,

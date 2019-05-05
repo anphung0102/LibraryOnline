@@ -14,7 +14,8 @@ namespace LibraryOnline.Models
         public string Year { get; set; }
         public string Describe { get; set; }
         public string FileName { get; set; }
-        public  DateTime Date_Upload { get; set; }
+       // public  DateTime Date_Upload { get; set; }
+        public string Date_Upload { get; set; }
         public int User_Id { get; set; }
         public int Sub_Id { get; set; }
         //public HttpPostedFileBase FileReferences { get; set; }
@@ -29,6 +30,4 @@ namespace LibraryOnline.Models
         //public HttpPostedFileBase file { get; set; }
         public IEnumerable<HttpPostedFileBase> Files { get; set; }
     }
-    // cái post là gì v m có cần tạo ko k cần
-    // v chỉ tạo mấy thằng trên thoi ok
 }

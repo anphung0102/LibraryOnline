@@ -47,6 +47,15 @@ namespace LibraryOnline.Controllers.API
             return "";
         }
 
-
+        [Route("api/LoginAPI/Logout")]
+        [HttpGet]
+        public string Logout()
+        {
+            HttpContext.Current.Session["username"] = "";
+            HttpContext.Current.Session["user_id"] = "";
+            HttpContext.Current.Session["fullname"] = "";
+            HttpContext.Current.Session["role_id"] = "";
+            return "/Login/Index";
+        }
     }
 }

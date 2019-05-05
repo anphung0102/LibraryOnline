@@ -28,5 +28,6 @@ namespace LibraryOnline.Models
         public Nullable<int> user_id { get; set; }
         public Nullable<int> sub_id { get; set; }
         public string username { get; set; }
+        public string type { get; set; }
     }
 }

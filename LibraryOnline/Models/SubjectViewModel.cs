@@ -10,6 +10,7 @@ namespace LibraryOnline.Models
         public int Id { get; set; }
         public string Subessay_Id { get; set; }
         public string Subthesis_Id { get; set; }
+        public string Subebook_Id { get; set; }
         public string Name { get; set; }
     }
 

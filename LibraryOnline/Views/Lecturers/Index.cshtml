@@ -1,13 +1,24 @@
-﻿@{
-    Layout = "~/Views/Shared/_LayoutLecturer.cshtml"; ;
-}
+﻿@*@{
+        Layout = "~/Views/Shared/_LayoutLecturer.cshtml"; ;
+    }*@
 @{
     var user = Session["username"];
     if (Session["username"] == null || Session["user_id"] == null)
     {
         Response.Redirect("~/Login/Index");
     }
-
+    if (Session["role_id"].ToString() == "1")
+    {
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
+    if (Session["role_id"].ToString() == "2")
+    {
+        Layout = "~/Views/Shared/_LayoutLecturer.cshtml";
+    }
+    if (Session["role_id"].ToString() == "3")
+    {
+        Layout = "~/Views/Shared/_LayoutStudent.cshtml";
+    }
 }
 
 <!-- Page Content -->
@@ -21,14 +32,23 @@
             <ul class="mainmenu">
                 <li>
                     <a>Ebooks</a>
-                 
+
                     <ul class="submenu" id="loadSubjectOfEbook">
                         @*load các môn học trong ebook*@
                     </ul>
                 </li>
-                @* *@
-                <li><a href="">Tiểu luận</a></li>
-                <li><a href="">Khóa luận</a></li>
+                <li class="mainmenu-item">
+                    <a class="mainmenu-item-text" href="">Tiểu luận</a>
+                    <ul class="submenu" id="loadSubjectOfEssay">
+                        @*load các môn  trong essays*@
+                    </ul>
+                </li>
+                <li class="mainmenu-item">
+                    <a class="mainmenu-item-text" href="">Khóa luận</a>
+                    <ul class="submenu" id="loadSubjectOfThesis">
+                        @*load các môn  trong Thesis*@
+                    </ul>
+                </li>
             </ul>
             @*<h3 class="my-4">Upload</h3>*@
             <!-- Upload phải chọn môn học -->
@@ -84,7 +104,7 @@
                                 <div style="margin-top:20px">
                                     <button id="upload" type="button" class="btn btn-primary">Upload</button>
                                 </div>
-                                </form>
+                            </form>
                         </div>
 
                         <!-- Modal footer -->
@@ -136,38 +156,27 @@
             <div class="d-flex justify-content-between mb-3">
                 <h1 id="loadFilePageHome" class="khoangcachduoi">Products</h1>
                 <div>
-                    <button id="btn_upload" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#myModal" style="margin-top:10px;">Upload</button>
+                    @*<button id="btn_upload" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#myModal" style="margin-top:10px;">Upload</button>*@
+                    <button id="btn_upload" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#myModal" style="margin-top:10px;">Upload Ebook</button>
+                    <button id="btn_upload1" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalEssay" style="margin-top:10px;">Upload Essay</button>
+                    <button id="btn_upload2" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalThesis" style="margin-top:10px;">Upload Thesis</button>
+
                 </div>
 
             </div>
             <div class="row" id="loadEbook" data-bind="foreach: resultArr">
 
             </div>
+            <div class="row" id="loadEssay" data-bind="foreach: resultArr">
 
+            </div>
+            <div class="row" id="loadThesis" data-bind="foreach: resultArr">
+
+            </div>
 
             @*// phân trang*@
 
             <div class="col-lg-12 col-md-6 mb-4">
-                @*<nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-center" id="paging">
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>*@
-
                 <div id="pagination-container" class="pagination justify-content-center"></div>
             </div>
             <!-- /.row -->
@@ -179,13 +188,21 @@
 
 </div>
 <!-- /.container -->
-
-
+<!-- EBOOK-->
 <script>
-    //Up file
+    //clear form tạo file
+    function clearFormFile() {
+        $("input[class='title']").val("");
+        $("input[class='describe']").val("");
+        $("input[class='author']").val("");
+        $("input[class='year']").val("");
+        $("input[class='Files']").val("");
+    }
+    //Up file ebook
     $(document).ready(function () {
         //Upload dữ liệu vào Ebook
         $("#upload").click(function () {
+            clearFormFile();
             var files = $("#fileInput").get(0).files;
             var fileData = new FormData();
 
@@ -193,46 +210,51 @@
                 fileData.append("fileInput", files[i]);
             }
             //cái này là lấy thông tin trên text box  title là key tiltle.val() là giá trị
+
             fileData.append("title", $("#title").val());
             fileData.append("describe", $("#describe").val());
             fileData.append("author", $("#author").val());
             fileData.append("year", $("#year").val());
-            fileData.append("userid",@Session["user_id"]);
-            fileData.append("subid", $("#subject option:selected").val());
-
+            fileData.append("userid", @Session["user_id"]);
+            fileData.append("subid", $("#subject option:selected").val()); subjectE
+            //fileData.append("subid", $("#subject").val());
             console.log(fileData);
             $.ajax({
                 type: "POST",
-                url: "http://localhost:52385/api/FileAPI/UploadFiles",
+                url: "/api/AdminAPI/UploadFiles",
                 dataType: "json",
                 contentType: false, // Not to set any content header
                 processData: false, // Not to process data
                 data: fileData,
                 success: function (result) {
-                    alert(result);
+                    if (result.isSuccess) {
+                        alert("Upload thành công.");
+                    }
+                    else {
+                        alert("Upload không thành công.");
+                    }
+                    clearFormFile();
                 }
             });
-
         });
-
-
     });
     //lấy môn học của ebook
     $(document).ready(function () {
         //Ẩn hiện form
         $("#btn_upload").hide();
+        $("#btn_upload1").hide();
+        $("#btn_upload2").hide();
         $("#loadEbook").hide();
-
-        // hàm trả về html thông tin file
+        // hàm trả về html thông tin file ebooks
         function simpleTemplating(result) {
-            var data="";
+            var data = "";
             $.each(result, function (i, v) {
                 data += "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
                 data += "<div class='card h-100'>";
                 data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
                 data += "<div class='card-body'>";
                 data += "<h4 class='card-title'>";//
-                data += "<a href='/Details/Details?id=" + v.id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                data += "<a href='/Details/Details?ebook_id=" + v.ebook_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
                 data += "<h5>tác giả: " + v.author + "</h5>";
                 data += "<p class='card-text' data-bind='text:author'></p>";
                 data += "<div class='card-footer'></div>";
@@ -243,54 +265,63 @@
             //debugger;
             return data;
         }
-        //load môn học
+        //load môn học ebooks
         $.ajax({
             type: "GET",
-            url: "/api/FileAPI/GetSubjectEbook",
+            url: "/api/AdminAPI/GetSubjectEbook",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (result) {
                 $.each(result, function (i, v) {
-                    //alert(v.name);
                     //load các môn của ebook lên thanh danh mục bên trái
-                    $("#loadSubjectOfEbook").append("<li id='ebook_" + v.id + "'><a>" + v.name+"</a></li >");
-
-
-                    //khi click vào môn học sẽ load các file trong môn đó
-                    $("#ebook_" + v.id).click(function () {
+                    $("#loadSubjectOfEbook").append("<li id='ebook_" + v.id + "'><a>" + v.name +"</a></li >");
+                    //click môn học load file
+                    $("#ebook_" + v.id).click(function (e) {
                         //Ẩn hiện form upload file ở trang chỉ hay uplaod file trong môn học
                         $("#btn_upload").show();
+                        $("#btn_upload1").hide();
+                        $("#btn_upload2").hide();
                         $("#loadEbook").show();
                         $("#subject").append("<option value='" + v.id + "'>" + v.name + "</option>");
+                        //$("#subject").val(v.name);
                         $("#loadEbook").empty();
                         $.ajax({
                             type: "GET",
-                            url: "/api/FileAPI/GetEbook",
+                            url: "/api/AdminAPI/GetEbook",
                             data: { id: v.id },
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             success: function (result) {
+                                console.log(result);
 
-                                //$.each(result, function (i, v) {
-                                //    var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
-                                //    data += "<div class='card h-100'>";
-                                //    data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
-                                //    data += "<div class='card-body'>";
-                                //    data += "<h4 class='card-title'>";//
-                                //    data += "<a href='/Details/Details?id=" + v.id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
-                                //    data += "<h5>tác giả: " + v.author + "</h5>";
-                                //    data += "<p class='card-text' data-bind='text:author'></p>";
-                                //    data += "<div class='card-footer'></div>";
-                                //    data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
-                                //    data += " </div></div></div>";
+                                var tag = $(e.currentTarget).closest('.mainmenu-item');
 
-                                //    $("#loadEbook").append(data);
-                                //});
+                                var tagText = $(tag).find('.mainmenu-item-text');
+                                $('.breadcrumb-item-2').css("d isplay", "block");
+                                $('.breadcrumb-item-3').css("display", "block");
+                                $('#breadcrumb-2').text($(tagText).text());
+                                $('#breadcrumb-3').text(v.name);
+                                $.each(result, function (i, v) {
+                                    console.log("ebookid",v.ebook_id);
+                                    var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+                                    data += "<div class='card h-100'>";
+                                    data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
+                                    data += "<div class='card-body'>";
+                                    data += "<h4 class='card-title'>";//
+                                    data += "<a href='/Details/Details?ebook_id=" + v.ebook_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                                    data += "<h5>tác giả: " + v.author + "</h5>";
+                                    data += "<p class='card-text' data-bind='text:author'></p>";
+                                    data += "<div class='card-footer'></div>";
+                                    data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                                    data += " </div></div></div>";
+
+                                    //$("#loadEbook").append(data);
+                                });
                                 $('#pagination-container').pagination({
                                     dataSource: function (done) {
                                         $.ajax({
                                             type: 'GET',
-                                            url: '/api/FileAPI/GetEbookPaging',
+                                            url: '/api/AdminAPI/GetEbookPaging',
                                             data: { id: v.id },
                                             contentType: "application/json; charset=utf-8",
                                             dataType: "json",
@@ -310,53 +341,36 @@
                 });
             }
         });
+
+
+        //tạo môn ebook
+        $("#create_sub_ebook").click(function () {
+            var subject = {};
+            subject.name = $("#nameSujectEbook").val();
+            $.ajax({
+                type: "POST",
+                url: "/api/AdminAPI/CreateSubject",
+                data: JSON.stringify(subject),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    alert(result);
+                    $("#nameSujectEbook").empty();
+                }
+            });
+
+        });
+
     });
-
-
-
     //SIGNALR
     $(function () {
         $.connection.hub.logging = true;
         var chat = $.connection.myHub;
         //SignalR thêm môn học vào Ebook
         chat.client.postToClient = function (id, name) {
-            //$("#loadSubjectOfEbook").append("<li id='" + id + "'><a>" + name + "</a></li >");
-            //thêm môn học vừa mới tạo
-            $("#loadSubjectOfEbook").append("<li id='ebook_" + id + "'><a>" + name
-                + "<button " + "id='del_sub_eb_" + id + "' type='button' class='btn btn-info far fa-trash-alt'"
-                + "style='float: right'></button>"
-                + "<button type='button' class='btn btn-info far fa-file-alt'"
-                + "style='float: right'></button></a></li >");
-            //xóa môn học vừa mới tạo
-            $("#del_sub_eb_" + id).click(function () {
-                //alert("aaaaaa");
-                var r = confirm("Bạn có chắc muốn xóa không?");
-                if (r == true) {
-                    var data = {};
-                    data.id = id;
-                    data.name = name;
-                    $.ajax({
-                        type: "POST",
-                        url: "/api/FileAPI/DeleteSubjectById",
-                        data: JSON.stringify(data),
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (result) {
-                            alert(result);
-                            //var chat = $.connection.myHub;
-                            //SignalR thêm môn học vào Ebook
-
-                        }
-                    });
-                }
-            });
-
+            $("#loadSubjectOfEbook").append("<li id='" + id + "'><a>" + name + "</a></li >");
         };
-        chat.client.postToClientDeleteSubject = function (id) {
-            //alert(id);
-            //alert("del");
-            $("li").remove("#ebook_" + id);
-        };
+
         //SignalR thêm file
         chat.client.postFileEbookToClient = function (id, title, author, describe, filename,
             date_upload) {
@@ -382,3 +396,519 @@
 
     });
 </script>
+<!-- TIỂU LUẬN-->
+<script>
+    function simpleTemplating1(result) {
+        var data = "";
+        $.each(result, function (i, v) {
+            data += "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+            data += "<div class='card h-100'>";
+            data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
+            data += "<div class='card-body'>";
+            data += "<h4 class='card-title'>";//
+            data += "<a href='/Details/DetailsEssay?essay_id=" + v.essay_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+            data += "<h5>GVHD: " + v.instructor + "</h5>";
+            data += "<p class='card-text' data-bind='text:author'></p>";
+            data += "<div class='card-footer'></div>";
+            data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+            data += " </div></div></div>";
+        });
+        return data;
+    }
+
+    // load môn tiểu luận
+    $.ajax({
+        type: "GET",
+        url: "/api/AdminAPI/GetSubjectEssay",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            $.each(result, function (i, v) {
+                //load các môn của ebook lên thanh danh mục bên trái
+                $("#loadSubjectOfEssay").append("<li id='essay_" + v.id + "'><a>" + v.name + "</a></li >");
+                //click môn học load file
+                $("#essay_" + v.id).click(function (e) {
+                    //Ẩn hiện form upload file ở trang chỉ hay uplaod file trong môn học
+                    $("#btn_upload1").show();
+                    $("#btn_upload2").hide();
+                    $("#btn_upload").hide();
+                    $("#loadEssay").show();
+                    $("#subjectE").append("<option value='" + v.id + "'>" + v.name + "</option>");
+                    //$("#subjectE").val(v.name);
+                    $("#loadThesis").empty();
+                    $("#loadEbook").empty();
+                    $("#loadEssay").empty();
+                    $.ajax({
+                        type: "GET",
+                        url: "/api/AdminAPI/GetEssay",
+                        data: { id: v.id },
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (result) {
+                            console.log(v);
+
+                            var tag = $(e.currentTarget).closest('.mainmenu-item');
+
+                            var tagText = $(tag).find('.mainmenu-item-text');
+                            $('.breadcrumb-item-2').css("display", "block");
+                            $('.breadcrumb-item-3').css("display", "block");
+                            $('#breadcrumb-2').text($(tagText).text());
+                            $('#breadcrumb-3').text(v.name);
+
+                            $('#pagination-container').pagination({
+                                dataSource: function (done) {
+                                    $.ajax({
+                                        type: 'GET',
+                                        url: '/api/AdminAPI/GetEssayPaging',
+                                        data: { id: v.id },
+                                        contentType: "application/json; charset=utf-8",
+                                        dataType: "json",
+                                        success: function (response) {
+                                            done(response);
+                                        }
+                                    });
+                                },
+                                callback: function (data, pagination) {
+                                    var html = simpleTemplating1(data);
+                                    $('#loadEssay').html(html);
+                                }
+                            })
+                        }
+                    });
+                });
+            });
+        }
+    });
+    //upload file tiểu luận
+    $("#uploadEssay").click(function () {
+            clearFormFile();
+            var files = $("#fileInputE").get(0).files;
+            var fileData = new FormData();
+
+            for (var i = 0; i < files.length; i++) {
+                fileData.append("fileInput", files[i]);
+            }
+            //cái này là lấy thông tin trên text box  title là key tiltle.val() là giá trị
+
+            fileData.append("title", $("#titleE").val());
+            fileData.append("describe", $("#describeE").val());
+            fileData.append("instructor", $("#instructorE").val());
+            fileData.append("student1", $("#student1E").val());
+            fileData.append("student2", $("#student2E").val());
+            fileData.append("userid", @Session["user_id"]);
+            fileData.append("subid", $("#subjectE option:selected").val());
+            //fileData.append("subid", $("#subjectE").val());
+            fileData.append("course", $("#courseE").val());
+
+            console.log(fileData);
+            $.ajax({
+                type: "POST",
+                url: "/api/AdminAPI/UploadFileEssay",
+                dataType: "json",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (result) {
+                    if (result.isSuccess) {
+                        alert("Upload thành công.");
+                    }
+                    else {
+                        alert("Upload không thành công.");
+                    }
+                    clearFormFile();
+                }
+            });
+    });
+
+    //SIGNALR
+    $(function () {
+        $.connection.hub.logging = true;
+        var chat = $.connection.myHub;
+        //SignalR thêm file
+        chat.client.postFileEssayToClient = function (id, title, instructor, executor1, executor1,
+            describe, filename, date_upload, user, subject) {
+            var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+            data += "<div class='card h-100'>";
+            data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
+            data += "<div class='card-body'>";
+            data += "<h4 class='card-title'>";
+            data += "<a href='/Details/DetailsEssay?essay_id=" + v.essay_id + "'" +  "data-bind='text:title'>" + title + "</a> </h4>";
+            data += "<h5>GVHD: " + instructor + "</h5>";
+            data += "<p class='card-text' data-bind='text:author'></p>";
+            data += "<div class='card-footer'></div>";
+            data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+            data += " </div></div></div>";
+
+            $("#loadEssay").append(data);
+        };
+        $.connection.hub.start().done(function () {
+            //alert("started");
+        }).fail(function (result) {
+            alert(result);
+        });
+
+    });
+</script>
+<!-- KHÓA LUẬN-->
+<script>
+    function simpleTemplating2(result) {
+        var data = "";
+        $.each(result, function (i, v) {
+            data += "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+            data += "<div class='card h-100'>";
+            data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
+            data += "<div class='card-body'>";
+            data += "<h4 class='card-title'>";//
+            data += "<a href='/Details/DetailsThesis?thesis_id=" + v.thesis_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+            data += "<h5>giáo viên hd: " + v.instructor + "</h5>";
+            data += "<p class='card-text' data-bind='text:author'></p>";
+            data += "<div class='card-footer'></div>";
+            data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+            data += " </div></div></div>";
+        });
+        //data += "</div>";
+        //debugger;
+        return data;
+    }
+
+    // load môn khóa luận
+    $.ajax({
+        type: "GET",
+        url: "/api/AdminAPI/GetSubjectThesis",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            $.each(result, function (i, v) {
+                //load các môn của ebook lên thanh danh mục bên trái
+                $("#loadSubjectOfThesis").append("<li id='thesis_" + v.id + "'><a>" + v.name + "</a></li >");
+                //click môn học load file
+                $("#thesis_" + v.id).click(function (e) {
+                    //Ẩn hiện form upload file ở trang chỉ hay uplaod file trong môn học
+                    $("#btn_upload2").show();
+                    $("#btn_upload1").hide();
+                    $("#btn_upload").hide();
+                    $("#loadThesis").show();
+                    $("#subjectT").append("<option value='" + v.id + "'>" + v.name + "</option>");
+                    //$("#subjectT").val(v.name);
+                    $("#loadEssay").empty();
+                    $("#loadEbook").empty();
+                    $("#loadThesis").empty();
+                    $.ajax({
+                        type: "GET",
+                        url: "/api/AdminAPI/GetThesis",
+                        data: { id: v.id },
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (result) {
+                            console.log(v);
+
+                            var tag = $(e.currentTarget).closest('.mainmenu-item');
+
+                            var tagText = $(tag).find('.mainmenu-item-text');
+                            $('.breadcrumb-item-2').css("display", "block");
+                            $('.breadcrumb-item-3').css("display", "block");
+                            $('#breadcrumb-2').text($(tagText).text());
+                            $('#breadcrumb-3').text(v.name);
+
+                            $('#pagination-container').pagination({
+                                dataSource: function (done) {
+                                    $.ajax({
+                                        type: 'GET',
+                                        url: '/api/AdminAPI/GetThesisPaging',
+                                        data: { id: v.id },
+                                        contentType: "application/json; charset=utf-8",
+                                        dataType: "json",
+                                        success: function (response) {
+                                            done(response);
+                                        }
+                                    });
+                                },
+                                callback: function (data, pagination) {
+                                    var html = simpleTemplating2(data);
+                                    $('#loadThesis').html(html);
+                                }
+                            })
+                        }
+                    });
+                });
+            });
+        }
+    });
+    //upload file khóa luận
+    $("#uploadThesis").click(function () {
+            clearFormFile();
+            var files = $("#fileInputT").get(0).files;
+            var fileData = new FormData();
+
+            for (var i = 0; i < files.length; i++) {
+                fileData.append("fileInput", files[i]);
+            }
+            //cái này là lấy thông tin trên text box  title là key tiltle.val() là giá trị
+
+            fileData.append("title", $("#titleT").val());
+            fileData.append("describe", $("#describeT").val());
+            fileData.append("instructor", $("#instructorT").val());
+            fileData.append("student1", $("#student1T").val());
+            fileData.append("student2", $("#student2T").val());
+            fileData.append("userid", @Session["user_id"]);
+       // fileData.append("subid", $("#subjectT").val());
+            fileData.append("subid", $("#subjectT option:selected").val());
+            fileData.append("course", $("#courseT").val());
+
+            console.log(fileData);
+            $.ajax({
+                type: "POST",
+                url: "/api/AdminAPI/UploadFilesThesis",
+                dataType: "json",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (result) {
+                    if (result.isSuccess) {
+                        alert("Upload thành công.");
+                    }
+                    else {
+                        alert("Upload không thành công.");
+                    }
+                    clearFormFile();
+                }
+            });
+
+    });
+
+    //SIGNALR
+    $(function () {
+        $.connection.hub.logging = true;
+        var chat = $.connection.myHub;
+
+
+        //SignalR thêm file
+        chat.client.postFileThesisToClient = function (id, thesis_id, title, instructor, executor1, executor1,
+            describe, filename, date_upload, user, subject) {
+            var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+            data += "<div class='card h-100'>";
+            data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
+            data += "<div class='card-body'>";
+            data += "<h4 class='card-title'>";
+            data += "<a href='/Details/DetailsThesis?thesis_id=" + thesis_id + "'" + "data-bind='text:title'>" + title + "</a> </h4>";
+            data += "<h5>GVHD: " + instructor + "</h5>";
+            data += "<p class='card-text' data-bind='text:author'></p>";
+            data += "<div class='card-footer'></div>";
+            data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+            data += " </div></div></div>";
+
+            $("#loadThesis").append(data);
+        };
+        $.connection.hub.start().done(function () {
+            //alert("started");
+        }).fail(function (result) {
+            alert(result);
+        });
+
+    });
+</script>
+
+
+@*<script>
+        //Up file
+        $(document).ready(function () {
+            //Upload dữ liệu vào Ebook
+            $("#upload").click(function () {
+                var files = $("#fileInput").get(0).files;
+                var fileData = new FormData();
+
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append("fileInput", files[i]);
+                }
+                //cái này là lấy thông tin trên text box  title là key tiltle.val() là giá trị
+                fileData.append("title", $("#title").val());
+                fileData.append("describe", $("#describe").val());
+                fileData.append("author", $("#author").val());
+                fileData.append("year", $("#year").val());
+                fileData.append("userid",@Session["user_id"]);
+                fileData.append("subid", $("#subject option:selected").val());
+
+                console.log(fileData);
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:52385/api/FileAPI/UploadFiles",
+                    dataType: "json",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: fileData,
+                    success: function (result) {
+                        alert(result);
+                    }
+                });
+
+            });
+
+
+        });
+        //lấy môn học của ebook
+        $(document).ready(function () {
+            //Ẩn hiện form
+            $("#btn_upload").hide();
+            $("#loadEbook").hide();
+
+            // hàm trả về html thông tin file
+            function simpleTemplating(result) {
+                var data="";
+                $.each(result, function (i, v) {
+                    data += "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+                    data += "<div class='card h-100'>";
+                    data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
+                    data += "<div class='card-body'>";
+                    data += "<h4 class='card-title'>";//
+                    data += "<a href='/Details/Details?id=" + v.id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                    data += "<h5>tác giả: " + v.author + "</h5>";
+                    data += "<p class='card-text' data-bind='text:author'></p>";
+                    data += "<div class='card-footer'></div>";
+                    data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                    data += " </div></div></div>";
+                });
+                //data += "</div>";
+                //debugger;
+                return data;
+            }
+            //load môn học
+            $.ajax({
+                type: "GET",
+                url: "/api/FileAPI/GetSubjectEbook",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    $.each(result, function (i, v) {
+                        //alert(v.name);
+                        //load các môn của ebook lên thanh danh mục bên trái
+                        $("#loadSubjectOfEbook").append("<li id='ebook_" + v.id + "'><a>" + v.name+"</a></li >");
+
+
+                        //khi click vào môn học sẽ load các file trong môn đó
+                        $("#ebook_" + v.id).click(function () {
+                            //Ẩn hiện form upload file ở trang chỉ hay uplaod file trong môn học
+                            $("#btn_upload").show();
+                            $("#loadEbook").show();
+                            $("#subject").append("<option value='" + v.id + "'>" + v.name + "</option>");
+                            $("#loadEbook").empty();
+                            $.ajax({
+                                type: "GET",
+                                url: "/api/FileAPI/GetEbook",
+                                data: { id: v.id },
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (result) {
+
+                                    //$.each(result, function (i, v) {
+                                    //    var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+                                    //    data += "<div class='card h-100'>";
+                                    //    data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
+                                    //    data += "<div class='card-body'>";
+                                    //    data += "<h4 class='card-title'>";//
+                                    //    data += "<a href='/Details/Details?id=" + v.id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                                    //    data += "<h5>tác giả: " + v.author + "</h5>";
+                                    //    data += "<p class='card-text' data-bind='text:author'></p>";
+                                    //    data += "<div class='card-footer'></div>";
+                                    //    data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                                    //    data += " </div></div></div>";
+
+                                    //    $("#loadEbook").append(data);
+                                    //});
+                                    $('#pagination-container').pagination({
+                                        dataSource: function (done) {
+                                            $.ajax({
+                                                type: 'GET',
+                                                url: '/api/FileAPI/GetEbookPaging',
+                                                data: { id: v.id },
+                                                contentType: "application/json; charset=utf-8",
+                                                dataType: "json",
+                                                success: function (response) {
+                                                    done(response);
+                                                }
+                                            });
+                                        },
+                                        callback: function (data, pagination) {
+                                            var html = simpleTemplating(data);
+                                            $('#loadEbook').html(html);
+                                        }
+                                    })
+                                }
+                            });
+                        });
+                    });
+                }
+            });
+        });
+
+
+
+        //SIGNALR
+        $(function () {
+            $.connection.hub.logging = true;
+            var chat = $.connection.myHub;
+            //SignalR thêm môn học vào Ebook
+            chat.client.postToClient = function (id, name) {
+                //$("#loadSubjectOfEbook").append("<li id='" + id + "'><a>" + name + "</a></li >");
+                //thêm môn học vừa mới tạo
+                $("#loadSubjectOfEbook").append("<li id='ebook_" + id + "'><a>" + name
+                    + "<button " + "id='del_sub_eb_" + id + "' type='button' class='btn btn-info far fa-trash-alt'"
+                    + "style='float: right'></button>"
+                    + "<button type='button' class='btn btn-info far fa-file-alt'"
+                    + "style='float: right'></button></a></li >");
+                //xóa môn học vừa mới tạo
+                $("#del_sub_eb_" + id).click(function () {
+                    //alert("aaaaaa");
+                    var r = confirm("Bạn có chắc muốn xóa không?");
+                    if (r == true) {
+                        var data = {};
+                        data.id = id;
+                        data.name = name;
+                        $.ajax({
+                            type: "POST",
+                            url: "/api/FileAPI/DeleteSubjectById",
+                            data: JSON.stringify(data),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (result) {
+                                alert(result);
+                                //var chat = $.connection.myHub;
+                                //SignalR thêm môn học vào Ebook
+
+                            }
+                        });
+                    }
+                });
+
+            };
+            chat.client.postToClientDeleteSubject = function (id) {
+                //alert(id);
+                //alert("del");
+                $("li").remove("#ebook_" + id);
+            };
+            //SignalR thêm file
+            chat.client.postFileEbookToClient = function (id, title, author, describe, filename,
+                date_upload) {
+                var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+                data += "<div class='card h-100'>";
+                data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
+                data += "<div class='card-body'>";
+                data += "<h4 class='card-title'>";
+                data += "<a href='#' data-bind='text:title'>" + title + "</a> </h4>";
+                data += "<h5>tác giả: " + author + "</h5>";
+                data += "<p class='card-text' data-bind='text:author'></p>";
+                data += "<div class='card-footer'></div>";
+                data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                data += " </div></div></div>";
+
+                $("#loadEbook").append(data);
+            };
+            $.connection.hub.start().done(function () {
+                //alert("started");
+            }).fail(function (result) {
+                alert(result);
+            });
+
+        });
+    </script>*@
+
+

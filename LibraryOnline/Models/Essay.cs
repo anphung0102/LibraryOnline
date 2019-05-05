@@ -22,9 +22,12 @@ namespace LibraryOnline.Models
         public string executor2 { get; set; }
         public string describe { get; set; }
         public string filename { get; set; }
-        public DateTime date_upload { get; set; }
+        public Nullable<System.DateTime> date_upload { get; set; }
         public Nullable<int> user_id { get; set; }
         public Nullable<int> sub_id { get; set; }
+        public string course { get; set; }
+        public Nullable<int> countView { get; set; }
+        public Nullable<int> countDowload { get; set; }
     
         public virtual Subject_Essay Subject_Essay { get; set; }
         public virtual User User { get; set; }

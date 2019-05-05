@@ -68,63 +68,46 @@
             @*<h1 class="khoangcachduoi">Products</h1>*@
             <div class="row" id="detail" style="float:left;width:60%">
                 <script>
-    $("#upload").click(function () {
-
-        var ebook = {};
-        ebook.title = $("#title").val(); //get từ textbox
-        ebook.describe = $("#describe").val(); //get từ text boxt
-        ebook.year = $("#year").val(); //get từ textbox
-        ebook.user_id = $("#user_id").val(); //get từ text boxt
-        ebook.filename = $("#filename").val(); //get từ text boxt
+     // load data
+    $(document).ready(function () {
+        var val = '@ViewBag.ID';
         $.ajax({
-            type: "POST",
-            url: "/api/FileAPI/UploadEbook",
-            data: JSON.stringify(ebook),
+            type: "GET",
+            url: "http://localhost:52385/api/AdminAPI/GetFileThesisById",
+            data: { thesis_id: val },
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function (result) {
+            success: function (v) {
+                console.log(v);
 
-            }
-        });
-    });
-     // load data
-                    $(document).ready(function () {
-                        var val = '@ViewBag.ID';
-                        $.ajax({
-                            type: "GET",
-                            url: "http://localhost:52385/api/AdminAPI/GetFileById",
-                            data: { ebook_id: val },
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            success: function (v) {
-                                console.log(v);
+               var data = "<div class='col-lg-12 col-md-6 mb-4' >";
+                data += "<div class='border'>";
+                data += "<div class='row' id='info_details'>";
+                data += "<div class='col-lg-6'>";
+                data += "<h2>" + v.title + "</h2>";
+                data += "<p><b>GVHD: </b>" + v.instructor + "</p>";
+                data += "<p><b>Sinh viên:: </b>" + v.executor1 + "</p>";
+                data += "<p><b>Sinh viên:: </b>" + v.executor2 + "</p>";
+                //data += "<p><b>Năm xuất bản: </b>" + v.year + "</p>";
+                data += "<div id='rate' class='rateit'></div>";
+                data += "<div id='button_details'>";
+                data += "<p id='pdf-link' hidden='hidden'>/Content/Upload/" + v.filename+"</p>";
+                //data += "<button type='button' class='btn btn-info' style='width: 100px;'><a href='/ReadFileDetails/Essay?essay_id=" + v.essay_id + "'" +
+                //    "style='color:white;text-decoration: none;' data-bind='text:title'>Xem</a></button>";
 
-                                var data = "<div class='col-lg-12 col-md-6 mb-4' >";
-                                data += "<div class='border'>";
-                                data += "<div class='row' id='info_details'>";
-                                data += "<div class='col-lg-6'>";
-                                data += "<h2>" + v.title + "</h2>";
-                                data += "<p><b>Tác giả: </b>" + v.author + "</p>";
-                                data += "<p><b>Năm xuất bản: </b>" + v.year + "</p>";
-                                data += "<div id='rate' class='rateit'></div>";
-                                data += "<div id='button_details'>";
-                                data += "<p id='pdf-link' hidden='hidden'>/Content/Upload/" + v.filename + "</p>";
-                                //<a  href='/ReadFileDetails/Index?ebook_id=" + v.ebook_id + "'" +
-                                //"style='color:white;text-decoration: none;' data-bind='text:title'></a> data-toggle='modal' data-target='#counter'
-                                data += "<button id='btnViewBook'  type='button' class='btn btn-info' style='width: 100px;'>Xem</button>";
-                                data += "<div id='countView'>" + v.countView + "</div>";
-                                //data += `<a href="/Content/Upload/${v.filename}" download><input type="button" value="Download" /></a >`
-                                data += `<button id='btnDowBook' type='button' class='btn btn-info' style='width: 100px;'><a href="/Content/Upload/${v.filename}" download>Dowload</a></button>`;
-                                data += "<div id='countDowload'>" + v.countDowload + "</div>";
-
-                                //data += "<div id='countDowload'>" + v.countDowload + "</div>";
-                                //data += `<button type='button' class='btn btn-info' style='width: 100px;'><a href=/Content/Upload/${v.filename } style='color:white;text-decoration: none;'>Dowload</a></button>`;
-                                data += " </div>";
-                                data += "<div><h2>Mô tả:</h2>";
-                                data += "<p>" + v.describe + "</p>";
-                                data += "</div ></div ></div ></div > ";
-                                $("#detail").append(data);
-                                $("#btnViewBook").click(function () {
+                //data += `<a href="/Content/Upload/${v.filename}" ><input type="button" value="Download" /></a >`
+                //data += `<button type='button' class='btn btn-info' style='width: 100px;'><a href=/Content/Upload/${v.filename } style='color:white;text-decoration: none;'>Dowload</a></button>`;
+                data += "<button id='btnViewBook'  type='button' class='btn btn-info' style='width: 100px;'>Xem</button>";
+                data += "<div id='countView'>" + v.countView + "</div>";
+                //data += `<a href="/Content/Upload/${v.filename}" download><input type="button" value="Download" /></a >`
+                data += `<button id='btnDowBook' type='button' class='btn btn-info' style='width: 100px;'><a href="/Content/Upload/${v.filename}" download>Dowload</a></button>`;
+                data += "<div id='countDowload'>" + v.countDowload + "</div>";
+                data += " </div>";
+                data += "<div><h2>Mô tả:</h2>";
+                data += "<p>" + v.describe + "</p>";
+                data += "</div ></div ></div ></div > ";
+                $("#detail").append(data);
+                 $("#btnViewBook").click(function () {
                                     debugger
 
                                      var view = parseInt($("#countView").text()) + 1;
@@ -135,7 +118,7 @@
                                      console.log("countView", model);
                                     $.ajax({
                                         type: "POST",
-                                        url: "/api/AdminAPI/UpdateViewEbook",
+                                        url: "/api/AdminAPI/UpdateViewThesis",
                                         data: JSON.stringify(model),
                                         contentType: "application/json; charset=utf-8",
                                         dataType: "json",
@@ -143,7 +126,7 @@
                                            // $("#countView").val(view);
                                         }
                                     });
-                                    window.location.href = "/ReadFileDetails/Index?ebook_id=" + '@ViewBag.ID';
+                          window.location.href = "/ReadFileDetails/Thesis?thesis_id=" + '@ViewBag.ID';
                                 });
                                 $("#btnDowBook").click(function () {
                                     debugger
@@ -156,28 +139,29 @@
                                     model.count = dow;
                                     $.ajax({
                                         type: "POST",
-                                        url: "/api/AdminAPI/UpdateDowEbook",
+                                        url: "/api/AdminAPI/UpdateDowThesis",
                                         data: JSON.stringify(model),
                                         contentType: "application/json; charset=utf-8",
                                         dataType: "json",
                                         success: function (v) {
-                                        }
-                                    });
-                                });
-                            }
-                        });
-
-                        function openPDF(link) {
-                            //alert(link);
-                            if (link) {
-                                window.open(link);
-                            }
                         }
-
-                        $("body").on('click', '#read', function () {
-                            openPDF($('#pdf-link').text());
-                        });
                     });
+                });
+            }
+        });
+        
+    function openPDF(link) {
+        //alert(link);
+        if (link) {
+            window.open(link);
+        }
+    }
+
+    $("body").on('click','#read',function () {
+        openPDF($('#pdf-link').text());
+                    });
+                    });
+
                 </script>
 
             </div>
@@ -227,54 +211,11 @@
     <!-- /.row -->
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="counter" role="dialog" >
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <span id="counter" class="timer"></span> <br />
-                <div id="loadfile"></div>
-                
-            </div>
-        </div>
-    </div>
-</div>
-
-
 <!-- /.container -->
 <!-- Footer -->
 <!-- thống kê -->
 <script>
     $(document).ready(function () {
-
-        $(document).ready(function () {
-        $('.timer').countimer();
-        
-    });
- $(document).ready(function () {
-      var val = '@ViewBag.Id';
-        $.ajax({
-            type: "GET",
-            url: "http://localhost:52385/api/AdminAPI/GetFileById",
-            data: { ebook_id: val},
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (v) {
-                console.log(v);
-               var data = "<div class='col-lg-12 col-md-6 mb-4' >";
-                //data += "<h2>Sách: " + v.title + "</h2>";
-                data += "<embed src='/Content/Upload/" + v.filename + "' type='application/pdf' height='500px' width='100%' class='responsive'>";
-
-                data += "</div > ";
-                $("#loadfile").append(data);
-            }
-     });
-     
-    });
-
         function refreshListUserRate() {
             $("#listUserRate1").empty();
             $("#listUserRate2").empty();
@@ -419,3 +360,5 @@
 
     </div>
 </div>
+
+

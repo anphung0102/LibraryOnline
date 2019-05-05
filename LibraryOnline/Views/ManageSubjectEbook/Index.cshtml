@@ -38,6 +38,7 @@
         <thead>
             <tr>
                 <th>ID</th>
+                <th>Mã sách</th>
                 <th>Tên môn</th>
             </tr>
         </thead>
@@ -215,6 +216,7 @@
                     var t = $('#loadsubject').DataTable();
                     t.row.add({
                         "id": result.id,
+                        "subebook_id": result.subebook_Id,
                         "name": result.name
                     }).draw();
                 } else {
@@ -297,6 +299,7 @@
                 data: data,
                 "columns": [
                     { "data": "id" },
+                    { "data": "subebook_id"},
                     { "data": "name" },
 
 

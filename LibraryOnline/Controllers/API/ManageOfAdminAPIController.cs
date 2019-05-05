@@ -44,14 +44,15 @@ namespace LibraryOnline.Controllers.API
                     name = subject.Name,
                 });
                 db.SaveChanges();
-                var sub_essay = db.Subject_Essay.Where(x => x.name.Equals(subject.Name)).FirstOrDefault();
-
-                //MyHub.Post(sub_ebook.id, sub_ebook.name);
+               // var sub_essay = db.Subject_Essay.Where(x => x.name.Equals(subject.Name)).FirstOrDefault();
+                var sub_essay = db.Subject_Essay.OrderByDescending(x => x.id).Take(1).FirstOrDefault();
+                var subessay_id = db.Subject_Essay.Where(x => x.id == sub_essay.id).Select(x => x.subessay_id).FirstOrDefault();
+                
                 return new SubjectCreationResult
                 {
                     IsSuccess = true,
                     Id = sub_essay.id,
-                    Subessay_Id = sub_essay.subessay_id,
+                    Subessay_Id = subessay_id,
                     Name = sub_essay.name
                 };
             }
@@ -106,14 +107,15 @@ namespace LibraryOnline.Controllers.API
                     name = subject.Name,
                 });
                 db.SaveChanges();
-                var sub_thesis = db.Subject_Thesis.Where(x => x.name.Equals(subject.Name)).FirstOrDefault();
+                //var sub_thesis = db.Subject_Thesis.Where(x => x.name.Equals(subject.Name)).FirstOrDefault();
+                var sub_thesis = db.Subject_Thesis.OrderByDescending(x => x.id).Take(1).FirstOrDefault();
+                var subethesis_id = db.Subject_Thesis.Where(x => x.id == sub_thesis.id).Select(x => x.subthesis_id).FirstOrDefault();
 
-                //MyHub.Post(sub_ebook.id, sub_ebook.name);
                 return new SubjectCreationResult
                 {
                     IsSuccess = true,
                     Id = sub_thesis.id,
-                    Subessay_Id = sub_thesis.subthesis_id,
+                    Subthesis_Id = subethesis_id,
                     Name = sub_thesis.name
                 };
             }
@@ -124,10 +126,10 @@ namespace LibraryOnline.Controllers.API
         [HttpPost]
         public string DeleteSubjectThesis(Subject_Thesis subject)
         {
-            var thesis = db.Thesis.Where(x => x.sub_id == subject.id).ToList();
+            var thesis = db.Theses.Where(x => x.sub_id == subject.id).ToList();
             foreach (var item in thesis)
             {
-                db.Thesis.Remove(item);
+                db.Theses.Remove(item);
                 db.SaveChanges();
             }
             var sub = db.Subject_Thesis.Where(x => x.id == subject.id).FirstOrDefault();
@@ -216,7 +218,7 @@ namespace LibraryOnline.Controllers.API
                     Executor1 = loadessay.executor1,
                     Executor2 = loadessay.executor2,
                     FileName = loadessay.filename,
-                    Date_Upload = loadessay.date_upload
+                  //  Date_Upload = loadessay.date_upload
                 };
             }
         }
@@ -245,7 +247,7 @@ namespace LibraryOnline.Controllers.API
         public IEnumerable<Thesis> GetThesisByAdmin()
         {
 
-            return db.Thesis.ToList(); ;
+            return db.Theses.ToList(); ;
         }
 
         //upload thesis
@@ -275,7 +277,7 @@ namespace LibraryOnline.Controllers.API
             int user_id = Convert.ToInt32(userid);
             int sub_id = Convert.ToInt32(subid);
             string strExtexsion = Path.GetExtension(httpPostedFile.FileName).Trim();//lấy đuôi file
-            var sub = db.Thesis.Where(x => x.title.Equals(title)).FirstOrDefault();//này làm gì làm lấy so sánh đồ giống cái m làm t sửa lại
+            var sub = db.Theses.Where(x => x.title.Equals(title)).FirstOrDefault();//này làm gì làm lấy so sánh đồ giống cái m làm t sửa lại
 
             if (sub != null)
             {
@@ -288,7 +290,7 @@ namespace LibraryOnline.Controllers.API
             {
                 if (strExtexsion == ".pdf")//chỉ cho up pdf
                 {
-                    db.Thesis.Add(new Thesis
+                    db.Theses.Add(new Thesis
                     {
                         thesis_id = "",
                         title = title,
@@ -305,7 +307,7 @@ namespace LibraryOnline.Controllers.API
                     db.SaveChanges();
                 }
 
-                var loadthesis = db.Thesis.Where(x => x.title.Equals(title)).FirstOrDefault();
+                var loadthesis = db.Theses.Where(x => x.title.Equals(title)).FirstOrDefault();
 
                 //MyHub.Post(sub_ebook.id, sub_ebook.name);
                 return new ThesisCreationResult
@@ -319,7 +321,7 @@ namespace LibraryOnline.Controllers.API
                     Executor1 = loadthesis.executor1,
                     Executor2 = loadthesis.executor2,
                     FileName = loadthesis.filename,
-                    Date_Upload = loadthesis.date_upload
+                  //  Date_Upload = loadthesis.date_upload
                 };
             }
         }
@@ -334,8 +336,8 @@ namespace LibraryOnline.Controllers.API
             //    db.Ebooks.Remove(item);
             //    db.SaveChanges();
             //}
-            var sub = db.Thesis.Where(x => x.id == subject.id).FirstOrDefault();
-            db.Thesis.Remove(sub);
+            var sub = db.Theses.Where(x => x.id == subject.id).FirstOrDefault();
+            db.Theses.Remove(sub);
             db.SaveChanges();
 
             return "Xóa thành công";

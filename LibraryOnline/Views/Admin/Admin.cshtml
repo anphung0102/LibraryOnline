@@ -261,14 +261,12 @@
                 </ol>
                 <div class="carousel-inner" role="listbox">
                     <div class="carousel-item active">
-                        <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="First slide">
+                        <img class="d-block img-fluid" src="~/Content/img/banner.png" alt="First slide">
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide">
+                        <img class="d-block img-fluid" src="~/Content/img/banner1.png" alt="Second slide">
                     </div>
-                    <div class="carousel-item">
-                        <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide">
-                    </div>
+
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -282,10 +280,9 @@
             <!-- tạo các tab liên quan -->
             <div id="navigation">
                 <ul class="breadcrumb">
-                    @*
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">Ebooks</a></li>
-                    <li class="breadcrumb-item active">Product</li>*@
+                    @*<li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Ebooks</a></li>
+                        <li class="breadcrumb-item active">Product</li>*@
 
                     <li class="breadcrumb-item"><a id="breadcrumb-1" href="#">Admin</a></li>
                     <li class="breadcrumb-item breadcrumb-item-2" style="display:none;"><a id="breadcrumb-2" href="#"></a></li>
@@ -294,40 +291,50 @@
                 </ul>
             </div><!-- navigation -->
             <div class="d-flex justify-content-between mb-3">
-                <h1 id="loadFilePageHome" class="khoangcachduoi">Products</h1>
+                <h1 id="ebook" class="khoangcachduoi">Ebooks</h1>
                 <div>
                     @*<button id="btn_upload" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#myModal" style="margin-top:10px;">Upload</button>*@
                     <button id="btn_upload" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#myModal" style="margin-top:10px;">Upload Ebook</button>
-                    <button id="btn_upload1" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalEssay" style="margin-top:10px;">Upload Essay</button>
-                    <button id="btn_upload2" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalThesis" style="margin-top:10px;">Upload Thesis</button>
+                    @*<button id="btn_upload1" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalEssay" style="margin-top:10px;">Upload Essay</button>
+                        <button id="btn_upload2" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalThesis" style="margin-top:10px;">Upload Thesis</button>*@
 
                 </div>
 
             </div>
             <div class="row" id="loadEbook" data-bind="foreach: resultArr">
-
+            </div>
+            @*<div class="row" id="loadEssay" data-bind="foreach: resultArr">
+                </div>*@
+            <div class="d-flex justify-content-between mb-3">
+                <h1 id="essay" class="khoangcachduoi">Tiểu luận</h1>
+                <div>
+                    <button id="btn_upload1" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalEssay" style="margin-top:10px;">Upload Essay</button>
+                </div>
             </div>
             <div class="row" id="loadEssay" data-bind="foreach: resultArr">
                 
             </div>
-            <div class="row" id="loadThesis" data-bind="foreach: resultArr">
-
+            <div class="d-flex justify-content-between mb-3">
+                <h1 id="thesis" class="khoangcachduoi">Khóa luận</h1>
+                <div>
+                    <button id="btn_upload2" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalThesis" style="margin-top:10px;">Upload Essay</button>
+                </div>
             </div>
-
+            <div class="row" id="loadThesis" data-bind="foreach: resultArr">
+            </div>
             @*// phân trang*@
-
             <div class="col-lg-12 col-md-6 mb-4">
                 <div id="pagination-container" class="pagination justify-content-center"></div>
             </div>
             <!-- /.row -->
+            <!-- /.col-lg-9 -->
         </div>
-        <!-- /.col-lg-9 -->
+        <!-- /.row -->
     </div>
-    <!-- /.row -->
-</div>
-<!-- /.container -->
-<!-- EBOOK-->
-<script>
+    <!-- /.container -->
+
+
+    <script>
     //clear form tạo file
     function clearFormFile() {
         $("input[class='title']").val("");
@@ -382,7 +389,7 @@
         $("#btn_upload").hide();
         $("#btn_upload1").hide();
         $("#btn_upload2").hide();
-        $("#loadEbook").hide();
+        //$("#loadEbook").hide();
         // hàm trả về html thông tin file ebooks
         function simpleTemplating(result) {
             var data = "";
@@ -394,10 +401,10 @@
                 data += "<h4 class='card-title'>";//
                 data += "<a href='/Details/Details?ebook_id=" + v.ebook_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
                 data += "<h5>tác giả: " + v.author + "</h5>";
-                data += "<p class='card-text' data-bind='text:author'></p>";
-                data += "<div class='card-footer'></div>";
+                //data += "<p class='card-text' data-bind='text:author'></p>";
+                //data += "<div class='card-footer'>";
                 data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
-                data += " </div></div></div>";
+                data += " </div></div></div></div>";
             });
             //data += "</div>";
             //debugger;
@@ -419,6 +426,11 @@
                         $("#btn_upload").show();
                         $("#btn_upload1").hide();
                         $("#btn_upload2").hide();
+                        $("#essay").hide();
+                        $("#thesis").hide();
+                        $("#loadEssay").hide();
+                        $("#loadThesis").hide();
+                        $("#ebook").show();
                         $("#loadEbook").show();
                         $("#subject").append("<option value='" + v.id + "'>" + v.name + "</option>");subjectE
                         //$("#subject").val(v.name);
@@ -457,6 +469,7 @@
                                 });
                                 $('#pagination-container').pagination({
                                     dataSource: function (done) {
+
                                         $.ajax({
                                             type: 'GET',
                                             url: '/api/AdminAPI/GetEbookPaging',
@@ -468,6 +481,7 @@
                                             }
                                         });
                                     },
+                                    pageSize: 9,
                                     callback: function (data, pagination) {
                                         var html = simpleTemplating(data);
                                         $('#loadEbook').html(html);
@@ -594,52 +608,36 @@
                             $('#breadcrumb-2').text($(tagText).text());
                             $('#breadcrumb-3').text(v.name);
 
-                            $('#pagination-container').pagination({
-                                dataSource: function (done) {
-                                    $.ajax({
-                                        type: 'GET',
-                                        url: '/api/AdminAPI/GetEssayPaging',
-                                        data: { id: v.id },
-                                        contentType: "application/json; charset=utf-8",
-                                        dataType: "json",
-                                        success: function (response) {
-                                            done(response);
-                                        }
-                                    });
-                                },
-                                callback: function (data, pagination) {
-                                    var html = simpleTemplating1(data);
-                                    $('#loadEssay').html(html);
-                                }
-                            })
-                        }
+                                    //$("#loadEbook").append(data);
+                                });
+                                $('#pagination-container').pagination({
+                                    dataSource: function (done) {
+                                        $.ajax({
+                                            type: 'GET',
+                                            url: '/api/AdminAPI/GetThesisPaging',
+                                            data: { id: v.id },
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "json",
+                                            success: function (response) {
+                                                done(response);
+                                            }
+                                        });
+                                    },
+                                    callback: function (data, pagination) {
+                                        var html = simpleTemplating1(data);
+                                        $('#loadThesis').html(html);
+                                    }
+                                })
+                            }
+                        });
                     });
                 });
-            });
-        }
-    });
-    //upload file tiểu luận
-    $("#uploadEssay").click(function () {
-            clearFormFile();
-            var files = $("#fileInputE").get(0).files;
-            var fileData = new FormData();
-
-            for (var i = 0; i < files.length; i++) {
-                fileData.append("fileInput", files[i]);
             }
-            //cái này là lấy thông tin trên text box  title là key tiltle.val() là giá trị
-
-            fileData.append("title", $("#titleE").val());
-            fileData.append("describe", $("#describeE").val());
-            fileData.append("instructor", $("#instructorE").val());
-            fileData.append("student1", $("#student1E").val());
-            fileData.append("student2", $("#student2E").val());
-            fileData.append("userid", @Session["user_id"]);
-            fileData.append("subid", $("#subjectE option:selected").val());
-            //fileData.append("subid", $("#subjectE").val());
-            fileData.append("course", $("#courseE").val());
-
-            console.log(fileData);
+        });
+        //tạo môn ebook
+        $("#create_sub_ebook").click(function () {
+            var subject = {};
+            subject.name = $("#nameSujectEbook").val();
             $.ajax({
                 type: "POST",
                 url: "/api/AdminAPI/UploadFileEssay",
@@ -701,7 +699,7 @@
             data += "<a href='/Details/DetailsThesis?thesis_id=" + v.thesis_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
             data += "<h5>giáo viên hd: " + v.instructor + "</h5>";
             data += "<p class='card-text' data-bind='text:author'></p>";
-            data += "<div class='card-footer'></div>";
+            //data += "<div class='card-footer'></div>";
             data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
             data += " </div></div></div>";
         });
@@ -710,7 +708,7 @@
         return data;
     }
 
-    // load môn khóa luận
+    // load môn tiểu luận
     $.ajax({
         type: "GET",
         url: "/api/AdminAPI/GetSubjectThesis",
@@ -732,6 +730,15 @@
                     $("#loadEssay").empty();
                     $("#loadEbook").empty();
                     $("#loadThesis").empty();
+                    $("#ebook").hide();
+                    $("#thesis").hide();
+                    $("#essay").show();
+                    $("#loadEbook").hide();
+                    $("#loadThesis").hide();
+                    $("#loadEssay").show();
+                    $("#subjectE").append("<option value='" + v.id + "'>" + v.name + "</option>");
+                    $("#loadEssay").empty();
+                    $("#loadEbook").empty();
                     $.ajax({
                         type: "GET",
                         url: "/api/AdminAPI/GetThesis",
@@ -845,5 +852,91 @@
         });
 
     });
-</script>
+    </script>
 
+
+    <script>
+        $.ajax({
+            type: "GET",
+            url: "/api/AdminAPI/GetEbook1",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+
+                $.each(result, function (i, v) {
+                    var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+                    data += "<div class='card h-100'>";
+                    data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
+                    data += "<div class='card-body'>";
+                    data += "<h4 class='card-title'>";//
+                    data += "<a href='/Details/Details?id=" + v.id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                    data += "<h5>tác giả: " + v.author + "</h5>";
+                    data += "<p class='card-text' data-bind='text:author'></p>";
+                    //data += "<div class='card-footer'></div>";
+                    data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                    data += " </div></div></div>";
+
+                    $("#loadEbook").append(data);
+
+                });
+            }
+        });
+
+
+    </script>
+    <script>
+        $.ajax({
+            type: "GET",
+            url: "/api/AdminAPI/GetEssay1",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+
+                $.each(result, function (i, v) {
+                    var data1 = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+                    data1 += "<div class='card h-100'>";
+                    data1 += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
+                    data1 += "<div class='card-body'>";
+                    data1 += "<h4 class='card-title'>";//
+                    data1 += "<a href='/Details/Details?id=" + v.id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                    data1 += "<h5>giáo viên hd: " + v.instructor + "</h5>";
+                    data1 += "<p class='card-text' data-bind='text:author'></p>";
+                    //data += "<div class='card-footer'></div>";
+                    data1 += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                    data1 += " </div></div></div>";
+
+                    $("#loadEssay").append(data1);
+
+                });
+            }
+        });
+
+    </script>
+    <script>
+        $.ajax({
+            type: "GET",
+            url: "/api/AdminAPI/GetThesis1",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+
+                $.each(result, function (i, v) {
+                    var data1 = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+                    data1 += "<div class='card h-100'>";
+                    data1 += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
+                    data1 += "<div class='card-body'>";
+                    data1 += "<h4 class='card-title'>";//
+                    data1 += "<a href='/Details/Details?id=" + v.id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                    data1 += "<h5>giáo viên hd: " + v.instructor + "</h5>";
+                    data1 += "<p class='card-text' data-bind='text:author'></p>";
+                    //data += "<div class='card-footer'></div>";
+                    data1 += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                    data1 += " </div></div></div>";
+
+                    $("#loadThesis").append(data1);
+
+                });
+            }
+        });
+
+    </script>

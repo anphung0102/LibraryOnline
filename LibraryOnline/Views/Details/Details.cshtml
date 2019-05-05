@@ -39,13 +39,13 @@
                 </ol>
                 <div class="carousel-inner" role="listbox">
                     <div class="carousel-item active">
-                        <img class="d-block img-fluid" src="http://placehold.it/1140x350" alt="First slide">
+                        <img class="d-block img-fluid" src="http://placehold.it/1110x350" alt="First slide">
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide">
+                        <img class="d-block img-fluid" src="http://placehold.it/1110x350" alt="Second slide">
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide">
+                        <img class="d-block img-fluid" src="http://placehold.it/1110x350" alt="Third slide">
                     </div>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -66,8 +66,40 @@
                 </ul>
             </div><!-- navigation -->
             @*<h1 class="khoangcachduoi">Products</h1>*@
-            <div class="row" id="detail" style="float:left;width:60%">
-                <script>
+            <div class="row" id="detail">
+            </div>
+            <div class="row">
+                <div class='col-lg-12 col-md-6 mb-4'>
+                    <div class='border'>
+                        <div class="row" id='info_details'>
+                            <div class='col-lg-12'>
+                                <div>Đánh giá:</div>
+                                <div class="rateit" id="rateit_star1" data-productid="123"></div>
+                                <button id="btnRate">Gửi</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.col-lg-9 -->
+
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.container -->
+<!-- Footer -->
+
+<script>
+    $(document).ready(function () {
+        $("#btnRate").click(function () {
+
+            var a = $('#rateit_star1').rateit('value');
+            alert(a);
+        });
+    });
+</script>
+<script>
     $("#upload").click(function () {
 
         var ebook = {};

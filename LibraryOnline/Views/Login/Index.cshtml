@@ -6,12 +6,14 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
-    <link href="~/Content/css/style1.css" rel="stylesheet" />
-    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+        <link href="~/Content/css/style1.css" rel="stylesheet" />
+        <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+   
 </head>
 
 
@@ -19,23 +21,25 @@
 <body>
     <div class="container">
         <h2>Đăng nhập</h2>
+        <form id="login1">
+            <div class="form-group" >
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
 
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Password:</label>
+                <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">
 
-        </div>
-        <div class="form-group">
-            <label for="pwd">Password:</label>
-            <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd">
-
-        </div>
-        <div id="error"></div>
-        <div style="margin-top:20px">
-            <button id="login" type="submit" class="btn btn-primary">Login</button>
-        </div>
+            </div>
+            <div id="error"></div>
+            @Html.ValidationSummary()
+            <div style="margin-top:20px">
+                <button id="login" type="submit" class="btn btn-primary">Login</button>
+            </div>
+        </form>
         <!--Form đăng nhập-->
-        @*<form action="/Login/Index" method="post" id="login1" class="form-signin" role="form">
+        @*<form  class="form-signin" role="form">
             <div align="center">
 
                 <img src="~/Content/img/logo-login.png" /> <br />
@@ -43,16 +47,39 @@
 
             <br />
             <div class="form-group">
-                <label for="email" style="color: gray">User name</label></br>
-                <input type="email" name="email" id="email" class="form-control" required><br />
+                <label for="email" style="color: gray">User name</label><br />
+                <input type="email" name="email" id="email" class="form-control" placeholder="Enter email" required><br />
 
-                <label for="pwd" style="color: gray">Password:</label> </br>
-                <input type="password" name="pswd" class="form-control" id="pwd" required>
+                <label for="pwd" style="color: gray">Password:</label> <br />
+                <input type="password" name="pswd" class="form-control" id="pwd"placeholder="Enter email" required>
             </div>
             <div id="error"></div>
             <div style="margin-top:20px">
                 <button id="login" type="submit" class="btn btn-primary">Login</button>
             </div>
+        </form>*@
+        @*<form action="/Login/Index" method="post" id="login1" class="form-signin" role="form">
+            <div align="center">
+                <img src="~/Content/img/logo-login.png" /> <br />
+            </div>
+
+            <br />
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+
+            </div>
+            <div class="form-group">
+                <label for="pwd">Password:</label>
+                <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">
+
+            </div>
+            <div id="error"></div>
+            @Html.ValidationSummary()
+            <div style="margin-top:20px">
+                <button value="login" id="login" type="submit" class="btn btn-primary">Login</button>
+            </div>
+
         </form>*@
 
     </div>
@@ -84,4 +111,30 @@
     });
 
 
+</script>
+<script>
+    $(document).ready(function () {
+
+        //Khi bàn phím được nhấn và thả ra thì sẽ chạy phương thức này
+        $('#login1').validate({
+            rules: {
+                email: {
+                    email: true,
+                    required: true
+                },
+                pwd: {
+                    required: true
+                }
+            },
+            messages: {
+                email: {
+                    email: "Email không hợp lệ",
+                    required: "Bạn phải nhập username"
+                },
+                pwd: {
+                    required: "Bạn phải nhập password"
+                }
+            }
+        });
+    });
 </script>

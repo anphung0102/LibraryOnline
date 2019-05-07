@@ -58,17 +58,17 @@ body {
     list-style: none;
     padding: 0;
     margin: 0;
-    background:#666;
+   
    
 }
 .submenu{
-    margin-left:5px;
+    margin-left:0;
 }
 
     /* make ALL links (main and submenu) have padding and background color */
     .mainmenu a {
         display: block;
-        background-color: #CCC;
+        background-color: #00ffff;
         text-decoration: none;
         padding: 10px;
         color: #000;
@@ -76,7 +76,7 @@ body {
 
         /* add hover behaviour */
         .mainmenu a:hover {
-            background-color: #C5C5C5;
+            background-color: royalblue;
         }
     .mainmenu li:hover .submenu {
         display: block;
@@ -89,7 +89,7 @@ body {
 
         /* hover behaviour for links inside .submenu cái hover ra cái sub menu đâu tắt nó đi à mà thôi quen k cần*/
         .submenu a:hover {
-            background-color: #666;
+            background-color: red;
         }
 
 

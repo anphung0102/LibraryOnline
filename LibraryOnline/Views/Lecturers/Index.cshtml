@@ -115,6 +115,143 @@
                     </div>
                 </div>
             </div>
+            <!-- Upload tiểu luận-->
+            <div class="modal" id="modalEssay">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Upload</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <!-- Form Upload Ebook -->
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="text">Tiêu đề:</label>
+                                    <input type="text" class="form-control" id="titleE" placeholder="Tiêu đề" name="title">
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="text">Giới thiệu:</label>
+                                    <input type="text" class="form-control" id="describeE" placeholder="Giới thiêu" name="describe">
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="text">GVHD:</label>
+                                    <input type="text" class="form-control" id="instructorE" placeholder="GVHD" name="instructor">
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="text">Sinh viên  1:</label>
+                                    <input type="text" class="form-control" id="student1E" placeholder="Sinh viên 1" name="student1">
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="text">Sinh viên 2:</label>
+                                    <input type="text" class="form-control" id="student2E" placeholder="Sinh viên 2" name="student2">
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="text">Khóa:</label>
+                                    <input type="text" class="form-control" id="courseE" placeholder="Năm" name="course">
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="text">Bộ môn:</label>
+                                    @*<input type="text" class="form-control" id="subjectE" name="subjectE" readonly>*@
+                                    <select id="subjectE" class="form-control" readonly></select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="text">Browser</label>
+
+                                    <input type="file" name="Files" multiple id="fileInputE" />
+                                </div>
+
+                                <div id="error"></div>
+                                <div style="margin-top:20px">
+                                    <button id="uploadEssay" type="button" class="btn btn-primary">Upload</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- Upload khóa luận-->
+            <div class="modal" id="modalThesis">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Upload</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <!-- Form Upload Ebook -->
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="text">Tiêu đề:</label>
+                                    <input type="text" class="form-control" id="titleT" placeholder="Tiêu đề" name="titleT">
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="text">Giới thiệu:</label>
+                                    <input type="text" class="form-control" id="describeT" placeholder="Giới thiêu" name="describe2T">
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="text">GVHD:</label>
+                                    <input type="text" class="form-control" id="instructorT" placeholder="GVHD" name="instructorT">
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="text">Sinh viên  1:</label>
+                                    <input type="text" class="form-control" id="student1T" placeholder="Sinh viên 1" name="student1T">
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="text">Sinh viên 2:</label>
+                                    <input type="text" class="form-control" id="student2T" placeholder="Sinh viên 2" name="student2T">
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="text">Khóa:</label>
+                                    <input type="text" class="form-control" id="course" placeholder="Năm" name="courseT">
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="text">Bộ môn:</label>
+                                    @*<input type="text" class="form-control" id="subjectT" name="subjectT" readonly>*@
+                                    <select id="subjectT" class="form-control" readonly></select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="text">Browser</label>
+
+                                    <input type="file" name="Files" multiple id="fileInputT" />
+                                </div>
+
+                                <div id="error"></div>
+                                <div style="margin-top:20px">
+                                    <button id="uploadThesis" type="button" class="btn btn-primary">Upload</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- /.col-lg-3 -->
 
@@ -132,7 +269,7 @@
                     <div class="carousel-item">
                         <img class="d-block img-fluid" src="~/Content/img/banner1.png" alt="Second slide">
                     </div>
-                    
+
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -152,24 +289,36 @@
                 </ul>
             </div><!-- navigation -->
             <div class="d-flex justify-content-between mb-3">
-                <h1 id="loadFilePageHome" class="khoangcachduoi">Products</h1>
+                <h1 id="ebook" class="khoangcachduoi">Ebooks</h1>
                 <div>
                     @*<button id="btn_upload" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#myModal" style="margin-top:10px;">Upload</button>*@
                     <button id="btn_upload" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#myModal" style="margin-top:10px;">Upload Ebook</button>
-                    <button id="btn_upload1" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalEssay" style="margin-top:10px;">Upload Essay</button>
-                    <button id="btn_upload2" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalThesis" style="margin-top:10px;">Upload Thesis</button>
+                    @*<button id="btn_upload1" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalEssay" style="margin-top:10px;">Upload Essay</button>
+                        <button id="btn_upload2" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalThesis" style="margin-top:10px;">Upload Thesis</button>*@
 
                 </div>
 
             </div>
             <div class="row" id="loadEbook" data-bind="foreach: resultArr">
-
+            </div>
+            @*<div class="row" id="loadEssay" data-bind="foreach: resultArr">
+                </div>*@
+            <div class="d-flex justify-content-between mb-3">
+                <h1 id="essay" class="khoangcachduoi">Tiểu luận</h1>
+                <div>
+                    <button id="btn_upload1" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalEssay" style="margin-top:10px;">Upload Essay</button>
+                </div>
             </div>
             <div class="row" id="loadEssay" data-bind="foreach: resultArr">
 
             </div>
+            <div class="d-flex justify-content-between mb-3">
+                <h1 id="thesis" class="khoangcachduoi">Khóa luận</h1>
+                <div>
+                    <button id="btn_upload2" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalThesis" style="margin-top:10px;">Upload Essay</button>
+                </div>
+            </div>
             <div class="row" id="loadThesis" data-bind="foreach: resultArr">
-
             </div>
 
             @*// phân trang*@
@@ -242,7 +391,7 @@
         $("#btn_upload").hide();
         $("#btn_upload1").hide();
         $("#btn_upload2").hide();
-        $("#loadEbook").hide();
+        //$("#loadEbook").hide();
         // hàm trả về html thông tin file ebooks
         function simpleTemplating(result) {
             var data = "";
@@ -277,9 +426,14 @@
                     $("#ebook_" + v.id).click(function (e) {
                         //Ẩn hiện form upload file ở trang chỉ hay uplaod file trong môn học
                         $("#btn_upload").show();
+                        $("#ebook").show();
+                        $("#essay").hide();
+                        $("#thesis").hide();
                         $("#btn_upload1").hide();
                         $("#btn_upload2").hide();
                         $("#loadEbook").show();
+                        $("#loadEssay").hide();
+                        $("#loadThesis").hide();
                         $("#subject").append("<option value='" + v.id + "'>" + v.name + "</option>");
                         //$("#subject").val(v.name);
                         $("#loadEbook").empty();
@@ -295,7 +449,7 @@
                                 var tag = $(e.currentTarget).closest('.mainmenu-item');
 
                                 var tagText = $(tag).find('.mainmenu-item-text');
-                                $('.breadcrumb-item-2').css("d isplay", "block");
+                                $('.breadcrumb-item-2').css("display", "block");
                                 $('.breadcrumb-item-3').css("display", "block");
                                 $('#breadcrumb-2').text($(tagText).text());
                                 $('#breadcrumb-3').text(v.name);
@@ -328,6 +482,7 @@
                                             }
                                         });
                                     },
+                                    pageSize: 9,
                                     callback: function (data, pagination) {
                                         var html = simpleTemplating(data);
                                         $('#loadEbook').html(html);
@@ -428,9 +583,14 @@
                 $("#essay_" + v.id).click(function (e) {
                     //Ẩn hiện form upload file ở trang chỉ hay uplaod file trong môn học
                     $("#btn_upload1").show();
+                    $("#essay").show();
+                    $("#ebook").hide();
+                    $("#thesis").hide();
                     $("#btn_upload2").hide();
                     $("#btn_upload").hide();
                     $("#loadEssay").show();
+                    $("#loadThesis").hide();
+                    $("#loadEbook").hide();
                     $("#subjectE").append("<option value='" + v.id + "'>" + v.name + "</option>");
                     //$("#subjectE").val(v.name);
                     $("#loadThesis").empty();
@@ -583,6 +743,9 @@
                 $("#thesis_" + v.id).click(function (e) {
                     //Ẩn hiện form upload file ở trang chỉ hay uplaod file trong môn học
                     $("#btn_upload2").show();
+                    $("#thesis").show();
+                    $("#ebook").hide();
+                    $("#essay").hide();
                     $("#btn_upload1").hide();
                     $("#btn_upload").hide();
                     $("#loadThesis").show();
@@ -704,6 +867,92 @@
         });
 
     });
+</script>
+
+<script>
+    $.ajax({
+        type: "GET",
+        url: "/api/AdminAPI/GetEbook1",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            console.log(result);
+            $.each(result, function (i, v) {
+                var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+                data += "<div class='card h-100'>";
+                data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
+                data += "<div class='card-body'>";
+                data += "<h4 class='card-title'>";//
+                data += "<a href='/Details/Details?id=" + v.id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                data += "<h5>tác giả: " + v.author + "</h5>";
+                data += "<p class='card-text' data-bind='text:author'></p>";
+                //data += "<div class='card-footer'></div>";
+                data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                data += " </div></div></div>";
+
+                $("#loadEbook").append(data);
+
+            });
+        }
+    });
+
+
+</script>
+<script>
+    $.ajax({
+        type: "GET",
+        url: "/api/AdminAPI/GetEssay1",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+
+            $.each(result, function (i, v) {
+                var data1 = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+                data1 += "<div class='card h-100'>";
+                data1 += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
+                data1 += "<div class='card-body'>";
+                data1 += "<h4 class='card-title'>";//
+                data1 += "<a href='/Details/Details?id=" + v.id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                data1 += "<h5>giáo viên hd: " + v.instructor + "</h5>";
+                data1 += "<p class='card-text' data-bind='text:author'></p>";
+                //data += "<div class='card-footer'></div>";
+                data1 += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                data1 += " </div></div></div>";
+
+                $("#loadEssay").append(data1);
+
+            });
+        }
+    });
+
+</script>
+<script>
+    $.ajax({
+        type: "GET",
+        url: "/api/AdminAPI/GetThesis1",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+
+            $.each(result, function (i, v) {
+                var data1 = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+                data1 += "<div class='card h-100'>";
+                data1 += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
+                data1 += "<div class='card-body'>";
+                data1 += "<h4 class='card-title'>";//
+                data1 += "<a href='/Details/Details?id=" + v.id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                data1 += "<h5>giáo viên hd: " + v.instructor + "</h5>";
+                data1 += "<p class='card-text' data-bind='text:author'></p>";
+                //data += "<div class='card-footer'></div>";
+                data1 += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                data1 += " </div></div></div>";
+
+                $("#loadThesis").append(data1);
+
+            });
+        }
+    });
+
 </script>
 
 

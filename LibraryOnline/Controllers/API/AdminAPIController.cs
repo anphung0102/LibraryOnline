@@ -613,12 +613,12 @@ namespace LibraryOnline.Controllers.API
         }
 
         // lấy dữ liệu test
-        [Route("api/AdminAPI/GetThesis")]
+        [Route("api/AdminAPI/GetThesis1")]
         [HttpGet]
         public IEnumerable<Thesis> GetThesis1()
         {
 
-            return db.Thesis.ToList().Take(3);
+            return db.Theses.ToList().Take(3);
         }
     }
 }

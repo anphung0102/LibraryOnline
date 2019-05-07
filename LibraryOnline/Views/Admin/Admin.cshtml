@@ -329,10 +329,11 @@
             <!-- /.row -->
             <!-- /.col-lg-9 -->
         </div>
+       
         <!-- /.row -->
     </div>
     <!-- /.container -->
-
+</div>
 
     <script>
     //clear form tạo file
@@ -585,12 +586,15 @@
                     $("#btn_upload1").show();
                     $("#btn_upload2").hide();
                     $("#btn_upload").hide();
+                    $("#ebook").hide();
+                    $("#thesis").hide();
+                    $("#essay").show();
                     $("#loadEssay").show();
                     $("#subjectE").append("<option value='" + v.id + "'>" + v.name + "</option>");
                     //$("#subjectE").val(v.name);
                     $("#loadThesis").empty();
                     $("#loadEbook").empty();
-                    $("#loadEssay").empty();
+                    //$("#loadEssay").empty();
                     $.ajax({
                         type: "GET",
                         url: "/api/AdminAPI/GetEssay",
@@ -609,12 +613,12 @@
                             $('#breadcrumb-3').text(v.name);
 
                                     //$("#loadEbook").append(data);
-                                });
+                                
                                 $('#pagination-container').pagination({
                                     dataSource: function (done) {
                                         $.ajax({
                                             type: 'GET',
-                                            url: '/api/AdminAPI/GetThesisPaging',
+                                            url: '/api/AdminAPI/GetEssayPaging',
                                             data: { id: v.id },
                                             contentType: "application/json; charset=utf-8",
                                             dataType: "json",
@@ -625,7 +629,7 @@
                                     },
                                     callback: function (data, pagination) {
                                         var html = simpleTemplating1(data);
-                                        $('#loadThesis').html(html);
+                                        $('#loadEssay').html(html);
                                     }
                                 })
                             }
@@ -731,14 +735,10 @@
                     $("#loadEbook").empty();
                     $("#loadThesis").empty();
                     $("#ebook").hide();
-                    $("#thesis").hide();
-                    $("#essay").show();
+                    $("#thesis").show();
+                    $("#essay").hide();
                     $("#loadEbook").hide();
-                    $("#loadThesis").hide();
-                    $("#loadEssay").show();
-                    $("#subjectE").append("<option value='" + v.id + "'>" + v.name + "</option>");
-                    $("#loadEssay").empty();
-                    $("#loadEbook").empty();
+            
                     $.ajax({
                         type: "GET",
                         url: "/api/AdminAPI/GetThesis",
@@ -862,14 +862,14 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (result) {
-
+                console.log(result);
                 $.each(result, function (i, v) {
                     var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
                     data += "<div class='card h-100'>";
                     data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
                     data += "<div class='card-body'>";
                     data += "<h4 class='card-title'>";//
-                    data += "<a href='/Details/Details?id=" + v.id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                    data += "<a href='/Details/Details?ebook_id=" + v.ebook_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
                     data += "<h5>tác giả: " + v.author + "</h5>";
                     data += "<p class='card-text' data-bind='text:author'></p>";
                     //data += "<div class='card-footer'></div>";
@@ -881,8 +881,6 @@
                 });
             }
         });
-
-
     </script>
     <script>
         $.ajax({
@@ -898,7 +896,7 @@
                     data1 += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
                     data1 += "<div class='card-body'>";
                     data1 += "<h4 class='card-title'>";//
-                    data1 += "<a href='/Details/Details?id=" + v.id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                    data1 += "<a href='/Details/DetailsEssay?essay_id=" + v.essay_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
                     data1 += "<h5>giáo viên hd: " + v.instructor + "</h5>";
                     data1 += "<p class='card-text' data-bind='text:author'></p>";
                     //data += "<div class='card-footer'></div>";
@@ -926,7 +924,7 @@
                     data1 += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
                     data1 += "<div class='card-body'>";
                     data1 += "<h4 class='card-title'>";//
-                    data1 += "<a href='/Details/Details?id=" + v.id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                    data1 += "<a href='/Details/DetailsThesis?thesis_id=" + v.thesis_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
                     data1 += "<h5>giáo viên hd: " + v.instructor + "</h5>";
                     data1 += "<p class='card-text' data-bind='text:author'></p>";
                     //data += "<div class='card-footer'></div>";

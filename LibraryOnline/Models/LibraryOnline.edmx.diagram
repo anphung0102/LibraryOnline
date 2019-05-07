@@ -4,18 +4,18 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c5b7d41af25548709b91d32f07d3f025" Name="Diagram1">
-        <EntityTypeShape EntityType="LibraryOnlineFinalModel.Ebook" Width="1.5" PointX="8.25" PointY="7.25" />
-        <EntityTypeShape EntityType="LibraryOnlineFinalModel.Essay" Width="1.5" PointX="5.25" PointY="7.25" />
-        <EntityTypeShape EntityType="LibraryOnlineFinalModel.RateStar" Width="1.5" PointX="5.25" PointY="20.5" />
-        <EntityTypeShape EntityType="LibraryOnlineFinalModel.Role" Width="1.5" PointX="0.75" PointY="8.125" />
+      <Diagram DiagramId="c5b7d41af25548709b91d32f07d3f025" Name="Diagram1" ZoomLevel="86">
+        <EntityTypeShape EntityType="LibraryOnlineFinalModel.Ebook" Width="1.5" PointX="5.25" PointY="3" />
+        <EntityTypeShape EntityType="LibraryOnlineFinalModel.Essay" Width="1.5" PointX="8.25" PointY="7.75" />
+        <EntityTypeShape EntityType="LibraryOnlineFinalModel.RateStar" Width="1.5" PointX="5.25" PointY="22.875" />
+        <EntityTypeShape EntityType="LibraryOnlineFinalModel.Role" Width="1.5" PointX="0.75" PointY="8.875" />
         <EntityTypeShape EntityType="LibraryOnlineFinalModel.SearchFile" Width="1.5" PointX="7.75" PointY="0.75" />
-        <EntityTypeShape EntityType="LibraryOnlineFinalModel.Subject_Ebook" Width="1.5" PointX="6" PointY="12.125" />
-        <EntityTypeShape EntityType="LibraryOnlineFinalModel.Subject_Essay" Width="1.5" PointX="3" PointY="12.125" />
-        <EntityTypeShape EntityType="LibraryOnlineFinalModel.Subject_Thesis" Width="1.5" PointX="3" PointY="3.125" />
-        <EntityTypeShape EntityType="LibraryOnlineFinalModel.sysdiagram" Width="1.5" PointX="9.75" PointY="0.75" />
-        <EntityTypeShape EntityType="LibraryOnlineFinalModel.Thesis" Width="1.5" PointX="5.25" PointY="2.25" />
-        <EntityTypeShape EntityType="LibraryOnlineFinalModel.User" Width="1.5" PointX="3" PointY="7.25" />
+        <EntityTypeShape EntityType="LibraryOnlineFinalModel.Subject_Ebook" Width="1.5" PointX="3" PointY="3.875" />
+        <EntityTypeShape EntityType="LibraryOnlineFinalModel.Subject_Essay" Width="1.5" PointX="6" PointY="12.875" />
+        <EntityTypeShape EntityType="LibraryOnlineFinalModel.Subject_Thesis" Width="1.5" PointX="3" PointY="12.875" />
+        <EntityTypeShape EntityType="LibraryOnlineFinalModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="LibraryOnlineFinalModel.Thesis" Width="1.5" PointX="5.25" PointY="7.75" />
+        <EntityTypeShape EntityType="LibraryOnlineFinalModel.User" Width="1.5" PointX="3" PointY="8.125" />
         <AssociationConnector Association="LibraryOnlineFinalModel.fk_EBOOKS_SUBJECTEBOOK" />
         <AssociationConnector Association="LibraryOnlineFinalModel.fk_EBOOKS_USERS" />
         <AssociationConnector Association="LibraryOnlineFinalModel.fk_EBOOKS_SUBJECTESSAY" />

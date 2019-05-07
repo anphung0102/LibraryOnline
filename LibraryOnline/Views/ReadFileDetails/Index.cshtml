@@ -23,17 +23,17 @@
 }
 
 <div class="container">
-    <span id="counter" class="timer"></span> <br /> 
+    <span id="counter" class="timer"></span> <br />
     <input class="timer" type="text" value="" name="timer" />
     <div id="loadfile"></div>
     <span id="counter1">aaaaaa</span>
 
 </div>
 <script>
-    $(document).ready(function () {
-        $('.timer').countimer();
-        
-    });
+    //$(document).ready(function () {
+    //    $('.timer').countimer();
+
+    //});
  $(document).ready(function () {
       var val = '@ViewBag.Id';
         $.ajax({
@@ -52,6 +52,23 @@
                 $("#loadfile").append(data);
             }
      });
-     
+
     });
+</script>
+
+<script type="text/javascript">
+    //window.onbeforeunload = closingCode;
+    //function closingCode() {
+    //    // do something...
+    //    console.log('aa');
+    //    return null;
+    //}
+    //window.addEventListener('beforeunload', function (event) {
+    //    //do something here
+    //    alert("confirm exit is being called");
+    //}, false);
+    console.log('xxx');
+    window.onbeforeunload = function () {
+        return "Do you really want to close?";
+    };
 </script>

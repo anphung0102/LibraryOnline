@@ -1,6 +1,4 @@
-﻿@*@{
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-}*@
+﻿
 @{
     var user = Session["username"];
     if (Session["username"] == null || Session["user_id"] == null)
@@ -49,57 +47,48 @@
                 </li>
             </ul>
             @*<h3 class="my-4">Upload</h3>*@
-            <!-- Upload phải chọn môn học -->
+            <!-- Upload EBOOK -->
             <div class="modal" id="myModal">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <!-- Modal Header -->
                         <div class="modal-header">
-                            <h4 class="modal-title">Upload</h4>
+                            <h4 class="modal-title">Upload Ebook</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
-
                         <!-- Form Upload Ebook -->
                         <div class="modal-body">
-                            <form>
+                            <form id="formEbook" method="post" enctype="multipart/form-data">
                                 <div class="form-group">
                                     <label for="text">Tiêu đề:</label>
                                     <input type="text" class="form-control" id="title" placeholder="Tiêu đề" name="title">
-
                                 </div>
                                 <div class="form-group">
                                     <label for="text">Giới thiệu:</label>
                                     <input type="text" class="form-control" id="describe" placeholder="Giới thiêu" name="describe">
-
                                 </div>
                                 <div class="form-group">
                                     <label for="text">Tác giả:</label>
                                     <input type="text" class="form-control" id="author" placeholder="Tác giả" name="author">
-
                                 </div>
                                 <div class="form-group">
                                     <label for="text">Năm xuất bản:</label>
                                     <input type="text" class="form-control" id="year" placeholder="Năm" name="year">
-
                                 </div>
                                 <div class="form-group">
                                     <label for="text">Môn học:</label>
-                                    @*<input type="text" class="form-control" id="subject"  name="subject" readonly>*@
                                     <select id="subject" class="form-control" readonly></select>
                                 </div>
                                 <div class="form-group">
                                     <label for="text">Browser</label>
-
                                     <input type="file" name="Files" multiple id="fileInput" />
                                 </div>
-
                                 <div id="error"></div>
                                 <div style="margin-top:20px">
-                                    <button id="upload" type="button" class="btn btn-primary">Upload</button>
+                                    <button id="upload" type="submit" class="btn btn-primary">Upload</button>
                                 </div>
                             </form>
                         </div>
-
                         <!-- Modal footer -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -247,8 +236,8 @@
             </div>
         </div>
         <!-- /.col-lg-3 -->
-
         <div class="col-lg-9">
+            <!--carousel-->
             <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
                 <ol class="carousel-indicators">
                     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -277,59 +266,61 @@
             <div id="navigation">
                 <ul class="breadcrumb">
                     @*<li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Ebooks</a></li>
-                        <li class="breadcrumb-item active">Product</li>*@
+                <li class="breadcrumb-item"><a href="#">Ebooks</a></li>
+                <li class="breadcrumb-item active">Product</li>*@
 
-                    <li class="breadcrumb-item"><a id="breadcrumb-1" href="#">Admin</a></li>
+                    <li class="breadcrumb-item"><a id="breadcrumb-1" href="">Admin</a></li>
                     <li class="breadcrumb-item breadcrumb-item-2" style="display:none;"><a id="breadcrumb-2" href="#"></a></li>
                     <li class="breadcrumb-item breadcrumb-item-3 active" style="display:none;" id="breadcrumb-3"></li>
 
                 </ul>
             </div><!-- navigation -->
-            <div class="d-flex justify-content-between mb-3">
-                <h1 id="ebook" class="khoangcachduoi">Ebooks</h1>
-                <div>
-                    @*<button id="btn_upload" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#myModal" style="margin-top:10px;">Upload</button>*@
-                    <button id="btn_upload" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#myModal" style="margin-top:10px;">Upload Ebook</button>
-                    @*<button id="btn_upload1" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalEssay" style="margin-top:10px;">Upload Essay</button>
-                        <button id="btn_upload2" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalThesis" style="margin-top:10px;">Upload Thesis</button>*@
+            <section id="admin-content-section" hidden="hidden">
+                <div class="d-flex justify-content-between mb-3">
+                    <h1 id="ebook" class="khoangcachduoi">Ebooks</h1>
+                    <div>
+                        @*<button id="btn_upload" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#myModal" style="margin-top:10px;">Upload</button>*@
+                        <button id="btn_upload" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#myModal" style="margin-top:10px;">Upload Ebook</button>
+                        @*<button id="btn_upload1" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalEssay" style="margin-top:10px;">Upload Essay</button>
+                    <button id="btn_upload2" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalThesis" style="margin-top:10px;">Upload Thesis</button>*@
+
+                    </div>
 
                 </div>
+                <div class="row" id="loadEbook" data-bind="foreach: resultArr">
+                </div>
+                @*<div class="row" id="loadEssay" data-bind="foreach: resultArr">
+            </div>*@
+                <div class="d-flex justify-content-between mb-3">
+                    <h1 id="essay" class="khoangcachduoi">Tiểu luận</h1>
+                    <div>
+                        <button id="btn_upload1" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalEssay" style="margin-top:10px;">Upload Essay</button>
+                    </div>
+                </div>
+                <div class="row" id="loadEssay" data-bind="foreach: resultArr">
 
-            </div>
-            <div class="row" id="loadEbook" data-bind="foreach: resultArr">
-            </div>
-            @*<div class="row" id="loadEssay" data-bind="foreach: resultArr">
-                </div>*@
-            <div class="d-flex justify-content-between mb-3">
-                <h1 id="essay" class="khoangcachduoi">Tiểu luận</h1>
-                <div>
-                    <button id="btn_upload1" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalEssay" style="margin-top:10px;">Upload Essay</button>
                 </div>
-            </div>
-            <div class="row" id="loadEssay" data-bind="foreach: resultArr">
-                
-            </div>
-            <div class="d-flex justify-content-between mb-3">
-                <h1 id="thesis" class="khoangcachduoi">Khóa luận</h1>
-                <div>
-                    <button id="btn_upload2" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalThesis" style="margin-top:10px;">Upload Essay</button>
+                <div class="d-flex justify-content-between mb-3">
+                    <h1 id="thesis" class="khoangcachduoi">Khóa luận</h1>
+                    <div>
+                        <button id="btn_upload2" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalThesis" style="margin-top:10px;">Upload Essay</button>
+                    </div>
                 </div>
-            </div>
-            <div class="row" id="loadThesis" data-bind="foreach: resultArr">
-            </div>
-            @*// phân trang*@
-            <div class="col-lg-12 col-md-6 mb-4">
-                <div id="pagination-container" class="pagination justify-content-center"></div>
-            </div>
+                <div class="row" id="loadThesis" data-bind="foreach: resultArr">
+                </div>
+                @*// phân trang*@
+                <div class="col-lg-12 col-md-6 mb-4">
+                    <div id="pagination-container" class="pagination justify-content-center"></div>
+                </div>
+            </section>
+
             <!-- /.row -->
             <!-- /.col-lg-9 -->
         </div>
         <!-- /.row -->
     </div>
     <!-- /.container -->
-
-
+    <!--EBOOK-->
     <script>
     //clear form tạo file
     function clearFormFile() {
@@ -340,7 +331,37 @@
         $("input[class='Files']").val("");
     }
     //Up file ebook
-    $(document).ready(function () {
+        $(document).ready(function () {
+            //$('#formEbook').validate({
+            //    onfocusout: false,
+            //    onkeyup: false,
+            //    onclick: false,
+            //    rules: {
+            //        title: {
+            //            required: true
+            //        },
+            //        author: {
+            //            required: true
+            //        },
+            //        fileInput: {
+            //            required: true
+            //        }
+            //    },
+            //    messages: {
+            //        title: {
+            //            required: "Bạn phải nhập tiêu đề"
+            //        },
+            //        author: {
+            //            required: "Bạn phải nhập tác giả"
+            //        },
+            //        fileInput: {
+            //            required: "Bạn chọn file"
+            //        }
+            //    },
+            //    submitHandler: function (form) {
+                    
+            //    }
+            //});
         //Upload dữ liệu vào Ebook
         $("#upload").click(function () {
             clearFormFile();
@@ -350,8 +371,6 @@
             for (var i = 0; i < files.length; i++) {
                 fileData.append("fileInput", files[i]);
             }
-            //cái này là lấy thông tin trên text box  title là key tiltle.val() là giá trị
-
             fileData.append("title", $("#title").val());
             fileData.append("describe", $("#describe").val());
             fileData.append("author", $("#author").val());
@@ -490,7 +509,7 @@
             }
         });
 
-        
+
         //tạo môn ebook
         $("#create_sub_ebook").click(function () {
             var subject = {};
@@ -543,73 +562,72 @@
         });
 
     });
-</script>
-
-<!-- TIỂU LUẬN-->
-<script>
-    function simpleTemplating1(result) {
-        var data = "";
-        $.each(result, function (i, v) {
-            data += "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
-            data += "<div class='card h-100'>";
-            data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
-            data += "<div class='card-body'>";
-            data += "<h4 class='card-title'>";//
-            data += "<a href='/Details/DetailsEssay?essay_id=" + v.essay_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
-            data += "<h5>GVHD: " + v.instructor + "</h5>";
-            data += "<p class='card-text' data-bind='text:author'></p>";
-            data += "<div class='card-footer'></div>";
-            data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
-            data += " </div></div></div>";
-        });
-        return data;
-    }
-
-    // load môn tiểu luận
-    $.ajax({
-        type: "GET",
-        url: "/api/AdminAPI/GetSubjectEssay",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (result) {
+    </script>
+    <!-- TIỂU LUẬN-->
+    <script>
+        function simpleTemplating1(result) {
+            var data = "";
             $.each(result, function (i, v) {
-                //load các môn của ebook lên thanh danh mục bên trái
-                $("#loadSubjectOfEssay").append("<li id='essay_" + v.id + "'><a>" + v.name + "</a></li >");
-                //click môn học load file
-                $("#essay_" + v.id).click(function (e) {
-                    //Ẩn hiện form upload file ở trang chỉ hay uplaod file trong môn học
-                    $("#btn_upload1").show();
-                    $("#btn_upload2").hide();
-                    $("#btn_upload").hide();
-                    $("#essay").show();
-                    $("#thesis").hide();
-                    $("#loadThesis").hide();
-                    $("#ebook").hide();
-                    $("#loadEbook").hide();
-                    $("#loadEssay").show();
-                    $("#subjectE").append("<option value='" + v.id + "'>" + v.name + "</option>");
-                    //$("#subjectE").val(v.name);
-                    $("#loadThesis").empty();
-                    $("#loadEbook").empty();
-                    $("#loadEssay").empty();
-                    $.ajax({
-                        type: "GET",
-                        url: "/api/AdminAPI/GetEssay",
-                        data: { id: v.id },
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (result) {
-                            console.log(v);
+                data += "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+                data += "<div class='card h-100'>";
+                data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
+                data += "<div class='card-body'>";
+                data += "<h4 class='card-title'>";//
+                data += "<a href='/Details/DetailsEssay?essay_id=" + v.essay_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                data += "<h5>GVHD: " + v.instructor + "</h5>";
+                data += "<p class='card-text' data-bind='text:author'></p>";
+                data += "<div class='card-footer'></div>";
+                data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                data += " </div></div></div>";
+            });
+            return data;
+        }
 
-                            var tag = $(e.currentTarget).closest('.mainmenu-item');
+        // load môn tiểu luận
+        $.ajax({
+            type: "GET",
+            url: "/api/AdminAPI/GetSubjectEssay",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                $.each(result, function (i, v) {
+                    //load các môn của ebook lên thanh danh mục bên trái
+                    $("#loadSubjectOfEssay").append("<li id='essay_" + v.id + "'><a>" + v.name + "</a></li >");
+                    //click môn học load file
+                    $("#essay_" + v.id).click(function (e) {
+                        //Ẩn hiện form upload file ở trang chỉ hay uplaod file trong môn học
+                        $("#btn_upload1").show();
+                        $("#btn_upload2").hide();
+                        $("#btn_upload").hide();
+                        $("#essay").show();
+                        $("#thesis").hide();
+                        $("#loadThesis").hide();
+                        $("#ebook").hide();
+                        $("#loadEbook").hide();
+                        $("#loadEssay").show();
+                        $("#subjectE").append("<option value='" + v.id + "'>" + v.name + "</option>");
+                        //$("#subjectE").val(v.name);
+                        $("#loadThesis").empty();
+                        $("#loadEbook").empty();
+                        $("#loadEssay").empty();
+                        $.ajax({
+                            type: "GET",
+                            url: "/api/AdminAPI/GetEssay",
+                            data: { id: v.id },
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (result) {
+                                console.log(v);
 
-                            var tagText = $(tag).find('.mainmenu-item-text');
-                            $('.breadcrumb-item-2').css("display", "block");
-                            $('.breadcrumb-item-3').css("display", "block");
-                            $('#breadcrumb-2').text($(tagText).text());
-                            $('#breadcrumb-3').text(v.name);
+                                var tag = $(e.currentTarget).closest('.mainmenu-item');
 
-                                    //$("#loadEbook").append(data);
+                                var tagText = $(tag).find('.mainmenu-item-text');
+                                $('.breadcrumb-item-2').css("display", "block");
+                                $('.breadcrumb-item-3').css("display", "block");
+                                $('#breadcrumb-2').text($(tagText).text());
+                                $('#breadcrumb-3').text(v.name);
+
+                                //$("#loadEbook").append(data);
                                 //});
                                 $('#pagination-container').pagination({
                                     dataSource: function (done) {
@@ -656,39 +674,39 @@
                     clearFormFile();
                 }
             });
-    });
-
-    //SIGNALR
-    $(function () {
-        $.connection.hub.logging = true;
-        var chat = $.connection.myHub;
-        //SignalR thêm file
-        chat.client.postFileEssayToClient = function (id, title, instructor, executor1, executor1,
-            describe, filename, date_upload, user, subject) {
-            var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
-            data += "<div class='card h-100'>";
-            data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
-            data += "<div class='card-body'>";
-            data += "<h4 class='card-title'>";
-            data += "<a href='/Details/DetailsEssay?essay_id=" + v.essay_id + "'" +  "data-bind='text:title'>" + title + "</a> </h4>";
-            data += "<h5>GVHD: " + instructor + "</h5>";
-            data += "<p class='card-text' data-bind='text:author'></p>";
-            data += "<div class='card-footer'></div>";
-            data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
-            data += " </div></div></div>";
-
-            $("#loadEssay").append(data);
-        };
-        $.connection.hub.start().done(function () {
-            //alert("started");
-        }).fail(function (result) {
-            alert(result);
         });
 
-    });
-</script>
-<!-- KHÓA LUẬN-->
-<script>
+        //SIGNALR
+        $(function () {
+            $.connection.hub.logging = true;
+            var chat = $.connection.myHub;
+            //SignalR thêm file
+            chat.client.postFileEssayToClient = function (id, title, instructor, executor1, executor1,
+                describe, filename, date_upload, user, subject) {
+                var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+                data += "<div class='card h-100'>";
+                data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
+                data += "<div class='card-body'>";
+                data += "<h4 class='card-title'>";
+                data += "<a href='/Details/DetailsEssay?essay_id=" + v.essay_id + "'" + "data-bind='text:title'>" + title + "</a> </h4>";
+                data += "<h5>GVHD: " + instructor + "</h5>";
+                data += "<p class='card-text' data-bind='text:author'></p>";
+                data += "<div class='card-footer'></div>";
+                data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                data += " </div></div></div>";
+
+                $("#loadEssay").append(data);
+            };
+            $.connection.hub.start().done(function () {
+                //alert("started");
+            }).fail(function (result) {
+                alert(result);
+            });
+
+        });
+    </script>
+    <!-- KHÓA LUẬN-->
+    <script>
     function simpleTemplating2(result) {
         var data = "";
         $.each(result, function (i, v) {
@@ -850,15 +868,15 @@
     });
     </script>
 
-
+    <!--Lấy danh sách các ebook tiểu luận khóa luận mới nhất-->
     <script>
+        $.blockUI();
         $.ajax({
             type: "GET",
             url: "/api/AdminAPI/GetEbook1",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (result) {
-
                 $.each(result, function (i, v) {
                     var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
                     data += "<div class='card h-100'>";
@@ -871,13 +889,12 @@
                     //data += "<div class='card-footer'></div>";
                     data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
                     data += " </div></div></div>";
-
                     $("#loadEbook").append(data);
-
                 });
+                $('#admin-content-section').prop("hidden", false);
             }
         });
-
+        $.unblockUI();
 
     </script>
     <script>
@@ -922,17 +939,16 @@
                     data1 += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
                     data1 += "<div class='card-body'>";
                     data1 += "<h4 class='card-title'>";//
-                    data1 += "<a href='/Details/DetailsThesis?thesis_id=" + v.thesis_id+ "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                    data1 += "<a href='/Details/DetailsThesis?thesis_id=" + v.thesis_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
                     data1 += "<h5>giáo viên hd: " + v.instructor + "</h5>";
                     data1 += "<p class='card-text' data-bind='text:author'></p>";
                     //data += "<div class='card-footer'></div>";
                     data1 += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
                     data1 += " </div></div></div>";
-
                     $("#loadThesis").append(data1);
-
                 });
             }
         });
-
     </script>
+
+

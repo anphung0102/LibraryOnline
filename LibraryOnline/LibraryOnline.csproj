@@ -222,6 +222,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LecturersController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\ManageFileEbookController.cs" />
     <Compile Include="Controllers\ManageSubEssayOfAdminController.cs" />
     <Compile Include="Controllers\ManageSubjectEbookController.cs" />
     <Compile Include="Controllers\ManageSubThesisOfAdminController.cs" />
@@ -325,6 +326,7 @@
     <Content Include="Content\Datatables\jquery.dataTables.min.js" />
     <Content Include="Content\img\banner.png" />
     <Content Include="Content\img\banner1.png" />
+    <Content Include="Content\img\loading_gif.gif" />
     <Content Include="Content\img\logo-login.png" />
     <Content Include="Content\delete.gif" />
     <Content Include="Content\img\logo-lv1.png" />
@@ -370,13 +372,16 @@
       <DependentUpon>LibraryOnline.edmx</DependentUpon>
       <LastGenOutput>LibraryOnline.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\admin\admin.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\common\jquery.blockUI.js" />
     <Content Include="Scripts\common\knockout-3.5.0.js" />
     <Content Include="Scripts\common\pagination.js" />
     <Content Include="Scripts\common\pagination.min.js" />
+    <Content Include="Scripts\css\all.css" />
     <Content Include="Scripts\delete.gif" />
     <Content Include="Scripts\dist\ez.countimer.js" />
     <Content Include="Scripts\dist\ez.countimer.min.js" />
@@ -417,8 +422,10 @@
     <Content Include="Scripts\jquery.serializejson.js" />
     <Content Include="Scripts\jquery.signalR-2.4.0.js" />
     <Content Include="Scripts\jquery.signalR-2.4.0.min.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\LibraryOnlineApp\Admin\Admin.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />

@@ -20,6 +20,7 @@ namespace LibraryOnline.Models
         public LibraryOnlineFinalEntities()
             : base("name=LibraryOnlineFinalEntities")
         {
+            Configuration.ProxyCreationEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

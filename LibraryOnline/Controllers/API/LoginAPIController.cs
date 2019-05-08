@@ -23,23 +23,23 @@ namespace LibraryOnline.Controllers.API
         {
             using (LibraryOnlineFinalEntities db = new LibraryOnlineFinalEntities())
             {
-                var role = db.Users.Where(x => x.username == loginInfo.User && x.password == loginInfo.Pass)
-                          .Select(x => x.role_id).FirstOrDefault();
-                var user_id = db.Users.Where(x => x.username == loginInfo.User && x.password == loginInfo.Pass).FirstOrDefault();
-                if(user_id != null)
+                var user = db.Users.Where(x => x.username == loginInfo.User && x.password == loginInfo.Pass)
+                          .FirstOrDefault();
+                //var user_id = db.Users.Where(x => x.username == loginInfo.User && x.password == loginInfo.Pass).FirstOrDefault();
+                if(user != null)
                 {
                     HttpContext.Current.Session["username"] = loginInfo.User;
-                    HttpContext.Current.Session["user_id"] = user_id.id;
-                    HttpContext.Current.Session["fullname"] = user_id.fullname;
-                    HttpContext.Current.Session["role_id"] = user_id.role_id;
+                    HttpContext.Current.Session["user_id"] = user.id;
+                    HttpContext.Current.Session["fullname"] = user.fullname;
+                    HttpContext.Current.Session["role_id"] = user.role_id;
                 }
-                if (role == 1)
+                if (user.role_id == 1)
                     return "/Admin/Admin";
-                else if (role == 2)
+                else if (user.role_id == 2)
                 {
                     return "/Lecturers/Index";
                 }
-                else if (role == 3)
+                else if (user.role_id == 3)
                 {
                     return "/Student/Index";
                 }

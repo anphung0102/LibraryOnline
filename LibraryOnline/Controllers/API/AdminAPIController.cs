@@ -601,15 +601,14 @@ namespace LibraryOnline.Controllers.API
         public IEnumerable<Essay> GetEssay1()
         {
 
-            return db.Essays.ToList().Take(3);
+            return db.Essays.OrderByDescending(x=>x.date_upload).ToList().Take(6);
         }
         // lấy dữ liệu test
         [Route("api/AdminAPI/GetEbook1")]
         [HttpGet]
         public IEnumerable<Ebook> GetEbook1()
         {
-
-            return db.Ebooks.ToList().Take(3);
+            return db.Ebooks.OrderByDescending(x=>x.date_upload).ToList().Take(6);
         }
 
         // lấy dữ liệu test
@@ -618,7 +617,7 @@ namespace LibraryOnline.Controllers.API
         public IEnumerable<Thesis> GetThesis1()
         {
 
-            return db.Theses.ToList().Take(3);
+            return db.Theses.OrderByDescending(x=>x.date_upload).ToList().Take(6);
         }
     }
 }

@@ -67,6 +67,7 @@
             </div><!-- navigation -->
             @*<h1 class="khoangcachduoi">Products</h1>*@
             <div class="row" id="detail" style="float:left;width:60%">
+            <div class="row" id="detail" style="float:left;width:60%">
                 <script>
      // load data
     $(document).ready(function () {
@@ -227,43 +228,9 @@
         </div>
         <!-- /.col-lg-9 -->
 
-    </div>
-    <!-- /.row -->
-</div>
-<!-- /.container -->
-<!-- Footer -->
-
-<script>
-    $(document).ready(function () {
-        $("#btnRate").click(function () {
-
-            var a = $('#rateit_star1').rateit('value');
-            alert(a);
-        });
-    });
-</script>
-<script>
-    $("#upload").click(function () {
-
-        var ebook = {};
-        ebook.title = $("#title").val(); //get từ textbox
-        ebook.describe = $("#describe").val(); //get từ text boxt
-        ebook.year = $("#year").val(); //get từ textbox
-        ebook.user_id = $("#user_id").val(); //get từ text boxt
-        ebook.filename = $("#filename").val(); //get từ text boxt
-        $.ajax({
-            type: "POST",
-            url: "/api/FileAPI/UploadEbook",
-            data: JSON.stringify(ebook),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (result) {
-
-            }
-        });
-    });
+                <script>
      // load data
-                    @*$(document).ready(function () {
+                    $(document).ready(function () {
                         var val = '@ViewBag.ID';
                         $.ajax({
                             type: "GET",
@@ -390,17 +357,32 @@
                         <div class="rateit col-md-6" data-rateit-value="1" data-rateit-readonly="true"></div>
                         <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal1"><span id="oneStar"></span> đánh giá</a></div>
 
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
+
         </div>
+        <!-- /.col-lg-9 -->
+
     </div>
+    <!-- /.row -->
 </div>
-        </div>
-<!-- /.col-lg-9 -->
-    </div>
-<!-- /.row -->
-</div>*@
+<!-- /.container -->
+<!-- Footer -->
+
+<script>
+    $(document).ready(function () {
+        $("#btnRate").click(function () {
+            var a = $('#rateit_star1').rateit('value');
+            alert(a);
+        });
+    });
+</script>
+
 
 <!-- Modal -->
 <div class="modal fade" id="counter" role="dialog">

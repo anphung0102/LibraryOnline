@@ -22,9 +22,13 @@
 
 <body>
     <div class="container">
-        <h2>Đăng nhập</h2>
-        <form id="formLogin"  method="post"   enctype="multipart/form-data">
-            <div class="form-group" >
+        
+        <form id="formLogin" class="form-signin" method="post" enctype="multipart/form-data">
+            <h2 align="center">Login</h2>
+            <div align="center">
+                <img src="~/Content/img/logo-login.png" /> <br />
+            </div>
+            <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
 
@@ -40,6 +44,27 @@
                 <button id="btnlogin" type="submit" class="btn btn-primary">Login</button>
             </div>
         </form>
+
+        @* <form class="form-signin" id="formLogin" method="post" enctype="multipart/form-data">
+            <div align="center">
+                <img src="~/Content/img/logo-login.png" /> <br />
+            </div>
+            <br />
+            <div class="form-group">
+                <label for="email" style="color: gray">User name</label></br>
+                <input type="email" name="email" id="email" class="form-control" required><br />
+                <label for="email" style="color: gray">User name</label><br />
+                <input type="email" name="email" id="email" class="form-control" placeholder="Enter email" required><br />
+                <label for="pwd" style="color: gray">Password:</label> </br>
+                <input type="password" name="pswd" class="form-control" id="pwd" required>
+                <label for="pwd" style="color: gray">Password:</label> <br />
+                <input type="password" name="pswd" class="form-control" id="pwd"placeholder="Enter email" required>
+            </div>
+            <div id="error"></div>
+            <div style="margin-top:20px">
+                <button id="login" type="submit" class="btn btn-primary">Login</button>
+            </div>
+        </form>*@
     </div>
 
 </body>

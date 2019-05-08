@@ -330,6 +330,7 @@
     <Content Include="Content\img\logo-login.png" />
     <Content Include="Content\delete.gif" />
     <Content Include="Content\img\logo-lv1.png" />
+    <Content Include="Content\img\PDF %282%29.png" />
     <Content Include="Content\img\user.png" />
     <Content Include="Content\rateit.css" />
     <Content Include="Content\star.gif" />

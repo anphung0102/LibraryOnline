@@ -89,7 +89,7 @@ body {
 
         /* hover behaviour for links inside .submenu cái hover ra cái sub menu đâu tắt nó đi à mà thôi quen k cần*/
         .submenu a:hover {
-            background-color: red;
+            background-color: lightgrey;
         }
 
 

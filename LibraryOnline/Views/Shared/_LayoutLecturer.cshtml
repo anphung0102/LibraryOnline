@@ -28,15 +28,16 @@
 
     <link href="~/Content/styles/style-homepage.css" rel="stylesheet" />
     <link href="~/Content/styles/details.css" rel="stylesheet" />
+    <link href="~/Content/styles/common.css" rel="stylesheet" />
     <link href="~/Content/styles/pagination.css" rel="stylesheet" />
+
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
-
-    <script src="//code.jquery.com/jquery.min.js"></script>
-    @*<link href="~/Scripts/rateit.css" rel="stylesheet" type="text/css">
-        <script src="~/Scripts/jquery.rateit.js"></script>
-        <script src="~/Scripts/jquery.rateit.min.js"></script>*@
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="~/Scripts/common/jquery.blockUI.js"></script>
+    @*<script src="//code.jquery.com/jquery.min.js"></script>*@
     <link href="~/Scripts/rateit.css" rel="stylesheet" type="text/css">
-
+    <script type="text/javascript" src="~/Scripts/moment.min.js"></script>
 
 </head>
 
@@ -89,7 +90,7 @@
                                 <div id="fullname" hidden>@Session["fullname"]</div>
                                 <small>Tài khoản: <span>@Session["username"]</span></small>
                             </div>
-                            <lable  id="userid">@Session["user_id"]</lable>
+                            <lable id="userid">@Session["user_id"]</lable>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" id="logout">Logout</a>
                             <script>
@@ -127,9 +128,8 @@
         <!-- /.container -->
     </footer>
 
-    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
-
+    <script src="~/Content/Datatables/jquery.dataTables.min.js"></script>
     <script src="~/Scripts/common/pagination.js"></script>
     <script src="~/Scripts/common/pagination.min.js"></script>
     <script type='text/javascript' src='~/Scripts/common/knockout-3.5.0.js'></script>
@@ -142,7 +142,8 @@
     <!--SignalR script to update the chat page and send messages.-->
     <script src="~/Scripts/jquery.rateit.js"></script>
     <script src="~/Scripts/jquery.rateit.min.js"></script>
-
+    <script type="text/javascript" src="~/Scripts/dist/ez.countimer.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
 </body>
 
 </html>

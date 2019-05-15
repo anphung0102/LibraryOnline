@@ -47,7 +47,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="book_id" Type="nvarchar" MaxLength="10" Nullable="false" />
-          <Property Name="usename" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="usename" Type="nvarchar" MaxLength="50" />
           <Property Name="user_id" Type="int" Nullable="false" />
           <Property Name="rate" Type="int" Nullable="false" />
         </EntityType>
@@ -65,10 +65,10 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="book_id" Type="nvarchar" MaxLength="10" Nullable="false" />
-          <Property Name="title" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="author" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="title" Type="nvarchar(max)" />
+          <Property Name="author" Type="nvarchar(max)" />
           <Property Name="year" Type="nvarchar" MaxLength="10" />
-          <Property Name="instructor" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="instructor" Type="nvarchar(max)" />
           <Property Name="executor1" Type="nvarchar" MaxLength="50" />
           <Property Name="executor2" Type="nvarchar" MaxLength="50" />
           <Property Name="describe" Type="nvarchar(max)" />
@@ -77,7 +77,7 @@
           <Property Name="user_id" Type="int" />
           <Property Name="sub_id" Type="int" />
           <Property Name="username" Type="nvarchar" MaxLength="50" />
-          <Property Name="type" Type="nvarchar" MaxLength="10" />
+          <Property Name="type" Type="nchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="Subject_Ebook">
           <Key>
@@ -131,6 +131,17 @@
           <Property Name="cource" Type="nchar" MaxLength="10" />
           <Property Name="countView" Type="int" />
           <Property Name="countDowload" Type="int" />
+        </EntityType>
+        <EntityType Name="Time">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userid" Type="int" />
+          <Property Name="bookid" Type="nchar" MaxLength="10" />
+          <Property Name="bookname" Type="nvarchar" MaxLength="50" />
+          <Property Name="time" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="date" Type="datetime" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -228,6 +239,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Time_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Time" Type="Self.Time" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Time">
+              <PropertyRef Name="userid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_USERS_ROLES">
           <End Role="Role" Type="Self.Role" Multiplicity="1" />
           <End Role="Users" Type="Self.Users" Multiplicity="*" />
@@ -240,11 +263,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
         <Function Name="fn_NextID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
           <Parameter Name="lastid" Type="varchar" Mode="In" />
           <Parameter Name="prefix" Type="varchar" Mode="In" />
           <Parameter Name="size" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="LibraryOnlineFinalModelStoreContainer">
           <EntitySet Name="Ebook" EntityType="Self.Ebook" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Essay" EntityType="Self.Essay" Schema="dbo" store:Type="Tables" />
@@ -256,6 +310,7 @@
           <EntitySet Name="Subject_Thesis" EntityType="Self.Subject_Thesis" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Thesis" EntityType="Self.Thesis" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Time" EntityType="Self.Time" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="fk_EBOOKS_SUBJECTEBOOK" Association="Self.fk_EBOOKS_SUBJECTEBOOK">
             <End Role="Subject_Ebook" EntitySet="Subject_Ebook" />
@@ -284,6 +339,10 @@
           <AssociationSet Name="fk_THESIS_USERS" Association="Self.fk_THESIS_USERS">
             <End Role="Users" EntitySet="Users" />
             <End Role="Thesis" EntitySet="Thesis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Time_Users" Association="Self.FK_Time_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Time" EntitySet="Time" />
           </AssociationSet>
           <AssociationSet Name="fk_USERS_ROLES" Association="Self.fk_USERS_ROLES">
             <End Role="Role" EntitySet="Role" />
@@ -355,6 +414,36 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams1" />
+          <FunctionImport Name="sp_alterdiagram2">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram2">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram2">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition2" ReturnType="Collection(LibraryOnlineFinalModel.sp_helpdiagramdefinition2_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams2" ReturnType="Collection(LibraryOnlineFinalModel.sp_helpdiagrams2_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram2">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams2" />
           <EntitySet Name="Ebooks" EntityType="LibraryOnlineFinalModel.Ebook" />
           <EntitySet Name="Essays" EntityType="LibraryOnlineFinalModel.Essay" />
           <EntitySet Name="RateStars" EntityType="LibraryOnlineFinalModel.RateStar" />
@@ -365,6 +454,7 @@
           <EntitySet Name="Subject_Thesis" EntityType="LibraryOnlineFinalModel.Subject_Thesis" />
           <EntitySet Name="sysdiagrams" EntityType="LibraryOnlineFinalModel.sysdiagram" />
           <EntitySet Name="Theses" EntityType="LibraryOnlineFinalModel.Thesis" />
+          <EntitySet Name="Times" EntityType="LibraryOnlineFinalModel.Time" />
           <EntitySet Name="Users" EntityType="LibraryOnlineFinalModel.User" />
           <AssociationSet Name="fk_EBOOKS_SUBJECTEBOOK" Association="LibraryOnlineFinalModel.fk_EBOOKS_SUBJECTEBOOK">
             <End Role="Subject_Ebook" EntitySet="Subject_Ebook" />
@@ -398,6 +488,10 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Thesis" EntitySet="Theses" />
           </AssociationSet>
+          <AssociationSet Name="FK_Time_Users" Association="LibraryOnlineFinalModel.FK_Time_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Time" EntitySet="Times" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -421,11 +515,22 @@
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
+        <ComplexType Name="sp_helpdiagramdefinition2_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams2_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
         <EntityType Name="Ebook">
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id" Type="Int32" Nullable="false" />
           <Property Name="ebook_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="author" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -444,7 +549,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id" Type="Int32" Nullable="false" />
           <Property Name="essay_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="instructor" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -467,7 +572,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="book_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="usename" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="usename" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="user_id" Type="Int32" Nullable="false" />
           <Property Name="rate" Type="Int32" Nullable="false" />
           <NavigationProperty Name="User" Relationship="LibraryOnlineFinalModel.FK_RateStar_Users" FromRole="RateStar" ToRole="User" />
@@ -487,10 +592,10 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="book_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="author" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="author" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="year" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="instructor" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="instructor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="executor1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="executor2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="describe" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -499,7 +604,7 @@
           <Property Name="user_id" Type="Int32" />
           <Property Name="sub_id" Type="Int32" />
           <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="type" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="type" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="Subject_Ebook">
           <Key>
@@ -542,7 +647,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id" Type="Int32" Nullable="false" />
           <Property Name="thesis_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="instructor" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -558,6 +663,18 @@
           <Property Name="countDowload" Type="Int32" />
           <NavigationProperty Name="Subject_Thesis" Relationship="LibraryOnlineFinalModel.fk_EBOOKS_SUBJECTTHESIS" FromRole="Thesis" ToRole="Subject_Thesis" />
           <NavigationProperty Name="User" Relationship="LibraryOnlineFinalModel.fk_THESIS_USERS" FromRole="Thesis" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Time">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="userid" Type="Int32" />
+          <Property Name="bookid" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="bookname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="time1" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="User" Relationship="LibraryOnlineFinalModel.FK_Time_Users" FromRole="Time" ToRole="User" />
+          <Property Name="date" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -575,6 +692,7 @@
           <NavigationProperty Name="RateStars" Relationship="LibraryOnlineFinalModel.FK_RateStar_Users" FromRole="User" ToRole="RateStar" />
           <NavigationProperty Name="Role" Relationship="LibraryOnlineFinalModel.fk_USERS_ROLES" FromRole="User" ToRole="Role" />
           <NavigationProperty Name="Theses" Relationship="LibraryOnlineFinalModel.fk_THESIS_USERS" FromRole="User" ToRole="Thesis" />
+          <NavigationProperty Name="Times" Relationship="LibraryOnlineFinalModel.FK_Time_Users" FromRole="User" ToRole="Time" />
         </EntityType>
         <Association Name="fk_EBOOKS_SUBJECTEBOOK">
           <End Type="LibraryOnlineFinalModel.Subject_Ebook" Role="Subject_Ebook" Multiplicity="0..1" />
@@ -672,12 +790,48 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Time_Users">
+          <End Type="LibraryOnlineFinalModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="LibraryOnlineFinalModel.Time" Role="Time" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Time">
+              <PropertyRef Name="userid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="LibraryOnlineFinalModelStoreContainer" CdmEntityContainer="LibraryOnlineFinalEntities" >
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram2" FunctionName="LibraryOnlineFinalModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram2" FunctionName="LibraryOnlineFinalModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram2" FunctionName="LibraryOnlineFinalModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition2" FunctionName="LibraryOnlineFinalModel.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibraryOnlineFinalModel.sp_helpdiagramdefinition2_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams2" FunctionName="LibraryOnlineFinalModel.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibraryOnlineFinalModel.sp_helpdiagrams2_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram2" FunctionName="LibraryOnlineFinalModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams2" FunctionName="LibraryOnlineFinalModel.Store.sp_upgraddiagrams" />
           <EntitySetMapping Name="Ebooks">
             <EntityTypeMapping TypeName="LibraryOnlineFinalModel.Ebook">
               <MappingFragment StoreEntitySet="Ebook">
@@ -811,6 +965,18 @@
                 <ScalarProperty Name="instructor" ColumnName="instructor" />
                 <ScalarProperty Name="title" ColumnName="title" />
                 <ScalarProperty Name="thesis_id" ColumnName="thesis_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Times">
+            <EntityTypeMapping TypeName="LibraryOnlineFinalModel.Time">
+              <MappingFragment StoreEntitySet="Time">
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="time1" ColumnName="time" />
+                <ScalarProperty Name="bookname" ColumnName="bookname" />
+                <ScalarProperty Name="bookid" ColumnName="bookid" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

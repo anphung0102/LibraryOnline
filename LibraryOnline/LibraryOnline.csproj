@@ -216,6 +216,7 @@
     <Compile Include="Controllers\API\ManageOfAdminAPIController.cs" />
     <Compile Include="Controllers\API\RateAPIController.cs" />
     <Compile Include="Controllers\API\SearchAPIController.cs" />
+    <Compile Include="Controllers\API\TimeAPIController.cs" />
     <Compile Include="Controllers\DetailsController.cs" />
     <Compile Include="Controllers\EbookAPIController.cs" />
     <Compile Include="Controllers\FileAPIController.cs" />
@@ -223,6 +224,7 @@
     <Compile Include="Controllers\LecturersController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ManageFileEbookController.cs" />
+    <Compile Include="Controllers\ManageStudentController.cs" />
     <Compile Include="Controllers\ManageSubEssayOfAdminController.cs" />
     <Compile Include="Controllers\ManageSubjectEbookController.cs" />
     <Compile Include="Controllers\ManageSubThesisOfAdminController.cs" />
@@ -273,10 +275,16 @@
     <Compile Include="Models\sp_helpdiagramdefinition1_Result.cs">
       <DependentUpon>LibraryOnline.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_helpdiagramdefinition2_Result.cs">
+      <DependentUpon>LibraryOnline.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
       <DependentUpon>LibraryOnline.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_helpdiagrams1_Result.cs">
+      <DependentUpon>LibraryOnline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagrams2_Result.cs">
       <DependentUpon>LibraryOnline.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_helpdiagrams_Result.cs">
@@ -299,6 +307,9 @@
       <DependentUpon>LibraryOnline.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ThesisViewModel.cs" />
+    <Compile Include="Models\Time.cs">
+      <DependentUpon>LibraryOnline.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\User.cs">
       <DependentUpon>LibraryOnline.tt</DependentUpon>
     </Compile>
@@ -488,6 +499,7 @@
     <Content Include="Views\ReadFileDetails\Thesis.cshtml" />
     <Content Include="Views\Lecturers\ManageEssay.cshtml" />
     <Content Include="Views\Lecturers\ManageThesis.cshtml" />
+    <Content Include="Views\ManageStudent\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

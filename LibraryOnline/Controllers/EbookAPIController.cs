@@ -30,19 +30,6 @@ namespace LibraryOnline.Controllers
         [HttpPost]
         public SubjectCreationResult EditSubjectById(Subject_Ebook subject)
         {
-            //var sub = db.Subject_Ebook.Where(x => x.id == subject.id).FirstOrDefault();
-
-            //if (sub != null)
-            //{
-            //    sub.name = subject.name;
-            //    db.SaveChanges();
-            //    return "Sửa thành công";
-            //}
-            //else
-            //{
-            //    return "Sửa không thành công";
-            //}
-
             var sub = db.Subject_Ebook.Where(x => x.id == subject.id).FirstOrDefault();
             if (sub == null)
             {
@@ -189,6 +176,7 @@ namespace LibraryOnline.Controllers
             }
             return "lỗi";
         }
+
 
         //xoá file 
         [Route("api/EbookAPI/DeleteFileById")]

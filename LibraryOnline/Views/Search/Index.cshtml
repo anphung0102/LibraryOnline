@@ -1,8 +1,23 @@
 ﻿@{
-   Layout = "~/Views/Shared/_LayoutStudent.cshtml"; ;
+    var user = Session["username"];
+    if (Session["username"] == null || Session["user_id"] == null)
+    {
+        Response.Redirect("~/Login/Index");
+    }
+    if (Session["role_id"].ToString() == "1")
+    {
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
+    if (Session["role_id"].ToString() == "2")
+    {
+        Layout = "~/Views/Shared/_LayoutLecturer.cshtml";
+    }
+    if (Session["role_id"].ToString() == "3")
+    {
+        Layout = "~/Views/Shared/_LayoutStudent.cshtml";
+    }
 }
-}
-<div class="container">
+<div class="container" id="manage">
     <div class="d-flex justify-content-between mb-3">
         <h3>Kết quả tìm kiếm:</h3>
     </div>
@@ -33,7 +48,7 @@
                     }
                     data += "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
                     data += "<div class='card h-100'>";
-                    data += "<a href='#'><img class='card-img-top' src='http://placehold.it/700x400' alt=''></a>";
+                    data += "<a href='#'><img class='card-img-top' src='/Content/img/PDF (2).png' alt=''></a>";
                     data += "<div class='card-body'>";
                     data += "<h4 class='card-title'>";//
                     //data += "<a href='/Details/Details?ebook_id=" + v.book_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";

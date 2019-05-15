@@ -120,7 +120,52 @@ namespace LibraryOnline.Controllers.API
                 };
             }
         }
-
+        //sửa essay
+        [Route("api/ManageOfAdminAPI/EditSubjectEssayById")]
+        [HttpPost]
+        public SubjectCreationResult EditSubjectEssayById(Subject_Essay subject)
+        {
+            var sub = db.Subject_Essay.Where(x => x.id == subject.id).FirstOrDefault();
+            if (sub == null)
+            {
+                return new SubjectCreationResult
+                {
+                    IsSuccess = false
+                };
+            }
+            else
+            {
+                sub.name = subject.name;
+                db.SaveChanges();
+                return new SubjectCreationResult
+                {
+                    IsSuccess = true
+                };
+            }
+        }
+        //sửa thesis
+        [Route("api/ManageOfAdminAPI/EditSubjectThesisById")]
+        [HttpPost]
+        public SubjectCreationResult EditSubjectThesisById(Subject_Thesis subject)
+        {
+            var sub = db.Subject_Thesis.Where(x => x.id == subject.id).FirstOrDefault();
+            if (sub == null)
+            {
+                return new SubjectCreationResult
+                {
+                    IsSuccess = false
+                };
+            }
+            else
+            {
+                sub.name = subject.name;
+                db.SaveChanges();
+                return new SubjectCreationResult
+                {
+                    IsSuccess = true
+                };
+            }
+        }
         //xoá essay
         [Route("api/ManageOfAdminAPI/DeleteSubjectThesis")]
         [HttpPost]

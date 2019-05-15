@@ -11,7 +11,7 @@ namespace LibraryOnline.Controllers.API
     public class RateAPIController : ApiController
     {
         private LibraryOnlineFinalEntities db = new LibraryOnlineFinalEntities();
-        [Route("api/RateAPIAPI/GetRateStar")]
+        [Route("api/RateAPI/GetRateStar")]
         [HttpGet]
         public object GetRateStar(string book_id)
         {

@@ -14,8 +14,8 @@ namespace LibraryOnline.Models
         public string Year { get; set; }
         public string Describe { get; set; }
         public string FileName { get; set; }
-       // public  DateTime Date_Upload { get; set; }
-        public string Date_Upload { get; set; }
+        public  DateTime Date_Upload { get; set; }
+        //public string Date_Upload { get; set; }
         public int User_Id { get; set; }
         public int Sub_Id { get; set; }
         //public HttpPostedFileBase FileReferences { get; set; }

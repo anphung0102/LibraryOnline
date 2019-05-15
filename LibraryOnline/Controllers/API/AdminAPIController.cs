@@ -19,12 +19,14 @@ namespace LibraryOnline.Controllers.API
         [HttpPost]
         public EbookCreationResult UploadFiles()
         {
+            string strExtexsion = "";
             var httpPostedFile = HttpContext.Current.Request.Files["fileInput"];//lấy file
             if (httpPostedFile != null)
             {
                 //đường dẫn lưu file
                 var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/Upload/"), httpPostedFile.FileName);//tên file
                 //lưu file vào đường dẫn
+                strExtexsion = Path.GetExtension(httpPostedFile.FileName).Trim();//lấy đuôi file
                 httpPostedFile.SaveAs(fileSavePath);
             }
 
@@ -38,7 +40,6 @@ namespace LibraryOnline.Controllers.API
             var date_upload = DateTime.Now;
             int user_id = Convert.ToInt32(userid);
             int sub_id = Convert.ToInt32(subid);
-            string strExtexsion = Path.GetExtension(httpPostedFile.FileName).Trim();//lấy đuôi file
             
             if (strExtexsion == ".pdf")//chỉ cho up pdf
             {
@@ -101,7 +102,7 @@ namespace LibraryOnline.Controllers.API
                         Author = loadebook.author,
                         Year = loadebook.year,
                         FileName = loadebook.filename,
-                        Date_Upload = loadebook.date_upload.Value.ToString("dd/MM/yyyy")
+                        Date_Upload = loadebook.date_upload.Value
                     };
                     //return Request.CreateResponse("Thành công");
                 }
@@ -114,15 +115,88 @@ namespace LibraryOnline.Controllers.API
 
             }
         //Upload file cho Ebook 
-        [Route("api/AdminAPI/UploadFileEssay")]
+        [Route("api/AdminAPI/EditEbookFiles")]
         [HttpPost]
-        public EssayCreationResult UploadFileEssay()
+        public EbookCreationResult EditEbookFiles()
         {
+            string strExtexsion = "";
             var httpPostedFile = HttpContext.Current.Request.Files["fileInput"];//lấy file
             if (httpPostedFile != null)
             {
                 //đường dẫn lưu file
                 var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/Upload/"), httpPostedFile.FileName);//tên file
+                //lưu file vào đường dẫn
+                strExtexsion = Path.GetExtension(httpPostedFile.FileName).Trim();//lấy đuôi file
+                httpPostedFile.SaveAs(fileSavePath);
+            }
+            var ebook_id = HttpContext.Current.Request["ebook_id"];
+            var title = HttpContext.Current.Request["title"];
+            var describe = HttpContext.Current.Request["describe"];
+            var author = HttpContext.Current.Request["author"];
+            var year = HttpContext.Current.Request["year"];
+            var userid = HttpContext.Current.Request["userid"];
+            var subid = HttpContext.Current.Request["subid"];
+            //var username = HttpContext.Current.Request["username"];
+            var date_upload = DateTime.Now;
+            int user_id = Convert.ToInt32(userid);
+            int sub_id = Convert.ToInt32(subid);
+           
+            var temp = db.Ebooks.Where(x => x.ebook_id == ebook_id && x.user_id == user_id).FirstOrDefault();
+            var search = db.SearchFiles.Where(x => x.book_id == ebook_id && x.user_id == user_id).FirstOrDefault();
+            if (temp != null)
+            {
+                if (strExtexsion == ".pdf")//chỉ cho up pdf
+                {
+                    using (LibraryOnlineFinalEntities db = new LibraryOnlineFinalEntities())
+                    {
+                        //update table ebook
+                        temp.title = title;
+                        temp.author = author;
+                        temp.describe = describe;
+                        temp.year = year;
+                        temp.filename = httpPostedFile.FileName;
+                        db.SaveChanges();
+                        //update table search file
+                        search.title = title;
+                        search.author = author;
+                        search.describe = describe;
+                        search.year = year;
+                        search.filename = httpPostedFile.FileName;
+                        db.SaveChanges();
+                        return new EbookCreationResult
+                        {
+                            IsSuccess = true,
+                            Id = temp.id,
+                            Ebook_Id = temp.ebook_id,
+                            Title = temp.title,
+                            Describe = temp.describe,
+                            Author = temp.author,
+                            Year = temp.year,
+                            FileName = temp.filename,
+                            Date_Upload = temp.date_upload.Value
+                        };
+                    }
+                }
+            }
+            
+            return new EbookCreationResult
+            {
+                IsSuccess = false,
+            };
+
+        }
+        //Upload file cho Ebook 
+        [Route("api/AdminAPI/UploadFileEssay")]
+        [HttpPost]
+        public EssayCreationResult UploadFileEssay()
+        {
+            string strExtexsion = "";
+            var httpPostedFile = HttpContext.Current.Request.Files["fileInput"];//lấy file
+            if (httpPostedFile != null)
+            {
+                //đường dẫn lưu file
+                var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/Upload/"), httpPostedFile.FileName);//tên file
+                strExtexsion = Path.GetExtension(httpPostedFile.FileName).Trim();//lấy đuôi file
                 //lưu file vào đường dẫn
                 httpPostedFile.SaveAs(fileSavePath);
             }
@@ -138,7 +212,7 @@ namespace LibraryOnline.Controllers.API
             var date_upload = DateTime.Now;
             int user_id = Convert.ToInt32(userid);
             int sub_id = Convert.ToInt32(subid);
-            string strExtexsion = Path.GetExtension(httpPostedFile.FileName).Trim();//lấy đuôi file
+
             // ví dụ
             //var temp = db.Essays.Where(x => x.title.Equals(title)).FirstOrDefault();
             //if (temp != null)
@@ -437,11 +511,14 @@ namespace LibraryOnline.Controllers.API
         [Route("api/AdminAPI/UploadFilesThesis")]
         public ThesisCreationResult UploadFilesThesis()
         {
+            string strExtexsion = "";
             var httpPostedFile = HttpContext.Current.Request.Files["fileInput"];//lấy file
             if (httpPostedFile != null)
             {
                 //đường dẫn lưu file
                 var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/Upload/"), httpPostedFile.FileName);//tên file
+                strExtexsion = Path.GetExtension(httpPostedFile.FileName).Trim();//lấy đuôi file
+
                 //lưu file vào đường dẫn
                 httpPostedFile.SaveAs(fileSavePath);
             }
@@ -457,8 +534,7 @@ namespace LibraryOnline.Controllers.API
             var date_upload = DateTime.Now;
             int user_id = Convert.ToInt32(userid);
             int sub_id = Convert.ToInt32(subid);
-            string strExtexsion = Path.GetExtension(httpPostedFile.FileName).Trim();//lấy đuôi file
-
+            
             if (strExtexsion == ".pdf")//chỉ cho up pdf
             {
                 using (LibraryOnlineFinalEntities db = new LibraryOnlineFinalEntities())

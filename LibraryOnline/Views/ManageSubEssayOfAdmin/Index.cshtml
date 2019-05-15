@@ -9,31 +9,18 @@
     }
 }
 
-
-@*<link href="https://editor.datatables.net/extensions/Editor/js/dataTables.editor.min.js" rel="stylesheet" />
-    <link href="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js" rel="stylesheet" />
-    <link href="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js" rel="stylesheet" />
-    <link href="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js" rel="stylesheet" />*@
-
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <link href="~/Content/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css" rel="stylesheet" />
-<script type="text/javascript">
+<link href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css" rel="stylesheet" />*@
 
-</script>
-<style>
-    .btn {
-        margin-right: 20px;
-    }
-</style>
-<div class="container">
-    <h2>Quản lý Subject of Essay</h2>
+
+<div class="container" id="manage">
+    <h2>Quản lý môn học tiểu luận</h2>
     <div>
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAddSub_Es">
-            Open modal
+            Thêm
         </button>
         <button id="btnEdit" type='button' class='btn btn-danger'>Sửa</button>
         <button id="btnDel" type='button' class='btn btn-danger'>Xóa</button>
@@ -68,7 +55,7 @@
                     <input type="text" class="form-control" id="EditNameSub_Eb" placeholder="Tên môn" name="Name">
                 </div>
                 <div style="margin-top:20px">
-                    <button id="btnSaveEdit" type="button" class="btn btn-primary">Update</button>
+                    <button id="btnSaveEdit" type="button" class="btn btn-primary">Lưu</button>
                 </div>
             </div>
             <!-- Modal footer -->
@@ -164,7 +151,6 @@
         //xóa 1 row datatable
         $('#btnDel').click(function () {
             var table = $('#loadsubject').DataTable();
-            console.log("aaa", table.rows({ selected: true }).data());
             var rowData = table.rows({ selected: true }).data()[index]['id'];
             console.log("rowData", rowData);
             if (flag == true) {
@@ -175,36 +161,30 @@
         $('body').on('click', '#btnEdit', function (e) {
             var table = $('#loadsubject').DataTable();
             var name = table.rows({ selected: true }).data()[index]['name'];
-            alert(name);
+           
             $("input[id='EditNameSub_Eb']").val(name);
             $("#EditSub").show();
         });
         $("#btnSaveEdit").click(function () {
+            debugger;
             var table = $('#loadsubject').DataTable();
             var id = table.rows({ selected: true }).data()[index]['id'];
-            var name = table.rows({ selected: true }).data()[index]['name'];
+            var name = $("input[id='EditNameSub_Eb']").val();
             var data = {};
             data.id = id;
             data.name = name;
             $.ajax({
                 type: "POST",
-                url: "/api/EbookAPI/EditSubjectById",
+                url: "/api/ManageOfAdminAPI/EditSubjectEssayById",
                 data: JSON.stringify(data),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (result) {
                     if (result.isSuccess) {
                         alert("Sửa thành công.");
-                        //add row datatable
                         var t = $('#loadsubject').DataTable();
-                        //t.row.edit({
-                        //    "id": id,
-                        //    "name": name
-                        //}).draw();
-                        alert(index);
-                        t.row(index).edit({
-                            name: name
-                        });
+                        t.cell(index, 2).data(name).draw();
+                        $("#EditSub").hide();
                     } else {
                         alert("Sửa không thành công.");
                     }
@@ -272,28 +252,28 @@
                 ]
             });
         }
-        //function clearEditSub() {
-        //    $("input[id='EditNameSub_Eb']").val("");
-        //}
-        //function clearAddSub() {
-        //    $("input[id='AddNameSub_Eb']").val("");
-        //}
-        //$("#btn_closeX").click(function () {
-        //    $("#EditSub").hide();
-        //    clearEditSub();
-        //});
-        //$("#btn_closeEdit").click(function () {
-        //    $("#EditSub").hide();
-        //    clearEditSub();
-        //});
-        //$("#btn_closeX1").click(function () {
-        //    $("#AddSub").hide();
-        //    clearAddSub();
-        //});
-        //$("#btn_closeAdd").click(function () {
-        //    $("#AddSub").hide();
-        //    clearAddSub();
-        //});
+        function clearEditSub() {
+            $("input[id='EditNameSub_Eb']").val("");
+        }
+        function clearAddSub() {
+            $("input[id='AddNameSub_Eb']").val("");
+        }
+        $("#btn_closeX").click(function () {
+            $("#EditSub").hide();
+            clearEditSub();
+        });
+        $("#btn_closeEdit").click(function () {
+            $("#EditSub").hide();
+            clearEditSub();
+        });
+        $("#btn_closeX1").click(function () {
+            $("#AddSub").hide();
+            clearAddSub();
+        });
+        $("#btn_closeAdd").click(function () {
+            $("#AddSub").hide();
+            clearAddSub();
+        });
     });
 
 </script>

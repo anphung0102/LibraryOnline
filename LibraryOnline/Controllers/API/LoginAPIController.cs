@@ -32,16 +32,16 @@ namespace LibraryOnline.Controllers.API
                     HttpContext.Current.Session["user_id"] = user.id;
                     HttpContext.Current.Session["fullname"] = user.fullname;
                     HttpContext.Current.Session["role_id"] = user.role_id;
-                }
-                if (user.role_id == 1)
-                    return "/Admin/Admin";
-                else if (user.role_id == 2)
-                {
-                    return "/Lecturers/Index";
-                }
-                else if (user.role_id == 3)
-                {
-                    return "/Student/Index";
+                    if (user.role_id == 1)
+                        return "/Admin/Admin";
+                    else if (user.role_id == 2)
+                    {
+                        return "/Lecturers/Index";
+                    }
+                    else if (user.role_id == 3)
+                    {
+                        return "/Student/Index";
+                    }
                 }
             }
             return "";

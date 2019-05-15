@@ -21,6 +21,7 @@ namespace LibraryOnline.Models
             this.Essays = new HashSet<Essay>();
             this.RateStars = new HashSet<RateStar>();
             this.Theses = new HashSet<Thesis>();
+            this.Times = new HashSet<Time>();
         }
     
         public int id { get; set; }
@@ -40,5 +41,7 @@ namespace LibraryOnline.Models
         public virtual Role Role { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Thesis> Theses { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Time> Times { get; set; }
     }
 }

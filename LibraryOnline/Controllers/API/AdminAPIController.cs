@@ -335,6 +335,7 @@ namespace LibraryOnline.Controllers.API
 
                         var loadessay = db.Essays.OrderByDescending(x => x.id).Take(1).FirstOrDefault();
                         var essay_id = db.Essays.Where(x => x.id == loadessay.id).Select(x => x.essay_id).FirstOrDefault();
+                        var sub = db.Subject_Essay.Where(x => x.id == sub_id).FirstOrDefault();
                         //MyHub.Post(sub_ebook.id, sub_ebook.name);
                         return new EssayCreationResult
                         {
@@ -348,7 +349,9 @@ namespace LibraryOnline.Controllers.API
                             Executor2 = loadessay.executor2,
                             FileName = loadessay.filename,
                             Date_Upload = loadessay.date_upload.Value.ToString("dd/MM/yyyy"),
-                            Course = loadessay.course
+                            Course = loadessay.course,
+                            Sub_Id = sub.id,
+                            Sub_Name = sub.name
                         };
                         //return Request.CreateResponse("Thành công");
                     }

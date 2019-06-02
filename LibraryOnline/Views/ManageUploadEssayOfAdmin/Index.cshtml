@@ -466,7 +466,7 @@
             var data = new FormData();
 
               for (var i = 0; i < files.length; i++) {
-                  data.append("fileInputE", files[i]);
+                  data.append("fileInput", files[i]);
             }
               //cái này là lấy thông tin trên text box  title là key tiltle.val() là giá trị
             data.append("title", $("#titleE").val());
@@ -502,6 +502,44 @@
                 return;
             }
             else {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/AdminAPI/UploadFileEssay",
+                    dataType: "json",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (result) {
+                        if (result.isSuccess) {
+                            alert("Upload thành công.");
+                            $("#titleE").empty();
+                            console.log("aaa", result);
+                            //add row datatable
+                            var t = $('#loadsubject').DataTable();
+                            t.row.add({
+                                "id": result.id,
+                                "essay_id": result.essay_Id,
+                                "title": result.title,
+                                "instructor": result.instructor,
+                                "executor1": result.executor1,
+                                "executor2": result.executor2,
+                                "course": result.course,
+                                "describe": result.describe,
+                                "filename": result.fileName,
+                                "date_upload": result.date_Upload,
+                                "sub_id": result.sub_Id,
+                                "sub_name": result.sub_Name
+                            }).draw();
+                        } else {
+                            if (result.message != null) {
+                                alert(result.message);
+                            }
+                            else {
+                                alert("Upload không thành công.");
+                            }
+                        }
+                    }
+                });
 
             }
         });
@@ -512,7 +550,7 @@
 
 </script>
 <!--Tạo môn học-->
-<script>
+@*<script>
   
     $(document).ready(function () {
         $('#formEssay').validate({
@@ -621,4 +659,4 @@
 
     });
 
-</script>
+</script>*@

@@ -21,6 +21,7 @@ namespace LibraryOnline.Models
         public int Sub_Id { get; set; }
         public string Course { get; set; }
         public string Message { get; set; }
+        public string Sub_Name { get; set; }
     }
     public class EssayCreationResult : EssayViewModel
     {

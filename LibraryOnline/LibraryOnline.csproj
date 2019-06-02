@@ -220,6 +220,7 @@
     <Compile Include="Controllers\DetailsController.cs" />
     <Compile Include="Controllers\EbookAPIController.cs" />
     <Compile Include="Controllers\FileAPIController.cs" />
+    <Compile Include="Controllers\ForgotPasswordController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LecturersController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -266,6 +267,7 @@
       <DependentUpon>LibraryOnline.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RateStarModel.cs" />
+    <Compile Include="Models\ResetPasswordModel.cs" />
     <Compile Include="Models\Role.cs">
       <DependentUpon>LibraryOnline.tt</DependentUpon>
     </Compile>
@@ -349,6 +351,8 @@
     <Content Include="Content\styles\login.css" />
     <Content Include="Content\styles\pagination.css" />
     <Content Include="Content\styles\style-homepage.css" />
+    <Content Include="Content\toastr.css" />
+    <Content Include="Content\toastr.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Models\LibraryOnline.Context.tt">
@@ -424,6 +428,8 @@
     <Content Include="Models\LibraryOnline.edmx.diagram">
       <DependentUpon>LibraryOnline.edmx</DependentUpon>
     </Content>
+    <Content Include="Content\toastr.scss" />
+    <Content Include="Content\toastr.less" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -438,12 +444,16 @@
     <Content Include="Scripts\LibraryOnlineApp\Admin\Admin.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\notify.js" />
+    <Content Include="Scripts\notify.min.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\rateit.css" />
     <Content Include="Scripts\star.gif" />
+    <Content Include="Scripts\toastr.js" />
+    <Content Include="Scripts\toastr.min.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
@@ -500,9 +510,12 @@
     <Content Include="Views\Lecturers\ManageEssay.cshtml" />
     <Content Include="Views\Lecturers\ManageThesis.cshtml" />
     <Content Include="Views\ManageStudent\Index.cshtml" />
+    <Content Include="Views\ForgotPassword\Index.cshtml" />
+    <Content Include="Views\ForgotPassword\ResetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="excelfolder\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

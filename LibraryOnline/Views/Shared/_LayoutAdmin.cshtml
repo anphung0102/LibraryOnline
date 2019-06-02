@@ -13,8 +13,8 @@
 <html lang="en">
 
 <head>
-
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    @*<meta charset="utf-8">*@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -38,6 +38,7 @@
     @*<script src="//code.jquery.com/jquery.min.js"></script>*@
     <link href="~/Scripts/rateit.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="~/Scripts/moment.min.js"></script>
+    
     @*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>*@
 </head>
 
@@ -80,10 +81,6 @@
                     <input class="form-control mr-sm-2 searchData" type="text" placeholder="Search" aria-label="Search" name="search" id="searchData">
                     <button class="btn btn-outline-success my-2 my-sm-0 search" type="submit" id="search">Search</button>
                 </form>
-                @*<form class="form-inline my-2 my-lg-0 " action="/Search/Index">
-                        <input type="text" placeholder="Search.." name="search" id="searchData">
-                        <button type="submit" id="search"><i class="fa fa-search"></i></button>
-                    </form>*@
                 <ul class="navbar-nav mr-sm-0">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -97,7 +94,9 @@
                             </div>
                             <lable hidden id="userid">@Session["user_id"]</lable>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" id="logout">Logout</a>
+                            <a class="dropdown-item" id="changePass">Đổi mật khẩu</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" id="logout">Đăng xuất</a>
                             <script>
                                 $(document).ready(function () {
                                     $("#logout").click(function () {
@@ -148,6 +147,8 @@
     <script src="~/Scripts/jquery.rateit.min.js"></script>
     <script type="text/javascript" src="~/Scripts/dist/ez.countimer.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/notify.js"></script>
+    <script src="~/Scripts/notify.min.js"></script>
 </body>
 
 </html>

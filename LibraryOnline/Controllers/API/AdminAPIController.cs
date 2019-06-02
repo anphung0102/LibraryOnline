@@ -36,84 +36,101 @@ namespace LibraryOnline.Controllers.API
             var year = HttpContext.Current.Request["year"];
             var userid = HttpContext.Current.Request["userid"];
             var subid = HttpContext.Current.Request["subid"];
-            //var username = HttpContext.Current.Request["username"];
             var date_upload = DateTime.Now;
             int user_id = Convert.ToInt32(userid);
             int sub_id = Convert.ToInt32(subid);
             
             if (strExtexsion == ".pdf")//chỉ cho up pdf
             {
-
-                using (LibraryOnlineFinalEntities db = new LibraryOnlineFinalEntities())
+                var filename = db.Ebooks.Where(x => x.filename == httpPostedFile.FileName).FirstOrDefault();
+                if(filename!=null)
                 {
-                    //Add vô bảng ebook 
-                    db.Ebooks.Add(
-                        new Ebook
-                        {
-                            ebook_id = "",
-                            title = title,
-                            describe = describe,
-                            author = author,
-                            year = year,
-                            filename = httpPostedFile.FileName,
-                            date_upload = date_upload,
-                            user_id = user_id,
-                            sub_id = sub_id,
-                            countView = 0,
-                            countDowload = 0
-                        });
-                    db.SaveChanges();
-                    var book_id = db.Ebooks.OrderByDescending(x => x.id).Select(x=>x.ebook_id).FirstOrDefault();
-                    db.SearchFiles.Add(
-                      new SearchFile
-                      {
-                          book_id = book_id,
-                          title = title,
-                          author = author,
-                          year = year,
-                          instructor = "",
-                          executor1 = "",
-                          executor2 = "",
-                          describe = describe,
-                          filename = httpPostedFile.FileName,
-                          date_upload = date_upload,
-                          user_id = user_id,
-                          sub_id = sub_id,
-                          //username = username,
-                          type = "ebook"
-                      });
-                    db.SaveChanges();//lưu dât thôi cái này t chưa chạy t mới test gửi data từ  ajax qua thôi
-                    var user = db.Users.Where(x => x.id == user_id).Select(x => x.username).FirstOrDefault();
-                    var subject = db.Subject_Ebook.Where(x => x.id == sub_id).Select(x => x.name).FirstOrDefault();
-                    var fileinfo = db.Ebooks.OrderByDescending(x => x.id).FirstOrDefault();
-                    var date_up = date_upload.ToString("MM/dd/yyyy");
-                    MyHub.PostFileEbook(fileinfo.id, fileinfo.title, fileinfo.author, fileinfo.describe,
-                        fileinfo.year, fileinfo.filename, date_up, user, subject);
-                    var loadebook = db.Ebooks.OrderByDescending(x => x.id).Take(1).FirstOrDefault();
-                    var ebook_id = db.Ebooks.Where(x => x.id == loadebook.id).Select(x => x.ebook_id).FirstOrDefault();
-
                     return new EbookCreationResult
                     {
-                        IsSuccess = true,
-                        Id = loadebook.id,
-                        Ebook_Id = ebook_id,
-                        Title = loadebook.title,
-                        Describe = loadebook.describe,
-                        Author = loadebook.author,
-                        Year = loadebook.year,
-                        FileName = loadebook.filename,
-                        Date_Upload = loadebook.date_upload.Value
+                        IsSuccess = false,
+                        Message = "Tên file đã bị trùng!"
                     };
-                    //return Request.CreateResponse("Thành công");
                 }
-            }
-            return new EbookCreationResult
-            {
-                IsSuccess = false,
-            };
-                //return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Lỗi!!!");
+                else
+                {
+                    using (LibraryOnlineFinalEntities db = new LibraryOnlineFinalEntities())
+                    {
+                        //Add vô bảng ebook 
+                        db.Ebooks.Add(
+                            new Ebook
+                            {
+                                ebook_id = "",
+                                title = title,
+                                describe = describe,
+                                author = author,
+                                year = year,
+                                filename = httpPostedFile.FileName,
+                                date_upload = date_upload,
+                                user_id = user_id,
+                                sub_id = sub_id,
+                                countView = 0,
+                                countDowload = 0
+                            });
+                        db.SaveChanges();
+                        var book_id = db.Ebooks.OrderByDescending(x => x.id).Select(x => x.ebook_id).FirstOrDefault();
+                        db.SearchFiles.Add(
+                          new SearchFile
+                          {
+                              book_id = book_id,
+                              title = title,
+                              author = author,
+                              year = year,
+                              instructor = "",
+                              executor1 = "",
+                              executor2 = "",
+                              describe = describe,
+                              filename = httpPostedFile.FileName,
+                              date_upload = date_upload,
+                              user_id = user_id,
+                              sub_id = sub_id,
+                          type = "ebook"
+                          });
+                        db.SaveChanges();//lưu dât thôi cái này t chưa chạy t mới test gửi data từ  ajax qua thôi
+                        var user = db.Users.Where(x => x.id == user_id).Select(x => x.username).FirstOrDefault();
+                        var subject = db.Subject_Ebook.Where(x => x.id == sub_id).Select(x => x.name).FirstOrDefault();
+                        var fileinfo = db.Ebooks.OrderByDescending(x => x.id).FirstOrDefault();
+                        var date_up = date_upload.ToString("MM/dd/yyyy");
+                        MyHub.PostFileEbook(fileinfo.id, fileinfo.title, fileinfo.author, fileinfo.describe,
+                            fileinfo.year, fileinfo.filename, date_up, user, subject);
+                        var loadebook = db.Ebooks.OrderByDescending(x => x.id).Take(1).FirstOrDefault();
+                        var ebook_id = db.Ebooks.Where(x => x.id == loadebook.id).Select(x => x.ebook_id).FirstOrDefault();
+                        var sub = db.Subject_Ebook.Where(x => x.id == sub_id).FirstOrDefault();
+                        return new EbookCreationResult
+                        {
+                            IsSuccess = true,
+                            Id = loadebook.id,
+                            Ebook_Id = ebook_id,
+                            Title = loadebook.title,
+                            Describe = loadebook.describe,
+                            Author = loadebook.author,
+                            Year = loadebook.year,
+                            FileName = loadebook.filename,
+                            Date_Upload = loadebook.date_upload.Value,
+                            Sub_Name = sub.name,
+                            Sub_Id = sub.id
+                        };
+                      }
+                }
 
             }
+            else
+            {
+                return new EbookCreationResult
+                {
+                    IsSuccess = false,
+                    Message = "Vui lòng chọn file pdf!"
+                };
+            }
+            //return new EbookCreationResult
+            //{
+            //    IsSuccess = false,
+            //};
+        }
         //Upload file cho Ebook 
         [Route("api/AdminAPI/EditEbookFiles")]
         [HttpPost]
@@ -136,33 +153,75 @@ namespace LibraryOnline.Controllers.API
             var year = HttpContext.Current.Request["year"];
             var userid = HttpContext.Current.Request["userid"];
             var subid = HttpContext.Current.Request["subid"];
-            //var username = HttpContext.Current.Request["username"];
             var date_upload = DateTime.Now;
             int user_id = Convert.ToInt32(userid);
             int sub_id = Convert.ToInt32(subid);
            
-            var temp = db.Ebooks.Where(x => x.ebook_id == ebook_id && x.user_id == user_id).FirstOrDefault();
-            var search = db.SearchFiles.Where(x => x.book_id == ebook_id && x.user_id == user_id).FirstOrDefault();
+            var temp = db.Ebooks.Where(x => x.ebook_id == ebook_id).FirstOrDefault();
+            var search = db.SearchFiles.Where(x => x.book_id == ebook_id).FirstOrDefault();
             if (temp != null)
             {
-                if (strExtexsion == ".pdf")//chỉ cho up pdf
+                if (httpPostedFile != null)
                 {
-                    using (LibraryOnlineFinalEntities db = new LibraryOnlineFinalEntities())
+                    if (strExtexsion == ".pdf")//chỉ cho up pdf
                     {
+                        var filename = db.Ebooks.Where(x => x.filename == httpPostedFile.FileName).FirstOrDefault();
+                        if(filename != null)
+                        {
+                            return new EbookCreationResult
+                            {
+                                IsSuccess = false,
+                                Message = "Tên file đã bị trùng!"
+                            };
+
+                        }
+                        else
+                        {
+                                //update table ebook
+                                temp.title = title;
+                                temp.author = author;
+                                temp.describe = describe;
+                                temp.year = year;
+                                temp.filename = httpPostedFile.FileName;
+                                //db.SaveChanges();
+                                //update table search file
+                                search.title = title;
+                                search.author = author;
+                                search.describe = describe;
+                                search.year = year;
+                                search.filename = httpPostedFile.FileName;
+                                db.SaveChanges();
+                                return new EbookCreationResult
+                                {
+                                    IsSuccess = true,
+                                    Id = temp.id,
+                                    Ebook_Id = temp.ebook_id,
+                                    Title = temp.title,
+                                    Describe = temp.describe,
+                                    Author = temp.author,
+                                    Year = temp.year,
+                                    FileName = temp.filename,
+                                    Date_Upload = temp.date_upload.Value
+                                };
+                            }
+                    }
+                    
+                }
+                else
+                {
                         //update table ebook
                         temp.title = title;
                         temp.author = author;
                         temp.describe = describe;
                         temp.year = year;
-                        temp.filename = httpPostedFile.FileName;
-                        db.SaveChanges();
+                        //db.SaveChanges();
                         //update table search file
                         search.title = title;
                         search.author = author;
                         search.describe = describe;
                         search.year = year;
-                        search.filename = httpPostedFile.FileName;
                         db.SaveChanges();
+                     
                         return new EbookCreationResult
                         {
                             IsSuccess = true,
@@ -175,7 +234,7 @@ namespace LibraryOnline.Controllers.API
                             FileName = temp.filename,
                             Date_Upload = temp.date_upload.Value
                         };
-                    }
+                    
                 }
             }
             
@@ -212,82 +271,87 @@ namespace LibraryOnline.Controllers.API
             var date_upload = DateTime.Now;
             int user_id = Convert.ToInt32(userid);
             int sub_id = Convert.ToInt32(subid);
-
-            // ví dụ
-            //var temp = db.Essays.Where(x => x.title.Equals(title)).FirstOrDefault();
-            //if (temp != null)
-            //{
-            //   // thông báo trung tên mnguowcj lại cho lưu
-            //}
+            
             if (strExtexsion == ".pdf")//chỉ cho up pdf
             {
-
-                using (LibraryOnlineFinalEntities db = new LibraryOnlineFinalEntities())
+                var filename = db.Essays.Where(x => x.filename == httpPostedFile.FileName).FirstOrDefault();
+                if (filename != null)
                 {
-                    //Add vô bảng ebook 
-                    db.Essays.Add(
-                        new Essay
-                        {
-                            essay_id = "",
-                            title = title,
-                            describe = describe,
-                            instructor = instructor,
-                            executor1 = executor1,
-                            executor2 = executor2,
-                            //course = year,
-                            filename = httpPostedFile.FileName,
-                            date_upload = date_upload,
-                            user_id = user_id,
-                            sub_id = sub_id,
-                            course = course,
-                            countView = 0,
-                            countDowload = 0
-                        });
-                    db.SaveChanges();
-                    var book_id = db.Essays.OrderByDescending(x => x.id).Select(x => x.essay_id).FirstOrDefault();
-
-                    db.SearchFiles.Add(
-                      new SearchFile
-                      {
-                          book_id = book_id,
-                          title = title,
-                          author = "",
-                          year = "",
-                          instructor = instructor,
-                          executor1 = executor1,
-                          executor2 = executor2,
-                          describe = describe,
-                          filename = httpPostedFile.FileName,
-                          date_upload = date_upload,
-                          user_id = user_id,
-                          sub_id = sub_id,
-                          type = "essay"
-                      });
-                    db.SaveChanges();//lưu dât thôi cái này t chưa chạy t mới test gửi data từ  ajax qua thôi
-                    var user = db.Users.Where(x => x.id == user_id).Select(x => x.username).FirstOrDefault();
-                    var subject = db.Subject_Essay.Where(x => x.id == sub_id).Select(x => x.name).FirstOrDefault();
-                    var fileinfo = db.Essays.OrderByDescending(x => x.id).FirstOrDefault();
-                    var date_up = date_upload.ToString("MM/dd/yyyy");
-                    MyHub.PostFileEssay(fileinfo.id, fileinfo.essay_id, fileinfo.title, fileinfo.instructor, fileinfo.executor1, fileinfo.executor2, fileinfo.describe, fileinfo.filename, date_up, user, subject);
-
-                    var loadessay = db.Essays.OrderByDescending(x=>x.id).Take(1).FirstOrDefault();
-                    var essay_id = db.Essays.Where(x => x.id == loadessay.id).Select(x => x.essay_id).FirstOrDefault();
-                    //MyHub.Post(sub_ebook.id, sub_ebook.name);
                     return new EssayCreationResult
                     {
-                        IsSuccess = true,
-                        Id = loadessay.id,
-                        Essay_Id = essay_id,
-                        Title = loadessay.title,
-                        Describe = loadessay.describe,
-                        Instructor = loadessay.instructor,
-                        Executor1 = loadessay.executor1,
-                        Executor2 = loadessay.executor2,
-                        FileName = loadessay.filename,
-                        Date_Upload = loadessay.date_upload.Value.ToString("dd/MM/yyyy"),
-                        Course = loadessay.course
+                        IsSuccess = false,
+                        Message = "Tên file đã bị trùng!"
                     };
-                    //return Request.CreateResponse("Thành công");
+                }
+                else
+                {
+                    using (LibraryOnlineFinalEntities db = new LibraryOnlineFinalEntities())
+                    {
+                        //Add vô bảng ebook 
+                        db.Essays.Add(
+                            new Essay
+                            {
+                                essay_id = "",
+                                title = title,
+                                describe = describe,
+                                instructor = instructor,
+                                executor1 = executor1,
+                                executor2 = executor2,
+                            //course = year,
+                            filename = httpPostedFile.FileName,
+                                date_upload = date_upload,
+                                user_id = user_id,
+                                sub_id = sub_id,
+                                course = course,
+                                countView = 0,
+                                countDowload = 0
+                            });
+                        db.SaveChanges();
+                        var book_id = db.Essays.OrderByDescending(x => x.id).Select(x => x.essay_id).FirstOrDefault();
+
+                        db.SearchFiles.Add(
+                          new SearchFile
+                          {
+                              book_id = book_id,
+                              title = title,
+                              author = "",
+                              year = "",
+                              instructor = instructor,
+                              executor1 = executor1,
+                              executor2 = executor2,
+                              describe = describe,
+                              filename = httpPostedFile.FileName,
+                              date_upload = date_upload,
+                              user_id = user_id,
+                              sub_id = sub_id,
+                              type = "essay"
+                          });
+                        db.SaveChanges();//lưu dât thôi cái này t chưa chạy t mới test gửi data từ  ajax qua thôi
+                        var user = db.Users.Where(x => x.id == user_id).Select(x => x.username).FirstOrDefault();
+                        var subject = db.Subject_Essay.Where(x => x.id == sub_id).Select(x => x.name).FirstOrDefault();
+                        var fileinfo = db.Essays.OrderByDescending(x => x.id).FirstOrDefault();
+                        var date_up = date_upload.ToString("MM/dd/yyyy");
+                        MyHub.PostFileEssay(fileinfo.id, fileinfo.essay_id, fileinfo.title, fileinfo.instructor, fileinfo.executor1, fileinfo.executor2, fileinfo.describe, fileinfo.filename, date_up, user, subject);
+
+                        var loadessay = db.Essays.OrderByDescending(x => x.id).Take(1).FirstOrDefault();
+                        var essay_id = db.Essays.Where(x => x.id == loadessay.id).Select(x => x.essay_id).FirstOrDefault();
+                        //MyHub.Post(sub_ebook.id, sub_ebook.name);
+                        return new EssayCreationResult
+                        {
+                            IsSuccess = true,
+                            Id = loadessay.id,
+                            Essay_Id = essay_id,
+                            Title = loadessay.title,
+                            Describe = loadessay.describe,
+                            Instructor = loadessay.instructor,
+                            Executor1 = loadessay.executor1,
+                            Executor2 = loadessay.executor2,
+                            FileName = loadessay.filename,
+                            Date_Upload = loadessay.date_upload.Value.ToString("dd/MM/yyyy"),
+                            Course = loadessay.course
+                        };
+                        //return Request.CreateResponse("Thành công");
+                    }
                 }
             }
             return new EssayCreationResult
@@ -345,7 +409,7 @@ namespace LibraryOnline.Controllers.API
         }
 
         //lấy ebook
-        [Route("api/AdminAPI/GetEbook")]
+        [Route("api/AdminAPI/GetEbookGetEbook")]
         [HttpGet]
         public IEnumerable<Ebook> GetEbook(int id)
         {
@@ -415,10 +479,27 @@ namespace LibraryOnline.Controllers.API
         // lấy ds ebook quyền admin
         [Route("api/AdminAPI/GetEbookByAdmin")]
         [HttpGet]
-        public IEnumerable<Ebook> GetEbookByAdmin()
+        public object GetEbookByAdmin()
         {
-           
-            return db.Ebooks.ToList(); ;
+            var data = (from e in db.Ebooks
+                        from s in db.Subject_Ebook
+                        where e.sub_id == s.id
+                        select new
+                        {
+                            id = e.id,
+                            ebook_id = e.ebook_id,
+                            title = e.title,
+                            author = e.author,
+                            year = e.year,
+                            describe = e.describe,
+                            filename = e.filename,
+                            date_upload = e.date_upload,
+                            sub_id = e.sub_id,
+                            sub_name = s.name
+                        }).ToList();
+
+            return data;
+           // return db.Ebooks.ToList(); ;
         }
         // Tiểu luận
         // lấy ds môn tiểu luận
@@ -694,6 +775,13 @@ namespace LibraryOnline.Controllers.API
         {
 
             return db.Theses.OrderByDescending(x=>x.date_upload).ToList().Take(6);
+        }
+        // lấy dữ liệu test
+        [Route("api/AdminAPI/GetRole")]
+        [HttpGet]
+        public IEnumerable<Role> GetRole()
+        {
+            return db.Roles.ToList();
         }
     }
 }

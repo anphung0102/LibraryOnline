@@ -16,11 +16,26 @@ namespace LibraryOnline.Controllers.API
             public string User { get; set; }
             public string Pass { get; set; }
         }
+        // Mã hóa MK
+        public static byte[] encryptData(string data)
+        {
+            System.Security.Cryptography.MD5CryptoServiceProvider md5Hasher = new System.Security.Cryptography.MD5CryptoServiceProvider();
+            byte[] hashedBytes;
+            System.Text.UTF8Encoding encoder = new System.Text.UTF8Encoding();
+            hashedBytes = md5Hasher.ComputeHash(encoder.GetBytes(data));
+            return hashedBytes;
+        }
+        public static string md5(string data)
+        {
+            return BitConverter.ToString(encryptData(data)).Replace("-", "").ToLower();
+        }
+
         private LibraryOnlineFinalEntities db = new LibraryOnlineFinalEntities();
         [Route("api/LoginAPI/Login")]
         [HttpPost]
         public string Login(LoginInfo loginInfo)
         {
+            loginInfo.Pass = md5(loginInfo.Pass);
             using (LibraryOnlineFinalEntities db = new LibraryOnlineFinalEntities())
             {
                 var user = db.Users.Where(x => x.username == loginInfo.User && x.password == loginInfo.Pass)

@@ -14,7 +14,8 @@ namespace LibraryOnline.Models
         public string FullName { get; set; }
         public string Mssv { get; set; }
         public string Class_Id { get; set; }
-       
+        public string RoleName { get; set; } 
+
     }
     public class UserCreationResult : UserViewModel
     {

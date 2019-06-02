@@ -3,7 +3,7 @@
     }*@
 @{
     var user = Session["username"];
-    if (Session["username"] == null || Session["user_id"] == null)
+    if (Session["username"] == null || Session["user_id"] == null || Session["role_id"] == null)
     {
         Response.Redirect("~/Login/Index");
     }

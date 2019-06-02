@@ -63,10 +63,12 @@
             }
                 $('#pagination-container').pagination({
                     dataSource: function (done) {
-                        var val = '@ViewBag.Search';
+                        //var val = '@ViewBag.Search';
+                        var val= @Html.Raw(Json.Encode(ViewBag.Search));
+                        //console.log("search", yourVariable);
                         $.ajax({
                             type: 'GET',
-                            url: 'http://localhost:52385/api/SearchAPI/Search',
+                            url: '/api/SearchAPI/Search',
                             data: {search:val},
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",

@@ -18,8 +18,10 @@ namespace LibraryOnline.Models
         //public string Date_Upload { get; set; }
         public int User_Id { get; set; }
         public int Sub_Id { get; set; }
+        public string Message { get; set; }
         //public HttpPostedFileBase FileReferences { get; set; }
-    }
+        public string Sub_Name { get; set; }
+    } 
     public class EbookCreationResult : EbookViewModel
     {
         public bool IsSuccess { get; set; }

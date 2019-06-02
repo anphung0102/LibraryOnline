@@ -154,6 +154,7 @@
           <Property Name="fullname" Type="nvarchar" MaxLength="50" />
           <Property Name="mssv" Type="nvarchar" MaxLength="10" />
           <Property Name="class_id" Type="nvarchar" MaxLength="10" />
+          <Property Name="resetPasswordCode" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <Association Name="fk_EBOOKS_SUBJECTEBOOK">
           <End Role="Subject_Ebook" Type="Self.Subject_Ebook" Multiplicity="0..1" />
@@ -693,6 +694,7 @@
           <NavigationProperty Name="Role" Relationship="LibraryOnlineFinalModel.fk_USERS_ROLES" FromRole="User" ToRole="Role" />
           <NavigationProperty Name="Theses" Relationship="LibraryOnlineFinalModel.fk_THESIS_USERS" FromRole="User" ToRole="Thesis" />
           <NavigationProperty Name="Times" Relationship="LibraryOnlineFinalModel.FK_Time_Users" FromRole="User" ToRole="Time" />
+          <Property Name="resetPasswordCode" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="fk_EBOOKS_SUBJECTEBOOK">
           <End Type="LibraryOnlineFinalModel.Subject_Ebook" Role="Subject_Ebook" Multiplicity="0..1" />
@@ -984,6 +986,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="LibraryOnlineFinalModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="resetPasswordCode" ColumnName="resetPasswordCode" />
                 <ScalarProperty Name="class_id" ColumnName="class_id" />
                 <ScalarProperty Name="mssv" ColumnName="mssv" />
                 <ScalarProperty Name="fullname" ColumnName="fullname" />

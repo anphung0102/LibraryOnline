@@ -1,6 +1,10 @@
 ﻿using LibraryOnline.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.OleDb;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -186,10 +190,28 @@ namespace LibraryOnline.Controllers.API
         // lấy ds essay quyền admin
         [Route("api/ManageOfAdminAPI/GetEssayByAdmin")]
         [HttpGet]
-        public IEnumerable<Essay> GetEssayByAdmin()
+        public object GetEssayByAdmin()
         {
-
-            return db.Essays.ToList(); ;
+            var data = (from e in db.Essays
+                        from s in db.Subject_Essay
+                        where e.sub_id == s.id
+                        select new
+                        {
+                            id = e.id,
+                            essay_id = e.essay_id,
+                            title = e.title,
+                            instructor = e.instructor,
+                            executor1 = e.executor1,
+                            executor2 = e.executor2,
+                            course = e.course,
+                            describe = e.describe,
+                            filename = e.filename,
+                            date_upload = e.date_upload,
+                            sub_id = s.id,
+                            sub_name = s.name
+                        }).ToList();
+            return data;
+            // return db.Essays.ToList(); ;
         }
 
         //Tạo môn học trong Ebook
@@ -392,10 +414,24 @@ namespace LibraryOnline.Controllers.API
         // lấy ds thesis quyền admin
         [Route("api/ManageOfAdminAPI/GetUsers")]
         [HttpGet]
-        public IEnumerable<User> GetUsers()
+        public object GetUsers()
         {
+            var data = (from u in db.Users
+                        from r in db.Roles
+                        where u.role_id == r.id
+                        select new
+                        {
+                            id = u.id,
+                            username = u.username,
+                            password = u.password,
+                            role_id = r.id,
+                            fullname = u.fullname,
+                            mssv = u.mssv,
+                            class_id = u.class_id,
+                            role_name = r.name
+                        }).ToList();
 
-            return db.Users.ToList(); ;
+            return data;
         }
         //xoá User
         [Route("api/ManageOfAdminAPI/DeleteUser")]
@@ -408,6 +444,21 @@ namespace LibraryOnline.Controllers.API
 
             return "Xóa thành công";
         }
+
+        // Mã hóa MK
+        public static byte[] encryptData(string data)
+        {
+            System.Security.Cryptography.MD5CryptoServiceProvider md5Hasher = new System.Security.Cryptography.MD5CryptoServiceProvider();
+            byte[] hashedBytes;
+            System.Text.UTF8Encoding encoder = new System.Text.UTF8Encoding();
+            hashedBytes = md5Hasher.ComputeHash(encoder.GetBytes(data));
+            return hashedBytes;
+        }
+        public static string md5(string data)
+        {
+            return BitConverter.ToString(encryptData(data)).Replace("-", "").ToLower();
+        }
+
 
         [Route("api/ManageOfAdminAPI/AddUsers")]
         [HttpPost]
@@ -422,8 +473,7 @@ namespace LibraryOnline.Controllers.API
 
             int role_id = Convert.ToInt32(role);
 
-            var sub = db.Users.Where(x => x.mssv.Equals(studentid)).FirstOrDefault();//này làm gì làm lấy so sánh đồ giống cái m làm t sửa lại
-
+            var sub = db.Users.Where(x =>x.username == username).FirstOrDefault();
             if (sub != null)
             {
                 return new UserCreationResult
@@ -433,25 +483,19 @@ namespace LibraryOnline.Controllers.API
             }
             else
             {
-               
                     db.Users.Add(new User
                     {
-                        
                         username = username,
-                        password = password,
+                        password = md5(password),
                         role_id = role_id,
                         mssv = studentid,
                         fullname = name,
-                        
                         class_id = classid,
                        
                     });
                     db.SaveChanges();
-                
-
-                var loaduser = db.Users.Where(x => x.mssv.Equals(studentid)).FirstOrDefault();
-
-                //MyHub.Post(sub_ebook.id, sub_ebook.name);
+                var loaduser = db.Users.OrderByDescending(x=>x.id).FirstOrDefault();
+                var rolename = db.Roles.Where(x => x.id == loaduser.role_id).FirstOrDefault();
                 return new UserCreationResult
                 {
                     IsSuccess = true,
@@ -459,12 +503,126 @@ namespace LibraryOnline.Controllers.API
                     UserName = loaduser.username,
                     PassWord = loaduser.password,
                     Role_Id = loaduser.role_id,
+                    RoleName = rolename.name,
                     Mssv = loaduser.mssv,
                     FullName = loaduser.fullname,
                     Class_Id = loaduser.class_id
                   
                 };
             }
+        }
+
+        
+        [Route("api/ManageOfAdminAPI/UpdateUser")]
+        [HttpPost]
+        public UserCreationResult UpdateUser()
+        {
+            var username = HttpContext.Current.Request["email"];
+            var password = HttpContext.Current.Request["password"];
+            var role = HttpContext.Current.Request["role"];
+            var studentid = HttpContext.Current.Request["studentid"];
+            var name = HttpContext.Current.Request["name"];
+            var classid = HttpContext.Current.Request["classid"];
+
+            int role_id = Convert.ToInt32(role);
+
+            var user = db.Users.Where(x => x.mssv == studentid || x.username == username).FirstOrDefault();
+            if (user == null)
+            {
+                return new UserCreationResult
+                {
+                    IsSuccess = false
+                };
+            }
+            else
+            {
+                user.username = username;
+                user.password = md5(password);
+                user.role_id = role_id;
+                user.mssv = studentid;
+                user.fullname = name;
+                user.class_id = classid;
+                db.SaveChanges();
+                var loaduser = db.Users.Where(x=>x.username == username).FirstOrDefault();
+                var rolename = db.Roles.Where(x => x.id == loaduser.role_id).FirstOrDefault();
+                return new UserCreationResult
+                {
+                    IsSuccess = true,
+                    Id = loaduser.id,
+                    UserName = loaduser.username,
+                    PassWord = loaduser.password,
+                    Role_Id = loaduser.role_id,
+                    RoleName = rolename.name,
+                    Mssv = loaduser.mssv,
+                    FullName = loaduser.fullname,
+                    Class_Id = loaduser.class_id
+                };
+            }
+        }
+
+        [Route("api/ManageOfAdminAPI/DeleteUserByID")]
+        [HttpPost]
+        public string DeleteUserByID(int id)
+        {
+            var user = db.Users.Where(x => x.id == id).FirstOrDefault();
+            db.Users.Remove(user);
+            db.SaveChanges();
+            return "Xóa thành công";
+        }
+        //tạo kết nối cho SQL Server and OLEDB
+        SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=LibraryOnlineFinal;User ID=sa;Password=123");
+
+        OleDbConnection Econ;
+
+        [Route("api/ManageOfAdminAPI/ImportFile")]
+        [HttpPost]
+        public IHttpActionResult ImportFile() 
+        {
+            var httpPostedFile = HttpContext.Current.Request.Files["fileInput"];//lấy file
+            if (httpPostedFile != null)
+            {
+                string filename = Guid.NewGuid() + Path.GetExtension(httpPostedFile.FileName);
+                string filepath = "/excelfolder/" + filename;
+                httpPostedFile.SaveAs(Path.Combine(HttpContext.Current.Server.MapPath("/excelfolder"), filename));
+                InsertExceldata(filepath, filename);
+            }
+            
+            return Ok();
+        }
+
+        private void ExcelConn(string filepath)
+        {
+            string constr = string.Format(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties=""Excel 12.0 Xml;HDR=YES;""", filepath);
+            Econ = new OleDbConnection(constr);
+        }
+        private void InsertExceldata(string fileepath, string filename)
+        {
+            string fullpath = HttpContext.Current.Server.MapPath("/excelfolder/") + filename;
+            ExcelConn(fullpath);
+            string query = string.Format("Select * from [{0}]", "Sheet1$");
+            OleDbCommand Ecom = new OleDbCommand(query, Econ);
+            Econ.Open();
+            DataSet ds = new DataSet();
+            OleDbDataAdapter oda = new OleDbDataAdapter(query, Econ);
+            Econ.Close();
+            oda.Fill(ds);
+            DataTable dt = ds.Tables[0];
+
+            SqlBulkCopy objbulk = new SqlBulkCopy(con);
+
+            objbulk.DestinationTableName = "Users";
+            objbulk.ColumnMappings.Add("username", "username");
+            objbulk.ColumnMappings.Add("password", "password");
+            objbulk.ColumnMappings.Add("role_id", "role_id");
+            objbulk.ColumnMappings.Add("fullname", "fullname");
+            objbulk.ColumnMappings.Add("mssv", "mssv");
+            objbulk.ColumnMappings.Add("class_id", "class_id");
+
+            var a = objbulk;
+            
+            con.Open();
+            objbulk.WriteToServer(dt);
+            con.Close();
         }
     }
 }

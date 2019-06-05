@@ -16,10 +16,12 @@ namespace LibraryOnline.Models
         public string Describe { get; set; }
         public string FileName { get; set; }
         //public DateTime Date_Upload { get; set; }
-        public string Date_Upload { get; set; }
+        public DateTime Date_Upload { get; set; }
         public int User_Id { get; set; }
         public int Sub_Id { get; set; }
         public string Course { get; set; }
+        public string Message { get; set; }
+        public string Sub_Name { get; set; }
     }
     public class ThesisCreationResult : ThesisViewModel
     {

@@ -72,5 +72,39 @@ namespace LibraryOnline.Controllers.API
             HttpContext.Current.Session["role_id"] = "";
             return "/Login/Index";
         }
+
+        public class PassInfo
+        {
+            public string email { get; set; }
+            public string passOld { get; set; }
+            public string passNew { get; set; }
+        }
+        public class ChangePassModel
+        {
+            public bool IsSuccess { get; set; }
+            public string Message { get; set; }
+        }
+
+        [Route("api/LoginAPI/ChangePass")]
+        [HttpPost]
+        public ChangePassModel ChangePass(PassInfo model)
+        {
+            model.passOld = md5(model.passOld);
+            var user = db.Users.Where(x => x.username == model.email && x.password == model.passOld).FirstOrDefault();
+            if(user != null)
+            {
+                user.password = md5(model.passNew);
+                db.SaveChanges();
+                return new ChangePassModel {
+                    IsSuccess = true,
+                    Message = "Đổi mật khẩu thành công!"
+                };
+            }
+            return new ChangePassModel
+            {
+                IsSuccess = false,
+                Message = "Đổi mật khẩu thất bại!"
+            };
+        }
     }
 }

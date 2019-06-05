@@ -182,6 +182,7 @@ namespace LibraryOnline.Controllers.API
                                 temp.author = author;
                                 temp.describe = describe;
                                 temp.year = year;
+                                temp.sub_id = sub_id;
                                 temp.filename = httpPostedFile.FileName;
                                 //db.SaveChanges();
                                 //update table search file
@@ -189,6 +190,7 @@ namespace LibraryOnline.Controllers.API
                                 search.author = author;
                                 search.describe = describe;
                                 search.year = year;
+                                search.sub_id = sub_id;
                                 search.filename = httpPostedFile.FileName;
                                 db.SaveChanges();
                                 return new EbookCreationResult
@@ -242,6 +244,290 @@ namespace LibraryOnline.Controllers.API
             {
                 IsSuccess = false,
             };
+
+        }
+
+
+        //Edit file cho Essay
+        [Route("api/AdminAPI/EditEssayFiles")]
+        [HttpPost]
+        public EssayCreationResult EditEssayFiles()
+        {
+            string strExtexsion = "";
+            var httpPostedFile = HttpContext.Current.Request.Files["fileInput"];//lấy file
+            if (httpPostedFile != null)
+            {
+                //đường dẫn lưu file
+                var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/Upload/"), httpPostedFile.FileName);//tên file
+                strExtexsion = Path.GetExtension(httpPostedFile.FileName).Trim();//lấy đuôi file
+                //lưu file vào đường dẫn
+                httpPostedFile.SaveAs(fileSavePath);
+            }
+            var essay_id = HttpContext.Current.Request["essay_id"];
+            var title = HttpContext.Current.Request["title"];
+            var describe = HttpContext.Current.Request["describe"];
+            var instructor = HttpContext.Current.Request["instructor"];
+            var executor1 = HttpContext.Current.Request["student1"];
+            var executor2 = HttpContext.Current.Request["student2"];
+            var course = HttpContext.Current.Request["course"];
+            var userid = HttpContext.Current.Request["userid"];
+            var subid = HttpContext.Current.Request["subid"];
+            var date_upload = DateTime.Now;
+            int user_id = Convert.ToInt32(userid);
+            int sub_id = Convert.ToInt32(subid);
+
+
+            var temp = db.Essays.Where(x => x.essay_id == essay_id).FirstOrDefault();
+            var search = db.SearchFiles.Where(x => x.book_id == essay_id).FirstOrDefault();
+            var sub = db.Subject_Essay.Where(x => x.id == sub_id).FirstOrDefault();
+            if (temp != null)
+            {
+                if (httpPostedFile != null)
+                {
+                    if (strExtexsion == ".pdf")//chỉ cho up pdf
+                    {
+                        var filename = db.Essays.Where(x => x.filename == httpPostedFile.FileName).FirstOrDefault();
+                        if (filename != null)
+                        {
+                            return new EssayCreationResult
+                            {
+                                IsSuccess = false,
+                                Message = "Tên file đã bị trùng!"
+                            };
+
+                        }
+                        else
+                        {
+                            //update table essay 
+                            temp.title = title;
+                            temp.instructor = instructor;
+                            temp.executor1 = executor1;
+                            temp.executor2 = executor2;
+                            temp.course = course;
+                            temp.filename = httpPostedFile.FileName;
+                            temp.describe = describe;
+                            temp.sub_id = sub_id;
+
+                            //db.SaveChanges();
+                            //update table search file
+                            search.title = title;
+                            search.instructor = instructor;
+                            search.executor1 = executor1;
+                            search.executor2 = executor2;
+                            search.describe = describe;
+                            search.year = course;
+                            search.filename = httpPostedFile.FileName;
+                            search.sub_id = sub_id;
+                            db.SaveChanges();
+                            return new EssayCreationResult
+                            {
+                                IsSuccess = true,
+                                Id = temp.id,
+                                Essay_Id = essay_id,
+                                Title = temp.title,
+                                Describe = temp.describe,
+                                Instructor = temp.instructor,
+                                Executor1 = temp.executor1,
+                                Executor2 = temp.executor2,
+                                FileName = temp.filename,
+                                Date_Upload = temp.date_upload.Value,
+                                Course = temp.course,
+                                Sub_Id = sub.id,
+                                Sub_Name = sub.name
+                            };
+                        }
+                    }
+
+                }
+                else
+                {
+                    //update table essay 
+                    temp.title = title;
+                    temp.instructor = instructor;
+                    temp.executor1 = executor1;
+                    temp.executor2 = executor2;
+                    temp.course = course;
+                    temp.describe = describe;
+                    temp.sub_id = sub_id;
+
+                    //db.SaveChanges();
+                    //update table search file
+                    search.title = title;
+                    search.instructor = instructor;
+                    search.executor1 = executor1;
+                    search.executor2 = executor2;
+                    search.describe = describe;
+                    search.year = course;
+                    search.sub_id = sub_id;
+                    db.SaveChanges();
+
+                    return new EssayCreationResult
+                    {
+                        IsSuccess = true,
+                        Id = temp.id,
+                        Essay_Id = essay_id,
+                        Title = temp.title,
+                        Describe = temp.describe,
+                        Instructor = temp.instructor,
+                        Executor1 = temp.executor1,
+                        Executor2 = temp.executor2,
+                        FileName = temp.filename,
+                        Date_Upload = temp.date_upload.Value,
+                        Course = temp.course,
+                        Sub_Id = sub.id,
+                        Sub_Name = sub.name
+                    };
+
+                }
+            }
+
+            return new EssayCreationResult
+            {
+                IsSuccess = false,
+            };
+            // return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Lỗi!!!");
+
+        }
+
+
+        //Edit file cho Essay
+        [Route("api/AdminAPI/EditThesisFiles")]
+        [HttpPost]
+        public ThesisCreationResult EditThesisFiles()
+        {
+            string strExtexsion = "";
+            var httpPostedFile = HttpContext.Current.Request.Files["fileInput"];//lấy file
+            if (httpPostedFile != null)
+            {
+                //đường dẫn lưu file
+                var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/Upload/"), httpPostedFile.FileName);//tên file
+                strExtexsion = Path.GetExtension(httpPostedFile.FileName).Trim();//lấy đuôi file
+                //lưu file vào đường dẫn
+                httpPostedFile.SaveAs(fileSavePath);
+            }
+            var thesis_id = HttpContext.Current.Request["thesis_id"];
+            var title = HttpContext.Current.Request["title"];
+            var describe = HttpContext.Current.Request["describe"];
+            var instructor = HttpContext.Current.Request["instructor"];
+            var executor1 = HttpContext.Current.Request["student1"];
+            var executor2 = HttpContext.Current.Request["student2"];
+            var course = HttpContext.Current.Request["course"];
+            var userid = HttpContext.Current.Request["userid"];
+            var subid = HttpContext.Current.Request["subid"];
+            var date_upload = DateTime.Now;
+            int user_id = Convert.ToInt32(userid);
+            int sub_id = Convert.ToInt32(subid);
+
+
+            var temp = db.Theses.Where(x => x.thesis_id == thesis_id).FirstOrDefault();
+            var search = db.SearchFiles.Where(x => x.book_id == thesis_id).FirstOrDefault();
+            var sub = db.Subject_Thesis.Where(x => x.id == sub_id).FirstOrDefault();
+            if (temp != null)
+            {
+                if (httpPostedFile != null)
+                {
+                    if (strExtexsion == ".pdf")//chỉ cho up pdf
+                    {
+                        var filename = db.Theses.Where(x => x.filename == httpPostedFile.FileName).FirstOrDefault();
+                        if (filename != null)
+                        {
+                            return new ThesisCreationResult
+                            {
+                                IsSuccess = false,
+                                Message = "Tên file đã bị trùng!"
+                            };
+
+                        }
+                        else
+                        {
+                            //update table essay 
+                            temp.title = title;
+                            temp.instructor = instructor;
+                            temp.executor1 = executor1;
+                            temp.executor2 = executor2;
+                            temp.cource = course;
+                            temp.filename = httpPostedFile.FileName;
+                            temp.describe = describe;
+                            temp.sub_id = sub_id;
+
+                            //db.SaveChanges();
+                            //update table search file
+                            search.title = title;
+                            search.instructor = instructor;
+                            search.executor1 = executor1;
+                            search.executor2 = executor2;
+                            search.describe = describe;
+                            search.year = course;
+                            search.filename = httpPostedFile.FileName;
+                            search.sub_id = sub_id;
+                            db.SaveChanges();
+                            return new ThesisCreationResult
+                            {
+                                IsSuccess = true,
+                                Id = temp.id,
+                                Thesis_Id = thesis_id,
+                                Title = temp.title,
+                                Describe = temp.describe,
+                                Instructor = temp.instructor,
+                                Executor1 = temp.executor1,
+                                Executor2 = temp.executor2,
+                                FileName = temp.filename,
+                                Date_Upload = temp.date_upload.Value,
+                                Course = temp.cource,
+                                Sub_Id = sub.id,
+                                Sub_Name = sub.name
+                            };
+                        }
+                    }
+
+                }
+                else
+                {
+                    //update table essay 
+                    temp.title = title;
+                    temp.instructor = instructor;
+                    temp.executor1 = executor1;
+                    temp.executor2 = executor2;
+                    temp.cource = course;
+                    temp.describe = describe;
+                    temp.sub_id = sub_id;
+
+                    //db.SaveChanges();
+                    //update table search file
+                    search.title = title;
+                    search.instructor = instructor;
+                    search.executor1 = executor1;
+                    search.executor2 = executor2;
+                    search.describe = describe;
+                    search.year = course;
+                    search.sub_id = sub_id;
+                    db.SaveChanges();
+
+                    return new ThesisCreationResult
+                    {
+                        IsSuccess = true,
+                        Id = temp.id,
+                        Thesis_Id = thesis_id,
+                        Title = temp.title,
+                        Describe = temp.describe,
+                        Instructor = temp.instructor,
+                        Executor1 = temp.executor1,
+                        Executor2 = temp.executor2,
+                        FileName = temp.filename,
+                        Date_Upload = temp.date_upload.Value,
+                        Course = temp.cource,
+                        Sub_Id = sub.id,
+                        Sub_Name = sub.name
+                    };
+
+                }
+            }
+
+            return new ThesisCreationResult
+            {
+                IsSuccess = false,
+            };
+            // return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Lỗi!!!");
 
         }
         //Upload file cho Ebook 
@@ -348,7 +634,7 @@ namespace LibraryOnline.Controllers.API
                             Executor1 = loadessay.executor1,
                             Executor2 = loadessay.executor2,
                             FileName = loadessay.filename,
-                            Date_Upload = loadessay.date_upload.Value.ToString("dd/MM/yyyy"),
+                            Date_Upload = loadessay.date_upload.Value,
                             Course = loadessay.course,
                             Sub_Id = sub.id,
                             Sub_Name = sub.name
@@ -357,10 +643,14 @@ namespace LibraryOnline.Controllers.API
                     }
                 }
             }
-            return new EssayCreationResult
+            else
             {
-                IsSuccess = false
-            };
+                return new EssayCreationResult
+                {
+                    IsSuccess = false,
+                    Message ="Bạn phải chọn file pdf"
+                };
+            }
                 // return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Lỗi!!!");
                 
         }
@@ -412,7 +702,7 @@ namespace LibraryOnline.Controllers.API
         }
 
         //lấy ebook
-        [Route("api/AdminAPI/GetEbookGetEbook")]
+        [Route("api/AdminAPI/GetEbook")]
         [HttpGet]
         public IEnumerable<Ebook> GetEbook(int id)
         {
@@ -593,6 +883,7 @@ namespace LibraryOnline.Controllers.API
 
         //Upload Khóa Luận
         [Route("api/AdminAPI/UploadFilesThesis")]
+        [HttpPost]
         public ThesisCreationResult UploadFilesThesis()
         {
             string strExtexsion = "";
@@ -602,7 +893,6 @@ namespace LibraryOnline.Controllers.API
                 //đường dẫn lưu file
                 var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/Upload/"), httpPostedFile.FileName);//tên file
                 strExtexsion = Path.GetExtension(httpPostedFile.FileName).Trim();//lấy đuôi file
-
                 //lưu file vào đường dẫn
                 httpPostedFile.SaveAs(fileSavePath);
             }
@@ -610,91 +900,216 @@ namespace LibraryOnline.Controllers.API
             var title = HttpContext.Current.Request["title"];
             var describe = HttpContext.Current.Request["describe"];
             var instructor = HttpContext.Current.Request["instructor"];
-            var student1 = HttpContext.Current.Request["student1"];
-            var student2 = HttpContext.Current.Request["student2"]; 
+            var executor1 = HttpContext.Current.Request["student1"];
+            var executor2 = HttpContext.Current.Request["student2"];
             var course = HttpContext.Current.Request["course"];
             var userid = HttpContext.Current.Request["userid"];
             var subid = HttpContext.Current.Request["subid"];
             var date_upload = DateTime.Now;
             int user_id = Convert.ToInt32(userid);
             int sub_id = Convert.ToInt32(subid);
-            
+
             if (strExtexsion == ".pdf")//chỉ cho up pdf
             {
-                using (LibraryOnlineFinalEntities db = new LibraryOnlineFinalEntities())
+                var filename = db.Theses.Where(x => x.filename == httpPostedFile.FileName).FirstOrDefault();
+                if (filename != null)
                 {
-                    //Add vô bảng ebook 
-                    db.Theses.Add(
-                        new Thesis
-                        {
-                            thesis_id = "",
-                            title = title,
-                            describe = describe,
-                            instructor = instructor,
-                            executor1 = student1,
-                            executor2 = student2,
-                            filename = httpPostedFile.FileName,
-                            date_upload = date_upload,
-                            user_id = user_id,
-                            sub_id = sub_id,
-                            cource = course,
-                            countView = 0,
-                            countDowload = 0
-                        });
-                    db.SaveChanges();
-                    var book_id = db.Theses.OrderByDescending(x => x.id).Select(x => x.thesis_id).FirstOrDefault();
-                    
-                    db.SearchFiles.Add(
-                      new SearchFile
-                      {
-                          book_id = book_id,
-                          title = title,
-                          author = "",
-                          year = "",
-                          instructor = instructor,
-                          executor1 = student1,
-                          executor2 = student2,
-                          describe = describe,
-                          filename = httpPostedFile.FileName,
-                          date_upload = date_upload,
-                          user_id = user_id,
-                          sub_id = sub_id,
-                          type = "thesis"
-                      });
-                    db.SaveChanges();//lưu dât thôi cái này t chưa chạy t mới test gửi data từ  ajax qua thôi
-                    var user = db.Users.Where(x => x.id == user_id).Select(x => x.username).FirstOrDefault();
-                    var subject = db.Subject_Thesis.Where(x => x.id == sub_id).Select(x => x.name).FirstOrDefault();
-                    var fileinfo = db.Theses.OrderByDescending(x => x.id).FirstOrDefault();
-                    var date_up = date_upload.ToString("dd/MM/yyyy");
-                    MyHub.PostFileThesis(fileinfo.id, fileinfo.thesis_id, fileinfo.title, fileinfo.instructor, fileinfo.executor1,
-                        fileinfo.executor1, fileinfo.describe, fileinfo.filename, date_up, user, subject);
-                    var loadthesis = db.Theses.OrderByDescending(x => x.id).Take(1).FirstOrDefault();
-                    var thesis_id = db.Theses.Where(x => x.id == loadthesis.id).Select(x => x.thesis_id).FirstOrDefault();
-
                     return new ThesisCreationResult
                     {
-                        IsSuccess = true,
-                        Id = loadthesis.id,
-                        Thesis_Id = thesis_id,
-                        Title = loadthesis.title,
-                        Describe = loadthesis.describe,
-                        Instructor = loadthesis.instructor,
-                        Executor1 = loadthesis.executor1,
-                        Executor2 = loadthesis.executor2,
-                        FileName = loadthesis.filename,
-                        Date_Upload = loadthesis.date_upload.Value.ToString("dd/MM/yyyy"),
-                        Course = loadthesis.cource
+                        IsSuccess = false,
+                        Message = "Tên file đã bị trùng!"
                     };
-                    //return Request.CreateResponse("Thành công");
+                }
+                else
+                {
+                    using (LibraryOnlineFinalEntities db = new LibraryOnlineFinalEntities())
+                    {
+                        //Add vô bảng ebook 
+                        db.Theses.Add(
+                            new Thesis
+                            {
+                                thesis_id = "",
+                                title = title,
+                                describe = describe,
+                                instructor = instructor,
+                                executor1 = executor1,
+                                executor2 = executor2,
+                                //course = year,
+                                filename = httpPostedFile.FileName,
+                                date_upload = date_upload,
+                                user_id = user_id,
+                                sub_id = sub_id,
+                                cource = course,
+                                countView = 0,
+                                countDowload = 0
+                            });
+                        db.SaveChanges();
+                        var book_id = db.Theses.OrderByDescending(x => x.id).Select(x => x.thesis_id).FirstOrDefault();
+
+                        db.SearchFiles.Add(
+                          new SearchFile
+                          {
+                              book_id = book_id,
+                              title = title,
+                              author = "",
+                              year = "",
+                              instructor = instructor,
+                              executor1 = executor1,
+                              executor2 = executor2,
+                              describe = describe,
+                              filename = httpPostedFile.FileName,
+                              date_upload = date_upload,
+                              user_id = user_id,
+                              sub_id = sub_id,
+                              type = "thesis"
+                          });
+                        db.SaveChanges();//lưu dât thôi cái này t chưa chạy t mới test gửi data từ  ajax qua thôi
+                        var user = db.Users.Where(x => x.id == user_id).Select(x => x.username).FirstOrDefault();
+                        var subject = db.Subject_Thesis.Where(x => x.id == sub_id).Select(x => x.name).FirstOrDefault();
+                        var fileinfo = db.Theses.OrderByDescending(x => x.id).FirstOrDefault();
+                        var date_up = date_upload.ToString("MM/dd/yyyy");
+                       // MyHub.PostFileEssay(fileinfo.id, fileinfo.essay_id, fileinfo.title, fileinfo.instructor, fileinfo.executor1, fileinfo.executor2, fileinfo.describe, fileinfo.filename, date_up, user, subject);
+
+                        var loadessay = db.Theses.OrderByDescending(x => x.id).Take(1).FirstOrDefault();
+                        var essay_id = db.Theses.Where(x => x.id == loadessay.id).Select(x => x.thesis_id).FirstOrDefault();
+                        var sub = db.Subject_Thesis.Where(x => x.id == sub_id).FirstOrDefault();
+                        //MyHub.Post(sub_ebook.id, sub_ebook.name);
+                        return new ThesisCreationResult
+                        {
+                            IsSuccess = true,
+                            Id = loadessay.id,
+                            Thesis_Id = essay_id,
+                            Title = loadessay.title,
+                            Describe = loadessay.describe,
+                            Instructor = loadessay.instructor,
+                            Executor1 = loadessay.executor1,
+                            Executor2 = loadessay.executor2,
+                            FileName = loadessay.filename,
+                            Date_Upload = loadessay.date_upload.Value,
+                            Course = loadessay.cource,
+                            Sub_Id = sub.id,
+                            Sub_Name = sub.name
+                        };
+                        //return Request.CreateResponse("Thành công");
+                    }
                 }
             }
-            return new ThesisCreationResult
+            else
             {
-                IsSuccess = false,
-            };
-                // return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Lỗi!!!");
-
+                return new ThesisCreationResult
+                {
+                    IsSuccess = false,
+                    Message = "Bạn phải chọn file pdf"
+                };
             }
+            // return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Lỗi!!!");
+
+        }
+
+        //[Route("api/AdminAPI/UploadFilesThesis")]
+        //public ThesisCreationResult UploadFilesThesis()
+        //{
+        //    string strExtexsion = "";
+        //    var httpPostedFile = HttpContext.Current.Request.Files["fileInput"];//lấy file
+        //    if (httpPostedFile != null)
+        //    {
+        //        //đường dẫn lưu file
+        //        var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/Upload/"), httpPostedFile.FileName);//tên file
+        //        strExtexsion = Path.GetExtension(httpPostedFile.FileName).Trim();//lấy đuôi file
+
+        //        //lưu file vào đường dẫn
+        //        httpPostedFile.SaveAs(fileSavePath);
+        //    }
+
+        //    var title = HttpContext.Current.Request["title"];
+        //    var describe = HttpContext.Current.Request["describe"];
+        //    var instructor = HttpContext.Current.Request["instructor"];
+        //    var student1 = HttpContext.Current.Request["student1"];
+        //    var student2 = HttpContext.Current.Request["student2"]; 
+        //    var course = HttpContext.Current.Request["course"];
+        //    var userid = HttpContext.Current.Request["userid"];
+        //    var subid = HttpContext.Current.Request["subid"];
+        //    var date_upload = DateTime.Now;
+        //    int user_id = Convert.ToInt32(userid);
+        //    int sub_id = Convert.ToInt32(subid);
+            
+        //    if (strExtexsion == ".pdf")//chỉ cho up pdf
+        //    {
+        //        using (LibraryOnlineFinalEntities db = new LibraryOnlineFinalEntities())
+        //        {
+        //            //Add vô bảng ebook 
+        //            db.Theses.Add(
+        //                new Thesis
+        //                {
+        //                    thesis_id = "",
+        //                    title = title,
+        //                    describe = describe,
+        //                    instructor = instructor,
+        //                    executor1 = student1,
+        //                    executor2 = student2,
+        //                    filename = httpPostedFile.FileName,
+        //                    date_upload = date_upload,
+        //                    user_id = user_id,
+        //                    sub_id = sub_id,
+        //                    cource = course,
+        //                    countView = 0,
+        //                    countDowload = 0
+        //                });
+        //            db.SaveChanges();
+        //            var book_id = db.Theses.OrderByDescending(x => x.id).Select(x => x.thesis_id).FirstOrDefault();
+                    
+        //            db.SearchFiles.Add(
+        //              new SearchFile
+        //              {
+        //                  book_id = book_id,
+        //                  title = title,
+        //                  author = "",
+        //                  year = "",
+        //                  instructor = instructor,
+        //                  executor1 = student1,
+        //                  executor2 = student2,
+        //                  describe = describe,
+        //                  filename = httpPostedFile.FileName,
+        //                  date_upload = date_upload,
+        //                  user_id = user_id,
+        //                  sub_id = sub_id,
+        //                  type = "thesis"
+        //              });
+        //            db.SaveChanges();//lưu dât thôi cái này t chưa chạy t mới test gửi data từ  ajax qua thôi
+        //            var user = db.Users.Where(x => x.id == user_id).Select(x => x.username).FirstOrDefault();
+        //            var subject = db.Subject_Thesis.Where(x => x.id == sub_id).Select(x => x.name).FirstOrDefault();
+        //            var fileinfo = db.Theses.OrderByDescending(x => x.id).FirstOrDefault();
+        //            var date_up = date_upload.ToString("dd/MM/yyyy");
+        //            MyHub.PostFileThesis(fileinfo.id, fileinfo.thesis_id, fileinfo.title, fileinfo.instructor, fileinfo.executor1,
+        //                fileinfo.executor1, fileinfo.describe, fileinfo.filename, date_up, user, subject);
+        //            var loadthesis = db.Theses.OrderByDescending(x => x.id).Take(1).FirstOrDefault();
+        //            var thesis_id = db.Theses.Where(x => x.id == loadthesis.id).Select(x => x.thesis_id).FirstOrDefault();
+
+        //            return new ThesisCreationResult
+        //            {
+        //                IsSuccess = true,
+        //                Id = loadthesis.id,
+        //                Thesis_Id = thesis_id,
+        //                Title = loadthesis.title,
+        //                Describe = loadthesis.describe,
+        //                Instructor = loadthesis.instructor,
+        //                Executor1 = loadthesis.executor1,
+        //                Executor2 = loadthesis.executor2,
+        //                FileName = loadthesis.filename,
+        //                Date_Upload = loadthesis.date_upload.Value.ToString("dd/MM/yyyy"),
+        //                Course = loadthesis.cource
+        //            };
+        //            //return Request.CreateResponse("Thành công");
+        //        }
+        //    }
+        //    return new ThesisCreationResult
+        //    {
+        //        IsSuccess = false,
+        //    };
+        //        // return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Lỗi!!!");
+
+        //    }
+
         public class ViewAndUploadModel
         {
             public string ID { get; set; }

@@ -1,5 +1,10 @@
 ﻿@{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var user = Session["username"];
+    if (Session["username"] == null || Session["user_id"] == null || Session["role_id"].ToString() != "1")
+    {
+        Response.Redirect("~/Login/Index");
+    }
 }
 
 
@@ -10,20 +15,20 @@
 @*<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
 
-<link href="~/Content/styles/style-homepage.css" rel="stylesheet" />
-<link href="~/Content/styles/details.css" rel="stylesheet" />
-<link href="~/Content/styles/pagination.css" rel="stylesheet" />
-<link href="~/Content/bootstrap.min.css" rel="stylesheet">
-<link href="~/Content/Datatables/jquery.dataTables.min.css" rel="stylesheet" />*@
+    <link href="~/Content/styles/style-homepage.css" rel="stylesheet" />
+    <link href="~/Content/styles/details.css" rel="stylesheet" />
+    <link href="~/Content/styles/pagination.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/Datatables/jquery.dataTables.min.css" rel="stylesheet" />*@
 
-<div class="container" id="manage" >
-    <h2>Quản lý Ebook</h2>
+<div class="container" id="manage">
+    <h2>Quản lý môn học của Ebook</h2>
     <div>
-        <button id="btnAdd" type='button' class='btn btn-danger'>
-            Tạo môn
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">
+            Thêm
         </button>
-        <button id="btnEdit" type='button' class='btn btn-danger'>Sửa</button>
-        <button id="btnDel" type='button' class='btn btn-danger'>Xóa</button>
+        @*<button id="btnEdit" type='button' class='btn btn-danger'>Sửa</button>
+        <button id="btnDel" type='button' class='btn btn-danger'>Xóa</button>*@
     </div>
 
 
@@ -33,258 +38,115 @@
                 <th>ID</th>
                 <th>Mã sách</th>
                 <th>Tên môn</th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody></tbody>
     </table>
 </div>
 <!--Popup edit-->
-<div class="modal" id="EditSub">
+<div class="modal" id="myModalEdit">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Sửa môn học</h4>
-                <button type="button" id="btn_closeX" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <!-- Modal body -->
             <!-- Sửa môn học -->
             <div id="modal" class="modal-body">
-                <div class="form-group">
-                    <label for="text">Tên môn:</label>
-                    <input type="text" class="form-control" id="EditNameSub_Eb" placeholder="Tên môn" name="Name">
-                </div>
-                <div style="margin-top:20px">
-                    <button id="btnSaveEdit" type="button" class="btn btn-primary">Update</button>
-                </div>
+                <form id="formEbookEdit" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="text">Tên môn:</label>
+                        <input type="text" class="form-control" id="nameEdit" placeholder="Tên môn" name="nameEdit">
+                    </div>
+                    <div class="form-group" hidden>
+                        <label for="text">Tên môn:</label>
+                        <input type="text" class="form-control" id="idEdit" placeholder="Tên môn" name="idEdit">
+                    </div>
+                    <div class="form-group" hidden>
+                        <label for="text">Tên môn:</label>
+                        <input type="text" class="form-control" id="subebookEdit" placeholder="Tên môn" name="subebookEdit">
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button id="btnSaveEdit" type="button" class="btn btn-primary" style="width: 70px;">Lưu</button>
+                        <button type="button" class="btn btn-dark" data-dismiss="modal">Đóng</button>
+                    </div>
+                </form>
             </div>
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" id="btn_closeEdit" class="btn btn-danger btn_close" data-dismiss="modal">Đóng</button>
-            </div>
-
         </div>
     </div>
 </div>
+
 <!--Popup Add-->
-<div class="modal" id="AddSub">
+<div class="modal" id="myModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
                 <h4 class="modal-title">Tạo môn học</h4>
-                <button type="button" id="btn_closeX1" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <!-- Modal body -->
             <!-- Tạo môn học -->
             <div id="modal" class="modal-body">
-                <div class="form-group">
-                    <label for="text">Tên môn:</label>
-                    <input type="text" class="form-control" id="AddNameSub_Eb" placeholder="Tên môn" name="Name">
-                </div>
-                <div style="margin-top:20px">
-                    <button id="btnSaveAdd" type="button" class="btn btn-primary">Tạo</button>
-                </div>
-            </div>
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" id="btn_closeAdd" class="btn btn-danger btn_close" data-dismiss="modal">Đóng</button>
-            </div>
+                <form id="formEbook" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="text">Tên môn:</label>
+                        <input type="text" class="form-control" id="name" placeholder="Tên môn" name="name">
+                    </div>
 
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button id="btnSaveAdd" type="button" class="btn btn-primary" style="width: 70px;">Tạo</button>
+                        <button type="button" class="btn btn-dark" data-dismiss="modal">Đóng</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
+
 <script src="~/Scripts/jquery-3.3.1.js"></script>
-<script src="~/Scripts/bootstrap.bundle.min.js"></script>
+@*<script src="~/Scripts/bootstrap.bundle.min.js"></script>*@
 <script src="~/Content/Datatables/jquery.dataTables.min.js"></script>
 <script src="~/Scripts/jquery.signalR-2.4.0.min.js"></script>
 <!--Reference the autogenerated SignalR hub script. -->
 <script src="~/signalr/hubs"></script>
 
-<!--Xóa môn-->
-<script>
-    //hàm xóa
-    function DeleteEbook(id) {
-        var r = confirm("Bạn có chắc muốn xóa không?");
 
-        if (r == true) {
-            var data = {};
-            data.id = id;
-            $.ajax({
-                type: "POST",
-                url: "/api/EbookAPI/DeleteSubjectById",
-                data: JSON.stringify(data),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (result) {
-                    alert(result);
-                }
-            });
-        }
-    }
-
-    var index = 0;
-    var flag = false;
-    $(document).ready(function () {
-        //click vào row của datatable
-        $('#loadsubject tbody').on('click', 'tr', function () {
-            flag = true;
-            var table = $('#loadsubject').DataTable();
-            var rowCurrent = $(this);
-            console.log("index", rowCurrent);
-            index = rowCurrent[0].sectionRowIndex;
-            console.log("rowCurrent", index);
-            if ($(this).hasClass('selected')) {
-                $(this).removeClass('selected');
-            }
-            else {
-                table.$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-            }
-
-        });
-        //xóa 1 row datatable
-        $('#btnDel').click(function () {
-            var table = $('#loadsubject').DataTable();
-            console.log("aaa", table.rows({ selected: true }).data());
-            var rowData = table.rows({ selected: true }).data()[index]['id'];
-            console.log("rowData", rowData);
-            if (flag == true) {
-                DeleteEbook(rowData);
-                table.row('.selected').remove().draw(false);
-            }
-        });
-        $('body').on('click', '#btnEdit', function (e) {
-            var table = $('#loadsubject').DataTable();
-            var name = table.rows({ selected: true }).data()[index]['name'];
-            //alert(name);
-            $("input[id='EditNameSub_Eb']").val(name);
-            $("#EditSub").show();
-        });
-        $("#btnSaveEdit").click(function () {
-            var table = $('#loadsubject').DataTable();
-            var id = table.rows({ selected: true }).data()[index]['id'];
-            var name = $("input[id='EditNameSub_Eb']").val();
-            var subebookid = table.rows({ selected: true }).data()[index]['subebook_id'];
-            var data = {};
-            data.id = id;
-            data.name = name;
-            data.subebookid = subebookid;
-            $.ajax({
-                type: "POST",
-                url: "/api/EbookAPI/EditSubjectById",
-                data: JSON.stringify(data),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (result) {
-                    if (result.isSuccess) {
-                        alert("Sửa thành công.");
-                        console.log("data", data);
-                        var t = $('#loadsubject').DataTable();
-                        t.cell(index, 2).data(name).draw();
-                        $("#EditSub").hide();
-                    } else {
-                        alert("Sửa không thành công.");
-                    }
-                }
-            });
-
-        });
-       
-    });
-</script>
-<!--Tạo môn học-->
-<script>
-    //tạo môn học ebook
-    $('body').on('click', '#btnAdd', function (e) {
-        $("#AddSub").show();
-    });
-    $("#btnSaveAdd").click(function () {
-        var data = {};
-        data.name = $("input[id='AddNameSub_Eb']").val();
-        $.ajax({
-            type: "POST",
-            url: "/api/AdminAPI/CreateSubject",
-            data: JSON.stringify(data),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (result) {
-                if (result.isSuccess) {
-                    alert("Tạo môn thành công.");
-                    //add row datatable
-                    var t = $('#loadsubject').DataTable();
-                    t.row.add({
-                        "id": result.id,
-                        "subebook_id": result.subebook_Id,
-                        "name": result.name
-                    }).draw();
-                } else {
-                    alert("Tên môn đã tồn tại! Vui lòng đặt tên khác.");
-                }
-            }
-        });
-    });
-</script>
-<!--Sửa môn học-->
-<script>
-    //Sửa môn học ebook
-    //$('body').on('click', '#btnEdit', function (e) {
-    //    $("#EditSub").show();
-    //});
-    //var index = 0;
-    //var flag = false;
-    //$(document).ready(function () {
-    //    //click vào row của datatable
-    //    $('#loadsubject tbody').on('click', 'tr', function () {
-    //        flag = true;
-    //        var table = $('#loadsubject').DataTable();
-    //        var rowCurrent = $(this);
-    //        console.log("index", rowCurrent);
-    //        index = rowCurrent[0].sectionRowIndex;
-    //        console.log("rowCurrent", index);
-    //        if ($(this).hasClass('selected')) {
-    //            $(this).removeClass('selected');
-    //        }
-    //        else {
-    //            table.$('tr.selected').removeClass('selected');
-    //            $(this).addClass('selected');
-    //        }
-
-    //    });
-    //    $("#btnSaveEdit").click(function () {
-    //        var id = table.rows({ selected: true }).data()[index]['id'];
-    //        var name = table.rows({ selected: true }).data()[index]['name'];
-    //        var data = {};
-    //        data.id = id;
-    //        data.name = name;
-    //        $.ajax({
-    //            type: "POST",
-    //            url: "/api/EbookAPI/EditSubjectById",
-    //            data: JSON.stringify(data),
-    //            contentType: "application/json; charset=utf-8",
-    //            dataType: "json",
-    //            success: function (result) {
-    //                if (result.isSuccess) {
-    //                    alert("Sửa thành công.");
-    //                    //add row datatable
-    //                    var t = $('#loadsubject').DataTable();
-    //                    var newData = [id, name];
-    //                    t.row(index).data(newData).draw();
-    //                    //t.row.edit({
-    //                    //    "id": id,
-    //                    //    "name": name
-    //                    //}).draw();
-    //                } else {
-    //                    alert("Sửa không thành công.");
-    //                }
-    //            }
-    //        });
-    //    });
-    //});
-</script>
 <!--Load môn học-->
 <script>
     //load môn học ebook
     $(document).ready(function () {
+        var warnOptions = {
+            autoHideDelay: 1000,
+            showAnimation: "fadeIn",
+            hideAnimation: "fadeOut",
+            hideDuration: 700,
+            arrowShow: false,
+            className: "warn",
+        };
+        var successOptions = {
+            autoHideDelay: 1000,
+            showAnimation: "fadeIn",
+            hideAnimation: "fadeOut",
+            hideDuration: 700,
+            arrowShow: false,
+            className: "success",
+        };
+        var errorOptions = {
+            autoHideDelay: 1000,
+            showAnimation: "fadeIn",
+            hideAnimation: "fadeOut",
+            hideDuration: 700,
+            arrowShow: false,
+            className: "error",
+        };
+
+        var index = 0;
+        var flag = false;
         $.ajax({
             type: "GET",
             url: "/api/FileAPI/GetSubjectEbook",
@@ -298,36 +160,318 @@
             $('#loadsubject').DataTable({
                 data: data,
                 "columns": [
-                    { "data": "id" },
-                    { "data": "subebook_id"},
-                    { "data": "name" },
+                    { "data": "id", className: "id" },
+                    { "data": "subebook_id", className: "subebook_id" },
+                    { "data": "name", className: "name"},
+                    { "data": "edit" },
+                    { "data": "del" },
+                ],
 
-
+                "columnDefs": [{
+                    "targets": -2,
+                    "data": null,
+                    "defaultContent": "<button type='button' class='btn btn-danger btnEdit' data-toggle='modal' data-target='#myModalEdit'>Sửa</button>"
+                },
+                {
+                    "targets": -1,
+                    "data": null,
+                    "defaultContent": "<button type='button' class='btn btn-danger btnDel'>Xóa</button>"
+                }
                 ]
             });
         }
-        function clearEditSub() {
-            $("input[id='EditNameSub_Eb']").val("");
-        }
-        function clearAddSub() {
-            $("input[id='AddNameSub_Eb']").val("");
-        }
-        $("#btn_closeX").click(function () {
-            $("#EditSub").hide();
-            clearEditSub();
+        $("#btnSaveAdd").click(function () {
+            var name = $("#name").val();
+            var data = {};
+            data.name = name;
+            if (name == null || name == "") {
+                $("#name").focus();
+                $.notify("Bạn phải nhập tên môn!", warnOptions);
+                return;
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/AdminAPI/CreateSubject",
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (result) {
+                        if (result.isSuccess) {
+                            $.notify("Tạo môn thành công!", successOptions);
+                            //add row datatable
+                            var t = $('#loadsubject').DataTable();
+                            t.row.add({
+                                "id": result.id,
+                                "subebook_id": result.subebook_Id,
+                                "name": result.name
+                            }).draw();
+                            $("#formEbook")[0].reset();//reset form
+                        } else {
+                            $.notify("Tên môn đã bị trùng!", errorOptions);
+                        }
+                    }
+                });
+
+            }
+            
         });
-        $("#btn_closeEdit").click(function () {
-            $("#EditSub").hide();
-            clearEditSub();
+
+        $('#loadsubject tbody').on('click', 'tr', function () {
+            var rowCurrent = $(this);
+            console.log("index", rowCurrent);
+            index = rowCurrent[0].sectionRowIndex;
+            console.log("rowCurrent", index);
+            var id = $(this).closest("tr").find(".id").text();
+            var name = $(this).closest("tr").find(".name").text();
+            var subebook_id = $(this).closest("tr").find(".subebook_id").text();
+            $("#nameEdit").val(name);
+            $("#idEdit").val(id);
         });
-        $("#btn_closeX1").click(function () {
-            $("#AddSub").hide();
-            clearAddSub();
+
+        $('body').on('click', '#btnSaveEdit', function () {
+            var id = $("#idEdit").val();
+            var name = $("#nameEdit").val();
+            var data = {};
+            data.id = id;
+            data.name = name;
+            if (name == null || name == "") {
+                $("#nameEdit").focus();
+                $.notify("Bạn phải nhập tên môn!", warnOptions);
+                return;
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/EbookAPI/EditSubjectById",
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (result) {
+                        if (result.isSuccess) {
+                            $.notify("Cập nhật thành công!", successOptions);
+                            var t = $('#loadsubject').DataTable();
+                            t.cell(index, 2).data(result.name).draw();
+
+                        } else {
+                            $.notify("Cập nhật thất bại!", errorOptions);
+                        }
+                    }
+                });
+
+            }              
         });
-        $("#btn_closeAdd").click(function () {
-            $("#AddSub").hide();
-            clearAddSub();
+
+         //hàm xóa
+                function DeleteEbook(id) {
+                    var r = confirm("Bạn có chắc muốn xóa không?");
+
+                    if (r == true) {
+                        var data = {};
+                        data.id = id;
+                        $.ajax({
+                            type: "POST",
+                            url: "/api/EbookAPI/DeleteSubjectById",
+                            data: JSON.stringify(data),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (result) {
+                                $.notify(result, successOptions);
+                                var table = $('#loadsubject').DataTable();
+                                table.row(index).remove().draw();
+                            }
+                        });
+                    }
+                }
+        //Xóa
+        $('#loadsubject tbody').on('click', '.btnDel', function () {
+            debugger
+            var id = $(this).closest("tr").find(".id").text();
+            DeleteEbook(id);
+
         });
     });
 
+</script>
+<!--Sửa môn học-->
+<script>
+                //Sửa môn học ebook
+                //$('body').on('click', '#btnEdit', function (e) {
+                //    $("#EditSub").show();
+                //});
+                //var index = 0;
+                //var flag = false;
+                //$(document).ready(function () {
+                //    //click vào row của datatable
+                //    $('#loadsubject tbody').on('click', 'tr', function () {
+                //        flag = true;
+                //        var table = $('#loadsubject').DataTable();
+                //        var rowCurrent = $(this);
+                //        console.log("index", rowCurrent);
+                //        index = rowCurrent[0].sectionRowIndex;
+                //        console.log("rowCurrent", index);
+                //        if ($(this).hasClass('selected')) {
+                //            $(this).removeClass('selected');
+                //        }
+                //        else {
+                //            table.$('tr.selected').removeClass('selected');
+                //            $(this).addClass('selected');
+                //        }
+
+                //    });
+                //    $("#btnSaveEdit").click(function () {
+                //        var id = table.rows({ selected: true }).data()[index]['id'];
+                //        var name = table.rows({ selected: true }).data()[index]['name'];
+                //        var data = {};
+                //        data.id = id;
+                //        data.name = name;
+                //        $.ajax({
+                //            type: "POST",
+                //            url: "/api/EbookAPI/EditSubjectById",
+                //            data: JSON.stringify(data),
+                //            contentType: "application/json; charset=utf-8",
+                //            dataType: "json",
+                //            success: function (result) {
+                //                if (result.isSuccess) {
+                //                    alert("Sửa thành công.");
+                //                    //add row datatable
+                //                    var t = $('#loadsubject').DataTable();
+                //                    var newData = [id, name];
+                //                    t.row(index).data(newData).draw();
+                //                    //t.row.edit({
+                //                    //    "id": id,
+                //                    //    "name": name
+                //                    //}).draw();
+                //                } else {
+                //                    alert("Sửa không thành công.");
+                //                }
+                //            }
+                //        });
+                //    });
+                //});
+</script>
+
+<!--Xóa môn-->
+<script>
+                //hàm xóa
+                //function DeleteEbook(id) {
+                //    var r = confirm("Bạn có chắc muốn xóa không?");
+
+                //    if (r == true) {
+                //        var data = {};
+                //        data.id = id;
+                //        $.ajax({
+                //            type: "POST",
+                //            url: "/api/EbookAPI/DeleteSubjectById",
+                //            data: JSON.stringify(data),
+                //            contentType: "application/json; charset=utf-8",
+                //            dataType: "json",
+                //            success: function (result) {
+                //                alert(result);
+                //            }
+                //        });
+                //    }
+                //}
+
+                //var index = 0;
+                //var flag = false;
+                //$(document).ready(function () {
+                //    //click vào row của datatable
+                //    $('#loadsubject tbody').on('click', 'tr', function () {
+                //        flag = true;
+                //        var table = $('#loadsubject').DataTable();
+                //        var rowCurrent = $(this);
+                //        console.log("index", rowCurrent);
+                //        index = rowCurrent[0].sectionRowIndex;
+                //        console.log("rowCurrent", index);
+                //        if ($(this).hasClass('selected')) {
+                //            $(this).removeClass('selected');
+                //        }
+                //        else {
+                //            table.$('tr.selected').removeClass('selected');
+                //            $(this).addClass('selected');
+                //        }
+
+                //    });
+                //    //xóa 1 row datatable
+                //    $('#btnDel').click(function () {
+                //        var table = $('#loadsubject').DataTable();
+                //        console.log("aaa", table.rows({ selected: true }).data());
+                //        var rowData = table.rows({ selected: true }).data()[index]['id'];
+                //        console.log("rowData", rowData);
+                //        if (flag == true) {
+                //            DeleteEbook(rowData);
+                //            table.row('.selected').remove().draw(false);
+                //        }
+                //    });
+                //    $('body').on('click', '#btnEdit', function (e) {
+                //        var table = $('#loadsubject').DataTable();
+                //        var name = table.rows({ selected: true }).data()[index]['name'];
+                //        //alert(name);
+                //        $("input[id='EditNameSub_Eb']").val(name);
+                //        $("#EditSub").show();
+                //    });
+                //    $("#btnSaveEdit").click(function () {
+                //        var table = $('#loadsubject').DataTable();
+                //        var id = table.rows({ selected: true }).data()[index]['id'];
+                //        var name = $("input[id='EditNameSub_Eb']").val();
+                //        var subebookid = table.rows({ selected: true }).data()[index]['subebook_id'];
+                //        var data = {};
+                //        data.id = id;
+                //        data.name = name;
+                //        data.subebookid = subebookid;
+                //        $.ajax({
+                //            type: "POST",
+                //            url: "/api/EbookAPI/EditSubjectById",
+                //            data: JSON.stringify(data),
+                //            contentType: "application/json; charset=utf-8",
+                //            dataType: "json",
+                //            success: function (result) {
+                //                if (result.isSuccess) {
+                //                    alert("Sửa thành công.");
+                //                    console.log("data", data);
+                //                    var t = $('#loadsubject').DataTable();
+                //                    t.cell(index, 2).data(name).draw();
+                //                    $("#EditSub").hide();
+                //                } else {
+                //                    alert("Sửa không thành công.");
+                //                }
+                //            }
+                //        });
+
+                //    });
+
+                //});
+</script>
+<!--Tạo môn học-->
+<script>
+                //tạo môn học ebook
+                //$('body').on('click', '#btnAdd', function (e) {
+                //    $("#AddSub").show();
+                //});
+                //$("#btnSaveAdd").click(function () {
+                //    var data = {};
+                //    data.name = $("input[id='AddNameSub_Eb']").val();
+                //    $.ajax({
+                //        type: "POST",
+                //        url: "/api/AdminAPI/CreateSubject",
+                //        data: JSON.stringify(data),
+                //        contentType: "application/json; charset=utf-8",
+                //        dataType: "json",
+                //        success: function (result) {
+                //            if (result.isSuccess) {
+                //                alert("Tạo môn thành công.");
+                //                //add row datatable
+                //                var t = $('#loadsubject').DataTable();
+                //                t.row.add({
+                //                    "id": result.id,
+                //                    "subebook_id": result.subebook_Id,
+                //                    "name": result.name
+                //                }).draw();
+                //            } else {
+                //                alert("Tên môn đã tồn tại! Vui lòng đặt tên khác.");
+                //            }
+                //        }
+                //    });
+                //});
 </script>

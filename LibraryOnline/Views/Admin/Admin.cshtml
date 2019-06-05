@@ -18,12 +18,11 @@
         Layout = "~/Views/Shared/_LayoutStudent.cshtml";
     }
 }
-
 <!-- Page Content -->
 <div class="container" id="admin-container">
     <div class="row">
         <div class="col-lg-3">
-            <h3 class="my-4">Select Category</h3>
+            <h3 class="my-4">Danh mục</h3>
             <ul class="mainmenu">
                 <li class="mainmenu-item">
                     @* cái mainmenu-item này bao cái thẻ đó bên trong  *@
@@ -46,185 +45,185 @@
                     </ul>
                 </li>
             </ul>
-            @*<h3 class="my-4">Upload</h3>*@
             <!-- Upload EBOOK -->
             <div class="modal" id="myModal">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <!-- Modal Header -->
                         <div class="modal-header">
-                            <h4 class="modal-title">Upload Ebook</h4>
+                            <h4 class="modal-title">Thêm</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                         <!-- Form Upload Ebook -->
                         <div class="modal-body">
                             <form id="formEbook" method="post" enctype="multipart/form-data">
-                                <div class="form-group">
-                                    <label for="text">Tiêu đề:</label>
-                                    <input type="text" class="form-control" id="title" placeholder="Tiêu đề" name="title">
+                                <div class="form-row mar_bottom">
+                                    <div class="row col-md-6">
+                                        <div class="col-md-3"> <label for="text">Tiêu đề:</label></div>
+                                        <div class="col-md-9"> <input type="text" class="form-control" id="title" placeholder="Tiêu đề" name="title"></div>
+                                    </div>
+                                    <div class="row col-md-6">
+                                        <div class="col-md-3">  <label for="text">Tác giả:</label></div>
+                                        <div class="col-md-9"> <input type="text" class="form-control" id="author" placeholder="Tác giả" name="author"></div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="text">Giới thiệu:</label>
-                                    <input type="text" class="form-control" id="describe" placeholder="Giới thiêu" name="describe">
+                                <div class="form-row mar_bottom">
+                                    <div class="row col-md-6">
+                                        <div class="col-md-3"><label for="text">Năm xuất bản:</label></div>
+                                        <div class="col-md-9"><input type="number" class="form-control" id="year" placeholder="Năm xuất bản" name="year"></div>
+                                    </div>
+                                    <div class="row col-md-6">
+                                        <div class="col-md-3"><label for="text">Bộ môn:</label></div>
+                                        <div class="col-md-9"><select id="subject" class="form-control"></select></div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="text">Tác giả:</label>
-                                    <input type="text" class="form-control" id="author" placeholder="Tác giả" name="author">
-                                </div>
-                                <div class="form-group">
-                                    <label for="text">Năm xuất bản:</label>
-                                    <input type="text" class="form-control" id="year" placeholder="Năm" name="year">
-                                </div>
-                                <div class="form-group">
-                                    <label for="text">Môn học:</label>
-                                    <select id="subject" class="form-control" readonly></select>
-                                </div>
-                                <div class="form-group">
+                                <div class="form-group mar_bottom">
                                     <label for="text">Browser</label>
+
                                     <input type="file" name="Files" multiple id="fileInput" />
                                 </div>
-                                <div id="error"></div>
-                                <div style="margin-top:20px">
-                                    <button id="upload" type="submit" class="btn btn-primary">Upload</button>
+                                <div class="form-group">
+                                    <label for="text">Mô tả:</label>
+                                    <textarea type="text" class="form-control" id="describe" placeholder="Mô tả" name="describe" style="height: 150px;"></textarea>
+                                </div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button id="Save" type="button" class="btn btn-primary" style="width: 70px;">Lưu</button>
+                                    <button type="button" class="btn btn-dark" data-dismiss="modal">Đóng</button>
                                 </div>
                             </form>
                         </div>
-                        <!-- Modal footer -->
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        </div>
-
                     </div>
                 </div>
             </div>
-            <!-- Upload tiểu luận-->
+            <!-- Upload TIỂU LUẬN -->
             <div class="modal" id="modalEssay">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <!-- Modal Header -->
                         <div class="modal-header">
-                            <h4 class="modal-title">Upload</h4>
+                            <h4 class="modal-title">Thêm</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
-                        <!-- Form Upload Essay -->
+                        <!-- Form Upload Ebook -->
                         <div class="modal-body">
                             <form id="formEssay" method="post" enctype="multipart/form-data">
-                                <div class="form-group">
-                                    <label for="text">Tiêu đề:</label>
-                                    <input type="text" class="form-control" id="titleE" placeholder="Tiêu đề" name="titleE">
+                                <div class="form-row mar_bottom">
+                                    <div class="row col-md-6">
+                                        <div class="col-md-3"> <label for="text">Tiêu đề:</label></div>
+                                        <div class="col-md-9"> <input type="text" class="form-control" id="titleE" placeholder="Tiêu đề" name="titleE"></div>
+                                    </div>
+                                    <div class="row col-md-6">
+                                        <div class="col-md-3"> <label for="text">GVHD:</label></div>
+                                        <div class="col-md-9">  <input type="text" class="form-control" id="instructorE" placeholder="GVHD" name="instructorE"></div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="text">Giới thiệu:</label>
-                                    <input type="text" class="form-control" id="describeE" placeholder="Giới thiêu" name="describeE">
-
+                                <div class="form-row mar_bottom">
+                                    <div class="row col-md-6">
+                                        <div class="col-md-3"> <label for="text" style="width: 86px;">Sinh viên  1:</label></div>
+                                        <div class="col-md-9"> <input type="text" class="form-control" id="student1E" placeholder="Sinh viên 1" name="student1E"></div>
+                                    </div>
+                                    <div class="row col-md-6">
+                                        <div class="col-md-3"> <label for="text" style="width: 86px;">Sinh viên 2:</label></div>
+                                        <div class="col-md-9"> <input type="text" class="form-control" id="student2E" placeholder="Sinh viên 2" name="student2E"></div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="text">GVHD:</label>
-                                    <input type="text" class="form-control" id="instructorE" placeholder="GVHD" name="instructorE">
-
+                                <div class="form-row mar_bottom">
+                                    <div class="row col-md-6">
+                                        <div class="col-md-3"> <label for="text">Khóa:</label></div>
+                                        <div class="col-md-9"><input type="text" class="form-control" id="courseE" placeholder="Khóa" name="courseE"></div>
+                                    </div>
+                                    <div class="row col-md-6">
+                                        <div class="col-md-3"> <label for="text">Bộ môn:</label></div>
+                                        <div class="col-md-9"> <select id="SubjectEssay" class="form-control"></select></div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="text">Sinh viên  1:</label>
-                                    <input type="text" class="form-control" id="student1E" placeholder="Sinh viên 1" name="student1E">
-
-                                </div>
-                                <div class="form-group">
-                                    <label for="text">Sinh viên 2:</label>
-                                    <input type="text" class="form-control" id="student2E" placeholder="Sinh viên 2" name="student2E">
-                                 </div>
-                                <div class="form-group">
-                                    <label for="text">Khóa:</label>
-                                    <input type="text" class="form-control" id="courseE" placeholder="Năm" name="courseE">
-
-                                </div>
-                                <div class="form-group">
-                                    <label for="text">Bộ môn:</label>
-                                    <select id="subjectE" class="form-control" readonly></select>
-                                </div>
-                                <div class="form-group">
+                                <div class="form-group mar_bottom">
                                     <label for="text">Browser</label>
-
                                     <input type="file" name="Files" multiple id="fileInputE" />
                                 </div>
-
-                                <div id="error"></div>
-                                <div style="margin-top:20px">
-                                    <button id="uploadEssay" type="submit" class="btn btn-primary">Upload</button>
+                                <div class="form-group">
+                                    <label for="text">Mô tả:</label>
+                                    <textarea type="text" class="form-control" id="describeE" placeholder="Mô tả" name="describeE" style="height: 150px;"></textarea>
                                 </div>
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button id="SaveEssay" type="button" class="btn btn-primary" style="width: 70px;">Lưu</button>
+                                    <button type="button" class="btn btn-dark" data-dismiss="modal">Đóng</button>
+                                </div>
+                                @*<div style="margin-top:20px">
+                                <button id="uploadEssay" type="submit" class="btn btn-primary">Upload</button>
+                            </div>*@
                             </form>
                         </div>
-                        <!-- Modal footer -->
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        </div>
-
                     </div>
                 </div>
             </div>
             <!-- Upload khóa luận-->
             <div class="modal" id="modalThesis">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <!-- Modal Header -->
                         <div class="modal-header">
-                            <h4 class="modal-title">Upload</h4>
+                            <h4 class="modal-title">Thêm</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                         <!-- Form Upload Ebook -->
                         <div class="modal-body">
                             <form id="formThesis" method="post" enctype="multipart/form-data">
-                                <div class="form-group">
-                                    <label for="text">Tiêu đề:</label>
-                                    <input type="text" class="form-control" id="titleT" placeholder="Tiêu đề" name="titleT">
-
+                                <div class="form-row mar_bottom">
+                                    <div class="row col-md-6">
+                                        <div class="col-md-3"> <label for="text">Tiêu đề:</label></div>
+                                        <div class="col-md-9"> <input type="text" class="form-control" id="titleT" placeholder="Tiêu đề" name="titleT"></div>
+                                    </div>
+                                    <div class="row col-md-6">
+                                        <div class="col-md-3"> <label for="text">GVHD:</label></div>
+                                        <div class="col-md-9">  <input type="text" class="form-control" id="instructorT" placeholder="GVHD" name="instructorT"></div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="text">Giới thiệu:</label>
-                                    <input type="text" class="form-control" id="describeT" placeholder="Giới thiêu" name="describeT">
-
+                                <div class="form-row mar_bottom">
+                                    <div class="row col-md-6">
+                                        <div class="col-md-3"> <label for="text" style="width: 86px;">Sinh viên  1:</label></div>
+                                        <div class="col-md-9"> <input type="text" class="form-control" id="student1T" placeholder="Sinh viên 1" name="student1T"></div>
+                                    </div>
+                                    <div class="row col-md-6">
+                                        <div class="col-md-3"> <label for="text" style="width: 86px;">Sinh viên 2:</label></div>
+                                        <div class="col-md-9"> <input type="text" class="form-control" id="student2T" placeholder="Sinh viên 2" name="student2T"></div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="text">GVHD:</label>
-                                    <input type="text" class="form-control" id="instructorT" placeholder="GVHD" name="instructorT">
-
+                                <div class="form-row mar_bottom">
+                                    <div class="row col-md-6">
+                                        <div class="col-md-3"> <label for="text">Khóa:</label></div>
+                                        <div class="col-md-9"><input type="text" class="form-control" id="courseT" placeholder="Khóa" name="courseT"></div>
+                                    </div>
+                                    <div class="row col-md-6">
+                                        <div class="col-md-3"> <label for="text">Bộ môn:</label></div>
+                                        <div class="col-md-9"> <select id="SubjectThesis" class="form-control"></select></div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="text">Sinh viên  1:</label>
-                                    <input type="text" class="form-control" id="student1T" placeholder="Sinh viên 1" name="student1T">
-
-                                </div>
-                                <div class="form-group">
-                                    <label for="text">Sinh viên 2:</label>
-                                    <input type="text" class="form-control" id="student2T" placeholder="Sinh viên 2" name="student2T">
-
-                                </div>
-                                <div class="form-group">
-                                    <label for="text">Khóa:</label>
-                                    <input type="text" class="form-control" id="course" placeholder="Năm" name="courseT">
-
-                                </div>
-                                <div class="form-group">
-                                    <label for="text">Bộ môn:</label>
-                                    <select id="subjectT" class="form-control" readonly></select>
-                                </div>
-                                <div class="form-group">
+                                <div class="form-group mar_bottom">
                                     <label for="text">Browser</label>
-
                                     <input type="file" name="Files" multiple id="fileInputT" />
                                 </div>
-                                <div style="margin-top:20px">
-                                    <button id="uploadThesis" type="submit" class="btn btn-primary">Upload</button>
+                                <div class="form-group">
+                                    <label for="text">Mô tả:</label>
+                                    <textarea type="text" class="form-control" id="describeT" placeholder="Mô tả" name="describeT" style="height: 150px;"></textarea>
                                 </div>
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button id="SaveThesis" type="button" class="btn btn-primary" style="width: 70px;">Lưu</button>
+                                    <button type="button" class="btn btn-dark" data-dismiss="modal">Đóng</button>
+                                </div>
+                                @*<div style="margin-top:20px">
+                                <button id="uploadEssay" type="submit" class="btn btn-primary">Upload</button>
+                            </div>*@
                             </form>
                         </div>
-                        <!-- Modal footer -->
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        </div>
-
                     </div>
                 </div>
             </div>
+
         </div>
         <!-- /.col-lg-3 -->
         <div class="col-lg-9">
@@ -254,19 +253,20 @@
                 </a>
             </div>
             <!-- tạo các tab liên quan -->
-            <div id="navigation">
+            @*<div id="navigation">
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a id="breadcrumb-1" href="">Admin</a></li>
                     <li class="breadcrumb-item breadcrumb-item-2" style="display:none;"><a id="breadcrumb-2" href="#"></a></li>
                     <li class="breadcrumb-item breadcrumb-item-3 active" style="display:none;" id="breadcrumb-3"></li>
 
                 </ul>
-            </div><!-- navigation -->
+            </div>*@
+            <!-- navigation -->
             <section id="admin-content-section" hidden="hidden">
                 <div class="d-flex justify-content-between mb-3">
                     <h1 id="ebook" class="khoangcachduoi">Ebooks</h1>
                     <div>
-                        <button id="btn_upload" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#myModal" style="margin-top:10px;">Upload Ebook</button>
+                        <button id="btn_upload" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#myModal" style="margin-top:10px;">Thêm</button>
                         
                     </div>
 
@@ -276,7 +276,7 @@
                 <div class="d-flex justify-content-between mb-3">
                     <h1 id="essay" class="khoangcachduoi">Tiểu luận</h1>
                     <div>
-                        <button id="btn_upload1" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalEssay" style="margin-top:10px;">Upload Essay</button>
+                        <button id="btn_upload1" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalEssay" style="margin-top:10px;">Thêm</button>
                     </div>
                 </div>
                 <div class="row" id="loadEssay" data-bind="foreach: resultArr">
@@ -285,7 +285,7 @@
                 <div class="d-flex justify-content-between mb-3">
                     <h1 id="thesis" class="khoangcachduoi">Khóa luận</h1>
                     <div>
-                        <button id="btn_upload2" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalThesis" style="margin-top:10px;">Upload Essay</button>
+                        <button id="btn_upload2" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalThesis" style="margin-top:10px;">Thêm</button>
                     </div>
                 </div>
                 <div class="row" id="loadThesis" data-bind="foreach: resultArr">
@@ -295,33 +295,43 @@
                     <div id="pagination-container" class="pagination justify-content-center"></div>
                 </div>
             </section>
-
-            <!-- /.row -->
-            <!-- /.col-lg-9 -->
         </div>
-       
-        <!-- /.row -->
     </div>
-    </div>
-    <!-- /.container -->
-    <!--EBOOK-->
+ </div>
+  
+
+<!--EBOOK-->
 <script>
-    //clear form tạo file
-    function clearFormFile() {
-        $("input[class='title']").val("");
-        $("input[class='describe']").val("");
-        $("input[class='author']").val("");
-        $("input[class='year']").val("");
-        $("input[class='Files']").val("");
-    }
     //lấy môn học của ebook
     $(document).ready(function () {
-
+        var warnOptions = {
+            autoHideDelay: 1000,
+            showAnimation: "fadeIn",
+            hideAnimation: "fadeOut",
+            hideDuration: 700,
+            arrowShow: false,
+            className: "warn",
+        };
+        var successOptions = {
+            autoHideDelay: 1000,
+            showAnimation: "fadeIn",
+            hideAnimation: "fadeOut",
+            hideDuration: 700,
+            arrowShow: false,
+            className: "success",
+        };
+        var errorOptions = {
+            autoHideDelay: 1000,
+            showAnimation: "fadeIn",
+            hideAnimation: "fadeOut",
+            hideDuration: 700,
+            arrowShow: false,
+            className: "error",
+        };
         //Ẩn hiện form
         $("#btn_upload").hide();
         $("#btn_upload1").hide();
         $("#btn_upload2").hide();
-        //$("#loadEbook").hide();
         // hàm trả về html thông tin file ebooks
         function simpleTemplating(result) {
             var data = "";
@@ -354,24 +364,24 @@
                         $("#btn_upload").show();
                         $("#btn_upload1").hide();
                         $("#btn_upload2").hide();
+                        $("#ebook").show();
                         $("#essay").hide();
                         $("#thesis").hide();
+                        $("#loadEbook").show();
                         $("#loadEssay").hide();
                         $("#loadThesis").hide();
-                        $("#ebook").show();
-                        $("#loadEbook").show();
-                        $("#subject").append("<option value='" + v.id + "'>" + v.name + "</option>");subjectE
-                        //$("#subject").val(v.name);
+
+                        $("#subject").empty();
+                        $("#subject").append("<option value='" + v.id + "'>" + v.name + "</option>");
                         $("#loadEbook").empty();
                         $.ajax({
                             type: "GET",
-                            url: "/api/AdminAPI/GetEbook",
-                            data: { id: v.id },
+                            url: "/api/AdminAPI/GetEbook?id=" + v.id,
+                            //data: { id: v.id },
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             success: function (result) {
                                 console.log(result);
-
                                 var tag = $(e.currentTarget).closest('.mainmenu-item');
 
                                 var tagText = $(tag).find('.mainmenu-item-text');
@@ -393,7 +403,7 @@
                                     data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
                                     data += " </div></div></div>";
 
-                                    //$("#loadEbook").append(data);
+                                    $("#loadEbook").append(data);
                                 });
                                 $('#pagination-container').pagination({
                                     dataSource: function (done) {
@@ -421,137 +431,88 @@
                 });
             }
         });
-        //tạo môn ebook
-        $("#create_sub_ebook").click(function () {
-            var subject = {};
-            subject.name = $("#nameSujectEbook").val();
-            $.ajax({
-                type: "POST",
-                url: "/api/AdminAPI/CreateSubject",
-                data: JSON.stringify(subject),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (result) {
-                    alert(result);
-                    $("#nameSujectEbook").empty();
-                }
-            });
-
-        });
-        //xác thực form
-        $('#formEbook').validate({
-            onfocusout: false,
-            onkeyup: false,
-            onclick: false,
-            rules: {
-                title: {
-                    required: true
-                },
-                author: {
-                    required: true
-                },
-                year: {
-                    number: true,
-                    minlength: 4,
-                    maxlength: 4
-                },
-                fileInput: {
-                    required: true
-                }
-            },
-            messages: {
-                title: {
-                    required: "Bạn phải nhập tiêu đề"
-                },
-                author: {
-                    required: "Bạn phải nhập tác giả"
-                },
-                year: {
-                    number: "Năm phải là số",
-                    minlength: "Năm không được nhỏ hơn 4 ký tự",
-                    maxlength: "Năm không được lớn hơn 4 ký tự"
-                },
-                fileInput: {
-                    required: "Bạn chọn file",
-
-                }
-            },
-            submitHandler: function () {
-                //Upload dữ liệu vào Ebook
-        $("#upload").click(function () {
-            clearFormFile();
+        //Thêm
+        $("#Save").click(function () {
+            function ResetFormEbook() {
+                $("#title").val("");
+                $("#author").val("");
+                $("#year").val("");
+                $("#describe").val("");
+                $("#fileInput").val("");
+            }
+            debugger;
+            var title = $("#title").val();
+            var author = $("#author").val();
+            var data = new FormData();
             var files = $("#fileInput").get(0).files;
-            var fileData = new FormData();
-
+            var data = new FormData();
             for (var i = 0; i < files.length; i++) {
-                fileData.append("fileInput", files[i]);
+                data.append("fileInput", files[i]);
             }
-            fileData.append("title", $("#title").val());
-            fileData.append("describe", $("#describe").val());
-            fileData.append("author", $("#author").val());
-            fileData.append("year", $("#year").val());
-            fileData.append("userid", @Session["user_id"]);
-            fileData.append("subid", $("#subject option:selected").val());
-            //fileData.append("subid", $("#subject").val());
-            console.log(fileData);
-            $.ajax({
-                type: "POST",
-                url: "/api/AdminAPI/UploadFiles",
-                dataType: "json",
-                contentType: false, // Not to set any content header
-                processData: false, // Not to process data
-                data: fileData,
-                success: function (result) {
-                    if (result.isSuccess) {
-                        alert("Upload thành công.");
-                    }
-                    else {
-                        alert("Upload không thành công.");
-                    }
-                    clearFormFile();
-                }
-            });
-        });
+            data.append("title", title);
+            data.append("describe", $("#describe").val());
+            data.append("author", author);
+            data.append("year", $("#year").val());
+            data.append("userid",@Session["user_id"]);
+            data.append("subid", $("#subject option:selected").val());
+            console.log(data);
+            if (title == null || title == "") {
+                $("#title").focus();
+                $.notify("Bạn phải nhập tiêu đề!", warnOptions);
+                return;
             }
+            if (author == null || author == "") {
+                $("#author").focus();
+                $.notify("Bạn phải nhập tác giả!", warnOptions);
+                return;
+            }
+            if (files.length <= 0) {
+                $.notify("Bạn phải chọn file!", warnOptions);
+                return;
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/AdminAPI/UploadFiles",
+                    dataType: "json",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (result) {
+                        if (result.isSuccess) {
+                            ResetFormEbook();
+                            $.notify("Thêm thành công!", successOptions);
+                            console.log("aaa", result);
+                            var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+                            data += "<div class='card h-100'>";
+                            data += "<a href='#'><img class='card-img-top' src='~/Content/img/pdf.png' alt=''></a>";
+                            data += "<div class='card-body'>";
+                            data += "<h4 class='card-title'>";//
+                            data += "<a href='/Details/Details?ebook_id=" + result.ebook_id + "'" + "data-bind='text:title'>" + result.title + "</a> </h4>";
+                            data += "<h5>tác giả: " + result.author + "</h5>";
+                            data += "<p class='card-text' data-bind='text:author'></p>";
+                            data += "<div class='card-footer'></div>";
+                            data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                            data += " </div></div></div>";
+
+                            $("#loadEbook").append(data);
+                          
+                        } else {
+                            if (result.message != null) {
+                                $.notify(result.message, errorOptions);
+                            }
+                            else {
+                                $.notify("Thêm thất bại!", errorOptions);
+                            }
+                        }
+                    }
+                });
+            }
+
         });
 
-    });
-    //SIGNALR
-    $(function () {
-        $.connection.hub.logging = true;
-        var chat = $.connection.myHub;
-        //SignalR thêm môn học vào Ebook
-        chat.client.postToClient = function (id, name) {
-            $("#loadSubjectOfEbook").append("<li id='" + id + "'><a>" + name + "</a></li >");
-        };
 
-        //SignalR thêm file
-        chat.client.postFileEbookToClient = function (id, title, author, describe, filename,
-            date_upload) {
-            var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
-            data += "<div class='card h-100'>";
-            data += "<a href='#'><img class='card-img-top' src='/Content/img/PDF (2).png' alt=''></a>";
-            data += "<div class='card-body'>";
-            data += "<h4 class='card-title'>";
-            data += "<a href='#' data-bind='text:title'>" + title + "</a> </h4>";
-            data += "<h5>tác giả: " + author + "</h5>";
-            data += "<p class='card-text' data-bind='text:author'></p>";
-            data += "<div class='card-footer'></div>";
-            data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
-            data += " </div></div></div>";
-
-            $("#loadEbook").append(data);
-        };
-        $.connection.hub.start().done(function () {
-            //alert("started");
-        }).fail(function (result) {
-            alert(result);
-        });
-
-    });
- </script>
-    <!-- TIỂU LUẬN-->
-<script>
+        //Tiểu luận
         function simpleTemplating1(result) {
             var data = "";
             $.each(result, function (i, v) {
@@ -568,8 +529,7 @@
                 data += " </div></div></div>";
             });
             return data;
-    }
-    $(document).ready(function () {
+        }
         // load môn tiểu luận
         $.ajax({
             type: "GET",
@@ -592,11 +552,13 @@
                         $("#ebook").hide();
                         $("#loadEbook").hide();
                         $("#loadEssay").show();
-                        $("#subjectE").append("<option value='" + v.id + "'>" + v.name + "</option>");
-                        //$("#subjectE").val(v.name);
                         $("#loadThesis").empty();
                         $("#loadEbook").empty();
                         $("#loadEssay").empty();
+
+                        $("#SubjectEssay").empty();
+                        $("#SubjectEssay").append("<option value='" + v.id + "'>" + v.name + "</option>");
+                        
                         $.ajax({
                             type: "GET",
                             url: "/api/AdminAPI/GetEssay",
@@ -640,6 +602,301 @@
                 });
             }
         });
+         $('body').on('click', '#SaveEssay', function () {
+            var title = $("#titleE").val();
+            var instructor = $("#instructorE").val();
+            var student1 = $("#student1E").val();
+            var course = $("#courseE").val();
+            var files = $("#fileInputE").get(0).files;
+            var data = new FormData();
+
+              for (var i = 0; i < files.length; i++) {
+                  data.append("fileInput", files[i]);
+            }
+              //cái này là lấy thông tin trên text box  title là key tiltle.val() là giá trị
+            data.append("title", $("#titleE").val());
+            data.append("describe", $("#describeE").val());
+            data.append("instructor", $("#instructorE").val());
+            data.append("student1", $("#student1E").val());
+            data.append("student2", $("#student2E").val());
+            data.append("userid",@Session["user_id"]);
+            data.append("subid", $("#SubjectEssay option:selected").val());
+            data.append("course", $("#courseE").val());
+            if (title == null || title == "") {
+                $("#titleE").focus();
+                $.notify("Bạn phải nhập tiêu đề!", warnOptions);
+                return;
+            }
+            if (instructor == null || instructor == "") {
+                $("#instructorE").focus();
+                $.notify("Bạn phải nhập giáo viên hướng dẫn!", warnOptions);
+                return;
+            }
+            if (student1 == null || student1 == "") {
+                $("#student1E").focus();
+                $.notify("Bạn phải nhập sinh viên 1!", warnOptions);
+                return;
+            }
+            if (course == null || course == "") {
+                $("#courseE").focus();
+                $.notify("Bạn phải nhập khóa học!", warnOptions);
+                return;
+            }
+            if (files.length <= 0) {
+                $.notify("Bạn phải chọn file!", warnOptions);
+                return;
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/AdminAPI/UploadFileEssay",
+                    dataType: "json",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (result) {
+                        if (result.isSuccess) {
+                            $.notify("Thêm thành công!", successOptions);
+                            var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+                            data += "<div class='card h-100'>";
+                            data += "<a href='#'><img class='card-img-top' src='/Content/img/PDF (2).png' alt=''></a>";
+                            data += "<div class='card-body'>";
+                            data += "<h4 class='card-title'>";//
+                            data += "<a href='/Details/DetailsEssay?essay_id=" + v.essay_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                             data += "<h5>GVHD: " + v.instructor + "</h5>";
+                            data += "<p class='card-text' data-bind='text:author'></p>";
+                            data += "<div class='card-footer'></div>";
+                            data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                            data += " </div></div></div>";
+                            $('#loadEssay').append(data 
+                            $("#formEssay")[0].reset();//reset form
+                        } else {
+                            if (result.message != null) {
+                                $.notify(result.message, errorOptions);
+                            }
+                            else {
+                                $.notify("Thêm thất bại!", errorOptions);
+                            }
+                        }
+                    }
+                });
+
+            }
+        });
+        //Khóa luận
+        function simpleTemplating2(result) {
+            var data = "";
+            $.each(result, function (i, v) {
+                data += "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+                data += "<div class='card h-100'>";
+                data += "<a href='#'><img class='card-img-top' src='/Content/img/PDF (2).png' alt=''></a>";
+                data += "<div class='card-body'>";
+                data += "<h4 class='card-title'>";//
+                data += "<a href='/Details/DetailsThesis?thesis_id=" + v.thesis_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                data += "<h5>giáo viên hd: " + v.instructor + "</h5>";
+                data += "<p class='card-text' data-bind='text:author'></p>";
+                //data += "<div class='card-footer'></div>";
+                data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                data += " </div></div></div>";
+            });
+            return data;
+        }
+        // load môn khóaluận
+        $.ajax({
+            type: "GET",
+            url: "/api/AdminAPI/GetSubjectThesis",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                $.each(result, function (i, v) {
+                    //load các môn của ebook lên thanh danh mục bên trái
+                    $("#loadSubjectOfThesis").append("<li id='thesis_" + v.id + "'><a>" + v.name + "</a></li >");
+                    //click môn học load file
+                    $("#thesis_" + v.id).click(function (e) {
+                        //Ẩn hiện form upload file ở trang chỉ hay uplaod file trong môn học
+                        $("#btn_upload2").show();
+                        $("#btn_upload1").hide();
+                        $("#btn_upload").hide();
+                        $("#loadThesis").show();
+                        $("#essay").hide();
+                        $("#thesis").show();
+                        $("#loadThesis").show();
+                        $("#ebook").hide();
+                        $("#thesis").show();
+                        $("#essay").hide();
+                        $("#loadEbook").hide();
+                        $("#loadEssay").hide();
+                        $("#loadEssay").empty();
+                        $("#loadEbook").empty();
+                        $("#SubjectThesis").empty();
+                        $("#SubjectThesis").append("<option value='" + v.id + "'>" + v.name + "</option>");
+                       
+                        $.ajax({
+                            type: "GET",
+                            url: "/api/AdminAPI/GetThesis",
+                            data: { id: v.id },
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (result) {
+                                console.log(v);
+
+                                var tag = $(e.currentTarget).closest('.mainmenu-item');
+
+                                var tagText = $(tag).find('.mainmenu-item-text');
+                                $('.breadcrumb-item-2').css("display", "block");
+                                $('.breadcrumb-item-3').css("display", "block");
+                                $('#breadcrumb-2').text($(tagText).text());
+                                $('#breadcrumb-3').text(v.name);
+
+                                $('#pagination-container').pagination({
+                                    dataSource: function (done) {
+                                        $.ajax({
+                                            type: 'GET',
+                                            url: '/api/AdminAPI/GetThesisPaging',
+                                            data: { id: v.id },
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "json",
+                                            success: function (response) {
+                                                done(response);
+                                            }
+                                        });
+                                    },
+                                    callback: function (data, pagination) {
+                                        var html = simpleTemplating2(data);
+                                        $('#loadThesis').html(html);
+                                    }
+                                })
+                            }
+                        });
+                    });
+                });
+            }
+        });
+
+         $('body').on('click', '#SaveThesis', function () {
+            var title = $("#titleT").val();
+            var instructor = $("#instructorT").val();
+            var student1 = $("#student1T").val();
+            var course = $("#courseT").val();
+            var files = $("#fileInputT").get(0).files;
+            var data = new FormData();
+
+              for (var i = 0; i < files.length; i++) {
+                  data.append("fileInput", files[i]);
+            }
+              //cái này là lấy thông tin trên text box  title là key tiltle.val() là giá trị
+            data.append("title", $("#titleT").val());
+            data.append("describe", $("#describeT").val());
+            data.append("instructor", $("#instructorT").val());
+            data.append("student1", $("#student1T").val());
+            data.append("student2", $("#student2T").val());
+            data.append("userid",@Session["user_id"]);
+            data.append("subid", $("#SubjectThesis option:selected").val());
+            data.append("course", $("#courseT").val());
+            if (title == null || title == "") {
+                $("#titleT").focus();
+                $.notify("Bạn phải nhập tiêu đề!", warnOptions);
+                return;
+            }
+            if (instructor == null || instructor == "") {
+                $("#instructorT").focus();
+                $.notify("Bạn phải nhập giáo viên hướng dẫn!", warnOptions);
+                return;
+            }
+            if (student1 == null || student1 == "") {
+                $("#student1T").focus();
+                $.notify("Bạn phải nhập sinh viên 1!", warnOptions);
+                return;
+            }
+            if (course == null || course == "") {
+                $("#courseT").focus();
+                $.notify("Bạn phải nhập khóa học!", warnOptions);
+                return;
+            }
+            if (files.length <= 0) {
+                $.notify("Bạn phải chọn file!", warnOptions);
+                return;
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/AdminAPI/UploadFilesThesis",
+                    dataType: "json",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (result) {
+                        if (result.isSuccess) {
+                            $.notify("Thêm thành công!", successOptions);
+                            var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+                            data += "<div class='card h-100'>";
+                            data += "<a href='#'><img class='card-img-top' src='/Content/img/PDF (2).png' alt=''></a>";
+                            data += "<div class='card-body'>";
+                            data += "<h4 class='card-title'>";
+                            data += "<a href='/Details/DetailsThesis?thesis_id=" + result.thesis_id + "'" + "data-bind='text:title'>" + result.title + "</a> </h4>";
+                            data += "<h5>GVHD: " + result.instructor + "</h5>";
+                            data += "<p class='card-text' data-bind='text:author'></p>";
+                            data += "<div class='card-footer'></div>";
+                            data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                            data += " </div></div></div>";
+
+                            $("#loadThesis").append(data);
+                            $("#formThesis")[0].reset();//reset form
+                        } else {
+                            if (result.message != null) {
+                                $.notify(result.message, errorOptions);
+                            }
+                            else {
+                                $.notify("Thêm thất bại!", errorOptions);
+                            }
+                        }
+                    }
+                });
+
+            }
+        });
+
+
+ });
+    ////SIGNALR
+    //$(function () {
+    //    $.connection.hub.logging = true;
+    //    var chat = $.connection.myHub;
+    //    //SignalR thêm môn học vào Ebook
+    //    chat.client.postToClient = function (id, name) {
+    //        $("#loadSubjectOfEbook").append("<li id='" + id + "'><a>" + name + "</a></li >");
+    //    };
+
+    //    //SignalR thêm file
+    //    chat.client.postFileEbookToClient = function (id, title, author, describe, filename,
+    //        date_upload) {
+    //        var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+    //        data += "<div class='card h-100'>";
+    //        data += "<a href='#'><img class='card-img-top' src='/Content/img/PDF (2).png' alt=''></a>";
+    //        data += "<div class='card-body'>";
+    //        data += "<h4 class='card-title'>";
+    //        data += "<a href='#' data-bind='text:title'>" + title + "</a> </h4>";
+    //        data += "<h5>tác giả: " + author + "</h5>";
+    //        data += "<p class='card-text' data-bind='text:author'></p>";
+    //        data += "<div class='card-footer'></div>";
+    //        data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+    //        data += " </div></div></div>";
+
+    //        $("#loadEbook").append(data);
+    //    };
+    //    $.connection.hub.start().done(function () {
+    //        //alert("started");
+    //    }).fail(function (result) {
+    //        alert(result);
+    //    });
+
+    //});
+ </script>
+    <!-- TIỂU LUẬN-->
+<script>
+       
+    @*$(document).ready(function () {
+        
         $('#formEssay').validate({
             onfocusout: false,
             onkeyup: false,
@@ -749,101 +1006,14 @@
                 alert(result);
             });
 
-        });
+        });*@
     
     </script>
     <!-- KHÓA LUẬN-->
     <script>
-    function simpleTemplating2(result) {
-        var data = "";
-        $.each(result, function (i, v) {
-            data += "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
-            data += "<div class='card h-100'>";
-            data += "<a href='#'><img class='card-img-top' src='/Content/img/PDF (2).png' alt=''></a>";
-            data += "<div class='card-body'>";
-            data += "<h4 class='card-title'>";//
-            data += "<a href='/Details/DetailsThesis?thesis_id=" + v.thesis_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
-            data += "<h5>giáo viên hd: " + v.instructor + "</h5>";
-            data += "<p class='card-text' data-bind='text:author'></p>";
-            //data += "<div class='card-footer'></div>";
-            data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
-            data += " </div></div></div>";
-        });
-        //data += "</div>";
-        //debugger;
-        return data;
-    }
-        $(document).ready(function () {
-            // load môn khóaluận
-            $.ajax({
-                type: "GET",
-                url: "/api/AdminAPI/GetSubjectThesis",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (result) {
-                    $.each(result, function (i, v) {
-                        //load các môn của ebook lên thanh danh mục bên trái
-                        $("#loadSubjectOfThesis").append("<li id='thesis_" + v.id + "'><a>" + v.name + "</a></li >");
-                        //click môn học load file
-                        $("#thesis_" + v.id).click(function (e) {
-                            //Ẩn hiện form upload file ở trang chỉ hay uplaod file trong môn học
-                            $("#btn_upload2").show();
-                            $("#btn_upload1").hide();
-                            $("#btn_upload").hide();
-                            $("#loadThesis").show();
-                            $("#subjectT").append("<option value='" + v.id + "'>" + v.name + "</option>");
-                            $("#essay").hide();
-                            $("#thesis").show();
-                            $("#loadThesis").show();
-                            $("#ebook").hide();
-                            $("#thesis").show();
-                            $("#essay").hide();
-                            $("#loadEbook").hide();
-                            $("#loadEssay").hide();
-                            $("#loadEssay").empty();
-                            $("#loadEbook").empty();
-                            $.ajax({
-                                type: "GET",
-                                url: "/api/AdminAPI/GetThesis",
-                                data: { id: v.id },
-                                contentType: "application/json; charset=utf-8",
-                                dataType: "json",
-                                success: function (result) {
-                                    console.log(v);
-
-                                    var tag = $(e.currentTarget).closest('.mainmenu-item');
-
-                                    var tagText = $(tag).find('.mainmenu-item-text');
-                                    $('.breadcrumb-item-2').css("display", "block");
-                                    $('.breadcrumb-item-3').css("display", "block");
-                                    $('#breadcrumb-2').text($(tagText).text());
-                                    $('#breadcrumb-3').text(v.name);
-
-                                    $('#pagination-container').pagination({
-                                        dataSource: function (done) {
-                                            $.ajax({
-                                                type: 'GET',
-                                                url: '/api/AdminAPI/GetThesisPaging',
-                                                data: { id: v.id },
-                                                contentType: "application/json; charset=utf-8",
-                                                dataType: "json",
-                                                success: function (response) {
-                                                    done(response);
-                                                }
-                                            });
-                                        },
-                                        callback: function (data, pagination) {
-                                            var html = simpleTemplating2(data);
-                                            $('#loadThesis').html(html);
-                                        }
-                                    })
-                                }
-                            });
-                        });
-                    });
-                }
-            });
-
+   
+        @*$(document).ready(function () {
+           
             $('#formThesis').validate({
  
                 rules: {
@@ -955,7 +1125,7 @@
             alert(result);
         });
 
-    });
+    });*@
     </script>
 
     <!--Lấy danh sách các ebook tiểu luận khóa luận mới nhất-->

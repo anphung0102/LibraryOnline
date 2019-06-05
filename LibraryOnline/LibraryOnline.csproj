@@ -351,6 +351,7 @@
     <Content Include="Content\styles\login.css" />
     <Content Include="Content\styles\pagination.css" />
     <Content Include="Content\styles\style-homepage.css" />
+    <Content Include="Content\styles\style1.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
     <Content Include="favicon.ico" />

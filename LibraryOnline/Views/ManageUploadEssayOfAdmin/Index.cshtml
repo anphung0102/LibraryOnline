@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     var user = Session["username"];
-    if (Session["username"] == null || Session["user_id"] == null)
+    if (Session["username"] == null || Session["user_id"] == null || Session["role_id"].ToString() != "1")
     {
         Response.Redirect("~/Login/Index");
     }
@@ -25,7 +25,7 @@
     }
 </style>
 <div class="container" id="manage">
-    <h2>Quản lý Upload Essay</h2>
+    <h2>Quản lý tiểu luận</h2>
     <div>
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalEssay">
             Thêm
@@ -58,64 +58,66 @@
     </table>
 </div>
 <!--Popup edit-->
-<div class="modal" id="EssayEdit">
-    <div class="modal-dialog">
+<div class="modal" id="modalEssayEdit">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
                 <h4 class="modal-title">Cập nhật</h4>
-                <button type="button" class="close btnclose" data-dismiss="modal">&times;</button>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <!-- Form Upload Ebook -->
             <div class="modal-body">
                 <form id="formEssayEdit" method="post" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label for="text">Tiêu đề:</label>
-                        <input type="text" class="form-control" id="titleEdit" placeholder="Tiêu đề" name="titleEdit">
-
+                    <div class="form-row mar_bottom">
+                        <div class="row col-md-6">
+                            <div class="col-md-3"> <label for="text">Tiêu đề:</label></div>
+                            <div class="col-md-9"> <input type="text" class="form-control" id="titleEdit" placeholder="Tiêu đề" name="titleEdit"></div>
+                        </div>
+                        <div class="row col-md-6">
+                            <div class="col-md-3"> <label for="text">GVHD:</label></div>
+                            <div class="col-md-9">  <input type="text" class="form-control" id="instructorEdit" placeholder="GVHD" name="instructorEdit"></div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="text">Mô tả:</label>
-                        <input type="text" class="form-control" id="describeEdit" placeholder="Mô tả" name="describeEdit">
-
+                    <div class="form-row mar_bottom">
+                        <div class="row col-md-6">
+                            <div class="col-md-3"> <label for="text" style="width: 86px;">Sinh viên  1:</label></div>
+                            <div class="col-md-9"> <input type="text" class="form-control" id="student1Edit" placeholder="Sinh viên 1" name="student1Edit"></div>
+                        </div>
+                        <div class="row col-md-6">
+                            <div class="col-md-3"> <label for="text" style="width: 86px;">Sinh viên 2:</label></div>
+                            <div class="col-md-9"> <input type="text" class="form-control" id="student2Edit" placeholder="Sinh viên 2" name="student2Edit"></div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="text">GVHD:</label>
-                        <input type="text" class="form-control" id="instructorEdit" placeholder="GVHD" name="instructorEdit">
-
+                    <div class="form-row mar_bottom">
+                        <div class="row col-md-6">
+                            <div class="col-md-3"> <label for="text">Khóa:</label></div>
+                            <div class="col-md-9"><input type="text" class="form-control" id="courseEdit" placeholder="Khóa" name="courseEdit"></div>
+                        </div>
+                        <div class="row col-md-6">
+                            <div class="col-md-3"> <label for="text">Bộ môn:</label></div>
+                            <div class="col-md-9"> <select id="SubjectEssayEdit" class="form-control"></select></div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="text">Sinh viên  1:</label>
-                        <input type="text" class="form-control" id="student1Edit" placeholder="Sinh viên 1" name="student1Edit">
-
-                    </div>
-                    <div class="form-group">
-                        <label for="text">Sinh viên 2:</label>
-                        <input type="text" class="form-control" id="student2Edit" placeholder="Sinh viên 2" name="student2Edit">
-
-                    </div>
-                    <div class="form-group">
-                        <label for="text">Khóa:</label>
-                        <input type="text" class="form-control" id="courseEdit" placeholder="Khóa" name="courseEdit">
-                    </div>
-                    <div class="form-group">
-                        <label for="text">Bộ môn:</label>
-                        <select id="SubjectEssayEdit" class="form-control"></select>
-                    </div>
-                    <div class="form-group">
+                    <div class="form-group mar_bottom">
                         <label for="text">Browser</label>
                         <input type="file" name="Files" multiple id="fileInputEdit" />
                     </div>
-                    <div style="margin-top:20px">
-                        <button id="uploadEssayEdit" type="submit" class="btn btn-primary">Upload</button>
+                    <div class="form-group">
+                        <label for="text">Mô tả:</label>
+                        <textarea type="text" class="form-control" id="describeEdit" placeholder="Mô tả" name="describeEdit" style="height: 150px;"></textarea>
+                        <div class="row col-md-6" hidden>
+                            <div class="col-md-3"><label for="text">Mã sách:</label></div>
+                            <div class="col-md-9"><input type="text" class="form-control" id="essay_idEdit" placeholder="Năm xuất bản" name="essay_idEdit"></div>
+                        </div>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button id="SaveEdit" type="button" class="btn btn-primary" style="width: 70px;">Lưu</button>
+                        <button type="button" class="btn btn-dark" data-dismiss="modal">Đóng</button>
                     </div>
                 </form>
             </div>
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger btnclose" data-dismiss="modal">Close</button>
-            </div>
-
         </div>
     </div>
 </div>
@@ -190,176 +192,6 @@
 <!--Reference the autogenerated SignalR hub script. -->
 <script src="~/signalr/hubs"></script>
 
-<!--Xóa môn-->
-<script>
-    //hàm xóa
-    function DeleteEssay(id) {
-        var r = confirm("Bạn có chắc muốn xóa không?");
-
-        if (r == true) {
-            var data = {};
-            data.id = id;
-            $.ajax({
-                type: "POST",
-                url: "/api/ManageOfAdminAPI/DeleteFileUploadEssay",
-                data: JSON.stringify(data),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (result) {
-                    alert(result);
-                }
-            });
-        }
-    }
-
-    var index = 0;
-    var flag = false;
-    $(document).ready(function () {
-        //click vào row của datatable
-        $('#loadsubject tbody').on('click', 'tr', function () {
-            flag = true;
-            var table = $('#loadsubject').DataTable();
-            var rowCurrent = $(this);
-            console.log("index", rowCurrent);
-            index = rowCurrent[0].sectionRowIndex;
-            console.log("rowCurrent", index);
-            if ($(this).hasClass('selected')) {
-                $(this).removeClass('selected');
-            }
-            else {
-                table.$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-            }
-
-        });
-        //xóa 1 row datatable
-        $('#btnDel').click(function () {
-            var table = $('#loadsubject').DataTable();
-            console.log("aaa", table.rows({ selected: true }).data());
-            var rowData = table.rows({ selected: true }).data()[index]['id'];
-            console.log("rowData", rowData);
-            if (flag == true) {
-                DeleteEssay(rowData);
-                table.row('.selected').remove().draw(false);
-            }
-        });
-        $('body').on('click', '#btnEdit', function (e) {
-            var table = $('#loadsubject').DataTable();
-            var title = table.rows({ selected: true }).data()[index]['title'];
-            var instructor = table.rows({ selected: true }).data()[index]['instructor'];
-            var executor1 = table.rows({ selected: true }).data()[index]['executor1'];
-            var executor2 = table.rows({ selected: true }).data()[index]['executor2'];
-            var course = table.rows({ selected: true }).data()[index]['course'];
-            var describe = table.rows({ selected: true }).data()[index]['describe'];
-            var filename = table.rows({ selected: true }).data()[index]['filename'];
-            var sub_id = table.rows({ selected: true }).data()[index]['sub_id'];
-            $("input[id='titleEdit']").val(title);
-            $("input[id='instructorEdit']").val(instructor);
-            $("input[id='executor1Edit']").val(executor1);
-            $("input[id='executor2Edit']").val(executor2);
-            $("input[id='courseEdit']").val(course);
-            $("input[id='describeEdit']").val(describe);
-
-            $('option[value=' + sub_id + ']').attr('selected', 'selected');
-            $("#SubjectEssayEdit").prop('disabled', true);
-            $("#EssayEdit").show();
-        });
-         $(document).ready(function () {
-        $('#formEssayEdit').validate({
-            onfocusout: false,
-            onkeyup: false,
-            onclick: false,
-            rules: {
-                titleEdit: {
-                    required: true
-                },
-                instructorEdit: {
-                    required: true
-                },
-                courseEdit: {
-                    required: true
-                }
-            },
-            messages: {
-                titleEdit: {
-                    required: "Bạn phải nhập tiêu đề"
-                },
-                instructorEdit: {
-                    required: "Bạn phải nhập giáo viên hướng dẫn"
-                },
-                courseEdit: {
-                    required: "Bạn phải nhập khoá"
-                }
-            },
-            submitHandler: function () {
-        //Upload dữ liệu vào Ebook
-          $("#uploadEssayEdit").click(function () {
-
-              var files = $("#fileInputE").get(0).files;
-            var data = new FormData();
-
-              for (var i = 0; i < files.length; i++) {
-                  data.append("fileInput", files[i]);
-            }
-              //cái này là lấy thông tin trên text box  title là key tiltle.val() là giá trị
-              data.append("title", $("#titleE").val());
-              data.append("describe", $("#describeE").val());
-              data.append("instructor", $("#instructorE").val());
-              data.append("student1", $("#student1E").val());
-              data.append("student2", $("#student2E").val());
-              data.append("userid",@Session["user_id"]);
-              data.append("subid", $("#SubjectEssay option:selected").val());
-              data.append("course", $("#courseE").val());
-
-            console.log(data);
-            $.ajax({
-
-                type: "POST",
-                url: "/api/AdminAPI/UploadFileEssay",
-                dataType: "json",
-                contentType: false,
-                processData: false,
-                data: data,
-                success: function (result) {
-                    if (result.isSuccess) {
-                        alert("Upload thành công.");
-                        console.log("aaa", result);
-                        //add row datatable
-                        var t = $('#loadsubject').DataTable();
-                        t.row.add({
-                            "id": result.id,
-                            "essay_id": result.essay_Id,
-                            "title": result.title,
-                            "instructor": result.instructor,
-                            "executor1": result.executor1,
-                            "executor2": result.executor2,
-                            "course": result.course,
-                            "describe": result.describe,
-                            "filename": result.fileName,
-                            "date_upload": result.date_Upload,
-                            "sub_id": $("#SubjectEssay option:selected").val()
-                        }).draw();
-                    } else {
-                        if (result.message != null) {
-                            alert(result.message);
-                        }
-                        else {
-                            alert("Upload không thành công.");
-                        }
-                    }
-                }
-                        });
-
-                });
-
-            }
-        });
-
-    });
-
-
-    });
-</script>
 
 <!--Load môn học-->
 <script>
@@ -417,27 +249,27 @@
             $('#loadsubject').DataTable({
                 data: data,
                 "columns": [
-                    { "data": "id" },
-                    { "data": "essay_id" },
-                    { "data": "title" },
-                    { "data": "instructor" },
-                    { "data": "executor1" },
-                    { "data": "executor2" },
-                    { "data": "course" },
-                    { "data": "describe" },
-                    { "data": "filename" },
+                    { "data": "id", className:"id" },
+                    { "data": "essay_id", className: "essay_id"},
+                    { "data": "title", className: "title" },
+                    { "data": "instructor", className: "instructor" },
+                    { "data": "executor1", className: "executor1" },
+                    { "data": "executor2", className: "executor2" },
+                    { "data": "course", className: "course" },
+                    { "data": "describe", className: "describe" },
+                    { "data": "filename", className: "filename" },
                     {
                         "data": "date_upload", "render": function (data) {
 
                             var d = new Date(data);
-                            return d.toLocaleString();
+                            return d.toLocaleDateString();
                         }
                     },
                     {
-                        "data": "sub_id",
+                        "data": "sub_id", className: "sub_id"
                     },
                     {
-                        "data": "sub_name",
+                        "data": "sub_name", className: "sub_name"
                     },
                     { "data": "edit" },
                     { "data": "del" },
@@ -446,7 +278,7 @@
                 "columnDefs": [{
                     "targets": -2,
                     "data": null,
-                    "defaultContent": "<button type='button' class='btn btn-danger btnEdit' data-toggle='modal' data-target='#myModalEdit'>Sửa</button>"
+                    "defaultContent": "<button type='button' class='btn btn-danger btnEdit' data-toggle='modal' data-target='#modalEssayEdit'>Sửa</button>"
                 },
                 {
                     "targets": -1,
@@ -511,7 +343,7 @@
                     data: data,
                     success: function (result) {
                         if (result.isSuccess) {
-                            alert("Upload thành công.");
+                            $.notify("Thêm thành công!", successOptions);
                             $("#titleE").empty();
                             console.log("aaa", result);
                             //add row datatable
@@ -530,6 +362,305 @@
                                 "sub_id": result.sub_Id,
                                 "sub_name": result.sub_Name
                             }).draw();
+                            $("#formEssay")[0].reset();//reset form
+                        } else {
+                            if (result.message != null) {
+                                $.notify(result.message, errorOptions);
+                            }
+                            else {
+                                $.notify("Thêm thất bại!", errorOptions);
+                            }
+                        }
+                    }
+                });
+
+            }
+        });
+
+        $('#loadsubject tbody').on('click', 'tr', function () {
+
+            var rowCurrent = $(this);
+            console.log("index", rowCurrent);
+            index = rowCurrent[0].sectionRowIndex;
+            console.log("rowCurrent", index);
+            var essay_id = $(this).closest("tr").find(".essay_id").text();
+            var title = $(this).closest("tr").find(".title").text();
+            var instructor = $(this).closest("tr").find(".instructor").text();
+            var executor1 = $(this).closest("tr").find(".executor1").text();
+            var executor2 = $(this).closest("tr").find(".executor2").text();
+            var course = $(this).closest("tr").find(".course").text();
+            var describe = $(this).closest("tr").find(".describe").text();
+            var sub_id = $(this).closest("tr").find(".sub_id").text();
+
+            $("#titleEdit").val(title);
+            $("#instructorEdit").val(instructor);
+            $("#student1Edit").val(executor1);
+            $("#student2Edit").val(executor2);
+            $("#courseEdit").val(course);
+            $("#describeEdit").val(describe);
+            $("#SubjectEssayEdit option[value=" + sub_id + "]").prop("selected", true);
+            $("#essay_idEdit").val(essay_id);
+        });
+
+        $('body').on('click', '#SaveEdit', function () {
+            var title = $("#titleEdit").val();
+            var instructor = $("#instructorEdit").val();
+            var student1 = $("#student1Edit").val();
+            var course = $("#courseEdit").val();
+            var files = $("#fileInputEdit").get(0).files;
+            var data = new FormData();
+
+            for (var i = 0; i < files.length; i++) {
+                data.append("fileInput", files[i]);
+            }
+             data.append("essay_id", $("#essay_idEdit").val());
+             data.append("title", $("#titleEdit").val());
+             data.append("describe", $("#describeEdit").val());
+             data.append("instructor", $("#instructorEdit").val());
+             data.append("student1", $("#student1Edit").val());
+             data.append("student2", $("#student2Edit").val());
+             data.append("userid",@Session["user_id"]);
+             data.append("subid", $("#SubjectEssayEdit option:selected").val());
+             data.append("course", $("#courseEdit").val());
+            if (title == null || title == "") {
+                $("#titleEdit").focus();
+                $.notify("Bạn phải nhập tiêu đề!", warnOptions);
+                return;
+            }
+            if (instructor == null || instructor == "") {
+                $("#instructorEdit").focus();
+                $.notify("Bạn phải nhập giáo viên hướng dẫn!", warnOptions);
+                return;
+            }
+            if (student1 == null || student1 == "") {
+                $("#student1Edit").focus();
+                $.notify("Bạn phải nhập sinh viên 1!", warnOptions);
+                return;
+            }
+            if (course == null || course == "") {
+                $("#courseEdit").focus();
+                $.notify("Bạn phải nhập khóa học!", warnOptions);
+                return;
+            }
+            else {
+                $.ajax({
+
+                    type: "POST",
+                    url: "/api/AdminAPI/EditEssayFiles",
+                    dataType: "json",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (result) {
+                        if (result.isSuccess) {
+                            var d = new Date(result.date_Upload);
+                            $.notify("Cập nhật thành công!", successOptions);
+                            var t = $('#loadsubject').DataTable();
+                            t.cell(index, 2).data(result.title).draw();
+                            t.cell(index, 3).data(result.instructor).draw();
+                            t.cell(index, 4).data(result.executor1).draw();
+                            t.cell(index, 5).data(result.executor2).draw();
+                            t.cell(index, 6).data(result.course).draw();
+                            t.cell(index, 7).data(result.describe).draw();
+                            t.cell(index, 8).data(result.fileName).draw();
+                            t.cell(index, 9).data(d.toLocaleString()).draw();
+                            t.cell(index, 10).data(result.sub_Id).draw();
+                            t.cell(index, 11).data(result.sub_Name).draw();
+                            $("#fileInputEdit").val(null);
+                        } else {
+                            if (result.message != null) {
+                                $.notify(result.message, errorOptions);
+                            }
+                            else {
+                                $.notify("Cập nhật thất bại!", errorOptions);
+                            }
+                        }
+                    }
+                });
+            }
+        });
+        //hàm xóa
+        function DeleteEssay(id) {
+            var r = confirm("Bạn có chắc muốn xóa không?");
+
+            if (r == true) {
+                var data = {};
+                data.id = id;
+                $.ajax({
+                    type: "POST",
+                    url: "/api/ManageOfAdminAPI/DeleteFileUploadEssay",
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (result) {
+                        $.notify(result, successOptions);
+                        var table = $('#loadsubject').DataTable();
+                        table.row(index).remove().draw();
+                    }
+                });
+            }
+        }
+        //Xóa
+        $('#loadsubject tbody').on('click', '.btnDel', function () {
+            debugger
+            var id = $(this).closest("tr").find(".id").text();
+            DeleteEssay(id);
+
+        });
+
+
+    });
+
+</script>
+<!--Xóa môn-->
+@*<script>
+        //hàm xóa
+        function DeleteEssay(id) {
+            var r = confirm("Bạn có chắc muốn xóa không?");
+
+            if (r == true) {
+                var data = {};
+                data.id = id;
+                $.ajax({
+                    type: "POST",
+                    url: "/api/ManageOfAdminAPI/DeleteFileUploadEssay",
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (result) {
+                        alert(result);
+                    }
+                });
+            }
+        }
+
+        var index = 0;
+        var flag = false;
+        $(document).ready(function () {
+            //click vào row của datatable
+            $('#loadsubject tbody').on('click', 'tr', function () {
+                flag = true;
+                var table = $('#loadsubject').DataTable();
+                var rowCurrent = $(this);
+                console.log("index", rowCurrent);
+                index = rowCurrent[0].sectionRowIndex;
+                console.log("rowCurrent", index);
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                }
+                else {
+                    table.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+
+            });
+            //xóa 1 row datatable
+            $('#btnDel').click(function () {
+                var table = $('#loadsubject').DataTable();
+                console.log("aaa", table.rows({ selected: true }).data());
+                var rowData = table.rows({ selected: true }).data()[index]['id'];
+                console.log("rowData", rowData);
+                if (flag == true) {
+                    DeleteEssay(rowData);
+                    table.row('.selected').remove().draw(false);
+                }
+            });
+            $('body').on('click', '#btnEdit', function (e) {
+                var table = $('#loadsubject').DataTable();
+                var title = table.rows({ selected: true }).data()[index]['title'];
+                var instructor = table.rows({ selected: true }).data()[index]['instructor'];
+                var executor1 = table.rows({ selected: true }).data()[index]['executor1'];
+                var executor2 = table.rows({ selected: true }).data()[index]['executor2'];
+                var course = table.rows({ selected: true }).data()[index]['course'];
+                var describe = table.rows({ selected: true }).data()[index]['describe'];
+                var filename = table.rows({ selected: true }).data()[index]['filename'];
+                var sub_id = table.rows({ selected: true }).data()[index]['sub_id'];
+                $("input[id='titleEdit']").val(title);
+                $("input[id='instructorEdit']").val(instructor);
+                $("input[id='executor1Edit']").val(executor1);
+                $("input[id='executor2Edit']").val(executor2);
+                $("input[id='courseEdit']").val(course);
+                $("input[id='describeEdit']").val(describe);
+
+                $('option[value=' + sub_id + ']').attr('selected', 'selected');
+                $("#SubjectEssayEdit").prop('disabled', true);
+                $("#EssayEdit").show();
+            });
+             $(document).ready(function () {
+            $('#formEssayEdit').validate({
+                onfocusout: false,
+                onkeyup: false,
+                onclick: false,
+                rules: {
+                    titleEdit: {
+                        required: true
+                    },
+                    instructorEdit: {
+                        required: true
+                    },
+                    courseEdit: {
+                        required: true
+                    }
+                },
+                messages: {
+                    titleEdit: {
+                        required: "Bạn phải nhập tiêu đề"
+                    },
+                    instructorEdit: {
+                        required: "Bạn phải nhập giáo viên hướng dẫn"
+                    },
+                    courseEdit: {
+                        required: "Bạn phải nhập khoá"
+                    }
+                },
+                submitHandler: function () {
+            //Upload dữ liệu vào Ebook
+              $("#uploadEssayEdit").click(function () {
+
+                  var files = $("#fileInputE").get(0).files;
+                var data = new FormData();
+
+                  for (var i = 0; i < files.length; i++) {
+                      data.append("fileInput", files[i]);
+                }
+                  //cái này là lấy thông tin trên text box  title là key tiltle.val() là giá trị
+                  data.append("title", $("#titleE").val());
+                  data.append("describe", $("#describeE").val());
+                  data.append("instructor", $("#instructorE").val());
+                  data.append("student1", $("#student1E").val());
+                  data.append("student2", $("#student2E").val());
+                  data.append("userid",@Session["user_id"]);
+                  data.append("subid", $("#SubjectEssay option:selected").val());
+                  data.append("course", $("#courseE").val());
+
+                console.log(data);
+                $.ajax({
+
+                    type: "POST",
+                    url: "/api/AdminAPI/UploadFileEssay",
+                    dataType: "json",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (result) {
+                        if (result.isSuccess) {
+                            alert("Upload thành công.");
+                            console.log("aaa", result);
+                            //add row datatable
+                            var t = $('#loadsubject').DataTable();
+                            t.row.add({
+                                "id": result.id,
+                                "essay_id": result.essay_Id,
+                                "title": result.title,
+                                "instructor": result.instructor,
+                                "executor1": result.executor1,
+                                "executor2": result.executor2,
+                                "course": result.course,
+                                "describe": result.describe,
+                                "filename": result.fileName,
+                                "date_upload": result.date_Upload,
+                                "sub_id": $("#SubjectEssay option:selected").val()
+                            }).draw();
                         } else {
                             if (result.message != null) {
                                 alert(result.message);
@@ -539,124 +670,127 @@
                             }
                         }
                     }
-                });
+                            });
 
-            }
+                    });
+
+                }
+            });
+
         });
 
 
+        });
+    </script>*@
 
-    });
-
-</script>
 <!--Tạo môn học-->
 @*<script>
-  
-    $(document).ready(function () {
-        $('#formEssay').validate({
-            onfocusout: false,
-            onkeyup: false,
-            onclick: false,
-            rules: {
-                titleE: {
-                    required: true
+
+        $(document).ready(function () {
+            $('#formEssay').validate({
+                onfocusout: false,
+                onkeyup: false,
+                onclick: false,
+                rules: {
+                    titleE: {
+                        required: true
+                    },
+                    instructorE: {
+                        required: true
+                    },
+                    student1E: {
+                        required: true
+                    },
+                    courseE: {
+                        required: true
+                    },
+                    fileInputE: {
+                        required: true
+                    }
                 },
-                instructorE: {
-                    required: true
+                messages: {
+                    titleE: {
+                        required: "Bạn phải nhập tiêu đề"
+                    },
+                    instructorE: {
+                        required: "Bạn phải nhập giáo viên hướng dẫn"
+                    },
+                    student1E: {
+                        required: "Bạn phải nhập tên sinh viên"
+                    },
+                    courseE: {
+                        required: "Bạn phải nhập khoá"
+                    },
+                    fileInputE: {
+                        required: "Bạn chọn file",
+
+                    }
                 },
-                student1E: {
-                    required: true
-                },
-                courseE: {
-                    required: true
-                },
-                fileInputE: {
-                    required: true
+                submitHandler: function () {
+            //Upload dữ liệu vào Ebook
+              $("#uploadEssay").click(function () {
+
+                  var files = $("#fileInputE").get(0).files;
+                var data = new FormData();
+
+                  for (var i = 0; i < files.length; i++) {
+                      data.append("fileInput", files[i]);
                 }
-            },
-            messages: {
-                titleE: {
-                    required: "Bạn phải nhập tiêu đề"
-                },
-                instructorE: {
-                    required: "Bạn phải nhập giáo viên hướng dẫn"
-                },
-                student1E: {
-                    required: "Bạn phải nhập tên sinh viên"
-                },
-                courseE: {
-                    required: "Bạn phải nhập khoá"
-                },
-                fileInputE: {
-                    required: "Bạn chọn file",
+                  //cái này là lấy thông tin trên text box  title là key tiltle.val() là giá trị
+                  data.append("title", $("#titleE").val());
+                  data.append("describe", $("#describeE").val());
+                  data.append("instructor", $("#instructorE").val());
+                  data.append("student1", $("#student1E").val());
+                  data.append("student2", $("#student2E").val());
+                  data.append("userid",@Session["user_id"]);
+                  data.append("subid", $("#SubjectEssay option:selected").val());
+                  data.append("course", $("#courseE").val());
 
-                }
-            },
-            submitHandler: function () {
-        //Upload dữ liệu vào Ebook
-          $("#uploadEssay").click(function () {
+                console.log(data);
+                $.ajax({
 
-              var files = $("#fileInputE").get(0).files;
-            var data = new FormData();
-
-              for (var i = 0; i < files.length; i++) {
-                  data.append("fileInput", files[i]);
-            }
-              //cái này là lấy thông tin trên text box  title là key tiltle.val() là giá trị
-              data.append("title", $("#titleE").val());
-              data.append("describe", $("#describeE").val());
-              data.append("instructor", $("#instructorE").val());
-              data.append("student1", $("#student1E").val());
-              data.append("student2", $("#student2E").val());
-              data.append("userid",@Session["user_id"]);
-              data.append("subid", $("#SubjectEssay option:selected").val());
-              data.append("course", $("#courseE").val());
-
-            console.log(data);
-            $.ajax({
-
-                type: "POST",
-                url: "/api/AdminAPI/UploadFileEssay",
-                dataType: "json",
-                contentType: false,
-                processData: false,
-                data: data,
-                success: function (result) {
-                    if (result.isSuccess) {
-                        alert("Upload thành công.");
-                        $("#titleE").empty();
-                        console.log("aaa", result);
-                        //add row datatable
-                        var t = $('#loadsubject').DataTable();
-                        t.row.add({
-                            "id": result.id,
-                            "essay_id": result.essay_Id,
-                            "title": result.title,
-                            "instructor": result.instructor,
-                            "executor1": result.executor1,
-                            "executor2": result.executor2,
-                            "course": result.course,
-                            "describe": result.describe,
-                            "filename": result.fileName,
-                            "date_upload": result.date_Upload,
-                            "sub_id": $("#SubjectEssay option:selected").val()
-                        }).draw();
-                    } else {
-                        if (result.message != null) {
-                            alert(result.message);
-                        }
-                        else {
-                            alert("Upload không thành công.");
+                    type: "POST",
+                    url: "/api/AdminAPI/UploadFileEssay",
+                    dataType: "json",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (result) {
+                        if (result.isSuccess) {
+                            alert("Upload thành công.");
+                            $("#titleE").empty();
+                            console.log("aaa", result);
+                            //add row datatable
+                            var t = $('#loadsubject').DataTable();
+                            t.row.add({
+                                "id": result.id,
+                                "essay_id": result.essay_Id,
+                                "title": result.title,
+                                "instructor": result.instructor,
+                                "executor1": result.executor1,
+                                "executor2": result.executor2,
+                                "course": result.course,
+                                "describe": result.describe,
+                                "filename": result.fileName,
+                                "date_upload": result.date_Upload,
+                                "sub_id": $("#SubjectEssay option:selected").val()
+                            }).draw();
+                        } else {
+                            if (result.message != null) {
+                                alert(result.message);
+                            }
+                            else {
+                                alert("Upload không thành công.");
+                            }
                         }
                     }
+                            });
+
+                    });
+
                 }
-                        });
+            });
 
-                });
-
-            }
         });
 
-    });
-
-</script>*@
+    </script>*@

@@ -1,13 +1,12 @@
-﻿
-@*@{
-    var user = Session["username"];
-    if (Session["username"] == null || Session["user_id"] == null)
-    {
-        Response.Redirect("~/Login/Index");
-    }
+﻿@*@{
+        var user = Session["username"];
+        if (Session["username"] == null || Session["user_id"] == null)
+        {
+            Response.Redirect("~/Login/Index");
+        }
 
 
-}*@
+    }*@
 
 <!DOCTYPE html>
 <html lang="en">
@@ -25,8 +24,8 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <!-- Custom styles for this template -->
-
-    <link href="~/Content/styles/style-homepage.css" rel="stylesheet" />
+    @*<link href="~/Content/styles/style-homepage.css" rel="stylesheet" />*@
+    <link href="~/Content/styles/style1.css" rel="stylesheet" />
     <link href="~/Content/styles/details.css" rel="stylesheet" />
     <link href="~/Content/styles/common.css" rel="stylesheet" />
     <link href="~/Content/styles/pagination.css" rel="stylesheet" />
@@ -38,7 +37,7 @@
     @*<script src="//code.jquery.com/jquery.min.js"></script>*@
     <link href="~/Scripts/rateit.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="~/Scripts/moment.min.js"></script>
-    
+
     @*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>*@
 </head>
 
@@ -47,7 +46,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="/Admin/Admin">OnlineLibrary</a>
+            <a class="navbar-brand" href="/Admin/Admin">Thư viện Online</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -55,31 +54,33 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/Admin/Admin">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/Admin/Admin">Trang chủ <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Admin
+                            Quản lý
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <h5 class="dropdown-header">Quản lý người dùng</h5>
+                            <a class="dropdown-item" href="/ManageUser/Index">Quản lý</a>
                             <h5 class="dropdown-header">Quản lý Ebooks</h5>
-                            <a class="dropdown-item" href="http://localhost:52385/ManageSubjectEbook/Index">Quản lý bộ môn</a>
-                            <a class="dropdown-item" href="http://localhost:52385/Admin/ManageUploadEbook">Quản lý Upload</a>
+                            <a class="dropdown-item" href="/ManageSubjectEbook/Index">Quản lý bộ môn</a>
+                            <a class="dropdown-item" href="/Admin/ManageUploadEbook">Quản lý Upload</a>
                             <div class="dropdown-divider"></div>
                             <h5 class="dropdown-header">Quản lý Tiểu luận</h5>
-                            <a class="dropdown-item" href="http://localhost:52385/ManageSubEssayOfAdmin/Index">Quản lý bộ môn</a>
-                            <a class="dropdown-item" href="http://localhost:52385/ManageUploadEssayOfAdmin/Index">Quản lý Upload</a>
+                            <a class="dropdown-item" href="/ManageSubEssayOfAdmin/Index">Quản lý bộ môn</a>
+                            <a class="dropdown-item" href="/ManageUploadEssayOfAdmin/Index">Quản lý Upload</a>
                             <div class="dropdown-divider"></div>
                             <h5 class="dropdown-header">Quản lý Khóa luận</h5>
-                            <a class="dropdown-item" href="http://localhost:52385/ManageSubThesisOfAdmin/Index">Quản lý bộ môn</a>
-                            <a class="dropdown-item" href="http://localhost:52385/ManageUploadThesisOfAdmin/Index">Quản lý Upload</a>
+                            <a class="dropdown-item" href="/ManageSubThesisOfAdmin/Index">Quản lý bộ môn</a>
+                            <a class="dropdown-item" href="/ManageUploadThesisOfAdmin/Index">Quản lý Upload</a>
                         </div>
                     </li>
 
                 </ul>
                 <form class="form-inline my-2 my-lg-0 search-container" action="/Search/Index">
-                    <input class="form-control mr-sm-2 searchData" type="text" placeholder="Search" aria-label="Search" name="search" id="searchData">
-                    <button class="btn btn-outline-success my-2 my-sm-0 search" type="submit" id="search">Search</button>
+                    <input class="form-control mr-sm-2 searchData" type="text" placeholder="Tìm kiếm" aria-label="Search" name="search" id="searchData">
+                    <button class="btn btn-outline-success my-2 my-sm-0 search" type="submit" id="search">Tìm kiếm</button>
                 </form>
                 <ul class="navbar-nav mr-sm-0">
                     <li class="nav-item dropdown">
@@ -90,11 +91,15 @@
                             <div class="dropdown-item">
                                 <h5>Hi @Session["fullname"]</h5>
                                 <div id="fullname" hidden>@Session["fullname"]</div>
-                                <small>Tài khoản: <span>@Session["username"]</span></small>
+                                <small>Tài khoản: <span id="username">@Session["username"]</span></small>
                             </div>
                             <lable hidden id="userid">@Session["user_id"]</lable>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" id="changePass">Đổi mật khẩu</a>
+                            @*<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">
+                                    Đổi mật khẩu
+                                </button>*@
+                            <a class="dropdown-item" data-toggle="modal" data-target="#changPass">Đổi mật khẩu</a>
+                            @*<a class="dropdown-item" id="changePass">Đổi mật khẩu</a>*@
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" id="logout">Đăng xuất</a>
                             <script>
@@ -118,6 +123,39 @@
             </div>
         </div>
     </nav>
+
+    <div class="modal" id="changPass">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Thay đổi mật khẩu</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Tạo môn học -->
+                <div id="modal" class="modal-body">
+                    <form id="formEbook" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="text">Mật khẩu cũ:</label>
+                            <input type="password" class="form-control" id="passOld" placeholder="Mật khẩu cũ" name="passOld">
+                        </div>
+                        <div class="form-group">
+                            <label for="text">Mật khẩu mới:</label>
+                            <input type="password" class="form-control" id="passNew" placeholder="Mật khẩu mới" name="passNew">
+                        </div>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button id="btnSave" type="button" class="btn btn-primary" style="width: 70px;">Lưu</button>
+                            <button type="button" class="btn btn-dark" data-dismiss="modal">Đóng</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
     <!-- Page Content -->
     @RenderBody()
 
@@ -125,7 +163,7 @@
     <!-- Footer -->
     <footer class="py-5 bg-dark">
         <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; Library Online 2019</p>
+            <p class="m-0 text-center text-white">Copyright &copy; Thư viện Online 2019</p>
         </div>
 
         <!-- /.container -->
@@ -149,6 +187,72 @@
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/notify.js"></script>
     <script src="~/Scripts/notify.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var warnOptions = {
+                autoHideDelay: 1000,
+                showAnimation: "fadeIn",
+                hideAnimation: "fadeOut",
+                hideDuration: 700,
+                arrowShow: false,
+                className: "warn",
+            };
+            var successOptions = {
+                autoHideDelay: 1000,
+                showAnimation: "fadeIn",
+                hideAnimation: "fadeOut",
+                hideDuration: 700,
+                arrowShow: false,
+                className: "success",
+            };
+            var errorOptions = {
+                autoHideDelay: 1000,
+                showAnimation: "fadeIn",
+                hideAnimation: "fadeOut",
+                hideDuration: 700,
+                arrowShow: false,
+                className: "error",
+            };
+
+            $("#btnSave").click(function () {
+                debugger
+                var model = {};
+                model.email = $("#username").html();
+                model.passOld = $("#passOld").val();
+                model.passNew = $("#passNew").val();
+                if ($("#passOld").val() == "" || $("#passOld").val() == null) {
+                    $("#passOld").focus();
+                    $.notify("Bạn phải nhập mật khẩu cũ!", warnOptions);
+                    return;
+                }
+                if ($("#passNew").val() == "" || $("#passNew").val() == null) {
+                    $("#passNew").focus();
+                    $.notify("Bạn phải nhập mật khẩu mới!", warnOptions);
+                    return;
+                }
+                else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/api/LoginAPI/ChangePass',
+                        data: JSON.stringify(model),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+
+                        success: function (result) {
+                            if (result.isSuccess) {
+                                $.notify(result.message, successOptions);
+                                window.location.href = "/Login/Index";
+                            } else {
+                                $.notify(result.message, errorOptions);
+                            }
+                        }
+                    });
+                }
+
+            });
+        });
+    </script>
+
 </body>
 
 </html>

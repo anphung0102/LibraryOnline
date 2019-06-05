@@ -16,13 +16,14 @@
     @*<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>*@
     @*<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>*@
     <script src="~/Scripts/common/jquery.blockUI.js"></script>
+
 </head>
 
 
 
-<body>
+<body style="background-color:antiquewhite">
     <div class="container">
-        
+
         <form id="formLogin" class="form-signin" method="post" enctype="multipart/form-data">
             @*<h2 align="center">Login</h2>*@
             <div align="center">
@@ -30,7 +31,7 @@
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="email" class="form-control" id="email" placeholder="Email" name="email">
+                <input type="text" class="form-control" id="email" placeholder="Email" name="email">
 
             </div>
             <div class="form-group">
@@ -38,11 +39,8 @@
                 <input type="password" class="form-control" id="pwd" placeholder="Mật khẩu" name="pwd">
 
             </div>
-            <div id="error"></div>
-            @Html.ValidationSummary()
-
             <div style="margin-top:20px">
-                <button id="btnlogin" type="submit" class="btn btn-primary">Login</button>
+                <button id="btnlogin" type="button" class="btn btn-primary">Đăng nhập</button>
             </div>
 
             <!--Quên mật khẩu-->
@@ -52,113 +50,178 @@
         </form>
 
         @* <form class="form-signin" id="formLogin" method="post" enctype="multipart/form-data">
-            <div align="center">
-                <img src="~/Content/img/logo-login.png" /> <br />
-            </div>
-            <br />
-            <div class="form-group">
-                <label for="email" style="color: gray">User name</label></br>
-                <input type="email" name="email" id="email" class="form-control" required><br />
-                <label for="email" style="color: gray">User name</label><br />
-                <input type="email" name="email" id="email" class="form-control" placeholder="Enter email" required><br />
-                <label for="pwd" style="color: gray">Password:</label> </br>
-                <input type="password" name="pswd" class="form-control" id="pwd" required>
-                <label for="pwd" style="color: gray">Password:</label> <br />
-                <input type="password" name="pswd" class="form-control" id="pwd"placeholder="Enter email" required>
-            </div>
-            <div id="error"></div>
-            <div style="margin-top:20px">
-                <button id="login" type="submit" class="btn btn-primary">Login</button>
-            </div>
-        </form>*@
+                <div align="center">
+                    <img src="~/Content/img/logo-login.png" /> <br />
+                </div>
+                <br />
+                <div class="form-group">
+                    <label for="email" style="color: gray">User name</label></br>
+                    <input type="email" name="email" id="email" class="form-control" required><br />
+                    <label for="email" style="color: gray">User name</label><br />
+                    <input type="email" name="email" id="email" class="form-control" placeholder="Enter email" required><br />
+                    <label for="pwd" style="color: gray">Password:</label> </br>
+                    <input type="password" name="pswd" class="form-control" id="pwd" required>
+                    <label for="pwd" style="color: gray">Password:</label> <br />
+                    <input type="password" name="pswd" class="form-control" id="pwd"placeholder="Enter email" required>
+                </div>
+                <div id="error"></div>
+                <div style="margin-top:20px">
+                    <button id="login" type="submit" class="btn btn-primary">Login</button>
+                </div>
+            </form>*@
     </div>
 
 </body>
 </html>
+<script src="~/Scripts/notify.js"></script>
+<script src="~/Scripts/notify.min.js"></script>
 <script>
     $(document).ready(function () {
-        //Khi bàn phím được nhấn và thả ra thì sẽ chạy phương thức này
-        $('#formLogin').validate({
-            onfocusout: false,
-            onkeyup: false,
-            onclick: false,
-            rules: {
-                email: {
-                    email: true,
-                    required: true
-                },
-                pwd: {
-                    required: true
-                }
-            },
-            messages: {
-                email: {
-                    email: "Email không hợp lệ",
-                    required: "Bạn phải nhập username"
-                },
-                pwd: {
-                    required: "Bạn phải nhập password"
-                }
-            },
-            submitHandler: function (form) {
+        var warnOptions = {
+            autoHideDelay: 1000,
+            showAnimation: "fadeIn",
+            hideAnimation: "fadeOut",
+            hideDuration: 700,
+            arrowShow: false,
+            className: "warn",
+        };
+        var successOptions = {
+            autoHideDelay: 1000,
+            showAnimation: "fadeIn",
+            hideAnimation: "fadeOut",
+            hideDuration: 700,
+            arrowShow: false,
+            className: "success",
+        };
+        var errorOptions = {
+            autoHideDelay: 1000,
+            showAnimation: "fadeIn",
+            hideAnimation: "fadeOut",
+            hideDuration: 700,
+            arrowShow: false,
+            className: "error",
+        };
+        
+        $('body').on('click', '#btnlogin', function () {
+            debugger
+            var email = $("#email").val();
+            var pass = $("#pwd").val();
+            if (email == null || email == "") {
+                $("#email").focus();
+                $.notify("Bạn phải nhập email!", warnOptions);
+                return;
+            }
+            if (pass == null || pass == "") {
+                $("#pass").focus();
+                $.notify("Bạn phải nhập mật khẩu!", warnOptions);
+                return;
+            }
+            else {
                 var loginInfo = {};
-                loginInfo.User = $("#email").val(); //get từ textbox
-                loginInfo.Pass = $("#pwd").val(); //get từ text boxt
-                $.ajax({
-                    type: "POST",
-                    url: "/api/LoginAPI/Login", 
-                    data: JSON.stringify(loginInfo),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (result) {
-                        if (result != "")
-                            window.location.href = result;
-                        else {
-                            $("#error").empty();
-                            $("#error").append(" <b>Tài khoản hoặc mật khẩu không đúng!</b>.");
+                    loginInfo.User = $("#email").val(); //get từ textbox
+                    loginInfo.Pass = $("#pwd").val(); //get từ text boxt
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/LoginAPI/Login",
+                        data: JSON.stringify(loginInfo),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (result) {
+                            if (result != "")
+                                window.location.href = result;
+                            else {
+                                $.notify("Tài khoản hoặc mật khẩu không đúng!", errorOptions);
+                            }
                         }
-                    }
-                });
-                //code in here
-                //$("#btnlogin").submit(function () {
-                //    debugger;
-                //    //var form = $('#formLogin')[0]; 
-                //    //var formData = new FormData(form);
-                //    //console.log(formData);
-                //    //var data = $('form#formLogin').serialize();
-                    
-                //});
+                    });
             }
         });
+
     });
+
+  
 </script>
 <script>
-    $(document).ready(function () {
-       
-    });
-  
-    //$("#btnlogin").click(function () {
+        //$(document).ready(function () {
+        //    //Khi bàn phím được nhấn và thả ra thì sẽ chạy phương thức này
+        //    $('#formLogin').validate({
+        //        onfocusout: false,
+        //        onkeyup: false,
+        //        onclick: false,
+        //        rules: {
+        //            email: {
+        //                email: true,
+        //                required: true
+        //            },
+        //            pwd: {
+        //                required: true
+        //            }
+        //        },
+        //        messages: {
+        //            email: {
+        //                email: "Email không hợp lệ",
+        //                required: "Bạn phải nhập username"
+        //            },
+        //            pwd: {
+        //                required: "Bạn phải nhập password"
+        //            }
+        //        },
+        //        submitHandler: function (form) {
+        //            var loginInfo = {};
+        //            loginInfo.User = $("#email").val(); //get từ textbox
+        //            loginInfo.Pass = $("#pwd").val(); //get từ text boxt
+        //            $.ajax({
+        //                type: "POST",
+        //                url: "/api/LoginAPI/Login",
+        //                data: JSON.stringify(loginInfo),
+        //                contentType: "application/json; charset=utf-8",
+        //                dataType: "json",
+        //                success: function (result) {
+        //                    if (result != "")
+        //                        window.location.href = result;
+        //                    else {
+        //                        $("#error").empty();
+        //                        $("#error").append(" <b>Tài khoản hoặc mật khẩu không đúng!</b>.");
+        //                    }
+        //                }
+        //            });
+        //            //code in here
+        //            //$("#btnlogin").submit(function () {
+        //            //    debugger;
+        //            //    //var form = $('#formLogin')[0];
+        //            //    //var formData = new FormData(form);
+        //            //    //console.log(formData);
+        //            //    //var data = $('form#formLogin').serialize();
 
-    //    var loginInfo = {};
-    //    loginInfo.User = $("#email").val(); //get từ textbox
-    //    loginInfo.Pass = $("#pwd").val(); //get từ text boxt
-    //    $.ajax({
-    //        type: "POST",
-    //        url: "/api/LoginAPI/Login",
-    //        data: JSON.stringify(loginInfo),
-    //        contentType: "application/json; charset=utf-8",
-    //        dataType: "json",
-    //        success: function (result) {
-    //            debugger
-    //            if (result != "")
-    //                window.location.href = result;
-    //            else {
-    //                $("#error").empty();
-    //                $("#error").append(" <b>Tài khoản hoặc mật khẩu không đúng!</b>.");
-    //            }
-    //        }
-    //    });
-    //});
+        //            //});
+        //        }
+        //    });
+        //});
+</script>
+<script>
+
+        //$("#btnlogin").click(function () {
+
+        //    var loginInfo = {};
+        //    loginInfo.User = $("#email").val(); //get từ textbox
+        //    loginInfo.Pass = $("#pwd").val(); //get từ text boxt
+        //    $.ajax({
+        //        type: "POST",
+        //        url: "/api/LoginAPI/Login",
+        //        data: JSON.stringify(loginInfo),
+        //        contentType: "application/json; charset=utf-8",
+        //        dataType: "json",
+        //        success: function (result) {
+        //            debugger
+        //            if (result != "")
+        //                window.location.href = result;
+        //            else {
+        //                $("#error").empty();
+        //                $("#error").append(" <b>Tài khoản hoặc mật khẩu không đúng!</b>.");
+        //            }
+        //        }
+        //    });
+        //});
 
 
 </script>

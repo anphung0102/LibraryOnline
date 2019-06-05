@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     var user = Session["username"];
-    if (Session["username"] == null || Session["user_id"] == null)
+    if (Session["username"] == null || Session["user_id"] == null || Session["role_id"].ToString() != "1")
     {
         Response.Redirect("~/Login/Index");
     }
@@ -260,6 +260,13 @@
                 });
             }
         });
+        function ResetFormEbook() {
+            $("#title").val("");
+            $("#author").val("");
+            $("#year").val("");
+            $("#describe").val("");
+            $("#fileInput").val("");
+        }
         //Thêm
         $("#Save").click(function () {
             debugger;
@@ -318,7 +325,8 @@
                                 "sub_id": result.sub_Id,
                                 "sub_name": result.sub_Name
                             }).draw();
-                            $("#formEbook")[0].reset();//reset form
+                            //$("#formEbook")[0].reset();//reset form
+                            ResetFormEbook();
                         } else {
                             if (result.message != null) {
                                 $.notify(result.message, errorOptions);
@@ -404,6 +412,7 @@
                             t.cell(index, 5).data(result.describe).draw();
                             t.cell(index, 6).data(result.fileName).draw();
                             t.cell(index, 7).data(d.toLocaleString()).draw();
+                            $("#fileInputEdit").val(null);
                         } else {
                             if (result.message != null) {
                                 $.notify(result.message, errorOptions);

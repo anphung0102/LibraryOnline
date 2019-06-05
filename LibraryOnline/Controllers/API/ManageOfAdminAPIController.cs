@@ -143,7 +143,8 @@ namespace LibraryOnline.Controllers.API
                 db.SaveChanges();
                 return new SubjectCreationResult
                 {
-                    IsSuccess = true
+                    IsSuccess = true,
+                    Name = sub.name
                 };
             }
         }
@@ -166,7 +167,8 @@ namespace LibraryOnline.Controllers.API
                 db.SaveChanges();
                 return new SubjectCreationResult
                 {
-                    IsSuccess = true
+                    IsSuccess = true,
+                    Name = sub.name
                 };
             }
         }
@@ -293,7 +295,7 @@ namespace LibraryOnline.Controllers.API
         //xoá essay
         [Route("api/ManageOfAdminAPI/DeleteFileUploadEssay")]
         [HttpPost]
-        public string DeleteFileUploadById(Essay subject)
+        public string DeleteFileUploadById(Essay essay)
         {
             //var ebook = db.Ebooks.Where(x => x.sub_id == subject.id).ToList();
             //foreach (var item in ebook)
@@ -301,8 +303,10 @@ namespace LibraryOnline.Controllers.API
             //    db.Ebooks.Remove(item);
             //    db.SaveChanges();
             //}
-            var sub = db.Essays.Where(x => x.id == subject.id).FirstOrDefault();
-            db.Essays.Remove(sub);
+            var ess = db.Essays.Where(x => x.id == essay.id).FirstOrDefault();
+            var search = db.SearchFiles.Where(x => x.book_id == ess.essay_id).FirstOrDefault();       
+            db.Essays.Remove(ess);
+            db.SearchFiles.Remove(search);
             db.SaveChanges();
 
             return "Xóa thành công";
@@ -311,10 +315,28 @@ namespace LibraryOnline.Controllers.API
         // lấy ds thesis quyền admin
         [Route("api/ManageOfAdminAPI/GetThesisByAdmin")]
         [HttpGet]
-        public IEnumerable<Thesis> GetThesisByAdmin()
+        public object GetThesisByAdmin()
         {
-
-            return db.Theses.ToList(); ;
+            var data = (from e in db.Theses
+                        from s in db.Subject_Thesis
+                        where e.sub_id == s.id
+                        select new
+                        {
+                            id = e.id,
+                            thesis_id = e.thesis_id,
+                            title = e.title,
+                            instructor = e.instructor,
+                            executor1 = e.executor1,
+                            executor2 = e.executor2,
+                            course = e.cource,
+                            describe = e.describe,
+                            filename = e.filename,
+                            date_upload = e.date_upload,
+                            sub_id = s.id,
+                            sub_name = s.name
+                        }).ToList();
+            return data;
+            // return db.Theses.ToList(); ;
         }
 
         //upload thesis
@@ -395,16 +417,12 @@ namespace LibraryOnline.Controllers.API
         //xoá thesis
         [Route("api/ManageOfAdminAPI/DeleteFileUploadThesis")]
         [HttpPost]
-        public string DeleteFileUploadThesis(Thesis subject)
+        public string DeleteFileUploadThesis(Thesis thesis)
         {
-            //var ebook = db.Ebooks.Where(x => x.sub_id == subject.id).ToList();
-            //foreach (var item in ebook)
-            //{
-            //    db.Ebooks.Remove(item);
-            //    db.SaveChanges();
-            //}
-            var sub = db.Theses.Where(x => x.id == subject.id).FirstOrDefault();
-            db.Theses.Remove(sub);
+            var the = db.Theses.Where(x => x.id == thesis.id).FirstOrDefault();
+            var search = db.SearchFiles.Where(x => x.book_id == the.thesis_id).FirstOrDefault();
+            db.Theses.Remove(the);
+            db.SearchFiles.Remove(search);
             db.SaveChanges();
 
             return "Xóa thành công";

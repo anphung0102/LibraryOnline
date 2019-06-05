@@ -44,7 +44,8 @@ namespace LibraryOnline.Controllers
                 db.SaveChanges();
                 return new SubjectCreationResult
                 {
-                    IsSuccess = true
+                    IsSuccess = true,
+                    Name = sub.name
                 };
             }
         }
@@ -195,7 +196,7 @@ namespace LibraryOnline.Controllers
         //xoá ebook
         [Route("api/EbookAPI/DeleteFileUploadById")]
         [HttpPost]
-        public string DeleteFileUploadById(Ebook subject)
+        public string DeleteFileUploadById(Ebook ebook)
         {
             //var ebook = db.Ebooks.Where(x => x.sub_id == subject.id).ToList();
             //foreach (var item in ebook)
@@ -203,8 +204,10 @@ namespace LibraryOnline.Controllers
             //    db.Ebooks.Remove(item);
             //    db.SaveChanges();
             //}
-            var sub = db.Ebooks.Where(x => x.id == subject.id).FirstOrDefault();
-            db.Ebooks.Remove(sub);
+            var eb = db.Ebooks.Where(x => x.id == ebook.id).FirstOrDefault();
+            var search = db.SearchFiles.Where(x => x.book_id == eb.ebook_id).FirstOrDefault();
+            db.Ebooks.Remove(eb);
+            db.SearchFiles.Remove(search);
             db.SaveChanges();
 
             return "Xóa thành công";

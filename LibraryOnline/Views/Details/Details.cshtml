@@ -180,42 +180,91 @@
             </div>*@
         <div style="margin-top:20px;" class='col-lg-6'>
 
-            <div class='border'>
-                <div class="row" id='info_details' style="height:300px">
-                    <div class="col-md-4">
-                        <div style="background-color:lightskyblue;font-size:20px;text-align:center"><b>Đánh giá:</b></div>
-                        <div style="text-align:center">
-                            <div class="rateit" id="rateit_star1" data-rateit-step="1" data-productid="123"></div>
-                            <button id="btnRate" type="button" class="btn btn-info">Gửi</button>
-                        </div>
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Đánh giá</th>
+                        <th scope="col">Thống kê</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div style="text-align:center" id="star">
+                                <b>5 <i class="fas fa-star"></i></b>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="rateit col-md-6" data-rateit-value="5" data-rateit-readonly="true"></div>
+                                <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal5"><span id="fiveStar"></span> đánh giá</a></div>
+                            </div>
+                            <div class="row">
+                                <div class="rateit col-md-6" data-rateit-value="4" data-rateit-readonly="true"></div>
+                                <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal4"><span id="fourStar"></span> đánh giá</a></div>
+                            </div>
+                            <div class="row">
+                                <div class="rateit col-md-6" data-rateit-value="3" data-rateit-readonly="true"></div>
+                                <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal3"><span id="threeStar"></span> đánh giá</a></div>
+                            </div>
+                            <div class="row">
+                                <div class="rateit col-md-6" data-rateit-value="2" data-rateit-readonly="true"></div>
+                                <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal2"><span id="twoStar"></span> đánh giá</a></div>
+                            </div>
+                            <div class="row">
+                                <div class="rateit col-md-6" data-rateit-value="1" data-rateit-readonly="true"></div>
+                                <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal1"><span id="oneStar"></span> đánh giá</a></div>
 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div style="text-align:center; ">
+
+                                <div class="rateit" id="rateit_star1" data-rateit-step="1" data-productid="123"></div>
+                                <div><button id="btnRate" type="button" class="btn btn-info">Gửi</button></div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            @*<div class='border'>
+            <div class="row" id='info_details' style="height:300px">
+                <div class="col-md-4">
+                    <div style="background-color:lightskyblue;font-size:20px;text-align:center"><b>Đánh giá:</b></div>
+                    <div style="text-align:center">
+                        <div class="rateit" id="rateit_star1" data-rateit-step="1" data-productid="123"></div>
+                        <button id="btnRate" type="button" class="btn btn-info">Gửi</button>
                     </div>
-                    <div class="col-md-8">
-                        <div style="background-color:lightskyblue;font-size:20px;text-align:center"><b>Thống kê:</b></div>
-                        <div class="row">
-                            <div class="rateit col-md-6" data-rateit-value="5" data-rateit-readonly="true"></div>
-                            <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal5"><span id="fiveStar"></span> đánh giá</a></div>
-                        </div>
-                        <div class="row">
-                            <div class="rateit col-md-6" data-rateit-value="4" data-rateit-readonly="true"></div>
-                            <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal4"><span id="fourStar"></span> đánh giá</a></div>
-                        </div>
-                        <div class="row">
-                            <div class="rateit col-md-6" data-rateit-value="3" data-rateit-readonly="true"></div>
-                            <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal3"><span id="threeStar"></span> đánh giá</a></div>
-                        </div>
-                        <div class="row">
-                            <div class="rateit col-md-6" data-rateit-value="2" data-rateit-readonly="true"></div>
-                            <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal2"><span id="twoStar"></span> đánh giá</a></div>
-                        </div>
-                        <div class="row">
-                            <div class="rateit col-md-6" data-rateit-value="1" data-rateit-readonly="true"></div>
-                            <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal1"><span id="oneStar"></span> đánh giá</a></div>
 
-                        </div>
+                </div>
+                <div class="col-md-8">
+                    <div style="background-color:lightskyblue;font-size:20px;text-align:center"><b>Thống kê:</b></div>
+                    <div class="row">
+                        <div class="rateit col-md-6" data-rateit-value="5" data-rateit-readonly="true"></div>
+                        <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal5"><span id="fiveStar"></span> đánh giá</a></div>
+                    </div>
+                    <div class="row">
+                        <div class="rateit col-md-6" data-rateit-value="4" data-rateit-readonly="true"></div>
+                        <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal4"><span id="fourStar"></span> đánh giá</a></div>
+                    </div>
+                    <div class="row">
+                        <div class="rateit col-md-6" data-rateit-value="3" data-rateit-readonly="true"></div>
+                        <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal3"><span id="threeStar"></span> đánh giá</a></div>
+                    </div>
+                    <div class="row">
+                        <div class="rateit col-md-6" data-rateit-value="2" data-rateit-readonly="true"></div>
+                        <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal2"><span id="twoStar"></span> đánh giá</a></div>
+                    </div>
+                    <div class="row">
+                        <div class="rateit col-md-6" data-rateit-value="1" data-rateit-readonly="true"></div>
+                        <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal1"><span id="oneStar"></span> đánh giá</a></div>
+
                     </div>
                 </div>
             </div>
+        </div>*@
 
         </div>
         @*</div>*@

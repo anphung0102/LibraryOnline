@@ -69,5 +69,13 @@ namespace LibraryOnline.Controllers.API
             
             return Ok(data);
         }
+
+        [Route("api/TimeAPI/StudentView")]
+        [HttpGet]
+        public IEnumerable<Time> StudentView(int id)
+        {
+
+            return db.Times.Where(x => x.userid == id).ToList();
+        }
     }
 }

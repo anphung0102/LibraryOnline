@@ -582,8 +582,49 @@ namespace LibraryOnline.Controllers.API
         [HttpPost]
         public string DeleteUserByID(int id)
         {
+            
+            var user_ebook = db.Ebooks.Where(x => x.user_id == id).FirstOrDefault();
+            if (user_ebook != null)
+            {
+                db.Ebooks.Remove(user_ebook);
+                db.SaveChanges();
+            }
+            var user_essay = db.Essays.Where(x => x.user_id == id).FirstOrDefault();
+            if (user_essay != null)
+            {
+                db.Essays.Remove(user_essay);
+                db.SaveChanges();
+            }
+            var user_thesis = db.Theses.Where(x => x.user_id == id).FirstOrDefault();
+            if (user_thesis != null)
+            {
+                db.Theses.Remove(user_thesis);
+                db.SaveChanges();
+            }
+            var user_search = db.SearchFiles.Where(x => x.user_id == id).FirstOrDefault();
+            if (user_search != null)
+            {
+                db.SearchFiles.Remove(user_search);
+                db.SaveChanges();
+            }
+            var user_rate = db.RateStars.Where(x => x.user_id == id).FirstOrDefault();
+            if (user_rate != null)
+            {
+                db.RateStars.Remove(user_rate);
+                db.SaveChanges();
+            }
+            var user_time = db.Times.Where(x => x.userid == id).FirstOrDefault();
+            if (user_time != null)
+            {
+                db.Times.Remove(user_time);
+                db.SaveChanges();
+            }
             var user = db.Users.Where(x => x.id == id).FirstOrDefault();
-            db.Users.Remove(user);
+            if (user != null)
+            {
+                db.Users.Remove(user);
+                db.SaveChanges();
+            }
             db.SaveChanges();
             return "Xóa thành công";
         }

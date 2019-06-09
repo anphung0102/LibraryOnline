@@ -46,7 +46,7 @@
             </form>
         </div>
     </div>
-    <table id="loadsubject" class="table table-bordered table-striped dataTable no-footer" role="grid" aria-describedby="crudTable_info">
+    <table id="loadsubject" class="table table-bordered table-striped no-footer dt-responsive nowrap" role="grid" aria-describedby="crudTable_info">
         <thead>
             <tr>
                 <th>ID</th>
@@ -167,12 +167,12 @@
     </div>
 </div>
 
-<script src="~/Scripts/jquery-3.3.1.js"></script>
+@*<script src="~/Scripts/jquery-3.3.1.js"></script>
 <script src="~/Content/Datatables/jquery.dataTables.min.js"></script>
 <script src="~/Scripts/jquery.signalR-2.4.0.min.js"></script>
 <script src="~/signalr/hubs"></script>
 <script type="text/javascript" src="~/Scripts/dist/ez.countimer.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>*@
 <script>
     // Add the following code if you want the name of the file appear on select
     $(".custom-file-input").on("change", function () {
@@ -260,6 +260,8 @@
                         "data": null,
                         "defaultContent": "<button type='button' class='btn btn-danger btnDel'>Xóa</button>"
                     },
+                    { responsivePriority: 2, targets: -2 },
+                    { responsivePriority: 1, targets: -1 }
                     //{
                     //    "targets": 3,
                     //    "visible": false
@@ -343,6 +345,7 @@
                             t.cell(index, 6).data(result.mssv).draw();
                             t.cell(index, 7).data(result.class_Id).draw();
                             //$("#submit_EditUser")[0].reset();
+                            t.responsive.recalc();
 
                         } else {
                             $.notify("Cập nhật thất bại!", errorOptions);
@@ -435,6 +438,7 @@
                                   "mssv": result.mssv,
                                   "class_id": result.class_Id
                               }).draw();
+                              t.responsive.recalc();
                               $("#submit_addUser")[0].reset();
 
                           } else {

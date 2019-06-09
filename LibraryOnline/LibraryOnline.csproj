@@ -513,6 +513,7 @@
     <Content Include="Views\ManageStudent\Index.cshtml" />
     <Content Include="Views\ForgotPassword\Index.cshtml" />
     <Content Include="Views\ForgotPassword\ResetPassword.cshtml" />
+    <Content Include="Views\Student\Readed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

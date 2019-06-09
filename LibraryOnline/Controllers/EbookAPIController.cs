@@ -196,7 +196,7 @@ namespace LibraryOnline.Controllers
         //xoá ebook
         [Route("api/EbookAPI/DeleteFileUploadById")]
         [HttpPost]
-        public string DeleteFileUploadById(Ebook ebook)
+        public string DeleteFileUploadById(int id)
         {
             //var ebook = db.Ebooks.Where(x => x.sub_id == subject.id).ToList();
             //foreach (var item in ebook)
@@ -204,7 +204,7 @@ namespace LibraryOnline.Controllers
             //    db.Ebooks.Remove(item);
             //    db.SaveChanges();
             //}
-            var eb = db.Ebooks.Where(x => x.id == ebook.id).FirstOrDefault();
+            var eb = db.Ebooks.Where(x => x.id == id ).FirstOrDefault();
             var search = db.SearchFiles.Where(x => x.book_id == eb.ebook_id).FirstOrDefault();
             db.Ebooks.Remove(eb);
             db.SearchFiles.Remove(search);

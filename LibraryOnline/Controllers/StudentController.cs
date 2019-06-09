@@ -13,5 +13,10 @@ namespace LibraryOnline.Controllers
         {
             return View();
         }
+        public ActionResult Readed(int? id)
+        {
+            ViewBag.Id = id;
+            return View();
+        }
     }
 }

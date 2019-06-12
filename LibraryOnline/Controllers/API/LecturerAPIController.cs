@@ -16,23 +16,76 @@ namespace LibraryOnline.Controllers.API
         //lấy ds ebook 
         [Route("api/LecturerAPI/GetEbook_Lecturer")]
         [HttpGet]
-        public IEnumerable<Ebook> GetEbook_Lecturer(int  id) 
+        public object GetEbook_Lecturer(int  id) 
         {
-            return db.Ebooks.Where(x => x.user_id == id).ToList();
+            var data = (from e in db.Ebooks
+                        from s in db.Subject_Ebook
+                        where e.sub_id == s.id && e.user_id == id
+                        select new
+                        {
+                            id = e.id,
+                            ebook_id = e.ebook_id,
+                            title = e.title,
+                            author = e.author,
+                            year = e.year,
+                            describe = e.describe,
+                            filename = e.filename,
+                            date_upload = e.date_upload,
+                            sub_id = e.sub_id,
+                            sub_name = s.name
+                        }).ToList();
+
+            return data;
         }
         //lấy ds essay 
         [Route("api/LecturerAPI/GetEssay_Lecturer")]
         [HttpGet]
-        public IEnumerable<Essay> GetEssay_Lecturer(int id)
+        public object GetEssay_Lecturer(int id)
         {
-            return db.Essays.Where(x => x.user_id == id).ToList();
+            var data = (from e in db.Essays
+                        from s in db.Subject_Essay
+                        where e.sub_id == s.id && e.user_id == id
+                        select new
+                        {
+                            id = e.id,
+                            essay_id = e.essay_id,
+                            title = e.title,
+                            instructor = e.instructor,
+                            executor1 = e.executor1,
+                            executor2 = e.executor2,
+                            course = e.course,
+                            describe = e.describe,
+                            filename = e.filename,
+                            date_upload = e.date_upload,
+                            sub_id = s.id,
+                            sub_name = s.name
+                        }).ToList();
+            return data;
         }
         //lấy ds thesis
         [Route("api/LecturerAPI/GetThesis_Lecturer")]
         [HttpGet]
-        public IEnumerable<Thesis> GetThesis_Lecturer(int id)
+        public object GetThesis_Lecturer(int id)
         {
-            return db.Theses.Where(x => x.user_id == id).ToList();
+            var data = (from e in db.Theses
+                        from s in db.Subject_Thesis
+                        where e.sub_id == s.id && e.user_id == id
+                        select new
+                        {
+                            id = e.id,
+                            thesis_id = e.thesis_id,
+                            title = e.title,
+                            instructor = e.instructor,
+                            executor1 = e.executor1,
+                            executor2 = e.executor2,
+                            course = e.cource,
+                            describe = e.describe,
+                            filename = e.filename,
+                            date_upload = e.date_upload,
+                            sub_id = s.id,
+                            sub_name = s.name
+                        }).ToList();
+            return data;
         }
         //Tạo môn học trong Ebook 
         //[Route("api/LecturerAPI/UploadEbooks")]

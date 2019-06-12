@@ -5,15 +5,15 @@
     {
         Response.Redirect("~/Login/Index");
     }
-    if (Session["role_id"].ToString() == "1")
+    else if (Session["role_id"].Equals("1"))
     {
         Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     }
-    if (Session["role_id"].ToString() == "2")
+    else if (Session["role_id"].ToString() == "2")
     {
         Layout = "~/Views/Shared/_LayoutLecturer.cshtml";
     }
-    if (Session["role_id"].ToString() == "3")
+    else if (Session["role_id"].ToString() == "3")
     {
         Layout = "~/Views/Shared/_LayoutStudent.cshtml";
     }
@@ -33,13 +33,13 @@
                 </li>
                 @* *@
                 <li class="mainmenu-item">
-                    <a class="mainmenu-item-text" href="">Tiểu luận</a>
+                    <a class="mainmenu-item-text">Tiểu luận</a>
                     <ul class="submenu" id="loadSubjectOfEssay">
                         @*load các môn  trong essays*@
                     </ul>
                 </li>
                 <li class="mainmenu-item">
-                    <a class="mainmenu-item-text" href="">Khóa luận</a>
+                    <a class="mainmenu-item-text">Khóa luận</a>
                     <ul class="submenu" id="loadSubjectOfThesis">
                         @*load các môn  trong Thesis*@
                     </ul>
@@ -153,8 +153,8 @@
                                     <button type="button" class="btn btn-dark" data-dismiss="modal">Đóng</button>
                                 </div>
                                 @*<div style="margin-top:20px">
-                                <button id="uploadEssay" type="submit" class="btn btn-primary">Upload</button>
-                            </div>*@
+                                        <button id="uploadEssay" type="submit" class="btn btn-primary">Upload</button>
+                                    </div>*@
                             </form>
                         </div>
                     </div>
@@ -216,8 +216,8 @@
                                     <button type="button" class="btn btn-dark" data-dismiss="modal">Đóng</button>
                                 </div>
                                 @*<div style="margin-top:20px">
-                                <button id="uploadEssay" type="submit" class="btn btn-primary">Upload</button>
-                            </div>*@
+                                        <button id="uploadEssay" type="submit" class="btn btn-primary">Upload</button>
+                                    </div>*@
                             </form>
                         </div>
                     </div>
@@ -254,39 +254,32 @@
             </div>
             <!-- tạo các tab liên quan -->
             @*<div id="navigation">
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a id="breadcrumb-1" href="">Admin</a></li>
-                    <li class="breadcrumb-item breadcrumb-item-2" style="display:none;"><a id="breadcrumb-2" href="#"></a></li>
-                    <li class="breadcrumb-item breadcrumb-item-3 active" style="display:none;" id="breadcrumb-3"></li>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a id="breadcrumb-1" href="">Admin</a></li>
+                        <li class="breadcrumb-item breadcrumb-item-2" style="display:none;"><a id="breadcrumb-2" href="#"></a></li>
+                        <li class="breadcrumb-item breadcrumb-item-3 active" style="display:none;" id="breadcrumb-3"></li>
 
-                </ul>
-            </div>*@
+                    </ul>
+                </div>*@
             <!-- navigation -->
             <section id="admin-content-section" hidden="hidden">
                 <div class="d-flex justify-content-between mb-3">
                     <h1 id="ebook" class="khoangcachduoi">Ebooks</h1>
-                    <div>
-                        <button id="btn_upload" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#myModal" style="margin-top:10px;">Thêm</button>
-                        
-                    </div>
+                    
 
                 </div>
                 <div class="row" id="loadEbook" data-bind="foreach: resultArr">
                 </div>
                 <div class="d-flex justify-content-between mb-3">
                     <h1 id="essay" class="khoangcachduoi">Tiểu luận</h1>
-                    <div>
-                        <button id="btn_upload1" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalEssay" style="margin-top:10px;">Thêm</button>
-                    </div>
+                  
                 </div>
                 <div class="row" id="loadEssay" data-bind="foreach: resultArr">
 
                 </div>
                 <div class="d-flex justify-content-between mb-3">
                     <h1 id="thesis" class="khoangcachduoi">Khóa luận</h1>
-                    <div>
-                        <button id="btn_upload2" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalThesis" style="margin-top:10px;">Thêm</button>
-                    </div>
+                    
                 </div>
                 <div class="row" id="loadThesis" data-bind="foreach: resultArr">
                 </div>
@@ -297,8 +290,8 @@
             </section>
         </div>
     </div>
- </div>
-  
+</div>
+
 
 <!--EBOOK-->
 <script>
@@ -328,17 +321,71 @@
             arrowShow: false,
             className: "error",
         };
-        //Ẩn hiện form
-        $("#btn_upload").hide();
-        $("#btn_upload1").hide();
-        $("#btn_upload2").hide();
+
+        $.blockUI();
+        $.ajax({
+            type: "GET",
+            url: "/api/AdminAPI/GetListRecently",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                debugger
+                $.each(result.lstebook, function (i, v) {
+                    var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+                    data += "<div class='card h-100'>";
+                    data += "<a href='#'><img class='card-img-top' src='/Content/img/pdf.png' alt=''></a>";
+                    data += "<div class='card-body'>";
+                    data += "<h4 class='card-title'>";//
+                    data += "<a href='/Details/Details?ebook_id=" + v.ebook_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                    data += "<h5>tác giả: " + v.author + "</h5>";
+                    data += "<p class='card-text' data-bind='text:author'></p>";
+                    //data += "<div class='card-footer'></div>";
+                    data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                    data += " </div></div></div>";
+                    $("#loadEbook").append(data);
+                });
+                $('#admin-content-section').prop("hidden", false);
+                $.each(result.lstessay, function (i, v) {
+                    var data1 = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+                    data1 += "<div class='card h-100'>";
+                    data1 += "<a href='#'><img class='card-img-top' src='/Content/img/pdf.png' alt=''></a>";
+                    data1 += "<div class='card-body'>";
+                    data1 += "<h4 class='card-title'>";//
+                    data1 += "<a href='/Details/DetailsEssay?essay_id=" + v.essay_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                    data1 += "<h5>giáo viên hd: " + v.instructor + "</h5>";
+                    data1 += "<p class='card-text' data-bind='text:author'></p>";
+                    //data += "<div class='card-footer'></div>";
+                    data1 += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                    data1 += " </div></div></div>";
+
+                    $("#loadEssay").append(data1);
+
+                });
+                $.each(result.lstthesis, function (i, v) {
+                    var data1 = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+                    data1 += "<div class='card h-100'>";
+                    data1 += "<a href='#'><img class='card-img-top' src='/Content/img/pdf.png' alt=''></a>";
+                    data1 += "<div class='card-body'>";
+                    data1 += "<h4 class='card-title'>";//
+                    data1 += "<a href='/Details/DetailsThesis?thesis_id=" + v.thesis_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+                    data1 += "<h5>giáo viên hd: " + v.instructor + "</h5>";
+                    data1 += "<p class='card-text' data-bind='text:author'></p>";
+                    //data += "<div class='card-footer'></div>";
+                    data1 += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                    data1 += " </div></div></div>";
+                    $("#loadThesis").append(data1);
+                });
+            }
+        });
+        $.unblockUI();
         // hàm trả về html thông tin file ebooks
         function simpleTemplating(result) {
             var data = "";
             $.each(result, function (i, v) {
                 data += "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
                 data += "<div class='card h-100'>";
-                data += "<a href='#'><img class='card-img-top' src='/Content/img/PDF (2).png' alt=''></a>";
+                data += "<a href='#'><img class='card-img-top' src='/Content/img/pdf.png' alt=''></a>";
                 data += "<div class='card-body'>";
                 data += "<h4 class='card-title'>";//
                 data += "<a href='/Details/Details?ebook_id=" + v.ebook_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
@@ -361,9 +408,7 @@
                     //click môn học load file
                     $("#ebook_" + v.id).click(function (e) {
                         //Ẩn hiện form upload file ở trang chỉ hay uplaod file trong môn học
-                        $("#btn_upload").show();
-                        $("#btn_upload1").hide();
-                        $("#btn_upload2").hide();
+                     
                         $("#ebook").show();
                         $("#essay").hide();
                         $("#thesis").hide();
@@ -496,7 +541,7 @@
                             data += " </div></div></div>";
 
                             $("#loadEbook").append(data);
-                          
+
                         } else {
                             if (result.message != null) {
                                 $.notify(result.message, errorOptions);
@@ -518,7 +563,7 @@
             $.each(result, function (i, v) {
                 data += "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
                 data += "<div class='card h-100'>";
-                data += "<a href='#'><img class='card-img-top' src='/Content/img/PDF (2).png' alt=''></a>";
+                data += "<a href='#'><img class='card-img-top' src='/Content/img/pdf.png' alt=''></a>";
                 data += "<div class='card-body'>";
                 data += "<h4 class='card-title'>";//
                 data += "<a href='/Details/DetailsEssay?essay_id=" + v.essay_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
@@ -543,9 +588,7 @@
                     //click môn học load file
                     $("#essay_" + v.id).click(function (e) {
                         //Ẩn hiện form upload file ở trang chỉ hay uplaod file trong môn học
-                        $("#btn_upload1").show();
-                        $("#btn_upload2").hide();
-                        $("#btn_upload").hide();
+                       
                         $("#essay").show();
                         $("#thesis").hide();
                         $("#loadThesis").hide();
@@ -558,7 +601,7 @@
 
                         $("#SubjectEssay").empty();
                         $("#SubjectEssay").append("<option value='" + v.id + "'>" + v.name + "</option>");
-                        
+
                         $.ajax({
                             type: "GET",
                             url: "/api/AdminAPI/GetEssay",
@@ -659,7 +702,7 @@
                             $.notify("Thêm thành công!", successOptions);
                             var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
                             data += "<div class='card h-100'>";
-                            data += "<a href='#'><img class='card-img-top' src='/Content/img/PDF (2).png' alt=''></a>";
+                            data += "<a href='#'><img class='card-img-top' src='/Content/img/pdf.png' alt=''></a>";
                             data += "<div class='card-body'>";
                             data += "<h4 class='card-title'>";//
                             data += "<a href='/Details/DetailsEssay?essay_id=" + v.essay_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
@@ -668,7 +711,7 @@
                             data += "<div class='card-footer'></div>";
                             data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
                             data += " </div></div></div>";
-                            $('#loadEssay').append(data); 
+                            $('#loadEssay').append(data);
                             $("#formEssay")[0].reset();//reset form
                         } else {
                             if (result.message != null) {
@@ -689,7 +732,7 @@
             $.each(result, function (i, v) {
                 data += "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
                 data += "<div class='card h-100'>";
-                data += "<a href='#'><img class='card-img-top' src='/Content/img/PDF (2).png' alt=''></a>";
+                data += "<a href='#'><img class='card-img-top' src='/Content/img/pdf.png' alt=''></a>";
                 data += "<div class='card-body'>";
                 data += "<h4 class='card-title'>";//
                 data += "<a href='/Details/DetailsThesis?thesis_id=" + v.thesis_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
@@ -714,9 +757,7 @@
                     //click môn học load file
                     $("#thesis_" + v.id).click(function (e) {
                         //Ẩn hiện form upload file ở trang chỉ hay uplaod file trong môn học
-                        $("#btn_upload2").show();
-                        $("#btn_upload1").hide();
-                        $("#btn_upload").hide();
+                       
                         $("#loadThesis").show();
                         $("#essay").hide();
                         $("#thesis").show();
@@ -730,7 +771,7 @@
                         $("#loadEbook").empty();
                         $("#SubjectThesis").empty();
                         $("#SubjectThesis").append("<option value='" + v.id + "'>" + v.name + "</option>");
-                       
+
                         $.ajax({
                             type: "GET",
                             url: "/api/AdminAPI/GetThesis",
@@ -830,7 +871,7 @@
                             $.notify("Thêm thành công!", successOptions);
                             var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
                             data += "<div class='card h-100'>";
-                            data += "<a href='#'><img class='card-img-top' src='/Content/img/PDF (2).png' alt=''></a>";
+                            data += "<a href='#'><img class='card-img-top' src='/Content/img/pdf.png' alt=''></a>";
                             data += "<div class='card-body'>";
                             data += "<h4 class='card-title'>";
                             data += "<a href='/Details/DetailsThesis?thesis_id=" + result.thesis_id + "'" + "data-bind='text:title'>" + result.title + "</a> </h4>";
@@ -855,7 +896,6 @@
 
             }
         });
-
 
  });
     ////SIGNALR
@@ -891,12 +931,12 @@
     //    });
 
     //});
- </script>
-    <!-- TIỂU LUẬN-->
+</script>
+<!-- TIỂU LUẬN-->
 <script>
-       
+
     @*$(document).ready(function () {
-        
+
         $('#formEssay').validate({
             onfocusout: false,
             onkeyup: false,
@@ -944,7 +984,7 @@
             for (var i = 0; i < files.length; i++) {
                 fileData.append("fileInput", files[i]);
             }
-        
+
             fileData.append("title", $("#titleE").val());
             fileData.append("describe", $("#describeE").val());
             fileData.append("instructor", $("#instructorE").val());
@@ -1007,15 +1047,15 @@
             });
 
         });*@
-    
-    </script>
-    <!-- KHÓA LUẬN-->
-    <script>
-   
+
+</script>
+<!-- KHÓA LUẬN-->
+<script>
+
         @*$(document).ready(function () {
-           
+
             $('#formThesis').validate({
- 
+
                 rules: {
                     titleT: {
                         required: true
@@ -1126,94 +1166,95 @@
         });
 
     });*@
-    </script>
+</script>
 
-    <!--Lấy danh sách các ebook tiểu luận khóa luận mới nhất-->
-    <script>
-        $.blockUI();
-        $.ajax({
-            type: "GET",
-            url: "/api/AdminAPI/GetEbook1",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (result) {
-                $.each(result, function (i, v) {
-                    var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
-                    data += "<div class='card h-100'>";
-                    data += "<a href='#'><img class='card-img-top' src='/Content/img/PDF (2).png' alt=''></a>";
-                    data += "<div class='card-body'>";
-                    data += "<h4 class='card-title'>";//
-                    data += "<a href='/Details/Details?ebook_id=" + v.ebook_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
-                    data += "<h5>tác giả: " + v.author + "</h5>";
-                    data += "<p class='card-text' data-bind='text:author'></p>";
-                    //data += "<div class='card-footer'></div>";
-                    data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
-                    data += " </div></div></div>";
-                    $("#loadEbook").append(data);
-                });
-                $('#admin-content-section').prop("hidden", false);
-            }
-        });
-        $.unblockUI();
+<!--Lấy danh sách các ebook tiểu luận khóa luận mới nhất-->
+<script>
+        //$.blockUI();
+        //$.ajax({
+        //    type: "GET",
+        //    url: "/api/AdminAPI/GetEbook1",
+        //    contentType: "application/json; charset=utf-8",
+        //    dataType: "json",
+        //    success: function (result) {
+        //        $.each(result, function (i, v) {
+        //            var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+        //            data += "<div class='card h-100'>";
+        //            data += "<a href='#'><img class='card-img-top' src='/Content/img/PDF (2).png' alt=''></a>";
+        //            data += "<div class='card-body'>";
+        //            data += "<h4 class='card-title'>";//
+        //            data += "<a href='/Details/Details?ebook_id=" + v.ebook_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+        //            data += "<h5>tác giả: " + v.author + "</h5>";
+        //            data += "<p class='card-text' data-bind='text:author'></p>";
+        //            //data += "<div class='card-footer'></div>";
+        //            data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+        //            data += " </div></div></div>";
+        //            $("#loadEbook").append(data);
+        //        });
+        //        $('#admin-content-section').prop("hidden", false);
+        //    }
+        //});
+        //$.unblockUI();
 
-    </script>
-    <script>
-        $.blockUI();
-        $.ajax({
-            type: "GET",
-            url: "/api/AdminAPI/GetEssay1",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (result) {
+</script>
+<script>
+        //$.blockUI();
+        //$.ajax({
+        //    type: "GET",
+        //    url: "/api/AdminAPI/GetEssay1",
+        //    contentType: "application/json; charset=utf-8",
+        //    dataType: "json",
+        //    success: function (result) {
 
-                $.each(result, function (i, v) {
-                    var data1 = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
-                    data1 += "<div class='card h-100'>";
-                    data1 += "<a href='#'><img class='card-img-top' src='/Content/img/PDF (2).png' alt=''></a>";
-                    data1 += "<div class='card-body'>";
-                    data1 += "<h4 class='card-title'>";//
-                    data1 += "<a href='/Details/DetailsEssay?essay_id=" + v.essay_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
-                    data1 += "<h5>giáo viên hd: " + v.instructor + "</h5>";
-                    data1 += "<p class='card-text' data-bind='text:author'></p>";
-                    //data += "<div class='card-footer'></div>";
-                    data1 += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
-                    data1 += " </div></div></div>";
+        //        $.each(result, function (i, v) {
+        //            var data1 = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+        //            data1 += "<div class='card h-100'>";
+        //            data1 += "<a href='#'><img class='card-img-top' src='/Content/img/PDF (2).png' alt=''></a>";
+        //            data1 += "<div class='card-body'>";
+        //            data1 += "<h4 class='card-title'>";//
+        //            data1 += "<a href='/Details/DetailsEssay?essay_id=" + v.essay_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+        //            data1 += "<h5>giáo viên hd: " + v.instructor + "</h5>";
+        //            data1 += "<p class='card-text' data-bind='text:author'></p>";
+        //            //data += "<div class='card-footer'></div>";
+        //            data1 += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+        //            data1 += " </div></div></div>";
 
-                    $("#loadEssay").append(data1);
+        //            $("#loadEssay").append(data1);
 
-                });
-            }
-        });
-        $.unblockUI();
+        //        });
+        //    }
+        //});
+        //$.unblockUI();
 
-    </script>
-    <script>
-        $.blockUI();
-        $.ajax({
-            type: "GET",
-            url: "/api/AdminAPI/GetThesis1",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (result) {
+</script>
+<script>
+        //$.blockUI();
+        //$.ajax({
+        //    type: "GET",
+        //    url: "/api/AdminAPI/GetThesis1",
+        //    contentType: "application/json; charset=utf-8",
+        //    dataType: "json",
+        //    success: function (result) {
 
-                $.each(result, function (i, v) {
-                    var data1 = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
-                    data1 += "<div class='card h-100'>";
-                    data1 += "<a href='#'><img class='card-img-top' src='/Content/img/PDF (2).png' alt=''></a>";
-                    data1 += "<div class='card-body'>";
-                    data1 += "<h4 class='card-title'>";//
-                    data1 += "<a href='/Details/DetailsThesis?thesis_id=" + v.thesis_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
-                    data1 += "<h5>giáo viên hd: " + v.instructor + "</h5>";
-                    data1 += "<p class='card-text' data-bind='text:author'></p>";
-                    //data += "<div class='card-footer'></div>";
-                    data1 += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
-                    data1 += " </div></div></div>";
-                    $("#loadThesis").append(data1);
-                });
-            }
-        });
-        $.unblockUI();
+        //        $.each(result, function (i, v) {
+        //            var data1 = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
+        //            data1 += "<div class='card h-100'>";
+        //            data1 += "<a href='#'><img class='card-img-top' src='/Content/img/PDF (2).png' alt=''></a>";
+        //            data1 += "<div class='card-body'>";
+        //            data1 += "<h4 class='card-title'>";//
+        //            data1 += "<a href='/Details/DetailsThesis?thesis_id=" + v.thesis_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
+        //            data1 += "<h5>giáo viên hd: " + v.instructor + "</h5>";
+        //            data1 += "<p class='card-text' data-bind='text:author'></p>";
+        //            //data += "<div class='card-footer'></div>";
+        //            data1 += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+        //            data1 += " </div></div></div>";
+        //            $("#loadThesis").append(data1);
+        //        });
+        //    }
+        //});
+        //$.unblockUI();
 
-    </script>
+</script>
+
 
 

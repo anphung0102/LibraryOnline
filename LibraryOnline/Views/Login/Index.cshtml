@@ -6,72 +6,96 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
-    <link href="~/Content/css/style1.css" rel="stylesheet" />
-    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Classic Login Form Responsive Widget,Login form widgets, Sign up Web forms , Login signup Responsive web form,Flat Pricing table,Flat Drop downs,Registration Forms,News letter Forms,Elements" />
+
+    @*<link href="~/Content/bootstrap.min.css" rel="stylesheet">*@
+    @*<link href="~/Content/css/style1.css" rel="stylesheet" />*@
+    @*<script src="~/Scripts/jquery-3.3.1.min.js"></script>*@
     @*<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>*@
     @*<script src="~/Scripts/popper.min.js"></script>*@
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
+    @*<script src="~/Scripts/bootstrap.min.js"></script>*@
+    @*<script src="~/Scripts/jquery.validate.min.js"></script>*@
     @*<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>*@
     @*<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>*@
-    <script src="~/Scripts/common/jquery.blockUI.js"></script>
-
+    @*<script src="~/Scripts/common/jquery.blockUI.js"></script>*@
+    <!-- Meta tag Keywords -->
+    <script type="application/x-javascript">
+         addEventListener("load", function() { setTimeout(hideURLbar,   0); }, false);
+        function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- Meta tag Keywords -->
+    <!-- css files -->
+    <link rel="stylesheet" href="~/Content/css/style.css" type="text/css" media="all" /> <!-- Style-CSS -->
+    <link rel="stylesheet" href="~/Content/css/font-awesome.css"> <!-- Font-Awesome-Icons-CSS -->
+    <!-- //css files -->
+    <!-- js -->
+    <script type="text/javascript" src="~/Content/js/jquery-2.1.4.min.js"></script>
+    <!-- //js -->
+    <!-- online-fonts -->
+    <link href="~/Content/css/css.css" rel="stylesheet">
+    <style>
+        .btnlogin {
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+            display: inline-block;
+            font-weight: 400;
+            text-align: center;
+            vertical-align: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            border: 1px solid transparent;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: .25rem;
+            transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+    </style>
 </head>
 
-
-
-<body style="background-color:antiquewhite">
-    <div class="container">
-
-        <form id="formLogin" class="form-signin" method="post" enctype="multipart/form-data">
-            @*<h2 align="center">Login</h2>*@
-            <div align="center">
-                <img src="~/Content/img/logo-login.png" /> <br />
+<body>
+    <script src="~/Content/js/jquery.vide.min.js"></script>
+    <!-- main -->
+    <div data-vide-bg="/Content/video/Ipad">
+        <div class="center-container">
+            <!--header-->
+            <div class="header-w3l" style="font-family:'Times New Roman', Times, serif !important;">
+                <h1>Thư viện online UTE</h1>
             </div>
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="text" class="form-control" id="email" placeholder="Email" name="email">
-
-            </div>
-            <div class="form-group">
-                <label for="pwd">Mật khẩu:</label>
-                <input type="password" class="form-control" id="pwd" placeholder="Mật khẩu" name="pwd">
-
-            </div>
-            <div style="margin-top:20px">
-                <button id="btnlogin" type="button" class="btn btn-primary">Đăng nhập</button>
-            </div>
-
-            <!--Quên mật khẩu-->
-            <div>
-                @Html.ActionLink("Quên mật khẩu?", "Index", "ForgotPassword")
-            </div>
-        </form>
-
-        @* <form class="form-signin" id="formLogin" method="post" enctype="multipart/form-data">
-                <div align="center">
-                    <img src="~/Content/img/logo-login.png" /> <br />
+            <!--//header-->
+            <div class="main-content-agile">
+                <div class="sub-main-w3">
+                    <div class="wthree-pro" style="font-family:'Times New Roman', Times, serif !important;">
+                        <h2>Đăng nhập</h2>
+                    </div>
+                    <form id="formLogin" method="post" enctype="multipart/form-data">
+                        <input type="email" class="user" id="email" placeholder="Email" name="email">
+                        <span class="icon1"><i class="fa fa-user" aria-hidden="true"></i></span><br><br>
+                        <input type="password" class="pass" id="pwd" placeholder="Mật khẩu" name="pwd">
+                        <span class="icon2"><i class="fa fa-unlock" aria-hidden="true"></i></span><br>
+                        <div class="sub-w3l">
+                            <h6>@Html.ActionLink("Quên mật khẩu?", "Index", "ForgotPassword")</h6>
+                            <div class="right-w3l">
+                                <button id="btnlogin" type="button" class="btnlogin">Đăng nhập</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <br />
-                <div class="form-group">
-                    <label for="email" style="color: gray">User name</label></br>
-                    <input type="email" name="email" id="email" class="form-control" required><br />
-                    <label for="email" style="color: gray">User name</label><br />
-                    <input type="email" name="email" id="email" class="form-control" placeholder="Enter email" required><br />
-                    <label for="pwd" style="color: gray">Password:</label> </br>
-                    <input type="password" name="pswd" class="form-control" id="pwd" required>
-                    <label for="pwd" style="color: gray">Password:</label> <br />
-                    <input type="password" name="pswd" class="form-control" id="pwd"placeholder="Enter email" required>
-                </div>
-                <div id="error"></div>
-                <div style="margin-top:20px">
-                    <button id="login" type="submit" class="btn btn-primary">Login</button>
-                </div>
-            </form>*@
+            </div>
+            <!--//main-->
+            <!--footer-->
+            <div class="footer">
+                <p>&copy; 2019 Thư viện Online </p>
+            </div>
+            <!--//footer-->
+        </div>
     </div>
 
 </body>
+
 </html>
 <script src="~/Scripts/notify.js"></script>
 <script src="~/Scripts/notify.min.js"></script>

@@ -31,14 +31,19 @@
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">*@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-
+    @*<script src="~/Scripts/popper.min.js"></script>*@
     <script src="~/Scripts/common/jquery.blockUI.js"></script>
     @*<script src="//code.jquery.com/jquery.min.js"></script>*@
     <link href="~/Scripts/rateit.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="~/Scripts/moment.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css" rel="stylesheet" />
-    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-    <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/Scripts/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/Scripts/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/Scripts/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+
+
+    @*<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css" rel="stylesheet" />
+        <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+        <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css" rel="stylesheet" />*@
     @*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>*@
 </head>
 
@@ -47,7 +52,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="#">OnlineLibrary</a>
+            <a class="navbar-brand" href="/Home/Student">Thư viện Online</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -55,17 +60,17 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/Home/Student">Trang chủ<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Student/Readed?id=@Session["user_id"]">Readed</a>
+                        <a class="nav-link" href="/Student/Readed?id=@Session["user_id"]">Tài liệu đã đọc</a>
                     </li>
 
 
                 </ul>
                 <form class="form-inline my-2 my-lg-0 search-container" action="/Search/Index">
-                    <input class="form-control mr-sm-2 searchData" type="text" placeholder="Search" aria-label="Search" name="search" id="searchData">
-                    <button class="btn btn-outline-success my-2 my-sm-0 search" type="submit" id="search">Search</button>
+                    <input class="form-control mr-sm-2 searchData" type="text" placeholder="Tìm kiếm" aria-label="Search" name="search" id="searchData">
+                    <button class="btn btn-outline-success my-2 my-sm-0 search" type="submit" id="search">Tìm kiếm</button>
                 </form>
                 <ul class="navbar-nav mr-sm-0">
                     <li class="nav-item dropdown">
@@ -78,9 +83,10 @@
                                 <div id="fullname" hidden>@Session["fullname"]</div>
                                 <small>Tài khoản: <span>@Session["username"]</span></small>
                             </div>
-                            <lable id="userid">@Session["user_id"]</lable>
+                            <lable id="userid" hidden>@Session["user_id"]</lable>
+                            <a class="dropdown-item" data-toggle="modal" data-target="#changPass">Đổi mật khẩu</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" id="logout">Logout</a>
+                            <a class="dropdown-item" id="logout">Đăng xuất</a>
                             <script>
                                 $(document).ready(function () {
                                     $("#logout").click(function () {
@@ -103,15 +109,58 @@
             </div>
         </div>
     </nav>
+    <div class="modal" id="changPass">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Thay đổi mật khẩu</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Tạo môn học -->
+                <div id="modal" class="modal-body">
+                    <form id="formEbook" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="text">Mật khẩu cũ:</label>
+                            <input type="password" class="form-control" id="passOld" placeholder="Mật khẩu cũ" name="passOld">
+                        </div>
+                        <div class="form-group">
+                            <label for="text">Mật khẩu mới:</label>
+                            <input type="password" class="form-control" id="passNew" placeholder="Mật khẩu mới" name="passNew">
+                        </div>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button id="btnSave" type="button" class="btn btn-primary" style="width: 70px;">Lưu</button>
+                            <button type="button" class="btn btn-dark" data-dismiss="modal">Đóng</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- Page Content -->
     @RenderBody()
     <!-- /.container -->
     <!-- Footer -->
+    <footer class="py-5 bg-dark">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; Thư viện Online 2019</p>
+        </div>
+
+        <!-- /.container -->
+    </footer>
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+    @*<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+        <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+        <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>*@
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Scripts/dataTables.responsive.min.js"></script>"
+    <script src="~/Scripts/responsive.bootstrap4.min.js"></script>"
+
 
 
     <script src="~/Scripts/common/pagination.js"></script>
@@ -130,6 +179,71 @@
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/notify.js"></script>
     <script src="~/Scripts/notify.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var warnOptions = {
+                autoHideDelay: 1000,
+                showAnimation: "fadeIn",
+                hideAnimation: "fadeOut",
+                hideDuration: 700,
+                arrowShow: false,
+                className: "warn",
+            };
+            var successOptions = {
+                autoHideDelay: 1000,
+                showAnimation: "fadeIn",
+                hideAnimation: "fadeOut",
+                hideDuration: 700,
+                arrowShow: false,
+                className: "success",
+            };
+            var errorOptions = {
+                autoHideDelay: 1000,
+                showAnimation: "fadeIn",
+                hideAnimation: "fadeOut",
+                hideDuration: 700,
+                arrowShow: false,
+                className: "error",
+            };
+
+            $("#btnSave").click(function () {
+                debugger
+                var model = {};
+                model.email = $("#username").html();
+                model.passOld = $("#passOld").val();
+                model.passNew = $("#passNew").val();
+                if ($("#passOld").val() == "" || $("#passOld").val() == null) {
+                    $("#passOld").focus();
+                    $.notify("Bạn phải nhập mật khẩu cũ!", warnOptions);
+                    return;
+                }
+                if ($("#passNew").val() == "" || $("#passNew").val() == null) {
+                    $("#passNew").focus();
+                    $.notify("Bạn phải nhập mật khẩu mới!", warnOptions);
+                    return;
+                }
+                else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/api/LoginAPI/ChangePass',
+                        data: JSON.stringify(model),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+
+                        success: function (result) {
+                            if (result.isSuccess) {
+                                $.notify(result.message, successOptions);
+                                window.location.href = "/Login/Index";
+                            } else {
+                                $.notify(result.message, errorOptions);
+                            }
+                        }
+                    });
+                }
+
+            });
+        });
+    </script>
 
 </body>
 

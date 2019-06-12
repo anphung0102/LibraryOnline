@@ -42,6 +42,13 @@ namespace LibraryOnline.Controllers.API
                                     select u.fullname).ToList();
             MyHub.LoadNumberStar(oneStarCount, twoStarCount, threeStarCount,
                 fourStarCount, fiveStarCount);
+            int averageStar = 0;
+            if (fiveStarCount != 0 || fourStarCount != 0 || threeStarCount != 0 || twoStarCount != 0 || oneStarCount != 0)
+            {
+                averageStar = (5 * fiveStarCount + 4 * fourStarCount + 3 * threeStarCount + 2 * twoStarCount
+                        + 1 * oneStarCount) / (fiveStarCount + fourStarCount + threeStarCount + twoStarCount + oneStarCount);
+
+            }
             return new {
                 oneStarCount,
                 listRateOneStar,
@@ -53,7 +60,19 @@ namespace LibraryOnline.Controllers.API
                 listRateFourStar,
                 fiveStarCount,
                 listRateFiveStar,
+                averageStar
             };
+        }
+        public class RateModel {
+            public int userid { get; set; }
+            public string bookid { get; set; }
+        }
+        [Route("api/RateAPI/GetStarByUserId")]
+        [HttpPost]
+        public IHttpActionResult GetStarByUserId(RateModel model)
+        {
+            var star = db.RateStars.Where(x => x.user_id == model.userid && x.book_id == model.bookid).FirstOrDefault();
+            return Ok(star);
         }
     }
 }

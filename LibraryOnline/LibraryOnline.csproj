@@ -209,7 +209,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\API\AdminAPIController.cs" />
     <Compile Include="Controllers\API\LecturerAPIController.cs" />
     <Compile Include="Controllers\API\LoginAPIController.cs" />
@@ -221,7 +221,6 @@
     <Compile Include="Controllers\EbookAPIController.cs" />
     <Compile Include="Controllers\FileAPIController.cs" />
     <Compile Include="Controllers\ForgotPasswordController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LecturersController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ManageFileEbookController.cs" />
@@ -329,6 +328,9 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\css.css" />
+    <Content Include="Content\css\font-awesome.css" />
+    <Content Include="Content\css\style.css" />
     <Content Include="Content\css\style1.css" />
     <Content Include="Content\css\styles.minc726.css" />
     <Content Include="Content\Datatables\datatables.css" />
@@ -337,14 +339,18 @@
     <Content Include="Content\Datatables\editor.dataTables.min.css" />
     <Content Include="Content\Datatables\jquery.dataTables.min.css" />
     <Content Include="Content\Datatables\jquery.dataTables.min.js" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\img\banner.png" />
     <Content Include="Content\img\banner1.png" />
     <Content Include="Content\img\loading_gif.gif" />
     <Content Include="Content\img\logo-login.png" />
     <Content Include="Content\delete.gif" />
     <Content Include="Content\img\logo-lv1.png" />
-    <Content Include="Content\img\PDF %282%29.png" />
+    <Content Include="Content\img\pdf.png" />
     <Content Include="Content\img\user.png" />
+    <Content Include="Content\js\jquery-2.1.4.min.js" />
+    <Content Include="Content\js\jquery.vide.min.js" />
     <Content Include="Content\rateit.css" />
     <Content Include="Content\star.gif" />
     <Content Include="Content\styles\details.css" />
@@ -354,6 +360,7 @@
     <Content Include="Content\styles\style1.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
+    <Content Include="Content\video\Ipad.mp4" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Models\LibraryOnline.Context.tt">
@@ -392,6 +399,7 @@
     <Content Include="Scripts\admin\admin.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\css\bootstrap.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\common\jquery.blockUI.js" />
@@ -399,6 +407,10 @@
     <Content Include="Scripts\common\pagination.js" />
     <Content Include="Scripts\common\pagination.min.js" />
     <Content Include="Scripts\css\all.css" />
+    <Content Include="Scripts\css\dataTables.bootstrap4.min.css" />
+    <Content Include="Scripts\css\responsive.bootstrap4.min.css" />
+    <Content Include="Scripts\dataTables.bootstrap4.min.js" />
+    <Content Include="Scripts\dataTables.responsive.min.js" />
     <Content Include="Scripts\delete.gif" />
     <Content Include="Scripts\dist\ez.countimer.js" />
     <Content Include="Scripts\dist\ez.countimer.min.js" />
@@ -431,11 +443,21 @@
     </Content>
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
+    <Content Include="Scripts\jquery.dataTables.min.js" />
     <Content Include="Scripts\jquery.rateit.js" />
     <Content Include="Scripts\jquery.rateit.min.js" />
     <Content Include="Scripts\jquery.serializejson.js" />
@@ -452,6 +474,7 @@
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\rateit.css" />
+    <Content Include="Scripts\responsive.bootstrap4.min.js" />
     <Content Include="Scripts\star.gif" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
@@ -473,10 +496,8 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
-    <Content Include="Views\Admin\Admin.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
     <Content Include="Scripts\umd\popper-utils.min.js.map" />
@@ -498,7 +519,7 @@
     <Content Include="Views\Shared\_LayoutStudent.cshtml" />
     <Content Include="Views\Shared\_LayoutLecturer.cshtml" />
     <Content Include="Views\Lecturers\Manage.cshtml" />
-    <Content Include="Views\Admin\ManageUploadEbook.cshtml" />
+    <Content Include="Views\Home\ManageUploadEbook.cshtml" />
     <Content Include="Views\ManageSubEssayOfAdmin\Index.cshtml" />
     <Content Include="Views\ManageSubThesisOfAdmin\Index.cshtml" />
     <Content Include="Views\ManageUploadEssayOfAdmin\Index.cshtml" />
@@ -514,6 +535,7 @@
     <Content Include="Views\ForgotPassword\Index.cshtml" />
     <Content Include="Views\ForgotPassword\ResetPassword.cshtml" />
     <Content Include="Views\Student\Readed.cshtml" />
+    <Content Include="Views\Home\Student.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

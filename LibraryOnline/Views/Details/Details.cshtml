@@ -5,15 +5,15 @@
     {
         Response.Redirect("~/Login/Index");
     }
-    if (Session["role_id"].ToString() == "1")
+    else if (Session["role_id"].ToString() == "1")
     {
         Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     }
-    if (Session["role_id"].ToString() == "2")
+    else if(Session["role_id"].ToString() == "2")
     {
         Layout = "~/Views/Shared/_LayoutLecturer.cshtml";
     }
-    if (Session["role_id"].ToString() == "3")
+    else if(Session["role_id"].ToString() == "3")
     {
         Layout = "~/Views/Shared/_LayoutStudent.cshtml";
     }
@@ -24,6 +24,11 @@
     .class1 {
         margin-left: 10px;
         margin-right: 4px;
+    }
+    .title_table {
+        text-align: center;
+        background-color: #17a2b8 !important;
+        color: #fff !important;
     }
 </style>
 <div class="container">
@@ -48,29 +53,128 @@
         </a>
     </div>
     <!--          tạo các tab liên quan-->
-    <div id="navigation">
+    @*<div id="navigation">
         <ul class="breadcrumb">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
             <li class="breadcrumb-item"><a href="#">Ebooks</a></li>
             <li class="breadcrumb-item active">Product</li>
         </ul>
-    </div><!-- navigation -->
+    </div>*@<!-- navigation -->
     @*<h1 class="khoangcachduoi">Products</h1>*@
 
     <div class="row">
         @*<div class="col-lg-12">*@
         <div id="detail" class="col-lg-6">
 
-            <script>
+        </div>
+
+        <div style="margin-top:20px;" class='col-lg-6'>
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="title_table" scope="col">Đánh giá</th>
+                        <th class="title_table" scope="col">Thống kê</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div style="text-align:center" id="star">
+                                <b><span id="averageStar"></span></b>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="rateit col-md-6" data-rateit-value="5" data-rateit-readonly="true"></div>
+                                <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal5"><span id="fiveStar"></span> đánh giá</a></div>
+                            </div>
+                            <div class="row">
+                                <div class="rateit col-md-6" data-rateit-value="4" data-rateit-readonly="true"></div>
+                                <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal4"><span id="fourStar"></span> đánh giá</a></div>
+                            </div>
+                            <div class="row">
+                                <div class="rateit col-md-6" data-rateit-value="3" data-rateit-readonly="true"></div>
+                                <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal3"><span id="threeStar"></span> đánh giá</a></div>
+                            </div>
+                            <div class="row">
+                                <div class="rateit col-md-6" data-rateit-value="2" data-rateit-readonly="true"></div>
+                                <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal2"><span id="twoStar"></span> đánh giá</a></div>
+                            </div>
+                            <div class="row">
+                                <div class="rateit col-md-6" data-rateit-value="1" data-rateit-readonly="true"></div>
+                                <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal1"><span id="oneStar"></span> đánh giá</a></div>
+
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div style="text-align:center; ">
+
+                                <div class="rateit" id="rateit_star1" data-rateit-step="1" data-productid="123"></div>
+                                <div><button id="btnRate" type="button" class="btn btn-info">Gửi</button></div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#btnRate").click(function () {
+            var a = $('#rateit_star1').rateit('value');
+            //alert(a);
+        });
+    });
+</script>
+
+<script>
      // load data
     $(document).ready(function () {
+        var warnOptions = {
+            autoHideDelay: 1000,
+            showAnimation: "fadeIn",
+            hideAnimation: "fadeOut",
+            hideDuration: 700,
+            arrowShow: false,
+            className: "warn",
+        };
+        var successOptions = {
+            autoHideDelay: 1000,
+            showAnimation: "fadeIn",
+            hideAnimation: "fadeOut",
+            hideDuration: 700,
+            arrowShow: false,
+            className: "success",
+        };
+        var errorOptions = {
+            autoHideDelay: 1000,
+            showAnimation: "fadeIn",
+            hideAnimation: "fadeOut",
+            hideDuration: 700,
+            arrowShow: false,
+            className: "error",
+        };
+        var infoOptions = {
+            autoHideDelay: 1000,
+            showAnimation: "fadeIn",
+            hideAnimation: "fadeOut",
+            hideDuration: 700,
+            arrowShow: false,
+            className: "info",
+        };
         var val = '@ViewBag.ID';
+       
         $.ajax({
             type: "GET",
-            url: "http://localhost:52385/api/AdminAPI/GetFileById",
+            url: "/api/AdminAPI/GetFileById",
             data: { ebook_id: val },
             contentType: "application/json; charset=utf-8",
             dataType: "json",
+            async: false,
             success: function (v) {
                 console.log(v);
 
@@ -122,6 +226,7 @@
                                         data: JSON.stringify(model),
                                         contentType: "application/json; charset=utf-8",
                                         dataType: "json",
+                                        async: false,
                                         success: function (v) {
                                            // $("#countView").val(view);
                                         }
@@ -143,6 +248,7 @@
                                         data: JSON.stringify(model),
                                         contentType: "application/json; charset=utf-8",
                                         dataType: "json",
+                                        async: false,
                                         success: function (v) {
                         }
                     });
@@ -158,78 +264,370 @@
         }
     }
 
-    $("body").on('click','#read',function () {
-        openPDF($('#pdf-link').text());
-    });
-    });
-            </script>
+     $("body").on('click','#read',function () {
+                  openPDF($('#pdf-link').text());
+        });
 
+        var val = '@ViewBag.Id';
+     $.ajax({
+            type: "GET",
+            url: "http://localhost:52385/api/AdminAPI/GetFileById",
+            data: { ebook_id: val},
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (v) {
+                console.log(v);
+               var data = "<div class='col-lg-12 col-md-6 mb-4' >";
+                //data += "<h2>Sách: " + v.title + "</h2>";
+                data += "<embed src='/Content/Upload/" + v.filename + "' type='application/pdf' height='500px' width='100%' class='responsive'>";
+
+                data += "</div > ";
+                $("#loadfile").append(data);
+            }
+     });
+       
+        function refreshListUserRate() {
+            $("#listUserRate1").empty();
+            $("#listUserRate2").empty();
+            $("#listUserRate3").empty();
+            $("#listUserRate4").empty();
+            $("#listUserRate5").empty();
+        }
+        function loadNumberStar() {
+            var bookid = '@ViewBag.ID';
+            $.blockUI();
+            $.ajax({
+                type: "GET",
+                url: "/api/RateAPI/GetRateStar",
+                data: { book_id: bookid },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    console.log("aa", result);
+                    $("#oneStar").text(result.oneStarCount);
+                    $.each(result.listRateOneStar, function (i, v) {
+                        $("#listUserRate1").append("<div>" + v + "</div>");
+                    });
+                    $("#twoStar").text(result.twoStarCount);
+                    $.each(result.listRateTwoStar, function (i, v) {
+                        $("#listUserRate2").append("<div>" + v + "</div>");
+                    });
+                    $("#threeStar").text(result.threeStarCount);
+                    $.each(result.listRateThreeStar, function (i, v) {
+                        $("#listUserRate3").append("<div>" + v + "</div>");
+                    });
+                    $("#fourStar").text(result.fourStarCount);
+                    $.each(result.listRateFourStar, function (i, v) {
+                        $("#listUserRate4").append("<div>" + v + "</div>");
+                    });
+                    $("#fiveStar").text(result.fiveStarCount);
+                    $.each(result.listRateFiveStar, function (i, v) {
+                        $("#listUserRate5").append("<div>" + v + "</div>");
+                    });
+                    //$("#averageStar").text(result.averageStar);
+                    $("#averageStar").empty();
+                    $("#averageStar").append(result.averageStar + '<i class="fas fa-star"></i>');
+                    //alert(result.averageStar);
+                }
+            });
+            $.unblockUI();
+        }
+
+        refreshListUserRate();
+        loadNumberStar();
+        $.blockUI();
+        var data = {};
+        data.userid = $("#userid").html();
+        data.bookid = '@ViewBag.ID';
+        $.ajax({
+            type: "POST",
+            url: "/api/RateAPI/GetStarByUserId",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                debugger
+                if (result != null) {
+                    $('#rateit_star1').rateit('value', result.rate);
+                }
+                else {
+                    $('#rateit_star1').rateit('value', 0);
+                }
+
+            }
+        });
+        $.unblockUI();
+        $("#btnRate").click(function () {
+            var data = {};
+            data.rate = $('#rateit_star1').rateit('value');
+            data.bookid = '@ViewBag.ID';
+            data.username = $("#fullname").html();
+            data.userid = $("#userid").html();
+            console.log("bookid",data);
+            $.ajax({
+                type: "POST",
+                url: "/api/AdminAPI/SaveRate",
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result.isSuccess) {
+                        $.notify("Bạn đã đánh giá sách!", infoOptions);
+                        refreshListUserRate();
+                        loadNumberStar();
+                    }
+                }
+            });
+        });
+       
+});
+    $(document).ready(function () {
+        $('.timer').countimer();
+
+    });
+</script>
+<!-- thống kê -->
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="counter" role="dialog">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <span id="counter" class="timer"></span> <br />
+                <div id="loadfile"></div>
+
+            </div>
         </div>
-        @*<div class="row">
-                <div class='col-lg-12 col-md-6 mb-4'>
-                    <div class='border'>
-                        <div class="row" id='info_details'>
-                            <div class='col-lg-12'>
-                                <div>Đánh giá:</div>
-                                <div class="rateit" id="rateit_star1" data-productid="123"></div>
-                                <button id="btnRate">Gửi</button>
-                            </div>
-                        </div>
-                    </div>
+    </div>
+</div>
+
+
+<!-- /.container -->
+<!-- Footer -->
+<!--Modal xem dnh sách người đánh giá-->
+<!-- 1 Sao-->
+<div id="myModal1" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Danh sách người đánh giá</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" id="listUserRate1">
+                <!--Danh sách người đánh giá-->
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- 2 Sao-->
+<div id="myModal2" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Danh sách người đánh giá</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" id="listUserRate2">
+                <!--Danh sách người đánh giá-->
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- 3 Sao-->
+<div id="myModal3" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Danh sách người đánh giá</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" id="listUserRate3">
+                <!--Danh sách người đánh giá-->
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- 4 Sao-->
+<div id="myModal4" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Danh sách người đánh giá</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" id="listUserRate4">
+                <!--Danh sách người đánh giá-->
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- 5 Sao-->
+<div id="myModal5" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Danh sách người đánh giá</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" id="listUserRate5">
+                <!--Danh sách người đánh giá-->
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@*<div class='border'>
+        <div class="row" id='info_details' style="height:300px">
+            <div class="col-md-4">
+                <div style="background-color:lightskyblue;font-size:20px;text-align:center"><b>Đánh giá:</b></div>
+                <div style="text-align:center">
+                    <div class="rateit" id="rateit_star1" data-rateit-step="1" data-productid="123"></div>
+                    <button id="btnRate" type="button" class="btn btn-info">Gửi</button>
                 </div>
-            </div>*@
-        <div style="margin-top:20px;" class='col-lg-6'>
 
-            <table class="table table-bordered">
-                <thead class="thead-light">
-                    <tr>
-                        <th scope="col">Đánh giá</th>
-                        <th scope="col">Thống kê</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <div style="text-align:center" id="star">
-                                <b>5 <i class="fas fa-star"></i></b>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="row">
-                                <div class="rateit col-md-6" data-rateit-value="5" data-rateit-readonly="true"></div>
-                                <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal5"><span id="fiveStar"></span> đánh giá</a></div>
-                            </div>
-                            <div class="row">
-                                <div class="rateit col-md-6" data-rateit-value="4" data-rateit-readonly="true"></div>
-                                <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal4"><span id="fourStar"></span> đánh giá</a></div>
-                            </div>
-                            <div class="row">
-                                <div class="rateit col-md-6" data-rateit-value="3" data-rateit-readonly="true"></div>
-                                <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal3"><span id="threeStar"></span> đánh giá</a></div>
-                            </div>
-                            <div class="row">
-                                <div class="rateit col-md-6" data-rateit-value="2" data-rateit-readonly="true"></div>
-                                <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal2"><span id="twoStar"></span> đánh giá</a></div>
-                            </div>
-                            <div class="row">
-                                <div class="rateit col-md-6" data-rateit-value="1" data-rateit-readonly="true"></div>
-                                <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal1"><span id="oneStar"></span> đánh giá</a></div>
+            </div>
+            <div class="col-md-8">
+                <div style="background-color:lightskyblue;font-size:20px;text-align:center"><b>Thống kê:</b></div>
+                <div class="row">
+                    <div class="rateit col-md-6" data-rateit-value="5" data-rateit-readonly="true"></div>
+                    <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal5"><span id="fiveStar"></span> đánh giá</a></div>
+                </div>
+                <div class="row">
+                    <div class="rateit col-md-6" data-rateit-value="4" data-rateit-readonly="true"></div>
+                    <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal4"><span id="fourStar"></span> đánh giá</a></div>
+                </div>
+                <div class="row">
+                    <div class="rateit col-md-6" data-rateit-value="3" data-rateit-readonly="true"></div>
+                    <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal3"><span id="threeStar"></span> đánh giá</a></div>
+                </div>
+                <div class="row">
+                    <div class="rateit col-md-6" data-rateit-value="2" data-rateit-readonly="true"></div>
+                    <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal2"><span id="twoStar"></span> đánh giá</a></div>
+                </div>
+                <div class="row">
+                    <div class="rateit col-md-6" data-rateit-value="1" data-rateit-readonly="true"></div>
+                    <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal1"><span id="oneStar"></span> đánh giá</a></div>
 
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <div style="text-align:center; ">
+                </div>
+            </div>
+        </div>
+    </div>*@
+@*</div>*@
+<!-- /.col-lg-9 -->
+@*<script>
+         // load data
+                        $(document).ready(function () {
+                            var val = '@ViewBag.ID';
+                            $.ajax({
+                                type: "GET",
+                                url: "http://localhost:52385/api/AdminAPI/GetFileById",
+                                data: { ebook_id: val },
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (v) {
+                                    console.log(v);
 
-                                <div class="rateit" id="rateit_star1" data-rateit-step="1" data-productid="123"></div>
-                                <div><button id="btnRate" type="button" class="btn btn-info">Gửi</button></div>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            @*<div class='border'>
+                                    var data = "<div class='col-lg-12 col-md-6 mb-4' >";
+                                    data += "<div class='border'>";
+                                    data += "<div class='row' id='info_details'>";
+                                    data += "<div class='col-lg-6'>";
+                                    data += "<h2>" + v.title + "</h2>";
+                                    data += "<p><b>Tác giả: </b>" + v.author + "</p>";
+                                    data += "<p><b>Năm xuất bản: </b>" + v.year + "</p>";
+                                    data += "<div id='rate' class='rateit'></div>";
+                                    data += "<div id='button_details'>";
+                                    data += "<p id='pdf-link' hidden='hidden'>/Content/Upload/" + v.filename + "</p>";
+                                    //<a  href='/ReadFileDetails/Index?ebook_id=" + v.ebook_id + "'" +
+                                    //"style='color:white;text-decoration: none;' data-bind='text:title'></a> data-toggle='modal' data-target='#counter'
+                                    data += "<button id='btnViewBook'  type='button' class='btn btn-info' style='width: 100px;'>Xem</button>";
+                                    data += "<div id='countView'>" + v.countView + "</div>";
+                                    //data += `<a href="/Content/Upload/${v.filename}" download><input type="button" value="Download" /></a >`
+                                    data += `<button id='btnDowBook' type='button' class='btn btn-info' style='width: 100px;'><a href="/Content/Upload/${v.filename}" download>Dowload</a></button>`;
+                                    data += "<div id='countDowload'>" + v.countDowload + "</div>";
+
+                                    //data += "<div id='countDowload'>" + v.countDowload + "</div>";
+                                    //data += `<button type='button' class='btn btn-info' style='width: 100px;'><a href=/Content/Upload/${v.filename } style='color:white;text-decoration: none;'>Dowload</a></button>`;
+                                    data += " </div>";
+                                    data += "<div><h2>Mô tả:</h2>";
+                                    data += "<p>" + v.describe + "</p>";
+                                    data += "</div ></div ></div ></div > ";
+                                    $("#detail").append(data);
+                                    $("#btnViewBook").click(function () {
+                                        debugger
+
+                                         var view = parseInt($("#countView").text()) + 1;
+
+                                        var model = {};
+                                         model.ID = '@ViewBag.ID';
+                                         model.count = view;
+                                         console.log("countView", model);
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/api/AdminAPI/UpdateViewEbook",
+                                            data: JSON.stringify(model),
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "json",
+                                            success: function (v) {
+                                               // $("#countView").val(view);
+                                            }
+                                        });
+                                        window.location.href = "/ReadFileDetails/Index?ebook_id=" + '@ViewBag.ID';
+                                    });
+                                    $("#btnDowBook").click(function () {
+                                        debugger
+
+                                        var dow = parseInt($("#countDowload").text()) + 1;
+
+                                        $("#countDowload").html(dow);
+                                        var model = {};
+                                         model.ID = '@ViewBag.ID';
+                                        model.count = dow;
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/api/AdminAPI/UpdateDowEbook",
+                                            data: JSON.stringify(model),
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "json",
+                                            success: function (v) {
+                                            }
+                                        });
+                                    });
+                                }
+                            });
+
+                            function openPDF(link) {
+                                //alert(link);
+                                if (link) {
+                                    window.open(link);
+                                }
+                            }
+
+                            $("body").on('click', '#read', function () {
+                                openPDF($('#pdf-link').text());
+                            });
+                        });
+    </script>*@
+
+
+@*<div class="row" style="margin-top:20px;">
+    <div class='col-md-12'>
+        <div class='border'>
             <div class="row" id='info_details' style="height:300px">
                 <div class="col-md-4">
                     <div style="background-color:lightskyblue;font-size:20px;text-align:center"><b>Đánh giá:</b></div>
@@ -261,250 +659,107 @@
                         <div class="rateit col-md-6" data-rateit-value="1" data-rateit-readonly="true"></div>
                         <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal1"><span id="oneStar"></span> đánh giá</a></div>
 
-                    </div>
-                </div>
-            </div>
-        </div>*@
-
-        </div>
-        @*</div>*@
-        <!-- /.col-lg-9 -->
-        @*<script>
-                 // load data
-                                $(document).ready(function () {
-                                    var val = '@ViewBag.ID';
-                                    $.ajax({
-                                        type: "GET",
-                                        url: "http://localhost:52385/api/AdminAPI/GetFileById",
-                                        data: { ebook_id: val },
-                                        contentType: "application/json; charset=utf-8",
-                                        dataType: "json",
-                                        success: function (v) {
-                                            console.log(v);
-
-                                            var data = "<div class='col-lg-12 col-md-6 mb-4' >";
-                                            data += "<div class='border'>";
-                                            data += "<div class='row' id='info_details'>";
-                                            data += "<div class='col-lg-6'>";
-                                            data += "<h2>" + v.title + "</h2>";
-                                            data += "<p><b>Tác giả: </b>" + v.author + "</p>";
-                                            data += "<p><b>Năm xuất bản: </b>" + v.year + "</p>";
-                                            data += "<div id='rate' class='rateit'></div>";
-                                            data += "<div id='button_details'>";
-                                            data += "<p id='pdf-link' hidden='hidden'>/Content/Upload/" + v.filename + "</p>";
-                                            //<a  href='/ReadFileDetails/Index?ebook_id=" + v.ebook_id + "'" +
-                                            //"style='color:white;text-decoration: none;' data-bind='text:title'></a> data-toggle='modal' data-target='#counter'
-                                            data += "<button id='btnViewBook'  type='button' class='btn btn-info' style='width: 100px;'>Xem</button>";
-                                            data += "<div id='countView'>" + v.countView + "</div>";
-                                            //data += `<a href="/Content/Upload/${v.filename}" download><input type="button" value="Download" /></a >`
-                                            data += `<button id='btnDowBook' type='button' class='btn btn-info' style='width: 100px;'><a href="/Content/Upload/${v.filename}" download>Dowload</a></button>`;
-                                            data += "<div id='countDowload'>" + v.countDowload + "</div>";
-
-                                            //data += "<div id='countDowload'>" + v.countDowload + "</div>";
-                                            //data += `<button type='button' class='btn btn-info' style='width: 100px;'><a href=/Content/Upload/${v.filename } style='color:white;text-decoration: none;'>Dowload</a></button>`;
-                                            data += " </div>";
-                                            data += "<div><h2>Mô tả:</h2>";
-                                            data += "<p>" + v.describe + "</p>";
-                                            data += "</div ></div ></div ></div > ";
-                                            $("#detail").append(data);
-                                            $("#btnViewBook").click(function () {
-                                                debugger
-
-                                                 var view = parseInt($("#countView").text()) + 1;
-
-                                                var model = {};
-                                                 model.ID = '@ViewBag.ID';
-                                                 model.count = view;
-                                                 console.log("countView", model);
-                                                $.ajax({
-                                                    type: "POST",
-                                                    url: "/api/AdminAPI/UpdateViewEbook",
-                                                    data: JSON.stringify(model),
-                                                    contentType: "application/json; charset=utf-8",
-                                                    dataType: "json",
-                                                    success: function (v) {
-                                                       // $("#countView").val(view);
-                                                    }
-                                                });
-                                                window.location.href = "/ReadFileDetails/Index?ebook_id=" + '@ViewBag.ID';
-                                            });
-                                            $("#btnDowBook").click(function () {
-                                                debugger
-
-                                                var dow = parseInt($("#countDowload").text()) + 1;
-
-                                                $("#countDowload").html(dow);
-                                                var model = {};
-                                                 model.ID = '@ViewBag.ID';
-                                                model.count = dow;
-                                                $.ajax({
-                                                    type: "POST",
-                                                    url: "/api/AdminAPI/UpdateDowEbook",
-                                                    data: JSON.stringify(model),
-                                                    contentType: "application/json; charset=utf-8",
-                                                    dataType: "json",
-                                                    success: function (v) {
-                                                    }
-                                                });
-                                            });
-                                        }
-                                    });
-
-                                    function openPDF(link) {
-                                        //alert(link);
-                                        if (link) {
-                                            window.open(link);
-                                        }
-                                    }
-
-                                    $("body").on('click', '#read', function () {
-                                        openPDF($('#pdf-link').text());
-                                    });
-                                });
-            </script>*@
-
-
-        @*<div class="row" style="margin-top:20px;">
-            <div class='col-md-12'>
-                <div class='border'>
-                    <div class="row" id='info_details' style="height:300px">
-                        <div class="col-md-4">
-                            <div style="background-color:lightskyblue;font-size:20px;text-align:center"><b>Đánh giá:</b></div>
-                            <div style="text-align:center">
-                                <div class="rateit" id="rateit_star1" data-rateit-step="1" data-productid="123"></div>
-                                <button id="btnRate" type="button" class="btn btn-info">Gửi</button>
-                            </div>
-
-                        </div>
-                        <div class="col-md-8">
-                            <div style="background-color:lightskyblue;font-size:20px;text-align:center"><b>Thống kê:</b></div>
-                            <div class="row">
-                                <div class="rateit col-md-6" data-rateit-value="5" data-rateit-readonly="true"></div>
-                                <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal5"><span id="fiveStar"></span> đánh giá</a></div>
-                            </div>
-                            <div class="row">
-                                <div class="rateit col-md-6" data-rateit-value="4" data-rateit-readonly="true"></div>
-                                <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal4"><span id="fourStar"></span> đánh giá</a></div>
-                            </div>
-                            <div class="row">
-                                <div class="rateit col-md-6" data-rateit-value="3" data-rateit-readonly="true"></div>
-                                <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal3"><span id="threeStar"></span> đánh giá</a></div>
-                            </div>
-                            <div class="row">
-                                <div class="rateit col-md-6" data-rateit-value="2" data-rateit-readonly="true"></div>
-                                <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal2"><span id="twoStar"></span> đánh giá</a></div>
-                            </div>
-                            <div class="row">
-                                <div class="rateit col-md-6" data-rateit-value="1" data-rateit-readonly="true"></div>
-                                <div class="col-md-6"><a href="" data-toggle="modal" data-target="#myModal1"><span id="oneStar"></span> đánh giá</a></div>
-
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>*@
+                    </div>
+                </div>
+            </div>*@
 
+<!-- /.col-lg-9 -->
+@*<script>
+         // load data
+                        $(document).ready(function () {
+                            var val = '@ViewBag.ID';
+                            $.ajax({
+                                type: "GET",
+                                url: "http://localhost:52385/api/AdminAPI/GetFileById",
+                                data: { ebook_id: val },
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (v) {
+                                    console.log(v);
 
-    </div>
-    <!-- /.col-lg-9 -->
+                                    var data = "<div class='col-lg-12 col-md-6 mb-4' >";
+                                    data += "<div class='border'>";
+                                    data += "<div class='row' id='info_details'>";
+                                    data += "<div class='col-lg-6'>";
+                                    data += "<h2>" + v.title + "</h2>";
+                                    data += "<p><b>Tác giả: </b>" + v.author + "</p>";
+                                    data += "<p><b>Năm xuất bản: </b>" + v.year + "</p>";
+                                    data += "<div id='rate' class='rateit'></div>";
+                                    data += "<div id='button_details'>";
+                                    data += "<p id='pdf-link' hidden='hidden'>/Content/Upload/" + v.filename + "</p>";
+                                    //<a  href='/ReadFileDetails/Index?ebook_id=" + v.ebook_id + "'" +
+                                    //"style='color:white;text-decoration: none;' data-bind='text:title'></a> data-toggle='modal' data-target='#counter'
+                                    data += "<button id='btnViewBook'  type='button' class='btn btn-info' style='width: 100px;'>Xem</button>";
+                                    data += "<div id='countView'>" + v.countView + "</div>";
+                                    //data += `<a href="/Content/Upload/${v.filename}" download><input type="button" value="Download" /></a >`
+                                    data += `<button id='btnDowBook' type='button' class='btn btn-info' style='width: 100px;'><a href="/Content/Upload/${v.filename}" download>Dowload</a></button>`;
+                                    data += "<div id='countDowload'>" + v.countDowload + "</div>";
 
-</div>
-        <!-- /.col-lg-9 -->
+                                    //data += "<div id='countDowload'>" + v.countDowload + "</div>";
+                                    //data += `<button type='button' class='btn btn-info' style='width: 100px;'><a href=/Content/Upload/${v.filename } style='color:white;text-decoration: none;'>Dowload</a></button>`;
+                                    data += " </div>";
+                                    data += "<div><h2>Mô tả:</h2>";
+                                    data += "<p>" + v.describe + "</p>";
+                                    data += "</div ></div ></div ></div > ";
+                                    $("#detail").append(data);
+                                    $("#btnViewBook").click(function () {
+                                        debugger
 
-       @*<script>
-     // load data
-                    $(document).ready(function () {
-                        var val = '@ViewBag.ID';
-                        $.ajax({
-                            type: "GET",
-                            url: "http://localhost:52385/api/AdminAPI/GetFileById",
-                            data: { ebook_id: val },
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            success: function (v) {
-                                console.log(v);
+                                         var view = parseInt($("#countView").text()) + 1;
 
-                                var data = "<div class='col-lg-12 col-md-6 mb-4' >";
-                                data += "<div class='border'>";
-                                data += "<div class='row' id='info_details'>";
-                                data += "<div class='col-lg-6'>";
-                                data += "<h2>" + v.title + "</h2>";
-                                data += "<p><b>Tác giả: </b>" + v.author + "</p>";
-                                data += "<p><b>Năm xuất bản: </b>" + v.year + "</p>";
-                                data += "<div id='rate' class='rateit'></div>";
-                                data += "<div id='button_details'>";
-                                data += "<p id='pdf-link' hidden='hidden'>/Content/Upload/" + v.filename + "</p>";
-                                //<a  href='/ReadFileDetails/Index?ebook_id=" + v.ebook_id + "'" +
-                                //"style='color:white;text-decoration: none;' data-bind='text:title'></a> data-toggle='modal' data-target='#counter'
-                                data += "<button id='btnViewBook'  type='button' class='btn btn-info' style='width: 100px;'>Xem</button>";
-                                data += "<div id='countView'>" + v.countView + "</div>";
-                                //data += `<a href="/Content/Upload/${v.filename}" download><input type="button" value="Download" /></a >`
-                                data += `<button id='btnDowBook' type='button' class='btn btn-info' style='width: 100px;'><a href="/Content/Upload/${v.filename}" download>Dowload</a></button>`;
-                                data += "<div id='countDowload'>" + v.countDowload + "</div>";
-
-                                //data += "<div id='countDowload'>" + v.countDowload + "</div>";
-                                //data += `<button type='button' class='btn btn-info' style='width: 100px;'><a href=/Content/Upload/${v.filename } style='color:white;text-decoration: none;'>Dowload</a></button>`;
-                                data += " </div>";
-                                data += "<div><h2>Mô tả:</h2>";
-                                data += "<p>" + v.describe + "</p>";
-                                data += "</div ></div ></div ></div > ";
-                                $("#detail").append(data);
-                                $("#btnViewBook").click(function () {
-                                    debugger
-
-                                     var view = parseInt($("#countView").text()) + 1;
-
-                                    var model = {};
-                                     model.ID = '@ViewBag.ID';
-                                     model.count = view;
-                                     console.log("countView", model);
-                                    $.ajax({
-                                        type: "POST",
-                                        url: "/api/AdminAPI/UpdateViewEbook",
-                                        data: JSON.stringify(model),
-                                        contentType: "application/json; charset=utf-8",
-                                        dataType: "json",
-                                        success: function (v) {
-                                           // $("#countView").val(view);
-                                        }
+                                        var model = {};
+                                         model.ID = '@ViewBag.ID';
+                                         model.count = view;
+                                         console.log("countView", model);
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/api/AdminAPI/UpdateViewEbook",
+                                            data: JSON.stringify(model),
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "json",
+                                            success: function (v) {
+                                               // $("#countView").val(view);
+                                            }
+                                        });
+                                        window.location.href = "/ReadFileDetails/Index?ebook_id=" + '@ViewBag.ID';
                                     });
-                                    window.location.href = "/ReadFileDetails/Index?ebook_id=" + '@ViewBag.ID';
-                                });
-                                $("#btnDowBook").click(function () {
-                                    debugger
+                                    $("#btnDowBook").click(function () {
+                                        debugger
 
-                                    var dow = parseInt($("#countDowload").text()) + 1;
+                                        var dow = parseInt($("#countDowload").text()) + 1;
 
-                                    $("#countDowload").html(dow);
-                                    var model = {};
-                                     model.ID = '@ViewBag.ID';
-                                    model.count = dow;
-                                    $.ajax({
-                                        type: "POST",
-                                        url: "/api/AdminAPI/UpdateDowEbook",
-                                        data: JSON.stringify(model),
-                                        contentType: "application/json; charset=utf-8",
-                                        dataType: "json",
-                                        success: function (v) {
-                                        }
+                                        $("#countDowload").html(dow);
+                                        var model = {};
+                                         model.ID = '@ViewBag.ID';
+                                        model.count = dow;
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/api/AdminAPI/UpdateDowEbook",
+                                            data: JSON.stringify(model),
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "json",
+                                            success: function (v) {
+                                            }
+                                        });
                                     });
-                                });
-                            }
-                        });
+                                }
+                            });
 
-                        function openPDF(link) {
-                            //alert(link);
-                            if (link) {
-                                window.open(link);
+                            function openPDF(link) {
+                                //alert(link);
+                                if (link) {
+                                    window.open(link);
+                                }
                             }
-                        }
 
-                        $("body").on('click', '#read', function () {
-                            openPDF($('#pdf-link').text());
+                            $("body").on('click', '#read', function () {
+                                openPDF($('#pdf-link').text());
+                            });
                         });
-                    });
-</script>*@
+    </script>*@
 
 
 @*<div class="row" style="margin-top:20px;">
@@ -549,210 +804,6 @@
             </div>*@
 
 
- 
-<!-- /.container -->
-<!-- Footer -->
-
-<script>
-    $(document).ready(function () {
-        $("#btnRate").click(function () {
-            var a = $('#rateit_star1').rateit('value');
-            alert(a);
-        });
-    });
-</script>
-
-
-<!-- Modal -->
-<div class="modal fade" id="counter" role="dialog">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <span id="counter" class="timer"></span> <br />
-                <div id="loadfile"></div>
-
-            </div>
-        </div>
-    </div>
-</div>
-
 
 <!-- /.container -->
 <!-- Footer -->
-<!-- thống kê -->
-<script>
-    $(document).ready(function () {
-
-        $(document).ready(function () {
-        $('.timer').countimer();
-
-    });
- $(document).ready(function () {
-      var val = '@ViewBag.Id';
-        $.ajax({
-            type: "GET",
-            url: "http://localhost:52385/api/AdminAPI/GetFileById",
-            data: { ebook_id: val},
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (v) {
-                console.log(v);
-               var data = "<div class='col-lg-12 col-md-6 mb-4' >";
-                //data += "<h2>Sách: " + v.title + "</h2>";
-                data += "<embed src='/Content/Upload/" + v.filename + "' type='application/pdf' height='500px' width='100%' class='responsive'>";
-
-                data += "</div > ";
-                $("#loadfile").append(data);
-            }
-     });
-
-    });
-
-        function refreshListUserRate() {
-            $("#listUserRate1").empty();
-            $("#listUserRate2").empty();
-            $("#listUserRate3").empty();
-            $("#listUserRate4").empty();
-            $("#listUserRate5").empty();
-        }
-        function loadNumberStar() {
-            var bookid = '@ViewBag.ID';
-            $.ajax({
-                type: "GET",
-                url: "/api/RateAPI/GetRateStar",
-                data: { book_id: bookid },
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (result) {
-                    console.log("aa", result);
-                    $("#oneStar").text(result.oneStarCount);
-                    $.each(result.listRateOneStar, function (i, v) {
-                        $("#listUserRate1").append("<div>" + v + "</div>");
-                    });
-                    $("#twoStar").text(result.twoStarCount);
-                    $.each(result.listRateTwoStar, function (i, v) {
-                        $("#listUserRate2").append("<div>" + v + "</div>");
-                    });
-                    $("#threeStar").text(result.threeStarCount);
-                    $.each(result.listRateThreeStar, function (i, v) {
-                        $("#listUserRate3").append("<div>" + v + "</div>");
-                    });
-                    $("#fourStar").text(result.fourStarCount);
-                    $.each(result.listRateFourStar, function (i, v) {
-                        $("#listUserRate4").append("<div>" + v + "</div>");
-                    });
-                    $("#fiveStar").text(result.fiveStarCount);
-                    $.each(result.listRateFiveStar, function (i, v) {
-                        $("#listUserRate5").append("<div>" + v + "</div>");
-                    });
-                }
-            });
-        }
-        refreshListUserRate();
-        loadNumberStar();
-        $("#btnRate").click(function () {
-            var data = {};
-            data.rate = $('#rateit_star1').rateit('value');
-            data.bookid = '@ViewBag.ID';
-            data.username = $("#fullname").html();
-            data.userid = $("#userid").html();
-            console.log("bookid",data);
-            $.ajax({
-                type: "POST",
-                url: "/api/AdminAPI/SaveRate",
-                data: JSON.stringify(data),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (result) {
-                    if (result.isSuccess) {
-                        alert("Bạn đã đánh giá sách!");
-                        refreshListUserRate();
-                        loadNumberStar();
-                    }
-                }
-            });
-        });
-
-    });
-</script>
-
-<!--Modal xem dnh sách người đánh giá-->
-<!-- 1 Sao-->
-<div id="myModal1" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body" id="listUserRate1">
-                <!--Danh sách người đánh giá-->
-            </div>
-        </div>
-
-    </div>
-</div>
-<!-- 2 Sao-->
-<div id="myModal2" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body" id="listUserRate2">
-                <!--Danh sách người đánh giá-->
-            </div>
-        </div>
-
-    </div>
-</div>
-<!-- 3 Sao-->
-<div id="myModal3" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body" id="listUserRate3">
-                <!--Danh sách người đánh giá-->
-            </div>
-        </div>
-
-    </div>
-</div>
-<!-- 4 Sao-->
-<div id="myModal4" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body" id="listUserRate4">
-                <!--Danh sách người đánh giá-->
-            </div>
-        </div>
-
-    </div>
-</div>
-<!-- 5 Sao-->
-<div id="myModal5" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body" id="listUserRate5">
-                <!--Danh sách người đánh giá-->
-            </div>
-        </div>
-
-    </div>
-</div>
-

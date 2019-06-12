@@ -1,6 +1,5 @@
-﻿
-@{
-    Layout = "~/Views/Shared/_LayoutStudent.cshtml"; ;
+﻿@{
+    Layout = "~/Views/Shared/_LayoutStudent.cshtml";
 }
 @{
     var user = Session["username"];
@@ -16,6 +15,7 @@
         <thead>
             <tr>
                 <th>ID</th>
+                <th>Mã sách</th>
                 <th>Tên sách</th>
                 <th>Thời gian xem</th>
                 <th>Ngày xem</th>
@@ -44,6 +44,7 @@
                 data: data,
                 "columns": [
                     { "data": "id" },
+                    { "data": "bookid" },
                     { "data": "bookname" },
                     { "data": "time1" },
                     {

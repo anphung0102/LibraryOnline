@@ -1201,5 +1201,22 @@ namespace LibraryOnline.Controllers.API
         {
             return db.Roles.ToList();
         }
+        // lấy ebook tiểu luận khóa luận gần nhất
+        [Route("api/AdminAPI/GetListRecently")]
+        [HttpGet]
+        public IHttpActionResult GetListRecently() 
+        {
+            var ebook = db.Ebooks.OrderByDescending(x => x.date_upload).ToList().Take(6);
+            var essay = db.Essays.OrderByDescending(x => x.date_upload).ToList().Take(6);
+            var thesis = db.Theses.OrderByDescending(x => x.date_upload).ToList().Take(6);
+            var data = new
+            {
+                lstebook = ebook,
+                lstessay  = essay,
+                lstthesis = thesis
+            };
+            return Ok(data);
+        }
+
     }
 }

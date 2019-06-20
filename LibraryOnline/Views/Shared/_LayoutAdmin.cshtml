@@ -40,12 +40,12 @@
     <link href="~/Scripts/css/bootstrap.css" rel="stylesheet" />
     <link href="~/Scripts/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
     <link href="~/Scripts/css/responsive.bootstrap4.min.css" rel="stylesheet" />
-
+  
 
     @*<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css" rel="stylesheet" />
-        <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-        <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css" rel="stylesheet" />
-    @*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>*@
+            <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+            <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+        @*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>*@
 </head>
 
 <body>
@@ -72,7 +72,7 @@
                             <a class="dropdown-item" href="/ManageUser/Index">Quản lý</a>
                             <h5 class="dropdown-header">Quản lý Ebooks</h5>
                             <a class="dropdown-item" href="/ManageSubjectEbook/Index">Quản lý bộ môn</a>
-                            <a class="dropdown-item" href="/Admin/ManageUploadEbook">Quản lý Upload</a>
+                            <a class="dropdown-item" href="/Home/ManageUploadEbook">Quản lý Upload</a>
                             <div class="dropdown-divider"></div>
                             <h5 class="dropdown-header">Quản lý Tiểu luận</h5>
                             <a class="dropdown-item" href="/ManageSubEssayOfAdmin/Index">Quản lý bộ môn</a>
@@ -86,7 +86,7 @@
 
                 </ul>
                 <form class="form-inline my-2 my-lg-0 search-container" action="/Search/Index">
-                    <input class="form-control mr-sm-2 searchData" type="text" placeholder="Tìm kiếm" aria-label="Search" name="search" id="searchData">
+                    <input class="form-control mr-sm-2 searchData" type="text" placeholder="Tìm kiếm" aria-label="Search" name="search" id="searchData" style="width: 450px;">
                     <button class="btn btn-outline-success my-2 my-sm-0 search" type="submit" id="search">Tìm kiếm</button>
                 </form>
                 <ul class="navbar-nav mr-sm-0">

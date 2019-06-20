@@ -22,24 +22,53 @@
     }
 }
 <div class="container">
-    <div id="loadfile"  style="text-align:center; margin-top:5px"></div>
+    <span id="counter" class="timer" hidden></span> <br />
+    <div id="loadfile" style="text-align:center; margin-top:5px"></div>
 </div>
 <script>
+        $(window).bind('beforeunload', function (e) {
+            //do something
+            //wnd.close();
+             var bookId = '@ViewBag.Id';
+                var model = {};
+                model.UserId = $("#userid").html();
+                model.BookId = bookId;
+                model.Time = $("#counter").html();
+                $.ajax({
+                    type: "POST",
+                    url: "/api/TimeAPI/SaveTime",
+                    data: JSON.stringify(model),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    async: false,
+                    success: function (v) {
+                    }
+                });
+        });
+</script>
+<script>
+    $(document).ready(function () {
+        $('.timer').countimer();
+        $("footer").hide();
+    });
  $(document).ready(function () {
       var val = '@ViewBag.Id';
         $.ajax({
             type: "GET",
-            url: "http://localhost:52385/api/AdminAPI/GetFileEssayById",
+            url: "/api/AdminAPI/GetFileEssayById",
             data: { essay_id: val},
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (v) {
                 console.log(v);
-               var data = "<div class='col-lg-12 col-md-6 mb-4' >";
-                data += "<h2>Sách: " + v.title + "</h2>";
-                data += "<embed src='/Content/Upload/" + v.filename + "' type='application/pdf' height='700px' width='70%' class='responsive'>";
+               //var data = "<div class='col-lg-12 col-md-6 mb-4' >";
+               // data += "<h2>Sách: " + v.title + "</h2>";
+               // data += "<embed src='/Content/Upload/" + v.filename + "' type='application/pdf' height='700px' width='70%' class='responsive'>";
 
-                data += "</div > ";
+               // data += "</div > ";
+               // $("#loadfile").append(data);
+                var data = "<embed src='/Content/Upload/" + v.filename + "' type='application/pdf' height='564px' width='100%' class='responsive'>";
+
                 $("#loadfile").append(data);
             }
         });

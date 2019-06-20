@@ -27,13 +27,20 @@
     .mar_bottom {
         margin-bottom: 5px;
     }
+    .fas {
+        font-size: 22px;
+    }
+
+    .far {
+        font-size: 22px;
+    }
 </style>
 
 <div class="container" id="manage">
-    <h2>Quản lý Users</h2>
+    <h2 style="text-align: center; margin-top: 4px;">Quản lý Users</h2>
     <div>
-        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalAddUser">
-            Thêm
+        <button type="button" class="btn btn-success" style="margin-bottom: 4px;" data-toggle="modal" data-target="#modalAddUser">
+            <i class="fas fa-plus-square"></i>
         </button>
         @*<button id="btnEdit" type='button' class='btn btn-danger'>Sửa</button>
             <button id="btnDel" type='button' class='btn btn-danger'>Xóa</button>*@
@@ -46,13 +53,13 @@
             </form>
         </div>
     </div>
-    <table id="loadsubject" class="table table-bordered table-striped no-footer dt-responsive nowrap" role="grid" aria-describedby="crudTable_info">
+    <table id="loadsubject" class="table table-bordered table-striped no-footer dt-responsive " role="grid" aria-describedby="crudTable_info">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Email</th>
                 <th>Mật khẩu</th>
-                <th>Quyền</th>
+                <th hidden>Quyền</th>
                 <th>Quyền</th>
                 <th>Họ tên</th>
                 <th>MSSV</th>
@@ -242,25 +249,29 @@
                     { "data": "id", className: "id"},
                     { "data": "username", className:"username"},
                     { "data": "password", className: "password" },
-                    { "data": "role_id", className: "role_id" },
+                    {
+                        "data": "role_id", className: "role_id", "render": function (data, type, row) {
+                            return "<p hidden>" + data + "</p>"
+                        }
+                    },
                     { "data": "role_name", className:"role_name"},
                     { "data": "fullname", className:"fullname"},
                     { "data": "mssv", className:"mssv"},
                     { "data": "class_id", className:"class_id"},
                     { "data": "edit" },
-                    { "data": "del" },
+                    //{ "data": "del" },
                 ],
                 "columnDefs": [{
-                    "targets": -2,
+                    "targets": -1,
                     "data": null,
-                    "defaultContent": "<button type='button' class='btn btn-danger btnEdit' data-toggle='modal' data-target='#EditUser'>Sửa</button>"
+                    "defaultContent": "<button type='button' class='btn btn-warning btnEdit' data-toggle='modal' data-target='#EditUser'><i class='far fa-edit'></i></button><button type='button' class='btn btn-danger btnDel'><i class='far fa-trash-alt'></i></button>"
                 },
-                    {
-                        "targets": -1,
-                        "data": null,
-                        "defaultContent": "<button type='button' class='btn btn-danger btnDel'>Xóa</button>"
-                    },
-                    { responsivePriority: 2, targets: -2 },
+                    //{
+                    //    "targets": -1,
+                    //    "data": null,
+                    //    "defaultContent": "<button type='button' class='btn btn-danger btnDel'>Xóa</button>"
+                    //},
+                    //{ responsivePriority: 2, targets: -2 },
                     { responsivePriority: 1, targets: -1 }
                     //{
                     //    "targets": 3,

@@ -18,6 +18,22 @@
         Layout = "~/Views/Shared/_LayoutStudent.cshtml";
     }
 }
+<style>
+    .readmore {
+        white-space: nowrap;
+        width: 232px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .title {
+        font-weight: bold;
+    }
+
+        .title a {
+            text-decoration-line: none;
+        }
+</style>
 <!-- Page Content -->
 <div class="container" id="admin-container">
     <div class="row">
@@ -336,12 +352,12 @@
                     data += "<div class='card h-100'>";
                     data += "<a href='#'><img class='card-img-top' src='/Content/img/pdf.png' alt=''></a>";
                     data += "<div class='card-body'>";
-                    data += "<h4 class='card-title'>";//
-                    data += "<a href='/Details/Details?ebook_id=" + v.ebook_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
-                    data += "<h5>tác giả: " + v.author + "</h5>";
+                    data += "<div class='card-title readmore title'>";
+                    data += "<a href='/Details/Details?ebook_id=" + v.ebook_id + "'" + "data-bind='text:title' data-toggle='tooltip' title='" + v.title + "'>" + v.title + "</a> </div>";
+                    data += "<div class='readmore'>Tác giả: " + v.author + "</div>";
                     data += "<p class='card-text' data-bind='text:author'></p>";
                     //data += "<div class='card-footer'></div>";
-                    data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                    //data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
                     data += " </div></div></div>";
                     $("#loadEbook").append(data);
                 });
@@ -351,13 +367,14 @@
                     data1 += "<div class='card h-100'>";
                     data1 += "<a href='#'><img class='card-img-top' src='/Content/img/pdf.png' alt=''></a>";
                     data1 += "<div class='card-body'>";
-                    data1 += "<h4 class='card-title'>";//
-                    data1 += "<a href='/Details/DetailsEssay?essay_id=" + v.essay_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
-                    data1 += "<h5>giáo viên hd: " + v.instructor + "</h5>";
+                    data1 += "<div class='card-title readmore title'>";//
+                    data1 += "<a href='/Details/DetailsEssay?essay_id=" + v.essay_id + "'" + "data-bind='text:title' data-toggle='tooltip' title='" + v.title + "'>" + v.title + "</a> </div>";
+                    data1 += "<div>GVHD: " + v.instructor + "</div>";
                     data1 += "<p class='card-text' data-bind='text:author'></p>";
                     //data += "<div class='card-footer'></div>";
-                    data1 += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                    //data1 += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
                     data1 += " </div></div></div>";
+
 
                     $("#loadEssay").append(data1);
 
@@ -367,12 +384,12 @@
                     data1 += "<div class='card h-100'>";
                     data1 += "<a href='#'><img class='card-img-top' src='/Content/img/pdf.png' alt=''></a>";
                     data1 += "<div class='card-body'>";
-                    data1 += "<h4 class='card-title'>";//
-                    data1 += "<a href='/Details/DetailsThesis?thesis_id=" + v.thesis_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
-                    data1 += "<h5>giáo viên hd: " + v.instructor + "</h5>";
+                    data1 += "<div class='card-title readmore title'>";//
+                    data1 += "<a href='/Details/DetailsThesis?thesis_id=" + v.thesis_id + "'" + "data-bind='text:title data-toggle='tooltip' title='" + v.title + "'>" + v.title + "</a> </div>";
+                    data1 += "<div>GVHD: " + v.instructor + "</div>";
                     data1 += "<p class='card-text' data-bind='text:author'></p>";
                     //data += "<div class='card-footer'></div>";
-                    data1 += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                    //data1 += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
                     data1 += " </div></div></div>";
                     $("#loadThesis").append(data1);
                 });
@@ -387,10 +404,10 @@
                 data += "<div class='card h-100'>";
                 data += "<a href='#'><img class='card-img-top' src='/Content/img/pdf.png' alt=''></a>";
                 data += "<div class='card-body'>";
-                data += "<h4 class='card-title'>";//
-                data += "<a href='/Details/Details?ebook_id=" + v.ebook_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
-                data += "<h5>tác giả: " + v.author + "</h5>";
-                data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                data += "<div class='card-title readmore title'>";//
+                data += "<a href='/Details/Details?ebook_id=" + v.ebook_id + "'" + "data-bind='text:title data-toggle='tooltip' title='" + v.title + "'>" + v.title + "</a> </div>";
+                data += "<div>Tác giả: " + v.author + "</div>";
+                // data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
                 data += " </div></div></div></div>";
             });
             return data;
@@ -440,13 +457,14 @@
                                     data += "<div class='card h-100'>";
                                     data += "<a href='#'><img class='card-img-top' src='~/Content/img/pdf.png' alt=''></a>";
                                     data += "<div class='card-body'>";
-                                    data += "<h4 class='card-title'>";//
-                                    data += "<a href='/Details/Details?ebook_id=" + v.ebook_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
-                                    data += "<h5>tác giả: " + v.author + "</h5>";
+                                    data += "<div class='card-title readmore title'>";//
+                                    data += "<a href='/Details/Details?ebook_id=" + v.ebook_id + "'" + "data-bind='text:title data-toggle='tooltip' title='" + v.title + "'>" + v.title + "</a> </div>";
+                                    data += "<div>tác giả: " + v.author + "</div>";
                                     data += "<p class='card-text' data-bind='text:author'></p>";
                                     data += "<div class='card-footer'></div>";
                                     data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
                                     data += " </div></div></div>";
+
 
                                     $("#loadEbook").append(data);
                                 });
@@ -528,17 +546,17 @@
                             ResetFormEbook();
                             $.notify("Thêm thành công!", successOptions);
                             console.log("aaa", result);
-                            var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
                             data += "<div class='card h-100'>";
                             data += "<a href='#'><img class='card-img-top' src='~/Content/img/pdf.png' alt=''></a>";
                             data += "<div class='card-body'>";
-                            data += "<h4 class='card-title'>";//
-                            data += "<a href='/Details/Details?ebook_id=" + result.ebook_id + "'" + "data-bind='text:title'>" + result.title + "</a> </h4>";
-                            data += "<h5>tác giả: " + result.author + "</h5>";
+                            data += "<div class='card-title'>";//
+                            data += "<a href='/Details/Details?ebook_id=" + result.ebook_id + "'" + "data-bind='text:title data-toggle='tooltip' title='" + v.title + "'>" + result.title + "</a> </div>";
+                            data += "<div>Tác giả: " + result.author + "</div>";
                             data += "<p class='card-text' data-bind='text:author'></p>";
                             data += "<div class='card-footer'></div>";
-                            data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                            //data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
                             data += " </div></div></div>";
+
 
                             $("#loadEbook").append(data);
 
@@ -565,12 +583,12 @@
                 data += "<div class='card h-100'>";
                 data += "<a href='#'><img class='card-img-top' src='/Content/img/pdf.png' alt=''></a>";
                 data += "<div class='card-body'>";
-                data += "<h4 class='card-title'>";//
-                data += "<a href='/Details/DetailsEssay?essay_id=" + v.essay_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
-                data += "<h5>GVHD: " + v.instructor + "</h5>";
+                data += "<div class='card-title readmore title'>";//
+                data += "<a href='/Details/DetailsEssay?essay_id=" + v.essay_id + "'" + "data-bind='text:title data-toggle='tooltip' title='" + v.title + "'>" + v.title + "</a> </div>";
+                data += "<div>GVHD: " + v.instructor + "</div>";
                 data += "<p class='card-text' data-bind='text:author'></p>";
                 data += "<div class='card-footer'></div>";
-                data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                //data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
                 data += " </div></div></div>";
             });
             return data;
@@ -704,12 +722,12 @@
                             data += "<div class='card h-100'>";
                             data += "<a href='#'><img class='card-img-top' src='/Content/img/pdf.png' alt=''></a>";
                             data += "<div class='card-body'>";
-                            data += "<h4 class='card-title'>";//
-                            data += "<a href='/Details/DetailsEssay?essay_id=" + v.essay_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
-                             data += "<h5>GVHD: " + v.instructor + "</h5>";
+                            data += "<div class='card-title readmore title'>";//
+                            data += "<a href='/Details/DetailsEssay?essay_id=" + v.essay_id + "'" + "data-bind='text:title data-toggle='tooltip' title='" + v.title + "'>" + v.title + "</a> </div>";
+                            data += "<div>GVHD: " + v.instructor + "</div>";
                             data += "<p class='card-text' data-bind='text:author'></p>";
                             data += "<div class='card-footer'></div>";
-                            data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                            // data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
                             data += " </div></div></div>";
                             $('#loadEssay').append(data);
                             $("#formEssay")[0].reset();//reset form
@@ -734,12 +752,12 @@
                 data += "<div class='card h-100'>";
                 data += "<a href='#'><img class='card-img-top' src='/Content/img/pdf.png' alt=''></a>";
                 data += "<div class='card-body'>";
-                data += "<h4 class='card-title'>";//
-                data += "<a href='/Details/DetailsThesis?thesis_id=" + v.thesis_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
-                data += "<h5>giáo viên hd: " + v.instructor + "</h5>";
+                data += "<div class='card-title readmore title'>";//
+                data += "<a href='/Details/DetailsThesis?thesis_id=" + v.thesis_id + "'" + "data-bind='text:title data-toggle='tooltip' title='" + v.title + "'>" + v.title + "</a> </div>";
+                data += "<div>GVHD: " + v.instructor + "</div>";
                 data += "<p class='card-text' data-bind='text:author'></p>";
                 //data += "<div class='card-footer'></div>";
-                data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                //data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
                 data += " </div></div></div>";
             });
             return data;
@@ -869,18 +887,18 @@
                     success: function (result) {
                         if (result.isSuccess) {
                             $.notify("Thêm thành công!", successOptions);
+                            $.notify("Thêm thành công!", successOptions);
                             var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
                             data += "<div class='card h-100'>";
                             data += "<a href='#'><img class='card-img-top' src='/Content/img/pdf.png' alt=''></a>";
                             data += "<div class='card-body'>";
-                            data += "<h4 class='card-title'>";
-                            data += "<a href='/Details/DetailsThesis?thesis_id=" + result.thesis_id + "'" + "data-bind='text:title'>" + result.title + "</a> </h4>";
-                            data += "<h5>GVHD: " + result.instructor + "</h5>";
+                            data += "<div class='card-title readmore title'>";
+                            data += "<a href='/Details/DetailsThesis?thesis_id=" + result.thesis_id + "'" + "data-bind='text:title data-toggle='tooltip' title='" + v.title + "'>" + result.title + "</a> </div>";
+                            data += "<div>GVHD: " + result.instructor + "</div>";
                             data += "<p class='card-text' data-bind='text:author'></p>";
                             data += "<div class='card-footer'></div>";
-                            data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                            //data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
                             data += " </div></div></div>";
-
                             $("#loadThesis").append(data);
                             $("#formThesis")[0].reset();//reset form
                         } else {

@@ -20,12 +20,24 @@
     <link href="~/Content/styles/pagination.css" rel="stylesheet" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet">
     <link href="~/Content/Datatables/jquery.dataTables.min.css" rel="stylesheet" />*@
+<style>
+    .mar_bottom {
+        margin-bottom: 5px;
+    }
 
+    .fas {
+        font-size: 22px;
+    }
+
+    .far {
+        font-size: 22px;
+    }
+</style>
 <div class="container" id="manage">
-    <h2>Quản lý môn học của Ebook</h2>
+    <h2 style="text-align: center; margin-top: 4px;">Quản lý môn học của Ebook</h2>
     <div>
-        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">
-            Thêm
+        <button type="button" class="btn btn-success" style="margin-bottom: 4px;" data-toggle="modal" data-target="#myModal">
+            <i class="fas fa-plus-square"></i>
         </button>
         @*<button id="btnEdit" type='button' class='btn btn-danger'>Sửa</button>
         <button id="btnDel" type='button' class='btn btn-danger'>Xóa</button>*@
@@ -39,7 +51,7 @@
                 <th>Mã sách</th>
                 <th>Tên môn</th>
                 <th></th>
-                <th></th>
+                @*<th></th>*@
             </tr>
         </thead>
         <tbody></tbody>
@@ -50,7 +62,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Sửa môn học</h4>
+                <h4 class="modal-title">Cập nhật</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <!-- Modal body -->
@@ -86,7 +98,7 @@
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Tạo môn học</h4>
+                <h4 class="modal-title">Thêm</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <!-- Tạo môn học -->
@@ -164,20 +176,20 @@
                     { "data": "subebook_id", className: "subebook_id" },
                     { "data": "name", className: "name"},
                     { "data": "edit" },
-                    { "data": "del" },
+                    //{ "data": "del" },
                 ],
 
                 "columnDefs": [{
-                    "targets": -2,
-                    "data": null,
-                    "defaultContent": "<button type='button' class='btn btn-danger btnEdit' data-toggle='modal' data-target='#myModalEdit'>Sửa</button>"
-                },
-                {
                     "targets": -1,
                     "data": null,
-                    "defaultContent": "<button type='button' class='btn btn-danger btnDel'>Xóa</button>"
-                    },
-                    { responsivePriority: 2, targets: -2 },
+                    "defaultContent": "<button type='button' class='btn btn-warning btnEdit' data-toggle='modal' data-target='#myModalEdit'><i class='far fa-edit'></i></button><button type='button' class='btn btn-danger btnDel'><i class='far fa-trash-alt'></i></button>"
+                },
+                //{
+                //    "targets": -1,
+                //    "data": null,
+                //    "defaultContent": "<button type='button' class='btn btn-danger btnDel'>Xóa</button>"
+                //    },
+                //    { responsivePriority: 2, targets: -2 },
                     { responsivePriority: 1, targets: -1 }
                 ]
             });

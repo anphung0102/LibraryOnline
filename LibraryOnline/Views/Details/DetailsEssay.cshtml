@@ -129,7 +129,7 @@
         var val = '@ViewBag.ID';
         $.ajax({
             type: "GET",
-            url: "http://localhost:52385/api/AdminAPI/GetFileEssayById",
+            url: "/api/AdminAPI/GetFileEssayById",
             data: { essay_id: val },
             contentType: "application/json; charset=utf-8",
             dataType: "json",

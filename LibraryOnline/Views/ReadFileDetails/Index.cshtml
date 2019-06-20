@@ -17,6 +17,7 @@
     {
         Layout = "~/Views/Shared/_LayoutStudent.cshtml";
     }
+
 }
 
 <div class="container">
@@ -31,24 +32,14 @@
                 var model = {};
                 model.UserId = $("#userid").html();
                 model.BookId = bookId;
-                model.Time = $("#counter").html()
+                model.Time = $("#counter").html();
                 $.ajax({
                     type: "POST",
                     url: "/api/TimeAPI/SaveTime",
                     data: JSON.stringify(model),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
-                    async: false, //ở đây, nghĩa là tắt bất đồng bộ của ajax, nhớ nha ajax là method bất đồng bộ :D
-                    //a tắt bất đồng bộ của ajax nên vì v, nó chạy action lưu xong xuôi hết rồi, nó mới đc tắt page.
-                    // ko có kiểu chạy chưa xong là gọi action 2 (tắt page đc) :D
-                    // giờ thì hiểu chưa? :v
-                    //dạ hiểu r sp
-                    // nhiều khi a nghĩ a nên học Thạc sĩ làm giảng viên :v đó cũng là 1 ý hay á sp kkk
-                    //haha thui :v nói chứ ko phải ai cũng làm đc.// v xong ha, e coi còn gì hỏi ko :D
-                    //Dạ còn cái tách script dẫn vô á sp
-                    // à ok ^^. có cần ngay lúc này ko? cái đó cũng chưa cần mà :D
-                    //Dj chưa cần gấp , ok e, cứ làm tiếp, mai a teamview vụ tách script ^^
-                    // giờ thì xóa bớt mấy cái đã command lại đi @@ nhiều quá nhìn nhức đầu ^^
+                    async: false,
                     success: function (v) {
                     }
                 });
@@ -78,59 +69,31 @@
                     }
                 });
         });*@
-
+        $("footer").hide();
 
     });
  $(document).ready(function () {
       var val = '@ViewBag.Id';
         $.ajax({
             type: "GET",
-            url: "http://localhost:52385/api/AdminAPI/GetFileById",
+            url: "/api/AdminAPI/GetFileById",
             data: { ebook_id: val},
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (v) {
                 console.log(v);
-               var data = "<div class='col-lg-12 col-md-6 mb-4' >";
-                data += "<h2>Sách: " + v.title + "</h2>";
-                data += "<embed src='/Content/Upload/" + v.filename + "' type='application/pdf' height='700px' width='70%' class='responsive'>";
+               //var data = "<div class='col-lg-12 col-md-6 mb-4' >";
+               // //data += "<h2>Sách: " + v.title + "</h2>";
+               // data += "<embed src='/Content/Upload/" + v.filename + "' type='application/pdf' height='700px' width='70%' class='responsive'>";
 
-                data += "</div > ";
+               // data += "</div > ";
+               // $("#loadfile").append(data);
+                //data += "<h2>Sách: " + v.title + "</h2>";
+                var data = "<embed src='/Content/Upload/" + v.filename + "' type='application/pdf' height='564px' width='100%' class='responsive'>";
+                
                 $("#loadfile").append(data);
             }
      });
 
     });
 </script>
-
-<script type="text/javascript">
-                                                                //window.onbeforeunload = closingCode;
-                                                                //function closingCode() {
-                                                                //    // do something...
-                                                                //    console.log('aa');
-                                                                //    return null;
-                                                                //}
-                                                                //window.addEventListener('beforeunload', function (event) {
-                                                                //    //do something here
-                                                                //    alert("confirm exit is being called");
-                                                                //}, false);
-                                                                //console.log('xxx');
-                                                                //window.onbeforeunload = function () {
-                                                                //    return "Do you really want to close?";
-                                                                //};
-                                                                //$(window).bind('beforeunload', function (e) {
-                                                                //    debugger;
-                                                                //    //do something
-                                                                //    return "Do you really want to close?";
-                                                                //    alert("Do you really want to close?");
-                                                                //});
-
-</script>
-
-@*<script>
-        window.onbeforeunload = function (e) {
-            // Your logic to prepare for 'Stay on this Page' goes here
-
-            return "Please click 'Stay on this Page' and we will give you candy";
-        };
-    </script>*@

@@ -16,6 +16,7 @@ namespace LibraryOnline.Controllers.API
             public int UserId { get; set; }
             public string BookId { get; set; }
             public string Time { get; set; }
+            public int SubId { get; set; }
         }
         [Route("api/TimeAPI/SaveTime")]
         [HttpPost]
@@ -43,7 +44,8 @@ namespace LibraryOnline.Controllers.API
                 bookid = model.BookId,
                 bookname = bookname,
                 time1 = model.Time,
-                date = DateTime.Now
+                date = DateTime.Now,
+                sub_id = model.SubId
             });
             db.SaveChanges();
             return Ok();
@@ -61,6 +63,7 @@ namespace LibraryOnline.Controllers.API
                            time.id,
                            user.fullname,
                            user.class_id,
+                           time.bookid,
                            time.bookname,
                            time.time1,
                            time.date

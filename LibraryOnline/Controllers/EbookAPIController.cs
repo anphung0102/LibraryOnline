@@ -40,12 +40,15 @@ namespace LibraryOnline.Controllers
             }
             else
             {
+                sub.subebook_id = subject.subebook_id;
                 sub.name = subject.name;
                 db.SaveChanges();
                 return new SubjectCreationResult
                 {
                     IsSuccess = true,
-                    Name = sub.name
+                    Subebook_Id = sub.subebook_id,
+                    Name = sub.name,
+
                 };
             }
         }
@@ -68,6 +71,24 @@ namespace LibraryOnline.Controllers
             foreach (var item in ebook)
             {
                 db.Ebooks.Remove(item);
+                db.SaveChanges();
+            }
+            var rate = db.RateStars.Where(x => x.sub_id == subject.id).ToList();
+            foreach (var item in rate)
+            {
+                db.RateStars.Remove(item);
+                db.SaveChanges();
+            }
+            var time = db.Times.Where(x => x.sub_id == subject.id).ToList();
+            foreach (var item in time)
+            {
+                db.Times.Remove(item);
+                db.SaveChanges();
+            }
+            var search = db.SearchFiles.Where(x => x.sub_id == subject.id).ToList();
+            foreach (var item in search)
+            {
+                db.SearchFiles.Remove(item);
                 db.SaveChanges();
             }
             var sub = db.Subject_Ebook.Where(x => x.id == subject.id).FirstOrDefault();
@@ -206,8 +227,12 @@ namespace LibraryOnline.Controllers
             //}
             var eb = db.Ebooks.Where(x => x.id == id ).FirstOrDefault();
             var search = db.SearchFiles.Where(x => x.book_id == eb.ebook_id).FirstOrDefault();
+            var rate = db.RateStars.Where(x => x.book_id == eb.ebook_id).FirstOrDefault();
+            var time = db.Times.Where(x => x.bookid == eb.ebook_id).FirstOrDefault();
             db.Ebooks.Remove(eb);
             db.SearchFiles.Remove(search);
+            db.RateStars.Remove(rate);
+            db.Times.Remove(time);
             db.SaveChanges();
 
             return "Xóa thành công";

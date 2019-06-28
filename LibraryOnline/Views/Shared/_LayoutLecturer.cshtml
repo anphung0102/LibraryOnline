@@ -1,7 +1,7 @@
 ﻿
 @{
     var user = Session["username"];
-    if (Session["username"] == null || Session["user_id"] == null)
+    if (Session["role_id"] == null || Session["user_id"] == null)
     {
         Response.Redirect("~/Login/Index");
     }
@@ -86,14 +86,15 @@
                 <ul class="navbar-nav mr-sm-0">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-user-circle" style="font-size:30px"></i>
+                            <img id="imageUser" style="width: 50px;height: 50px;border-radius: 30px;">
                         </a>
-                        <div class="dropdown-menu" style="margin-left: -50px;" aria-labelledby="navbarDropdown">
-                            <div class="dropdown-item">
-                                <h5>Hi @Session["fullname"]</h5>
-                                <div id="fullname" hidden>@Session["fullname"]</div>
-                                <small>Tài khoản: <span>@Session["username"]</span></small>
-                            </div>
+                        <div class="dropdown-menu" style="margin-left: 0px;" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" data-toggle="modal" data-target="#changeInfo">
+                                @*<div id="fullnameUser"><h5>Hi @Session["fullname"]</h5></div>
+            <div id="fullname" hidden>@Session["fullname"]</div>*@
+                                <div id="fullnameUser"></div>
+                                <small><span id="username">@Session["username"]</span></small>
+                            </a>
                             <lable id="userid" hidden>@Session["user_id"]</lable>
                             <a class="dropdown-item" data-toggle="modal" data-target="#changPass">Đổi mật khẩu</a>
                             <div class="dropdown-divider"></div>
@@ -150,6 +151,68 @@
         </div>
     </div>
 
+    <div class="modal" id="changeInfo">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Thông tin cá nhân</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Tạo môn học -->
+                <div id="modal" class="modal-body">
+                    <form id="formInfo" method="post" enctype="multipart/form-data">
+                        <div class="form-row mar_bottom">
+                            <div class="row col-md-6">
+                                <div class="col-md-3"> <label for="text">Email:</label></div>
+                                <div class="col-md-9"> <input type="email" class="form-control" id="emailuser" name="emailuser" readonly style="background-color: antiquewhite;"></div>
+                            </div>
+                            <div class="row col-md-6">
+                                <div class="col-md-3">  <label for="text" style="width: 86px;">Mật khẩu:</label></div>
+                                <div class="col-md-9">
+                                    <input type="password" class="form-control" id="pass" name="pass" readonly style="background-color: antiquewhite;">
+                                    <input type="checkbox" id="showPassWord" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row mar_bottom">
+                            <div class="row col-md-6">
+                                <div class="col-md-3"> <label for="text">Họ tên:</label></div>
+                                <div class="col-md-9"> <input type="text" class="form-control" id="nameUser" name="nameUser"></div>
+                            </div>
+                            @*<div class="row col-md-6">
+                                <div class="col-md-3">  <label for="text">MSSV:</label></div>
+                                <div class="col-md-9"><input type="text" class="form-control" id="classid" name="classid" readonly style="background-color: antiquewhite;"></div>
+                            </div>*@
+                        </div>
+                        @*<div class="form-row mar_bottom">
+                                <div class="row col-md-6">
+                                    <div class="col-md-3"> <label for="text">Họ tên:</label></div>
+                                    <div class="col-md-9"> <input type="text" class="form-control" id="nameUser" name="nameUser"></div>
+                                </div>
+                            </div>*@
+                        <div class="form-group mar_bottom">
+                            @*<label for="text">Browser</label>
+                                <input type="file" name="Files" id="fileInput" />*@
+                            <input type="file" onchange="previewFile()" multiple id="fileInputImage" style="margin-bottom: 5px;margin-top: 5px;"><br>
+                            <img id="imguserinfo" height="200" alt="Image preview...">
+                        </div>
+                        @*<div class="form-group mar_bottom">
+                                <div style="width:180px;height:180px;"><img id="ImageUser" src="http://placehold.it/180" alt="your image" /></div>
+                            </div>*@
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button id="btnSaveInfo" type="button" class="btn btn-primary" style="width: 70px;">Lưu</button>
+                            <button type="button" class="btn btn-dark" data-dismiss="modal">Đóng</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 
     @RenderBody()
 
@@ -194,7 +257,58 @@
     <script src="~/Scripts/notify.js"></script>
     <script src="~/Scripts/notify.min.js"></script>
     <script>
+        function previewFile() {
+            //var preview = document.querySelector('#imguserinfo'); //selects the query named img
+            var file = document.querySelector('input[type=file]').files[0]; //sames as here
+            var reader = new FileReader();
+
+            reader.onloadend = function () {
+                //preview.src = reader.result;
+                $("#imguserinfo").attr("src", reader.result);
+            }
+
+            if (file) {
+                reader.readAsDataURL(file); //reads the data as a URL
+            }
+        }
         $(document).ready(function () {
+             //load thông tin lên form user info
+            var fname;
+            var img;
+            $.ajax({
+                type: 'GET',
+                url: '/api/LoginAPI/GetPassByUserId?id=' + @Session["user_id"],
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    $("#pass").val(result.pass);
+                    $("#nameUser").val(result.fullname);
+                    $("#emailuser").val(result.username);
+                    $("#classid").val(result.classid);
+                    fname = result.fullname;
+                    debugger
+                    img = result.image;
+                    $("#fullnameUser").empty()
+                    $("#fullnameUser").append('<h5>Hi ' + result.fullname + '</h5>');
+                    if (result.image != null) {
+                        //$("#imageUser").append('<img src="/Content/imageUser/' + img +  '" style="width: 50px;height: 50px;">');
+                        $("#imageUser").attr("src", "/Content/imageUser/" + result.image);
+                        $("#imguserinfo").attr("src", "/Content/imageUser/" + result.image);
+
+                    } else {
+                        $("#imageUser").attr("src", "/Content/imageUser/no_images.png");
+                        $("#imguserinfo").attr("src", "/Content/imageUser/no_images.png");
+                    }
+                }
+            });
+            $('#showPassWord').click(function () {
+                if ($(this).prop("checked") == true) {
+                    $("#pass").attr("type", "text");
+                }
+                else if ($(this).prop("checked") == false) {
+                    $("#pass").attr("type", "password");
+                }
+            });
             var warnOptions = {
                 autoHideDelay: 1000,
                 showAnimation: "fadeIn",
@@ -251,6 +365,66 @@
                             } else {
                                 $.notify(result.message, errorOptions);
                             }
+                        }
+                    });
+                }
+
+            });
+
+            previewFile();  //calls the function named previewFile()
+            $("#btnSaveInfo").click(function () {
+                debugger
+                if ($("#nameUser").val() == "" || $("#nameUser").val() == null) {
+                    $("#nameUser").focus();
+                    $.notify("Họ tên không được để trống!", warnOptions);
+                    return;
+                }
+                else {
+                    debugger
+                    var test_value = $("#fileInputImage").val();
+                    var extension = test_value.split('.').pop().toLowerCase();
+
+                    if (test_value != "") {
+                        if ($.inArray(extension, ['png', 'gif', 'jpeg', 'jpg']) == -1) {
+                            $.notify("File ảnh không hợp lệ!", warnOptions);
+                            return;
+                        }
+                    }
+
+                    var files = $("#fileInputImage").get(0).files;
+                    var data = new FormData();
+                    for (var i = 0; i < files.length; i++) {
+                        data.append("fileInputImage", files[i]);
+                    }
+                    data.append("userid", @Session["user_id"]);
+                    data.append("fileInputImage", files);
+                    data.append("fullname", $("#nameUser").val());
+                    $.ajax({
+                        type: 'POST',
+                        url: '/api/AdminAPI/ChangeInfo',
+                        dataType: "json",
+                        contentType: false,
+                        processData: false,
+                        data: data,
+                        success: function (result) {
+                            debugger
+                            @*@Session["fullname"] = result.fullname;
+                            @Session["image"] = result.image;*@
+                            sessionStorage.removeItem("imguser");
+                            sessionStorage.removeItem("fullname");
+                            sessionStorage.setItem("imguser", result.image);
+                            sessionStorage.setItem("fullname", result.fullname);
+                            var img = result.image;
+                            if (img) {
+                                //$("#imageUser").append('<img src="/Content/imageUser/' + img +  '" style="width: 50px;height: 50px;">');
+                                $("#imageUser").attr("src", "/Content/imageUser/" + img);
+                            } else {
+                                $("#imageUser").attr("src", "/Content/imageUser/no_images.png");
+                            }
+
+                            $("#fullnameUser").empty();
+                            $("#fullnameUser").append('<h5>Hi ' +  result.fullname + '</h5>');
+                            $.notify("Cập nhật thông tin thành công!", successOptions);
                         }
                     });
                 }

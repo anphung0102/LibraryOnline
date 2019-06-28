@@ -26,6 +26,9 @@
         <AssociationConnector Association="LibraryOnlineFinalModel.fk_EBOOKS_SUBJECTTHESIS" />
         <AssociationConnector Association="LibraryOnlineFinalModel.fk_THESIS_USERS" />
         <AssociationConnector Association="LibraryOnlineFinalModel.FK_Time_Users" />
+        <EntityTypeShape EntityType="LibraryOnlineFinalModel.ImportError" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="LibraryOnlineFinalModel.ImportTemp" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="LibraryOnlineFinalModel.SlideImage" Width="1.5" PointX="9.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

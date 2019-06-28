@@ -29,6 +29,7 @@
                 <th>ID</th>
                 <th>Người xem</th>
                 <th>Mã lớp</th>
+                <th>Mã sách</th>
                 <th>Tên sách</th>
                 <th>Thời gian xem</th>
                 <th>Ngày xem</th>
@@ -60,13 +61,27 @@
                     { "data": "id" },
                     { "data": "fullname" },
                     { "data": "class_id" },
-                    { "data": "bookname" },
+                    {
+                        "data": "bookid", render: function (data) {
+                            debugger;
+                            var type = data.slice(0, 2);
+                            if (type == "EB")
+                                return "<a href='/Details/Details?ebook_id=" + data + "' style='text-decoration: none;'>" + data + "</a>";
+                                if (type == "ES")
+                                    return "<a href='/Details/DetailsEssay?essay_id=" + data + "'style='text-decoration: none;'>" + data + "</a>";
+                                if (type == "TH")
+                                    return "<a href='/Details/DetailsThesis?thesis_id=" + data + "'style='text-decoration: none;'>" + data + "</a>";
+                        }
+                    },
+                    {
+                        "data": "bookname", 
+                    },
                     { "data": "time1" },
                     {
                         "data": "date", render: function (data) {
                             var d = new Date(data);
                             return d.toLocaleDateString();
-                        }
+                         }
                     },
 
                 ]

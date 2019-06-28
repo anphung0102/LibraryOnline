@@ -53,19 +53,19 @@
             </form>
         </div>
     </div>
-    <table id="loadsubject" class="table table-bordered table-striped no-footer dt-responsive " role="grid" aria-describedby="crudTable_info">
+    <table id="loadsubject" class="table table-bordered table-striped no-footer dt-responsive nowrap" role="grid" aria-describedby="crudTable_info">
         <thead>
             <tr>
-                <th>ID</th>
+                <th class="none">ID</th>
                 <th>Email</th>
-                <th>Mật khẩu</th>
-                <th hidden>Quyền</th>
+                @*<th>Mật khẩu</th>*@
+                <th class="none">Quyền</th>
                 <th>Quyền</th>
                 <th>Họ tên</th>
                 <th>MSSV</th>
                 <th>Mã lớp</th>
                 <th></th>
-                <th></th>
+                @*<th></th>*@
             </tr>
         </thead>
         <tbody></tbody>
@@ -86,9 +86,13 @@
                             <div class="col-md-3"><label for="text">Email:</label></div>
                             <div class="col-md-9"><input type="email" class="form-control" id="emailEdit" placeholder="Email" name="emailEdit"></div>
                         </div>
+                        @*<div class="row col-md-6">
+            <div class="col-md-3"><label for="text">Password:</label></div>
+            <div class="col-md-9"><input type="password" class="form-control" id="passwordEdit" placeholder="Mật khẩu" name="passwordEdit"></div>
+        </div>*@
                         <div class="row col-md-6">
-                            <div class="col-md-3"><label for="text">Password:</label></div>
-                            <div class="col-md-9"><input type="password" class="form-control" id="passwordEdit" placeholder="Mật khẩu" name="passwordEdit"></div>
+                            <div class="col-md-3"><label for="text">MSSV:</label></div>
+                            <div class="col-md-9"> <input type="text" class="form-control" id="studentidEdit" placeholder="MSSV" name="studentidEdit"></div>
                         </div>
                     </div>
                     <div class="row col-md-12 mar_bottom">
@@ -97,8 +101,8 @@
                             <div class="col-md-9"><input type="text" class="form-control" id="nameEdit" placeholder="Họ tên" name="nameEdit"></div>
                         </div>
                         <div class="row col-md-6">
-                            <div class="col-md-3"><label for="text">MSSV:</label></div>
-                            <div class="col-md-9"> <input type="text" class="form-control" id="studentidEdit" placeholder="MSSV" name="studentidEdit"></div>
+                            <div class="col-md-3"><label for="text">Mã lớp:</label></div>
+                            <div class="col-md-9"><input type="text" class="form-control" id="classidEdit" placeholder="Mã lớp" name="classidEdit"></div>
                         </div>
                     </div>
                     <div class="row col-md-12 mar_bottom">
@@ -106,10 +110,7 @@
                             <div class="col-md-3"><label for="text">Quyền:</label></div>
                             <div class="col-md-9"><select class="form-control" id="roleEdit" name="roleEdit"></select></div>
                         </div>
-                        <div class="row col-md-6">
-                            <div class="col-md-3"><label for="text">Mã lớp:</label></div>
-                            <div class="col-md-9"><input type="text" class="form-control" id="classidEdit" placeholder="Mã lớp" name="classidEdit"></div>
-                        </div>
+                       
                     </div>
                 </form>
             </div>
@@ -134,12 +135,13 @@
                     <div class="row col-md-12 mar_bottom">
                         <div class="row col-md-6">
                             <div class="col-md-3"><label for="text">Email:</label></div>
-                            <div class="col-md-9"><input type="email" class="form-control" id="email" placeholder="Email" name="email"></div>
+                            <div class="col-md-9"><input type="email" class="form-control" id="emailAdd" placeholder="Email" name="emailAdd"></div>
                         </div>
                         <div class="row col-md-6">
                             <div class="col-md-3"><label for="text">Password:</label></div>
                             <div class="col-md-9"><input type="password" class="form-control" id="password" placeholder="Mật khẩu" name="password"></div>
-                        </div>
+                     </div>
+                      
                     </div>
                     <div class="row col-md-12 mar_bottom">
                         <div class="row col-md-6">
@@ -150,6 +152,7 @@
                             <div class="col-md-3"><label for="text">MSSV:</label></div>
                             <div class="col-md-9"> <input type="text" class="form-control" id="studentid" placeholder="MSSV" name="mssv"></div>
                         </div>
+                       
                     </div>
                     <div class="row col-md-12 mar_bottom">
                         <div class="row col-md-6">
@@ -248,11 +251,9 @@
                 "columns": [
                     { "data": "id", className: "id"},
                     { "data": "username", className:"username"},
-                    { "data": "password", className: "password" },
+                    //{ "data": "password", className: "password" },
                     {
-                        "data": "role_id", className: "role_id", "render": function (data, type, row) {
-                            return "<p hidden>" + data + "</p>"
-                        }
+                        "data": "role_id", className: "role_id", 
                     },
                     { "data": "role_name", className:"role_name"},
                     { "data": "fullname", className:"fullname"},
@@ -288,14 +289,14 @@
             index = rowCurrent[0].sectionRowIndex;
             console.log("rowCurrent", index);
             var username = $(this).closest("tr").find(".username").text();
-            var password = $(this).closest("tr").find(".password").text();
+            //var password = $(this).closest("tr").find(".password").text();
             var role_id = $(this).closest("tr").find(".role_id").text();
             var role_name = $(this).closest("tr").find(".role_name").text();
             var fullname = $(this).closest("tr").find(".fullname").text();
             var mssv = $(this).closest("tr").find(".mssv").text();
             var class_id = $(this).closest("tr").find(".class_id").text();
             $("#emailEdit").val(username);
-            $("#passwordEdit").val(password);
+            //$("#passwordEdit").val(password);
             $("#nameEdit").val(fullname);
             $("#studentidEdit").val(mssv);
             $("#classidEdit").val(class_id);
@@ -306,14 +307,14 @@
         $('body').on('click', '#SaveUser', function () {
             debugger
             var email = $("#emailEdit").val();
-            var password = $("#passwordEdit").val();
+            //var password = $("#passwordEdit").val();
             var role = $("#roleEdit").val();
             var name = $("#nameEdit").val();
             var studentid = $("#studentidEdit").val();
             var classid = $("#classidEdit").val();
             var data = new FormData();
             data.append("email", email);
-            data.append("password", password);
+            //data.append("password", password);
             data.append("role", role);
             data.append("name", name);
             data.append("studentid", studentid);
@@ -324,11 +325,11 @@
                 $.notify("Bạn phải nhập email!", warnOptions);
                 return;
             }
-            if (password == null || password == "") {
-                $("#passwordEdit").focus();
-                $.notify("Bạn phải nhập mật khẩu!", warnOptions);
-                return;
-            }
+            //if (password == null || password == "") {
+            //    $("#passwordEdit").focus();
+            //    $.notify("Bạn phải nhập mật khẩu!", warnOptions);
+            //    return;
+            //}
             if (name == null || name == "") {
                 $("#nameEdit").focus();
                 $.notify("Bạn phải nhập họ tên!", warnOptions);
@@ -349,12 +350,12 @@
                             debugger
                             var t = $('#loadsubject').DataTable();
                             t.cell(index, 1).data(result.userName).draw();
-                            t.cell(index, 2).data(result.passWord).draw();
-                            t.cell(index, 3).data(result.role_Id).draw();
-                            t.cell(index, 4).data(result.roleName).draw();
-                            t.cell(index, 5).data(result.fullName).draw();
-                            t.cell(index, 6).data(result.mssv).draw();
-                            t.cell(index, 7).data(result.class_Id).draw();
+                            //t.cell(index, 2).data(result.passWord).draw();
+                            t.cell(index, 2).data(result.role_Id).draw();
+                            t.cell(index, 3).data(result.roleName).draw();
+                            t.cell(index, 4).data(result.fullName).draw();
+                            t.cell(index, 5).data(result.mssv).draw();
+                            t.cell(index, 6).data(result.class_Id).draw();
                             //$("#submit_EditUser")[0].reset();
                             t.responsive.recalc();
 
@@ -394,7 +395,7 @@
         //Thêm
           $("#addUser").click(function () {
               debugger;
-              var email = $("#email").val();
+              var email = $("#emailAdd").val();
               var password = $("#password").val();
               var role = $("#role").val();
               var name = $("#name").val();
@@ -442,7 +443,7 @@
                               t.row.add({
                                   "id": result.id,
                                   "username": result.userName,
-                                  "password": result.passWord,
+                                  //"password": result.passWord,
                                   "role_id": result.role_Id,
                                   "role_name": result.roleName,
                                   "fullname": result.fullName,

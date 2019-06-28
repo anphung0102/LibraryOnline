@@ -40,6 +40,9 @@ namespace LibraryOnline.Models
         public virtual DbSet<Thesis> Theses { get; set; }
         public virtual DbSet<Time> Times { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<ImportError> ImportErrors { get; set; }
+        public virtual DbSet<ImportTemp> ImportTemps { get; set; }
+        public virtual DbSet<SlideImage> SlideImages { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

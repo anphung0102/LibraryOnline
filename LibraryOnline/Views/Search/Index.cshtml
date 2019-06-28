@@ -1,6 +1,6 @@
 ﻿@{
     var user = Session["username"];
-    if (Session["username"] == null || Session["user_id"] == null)
+    if (Session["role_id"] == null || Session["user_id"] == null)
     {
         Response.Redirect("~/Login/Index");
     }
@@ -74,9 +74,11 @@
                         data += "<div class='card-title readmore title'>";//
                         //data += "<a href='/Details/Details?ebook_id=" + v.book_id + "'" + "data-bind='text:title'>" + v.title + "</a> </h4>";
                         data += typebook;
-                        data += "<div>tác giả: " + v.author + "</div>";
+                        //data += "<div>tác giả: " + v.author + "</div>";
+                        data += "<div>Người đăng: " + v.username + "</div>";
+
                         data += "<p class='card-text' data-bind='text:author'></p>";
-                        data += "<div class='card-footer'></div>";
+                        //data += "<div class='card-footer'></div>";
                         //data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
                         data += " </div></div></div>";
                     });
@@ -98,6 +100,8 @@
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             success: function (response) {
+                                debugger
+                                var a = response;
                                 done(response);
                             }
                         });

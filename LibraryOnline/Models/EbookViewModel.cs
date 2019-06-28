@@ -21,6 +21,7 @@ namespace LibraryOnline.Models
         public string Message { get; set; }
         //public HttpPostedFileBase FileReferences { get; set; }
         public string Sub_Name { get; set; }
+        public string User_Name { get; set; } 
     } 
     public class EbookCreationResult : EbookViewModel
     {

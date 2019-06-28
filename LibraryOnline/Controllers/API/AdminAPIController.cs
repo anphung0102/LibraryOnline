@@ -73,6 +73,7 @@ namespace LibraryOnline.Controllers.API
                             });
                         db.SaveChanges();
                         var book_id = db.Ebooks.OrderByDescending(x => x.id).Select(x => x.ebook_id).FirstOrDefault();
+                        var userName = db.Users.Where(x => x.id == user_id).FirstOrDefault();
                         db.SearchFiles.Add(
                           new SearchFile
                           {
@@ -88,7 +89,8 @@ namespace LibraryOnline.Controllers.API
                               date_upload = date_upload,
                               user_id = user_id,
                               sub_id = sub_id,
-                          type = "ebook"
+                              username = userName.fullname,
+                              type = "ebook"
                           });
                         db.SaveChanges();//lưu dât thôi cái này t chưa chạy t mới test gửi data từ  ajax qua thôi
                         var user = db.Users.Where(x => x.id == user_id).Select(x => x.username).FirstOrDefault();
@@ -100,6 +102,7 @@ namespace LibraryOnline.Controllers.API
                         var loadebook = db.Ebooks.OrderByDescending(x => x.id).Take(1).FirstOrDefault();
                         var ebook_id = db.Ebooks.Where(x => x.id == loadebook.id).Select(x => x.ebook_id).FirstOrDefault();
                         var sub = db.Subject_Ebook.Where(x => x.id == sub_id).FirstOrDefault();
+                        
                         return new EbookCreationResult
                         {
                             IsSuccess = true,
@@ -112,7 +115,8 @@ namespace LibraryOnline.Controllers.API
                             FileName = loadebook.filename,
                             Date_Upload = loadebook.date_upload.Value,
                             Sub_Name = sub.name,
-                            Sub_Id = sub.id
+                            Sub_Id = sub.id,
+                            User_Name = userName.fullname
                         };
                       }
                 }
@@ -594,7 +598,7 @@ namespace LibraryOnline.Controllers.API
                             });
                         db.SaveChanges();
                         var book_id = db.Essays.OrderByDescending(x => x.id).Select(x => x.essay_id).FirstOrDefault();
-
+                        var userName = db.Users.Where(x => x.id == user_id).FirstOrDefault();
                         db.SearchFiles.Add(
                           new SearchFile
                           {
@@ -610,6 +614,7 @@ namespace LibraryOnline.Controllers.API
                               date_upload = date_upload,
                               user_id = user_id,
                               sub_id = sub_id,
+                              username = userName.fullname,
                               type = "essay"
                           });
                         db.SaveChanges();//lưu dât thôi cái này t chưa chạy t mới test gửi data từ  ajax qua thôi
@@ -623,6 +628,7 @@ namespace LibraryOnline.Controllers.API
                         var essay_id = db.Essays.Where(x => x.id == loadessay.id).Select(x => x.essay_id).FirstOrDefault();
                         var sub = db.Subject_Essay.Where(x => x.id == sub_id).FirstOrDefault();
                         //MyHub.Post(sub_ebook.id, sub_ebook.name);
+                        
                         return new EssayCreationResult
                         {
                             IsSuccess = true,
@@ -637,7 +643,8 @@ namespace LibraryOnline.Controllers.API
                             Date_Upload = loadessay.date_upload.Value,
                             Course = loadessay.course,
                             Sub_Id = sub.id,
-                            Sub_Name = sub.name
+                            Sub_Name = sub.name,
+                            User_Name = userName.fullname
                         };
                         //return Request.CreateResponse("Thành công");
                     }
@@ -671,7 +678,7 @@ namespace LibraryOnline.Controllers.API
         [HttpPost]
         public SubjectCreationResult CreateSubject(SubjectViewModel subject)
         {
-            var sub = db.Subject_Ebook.Where(x => x.name.Equals(subject.Name)).FirstOrDefault();
+            var sub = db.Subject_Ebook.Where(x => x.name.Equals(subject.Name) || x.subebook_id.Equals(subject.Subebook_Id)).FirstOrDefault();
             if (sub != null)
             {
                 return new SubjectCreationResult
@@ -683,12 +690,14 @@ namespace LibraryOnline.Controllers.API
             {
                 db.Subject_Ebook.Add(new Subject_Ebook
                 {
-                    subebook_id = "",
+                    //subebook_id = "",
+                    subebook_id = subject.Subebook_Id,
                     name = subject.Name,
                 });
                 db.SaveChanges();
                 //var sub_ebook = db.Subject_Ebook.Where(x => x.name.Equals(subject.Name)).FirstOrDefault();
-                var sub_ebook = db.Subject_Ebook.OrderByDescending(x => x.id).Take(1).FirstOrDefault();
+                //var sub_ebook = db.Subject_Ebook.OrderByDescending(x => x.id).Take(1).FirstOrDefault();
+                var sub_ebook = db.Subject_Ebook.Where(x=>x.subebook_id == subject.Subebook_Id).FirstOrDefault();
                 var subebook_id = db.Subject_Ebook.Where(x => x.id == sub_ebook.id).Select(x => x.subebook_id).FirstOrDefault();
                 
                 return new SubjectCreationResult
@@ -702,19 +711,49 @@ namespace LibraryOnline.Controllers.API
         }
 
         //lấy ebook
+        //[Route("api/AdminAPI/GetEbook")]
+        //[HttpGet]
+        //public IEnumerable<Ebook> GetEbook(int id)
+        //{
+        //    return db.Ebooks.Where(x => x.sub_id == id).OrderByDescending(x=>x.date_upload).ToList();
+        //}
         [Route("api/AdminAPI/GetEbook")]
         [HttpGet]
-        public IEnumerable<Ebook> GetEbook(int id)
+        public IHttpActionResult GetEbook(int id)
         {
-            return db.Ebooks.Where(x => x.sub_id == id).ToList();
+            var data = (from e in db.Ebooks
+                         from u in db.Users
+                         where e.user_id == u.id && e.sub_id == id
+                         select new
+                         {
+                             Title = e.title,
+                             Ebook_Id = e.ebook_id,
+                             Poster = u.fullname
+                         }).ToList();
+            return Ok(data);
         }
 
         //lấy ebookpaging
+        //[Route("api/AdminAPI/GetEbookPaging")]
+        //[HttpGet]
+        //public IEnumerable<Ebook> GetEbookPaging(int id)
+        //{
+        //    return db.Ebooks.Where(x => x.sub_id == id).OrderByDescending(x => x.date_upload).ToArray();
+        //}
         [Route("api/AdminAPI/GetEbookPaging")]
         [HttpGet]
-        public IEnumerable<Ebook> GetEbookPaging(int id)
+        public IHttpActionResult GetEbookPaging(int id)
         {
-            return db.Ebooks.Where(x => x.sub_id == id).ToArray();
+            var data = (from e in db.Ebooks
+                        from u in db.Users
+                        where e.user_id == u.id && e.sub_id == id
+                        select new
+                        {
+                            Title = e.title,
+                            Ebook_Id = e.ebook_id,
+                            Poster = u.fullname
+                        }).ToList();
+            return Ok(data);
         }
         //lấy ebook
         [Route("api/AdminAPI/GetEbookDetail")]
@@ -726,23 +765,81 @@ namespace LibraryOnline.Controllers.API
         //lấy file theo id
         [Route("api/AdminAPI/GetFileById")]
         [HttpGet]
-        public Ebook GetFileById(string ebook_id)
+        public IHttpActionResult GetFileById(string ebook_id)
         {
-            return db.Ebooks.Where(x => x.ebook_id == ebook_id).FirstOrDefault();
+            var data = from e in db.Ebooks
+                       from u in db.Users
+                       from s in db.Subject_Ebook
+                       where e.user_id == u.id && e.sub_id == s.id && e.ebook_id == ebook_id
+                       select new
+                       {
+                           title = e.title,
+                           author = e.author,
+                           userupload = u.fullname,
+                           subname = s.name,
+                           year = e.year,
+                           countView = e.countView,
+                           countDowload = e.countDowload,
+                           filename = e.filename,
+                           describe = e.describe
+
+                       };
+            return Ok(data);
+            //return db.Ebooks.Where(x => x.ebook_id == ebook_id).FirstOrDefault();
         }
         //lấy file theo id của tiểu luận
         [Route("api/AdminAPI/GetFileEssayById")]
         [HttpGet]
-        public Essay GetFileEssayById(string essay_id)
+        public IHttpActionResult GetFileEssayById(string essay_id)
         {
-            return db.Essays.Where(x => x.essay_id == essay_id).FirstOrDefault();
+            var data = from es in db.Essays
+                       from u in db.Users
+                       from s in db.Subject_Essay
+                       where es.user_id == u.id && es.sub_id == s.id && es.essay_id == essay_id
+                       select new
+                       {
+                           title = es.title,
+                           instructor = es.instructor,
+                           executor1 = es.executor1,
+                           executor2 = es.executor2,
+                           userupload = u.fullname,
+                           subname = s.name,
+                           course = es.course,
+                           countView = es.countView,
+                           countDowload = es.countDowload,
+                           filename = es.filename,
+                           describe = es.describe
+
+                       };
+            return Ok(data);
+            //return db.Essays.Where(x => x.essay_id == essay_id).FirstOrDefault();
         }
         //lấy file theo id của khóa luận
         [Route("api/AdminAPI/GetFileThesisById")]
         [HttpGet]
-        public Thesis GetFileThesisById(string thesis_id)
+        public IHttpActionResult GetFileThesisById(string thesis_id)
         {
-            return db.Theses.Where(x => x.thesis_id == thesis_id).FirstOrDefault();
+            var data = from th in db.Theses
+                       from u in db.Users
+                       from s in db.Subject_Thesis
+                       where th.user_id == u.id && th.sub_id == s.id && th.thesis_id == thesis_id
+                       select new
+                       {
+                           title = th.title,
+                           instructor = th.instructor,
+                           executor1 = th.executor1,
+                           executor2 = th.executor2,
+                           userupload = u.fullname,
+                           subname = s.name,
+                           course = th.cource,
+                           countView = th.countView,
+                           countDowload = th.countDowload,
+                           filename = th.filename,
+                           describe = th.describe
+
+                       };
+            return Ok(data);
+            //return db.Theses.Where(x => x.thesis_id == thesis_id).FirstOrDefault();
         }
         //xoá ebook
         [Route("api/AdminAPI/DeleteSubjectById")]
@@ -810,16 +907,31 @@ namespace LibraryOnline.Controllers.API
         public IEnumerable<Essay> GetEssay(int id)
         {
          
-                var a= db.Essays.Where(x => x.sub_id == id).ToList();
+            var a= db.Essays.Where(x => x.sub_id == id).OrderByDescending(x => x.date_upload).ToList();
             return a;
         }
 
         // lấy ds tiểu luận phân trang
+        //[Route("api/AdminAPI/GetEssayPaging")]
+        //[HttpGet]
+        //public IEnumerable<Essay> GetEssayPaging(int id)
+        //{
+        //    return db.Essays.Where(x => x.sub_id == id).OrderByDescending(x => x.date_upload).ToArray();
+        //}
         [Route("api/AdminAPI/GetEssayPaging")]
         [HttpGet]
-        public IEnumerable<Essay> GetEssayPaging(int id)
+        public IHttpActionResult GetEssayPaging(int id)
         {
-            return db.Essays.Where(x => x.sub_id == id).ToArray();
+            var data = (from e in db.Essays
+                        from u in db.Users
+                        where e.user_id == u.id && e.sub_id == id
+                        select new
+                        {
+                            Title = e.title,
+                            Essay_Id = e.essay_id,
+                            Poster = u.fullname
+                        }).ToList();
+            return Ok(data);
         }
         //Khóa luận
         // lấy ds môn khóa luận
@@ -835,16 +947,31 @@ namespace LibraryOnline.Controllers.API
         public IEnumerable<Thesis> GetThesis(int id)
         {
 
-            var a = db.Theses.Where(x => x.sub_id == id).ToList();
+            var a = db.Theses.Where(x => x.sub_id == id).OrderByDescending(x => x.date_upload).ToList();
             return a;
         }
 
         // lấy ds tiểu luận phân trang
+        //[Route("api/AdminAPI/GetThesisPaging")]
+        //[HttpGet]
+        //public IEnumerable<Thesis> GetThesisPaging(int id)
+        //{
+        //    return db.Theses.Where(x => x.sub_id == id).OrderByDescending(x => x.date_upload).ToArray();
+        //}
         [Route("api/AdminAPI/GetThesisPaging")]
         [HttpGet]
-        public IEnumerable<Thesis> GetThesisPaging(int id)
+        public IHttpActionResult GetThesisPaging(int id)
         {
-            return db.Theses.Where(x => x.sub_id == id).ToArray();
+            var data = (from e in db.Theses
+                        from u in db.Users
+                        where e.user_id == u.id && e.sub_id == id
+                        select new
+                        {
+                            Title = e.title,
+                            Thesis_Id = e.thesis_id, 
+                            Poster = u.fullname
+                        }).ToList();
+            return Ok(data);
         }
         //lưu đánh giá sách
         [Route("api/AdminAPI/SaveRate")]
@@ -869,7 +996,8 @@ namespace LibraryOnline.Controllers.API
                   book_id = ratemodel.BookId,
                   usename = ratemodel.Username,
                   user_id = ratemodel.UserId,
-                  rate = ratemodel.Rate
+                  rate = ratemodel.Rate,
+                  sub_id = ratemodel.SubId
                 });
                 db.SaveChanges();
                
@@ -879,7 +1007,26 @@ namespace LibraryOnline.Controllers.API
                 };
             }
         }
-
+        [Route("api/AdminAPI/GetSubByBookID")]
+        [HttpGet]
+        public IHttpActionResult GetSubByBookID(string bookid)
+        {
+            var sub = bookid.Substring(0, 2);
+            int? data = 0;
+            if (sub == "EB")
+            {
+                data = db.Ebooks.Where(x => x.ebook_id == bookid).Select(x => x.sub_id).FirstOrDefault();
+            }
+            if (sub == "ES")
+            {
+                data = db.Essays.Where(x => x.essay_id == bookid).Select(x => x.sub_id).FirstOrDefault();
+            }
+            if (sub == "TH")
+            {
+                data = db.Theses.Where(x => x.thesis_id == bookid).Select(x => x.sub_id).FirstOrDefault();
+            }
+            return Ok(data);
+        }
 
         //Upload Khóa Luận
         [Route("api/AdminAPI/UploadFilesThesis")]
@@ -945,7 +1092,7 @@ namespace LibraryOnline.Controllers.API
                             });
                         db.SaveChanges();
                         var book_id = db.Theses.OrderByDescending(x => x.id).Select(x => x.thesis_id).FirstOrDefault();
-
+                        var userName = db.Users.Where(x => x.id == user_id).FirstOrDefault();
                         db.SearchFiles.Add(
                           new SearchFile
                           {
@@ -961,7 +1108,8 @@ namespace LibraryOnline.Controllers.API
                               date_upload = date_upload,
                               user_id = user_id,
                               sub_id = sub_id,
-                              type = "thesis"
+                              username = userName.fullname,
+                              type = "thesis",
                           });
                         db.SaveChanges();//lưu dât thôi cái này t chưa chạy t mới test gửi data từ  ajax qua thôi
                         var user = db.Users.Where(x => x.id == user_id).Select(x => x.username).FirstOrDefault();
@@ -974,6 +1122,7 @@ namespace LibraryOnline.Controllers.API
                         var essay_id = db.Theses.Where(x => x.id == loadessay.id).Select(x => x.thesis_id).FirstOrDefault();
                         var sub = db.Subject_Thesis.Where(x => x.id == sub_id).FirstOrDefault();
                         //MyHub.Post(sub_ebook.id, sub_ebook.name);
+                       
                         return new ThesisCreationResult
                         {
                             IsSuccess = true,
@@ -988,7 +1137,8 @@ namespace LibraryOnline.Controllers.API
                             Date_Upload = loadessay.date_upload.Value,
                             Course = loadessay.cource,
                             Sub_Id = sub.id,
-                            Sub_Name = sub.name
+                            Sub_Name = sub.name,
+                            User_Name = userName.fullname
                         };
                         //return Request.CreateResponse("Thành công");
                     }
@@ -1203,12 +1353,42 @@ namespace LibraryOnline.Controllers.API
         }
         // lấy ebook tiểu luận khóa luận gần nhất
         [Route("api/AdminAPI/GetListRecently")]
-        [HttpGet]
+        [HttpGet] 
         public IHttpActionResult GetListRecently() 
         {
-            var ebook = db.Ebooks.OrderByDescending(x => x.date_upload).ToList().Take(6);
-            var essay = db.Essays.OrderByDescending(x => x.date_upload).ToList().Take(6);
-            var thesis = db.Theses.OrderByDescending(x => x.date_upload).ToList().Take(6);
+            //var ebook = db.Ebooks.OrderByDescending(x => x.date_upload).ToList().Take(6);
+            //var essay = db.Essays.OrderByDescending(x => x.date_upload).ToList().Take(6);
+            //var thesis = db.Theses.OrderByDescending(x => x.date_upload).ToList().Take(6);
+            var ebook = (from e in db.Ebooks
+                         from u in db.Users
+                         where e.user_id == u.id
+                         orderby e.date_upload descending
+                         select new
+                         { 
+                             Title = e.title,
+                             Ebook_Id = e.ebook_id, 
+                             Poster = u.fullname
+                         }).Take(6);
+            var essay = (from e in db.Essays
+                         from u in db.Users
+                         where e.user_id == u.id
+                         orderby e.date_upload descending
+                         select new
+                         {
+                             Title = e.title,
+                             Essay_Id = e.essay_id,
+                             Poster = u.fullname
+                         }).Take(6);
+            var thesis = (from e in db.Theses
+                         from u in db.Users
+                         where e.user_id == u.id
+                         orderby e.date_upload descending
+                         select new
+                         {
+                             Title = e.title,
+                             Thesis_Id = e.thesis_id,
+                             Poster = u.fullname
+                         }).Take(6);
             var data = new
             {
                 lstebook = ebook,
@@ -1218,5 +1398,33 @@ namespace LibraryOnline.Controllers.API
             return Ok(data);
         }
 
+
+        // lấy ebook tiểu luận khóa luận gần nhất
+        [Route("api/AdminAPI/ChangeInfo")]
+        [HttpPost]
+        public IHttpActionResult ChangeInfo()
+        {
+            var httpPostedFile = HttpContext.Current.Request.Files["fileInputImage"];//lấy file
+            var userid = HttpContext.Current.Request["userid"];
+            int user_id = Convert.ToInt32(userid);
+            var fullname = HttpContext.Current.Request["fullname"];
+            var user = db.Users.Where(x => x.id == user_id).FirstOrDefault();
+            if (httpPostedFile != null)
+            {
+                user.image = httpPostedFile.FileName;
+                var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/imageUser/"), httpPostedFile.FileName);//tên file
+                httpPostedFile.SaveAs(fileSavePath);
+            }
+            user.fullname = fullname;
+            db.SaveChanges();
+            var seacrh = db.SearchFiles.Where(x => x.user_id == user_id).ToList();
+            foreach (var item in seacrh)
+            {
+                item.username = fullname;
+                db.SaveChanges();
+            }
+            var userInfo = db.Users.Where(x => x.id == user_id).FirstOrDefault();
+            return Ok(userInfo);
+        }
     }
 }

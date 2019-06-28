@@ -19,6 +19,7 @@ namespace LibraryOnline.Models
         public string usename { get; set; }
         public int user_id { get; set; }
         public int rate { get; set; }
+        public Nullable<int> sub_id { get; set; }
     
         public virtual User User { get; set; }
     }

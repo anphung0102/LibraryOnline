@@ -11,6 +11,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace LibraryOnline.Controllers.API
 {
@@ -44,12 +46,13 @@ namespace LibraryOnline.Controllers.API
             {
                 db.Subject_Essay.Add(new Subject_Essay
                 {
-                    subessay_id = "",
+                    subessay_id = subject.Subessay_Id,
                     name = subject.Name,
                 });
                 db.SaveChanges();
-               // var sub_essay = db.Subject_Essay.Where(x => x.name.Equals(subject.Name)).FirstOrDefault();
-                var sub_essay = db.Subject_Essay.OrderByDescending(x => x.id).Take(1).FirstOrDefault();
+                // var sub_essay = db.Subject_Essay.Where(x => x.name.Equals(subject.Name)).FirstOrDefault();
+                //var sub_essay = db.Subject_Essay.OrderByDescending(x => x.id).Take(1).FirstOrDefault();
+                var sub_essay = db.Subject_Essay.Where(x => x.subessay_id == subject.Subessay_Id).FirstOrDefault();
                 var subessay_id = db.Subject_Essay.Where(x => x.id == sub_essay.id).Select(x => x.subessay_id).FirstOrDefault();
                 
                 return new SubjectCreationResult
@@ -71,6 +74,24 @@ namespace LibraryOnline.Controllers.API
             foreach (var item in essay)
             {
                 db.Essays.Remove(item);
+                db.SaveChanges();
+            }
+            var rate = db.RateStars.Where(x => x.sub_id == subject.id).ToList();
+            foreach (var item in rate)
+            {
+                db.RateStars.Remove(item);
+                db.SaveChanges();
+            }
+            var time = db.Times.Where(x => x.sub_id == subject.id).ToList();
+            foreach (var item in time)
+            {
+                db.Times.Remove(item);
+                db.SaveChanges();
+            }
+            var search = db.SearchFiles.Where(x => x.sub_id == subject.id).ToList();
+            foreach (var item in search)
+            {
+                db.SearchFiles.Remove(item);
                 db.SaveChanges();
             }
             var sub = db.Subject_Essay.Where(x => x.id == subject.id).FirstOrDefault();
@@ -107,12 +128,13 @@ namespace LibraryOnline.Controllers.API
             {
                 db.Subject_Thesis.Add(new Subject_Thesis
                 {
-                    subthesis_id = "",
+                    subthesis_id = subject.Subthesis_Id,
                     name = subject.Name,
                 });
                 db.SaveChanges();
                 //var sub_thesis = db.Subject_Thesis.Where(x => x.name.Equals(subject.Name)).FirstOrDefault();
-                var sub_thesis = db.Subject_Thesis.OrderByDescending(x => x.id).Take(1).FirstOrDefault();
+                //var sub_thesis = db.Subject_Thesis.OrderByDescending(x => x.id).Take(1).FirstOrDefault();
+                var sub_thesis = db.Subject_Thesis.Where(x => x.subthesis_id == subject.Subthesis_Id).FirstOrDefault();
                 var subethesis_id = db.Subject_Thesis.Where(x => x.id == sub_thesis.id).Select(x => x.subthesis_id).FirstOrDefault();
 
                 return new SubjectCreationResult
@@ -139,11 +161,13 @@ namespace LibraryOnline.Controllers.API
             }
             else
             {
+                sub.subessay_id = subject.subessay_id;
                 sub.name = subject.name;
                 db.SaveChanges();
                 return new SubjectCreationResult
                 {
                     IsSuccess = true,
+                    Subessay_Id = sub.subessay_id,
                     Name = sub.name
                 };
             }
@@ -163,11 +187,13 @@ namespace LibraryOnline.Controllers.API
             }
             else
             {
+                sub.subthesis_id = subject.subthesis_id;
                 sub.name = subject.name;
                 db.SaveChanges();
                 return new SubjectCreationResult
                 {
                     IsSuccess = true,
+                    Subthesis_Id = sub.subthesis_id,
                     Name = sub.name
                 };
             }
@@ -181,6 +207,24 @@ namespace LibraryOnline.Controllers.API
             foreach (var item in thesis)
             {
                 db.Theses.Remove(item);
+                db.SaveChanges();
+            }
+            var rate = db.RateStars.Where(x => x.sub_id == subject.id).ToList();
+            foreach (var item in rate)
+            {
+                db.RateStars.Remove(item);
+                db.SaveChanges();
+            }
+            var time = db.Times.Where(x => x.sub_id == subject.id).ToList();
+            foreach (var item in time)
+            {
+                db.Times.Remove(item);
+                db.SaveChanges();
+            }
+            var search = db.SearchFiles.Where(x => x.sub_id == subject.id).ToList();
+            foreach (var item in search)
+            {
+                db.SearchFiles.Remove(item);
                 db.SaveChanges();
             }
             var sub = db.Subject_Thesis.Where(x => x.id == subject.id).FirstOrDefault();
@@ -304,9 +348,13 @@ namespace LibraryOnline.Controllers.API
             //    db.SaveChanges();
             //}
             var ess = db.Essays.Where(x => x.id == essay.id).FirstOrDefault();
-            var search = db.SearchFiles.Where(x => x.book_id == ess.essay_id).FirstOrDefault();       
+            var search = db.SearchFiles.Where(x => x.book_id == ess.essay_id).FirstOrDefault();
+            var rate = db.RateStars.Where(x => x.book_id == ess.essay_id).FirstOrDefault();
+            var time = db.Times.Where(x => x.bookid == ess.essay_id).FirstOrDefault();
             db.Essays.Remove(ess);
             db.SearchFiles.Remove(search);
+            db.RateStars.Remove(rate);
+            db.Times.Remove(time);
             db.SaveChanges();
 
             return "Xóa thành công";
@@ -421,8 +469,12 @@ namespace LibraryOnline.Controllers.API
         {
             var the = db.Theses.Where(x => x.id == thesis.id).FirstOrDefault();
             var search = db.SearchFiles.Where(x => x.book_id == the.thesis_id).FirstOrDefault();
+            var rate = db.RateStars.Where(x => x.book_id == the.thesis_id).FirstOrDefault();
+            var time = db.Times.Where(x => x.bookid == the.thesis_id).FirstOrDefault();
             db.Theses.Remove(the);
             db.SearchFiles.Remove(search);
+            db.RateStars.Remove(rate);
+            db.Times.Remove(time);
             db.SaveChanges();
 
             return "Xóa thành công";
@@ -477,6 +529,27 @@ namespace LibraryOnline.Controllers.API
             return BitConverter.ToString(encryptData(data)).Replace("-", "").ToLower();
         }
 
+        //mã hóa và giải mã
+        static string key { get; set; } = "A!9HHhi%XjjYY4YP2@Nob009X";
+        public static string Encrypt(string text)
+        {
+            using (var md5 = new MD5CryptoServiceProvider())
+            {
+                using (var tdes = new TripleDESCryptoServiceProvider())
+                {
+                    tdes.Key = md5.ComputeHash(UTF8Encoding.UTF8.GetBytes(key));
+                    tdes.Mode = CipherMode.ECB;
+                    tdes.Padding = PaddingMode.PKCS7;
+
+                    using (var transform = tdes.CreateEncryptor())
+                    {
+                        byte[] textBytes = UTF8Encoding.UTF8.GetBytes(text);
+                        byte[] bytes = transform.TransformFinalBlock(textBytes, 0, textBytes.Length);
+                        return Convert.ToBase64String(bytes, 0, bytes.Length);
+                    }
+                }
+            }
+        }
 
         [Route("api/ManageOfAdminAPI/AddUsers")]
         [HttpPost]
@@ -504,7 +577,7 @@ namespace LibraryOnline.Controllers.API
                     db.Users.Add(new User
                     {
                         username = username,
-                        password = md5(password),
+                        password = Encrypt(password),
                         role_id = role_id,
                         mssv = studentid,
                         fullname = name,
@@ -536,7 +609,7 @@ namespace LibraryOnline.Controllers.API
         public UserCreationResult UpdateUser()
         {
             var username = HttpContext.Current.Request["email"];
-            var password = HttpContext.Current.Request["password"];
+            //var password = HttpContext.Current.Request["password"];
             var role = HttpContext.Current.Request["role"];
             var studentid = HttpContext.Current.Request["studentid"];
             var name = HttpContext.Current.Request["name"];
@@ -555,7 +628,7 @@ namespace LibraryOnline.Controllers.API
             else
             {
                 user.username = username;
-                user.password = md5(password);
+                //user.password = md5(password);
                 user.role_id = role_id;
                 user.mssv = studentid;
                 user.fullname = name;
@@ -568,7 +641,7 @@ namespace LibraryOnline.Controllers.API
                     IsSuccess = true,
                     Id = loaduser.id,
                     UserName = loaduser.username,
-                    PassWord = loaduser.password,
+                    //PassWord = loaduser.password,
                     Role_Id = loaduser.role_id,
                     RoleName = rolename.name,
                     Mssv = loaduser.mssv,

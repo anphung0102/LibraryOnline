@@ -20,6 +20,7 @@ namespace LibraryOnline.Models
         public string bookname { get; set; }
         public string time1 { get; set; }
         public Nullable<System.DateTime> date { get; set; }
+        public Nullable<int> sub_id { get; set; }
     
         public virtual User User { get; set; }
     }

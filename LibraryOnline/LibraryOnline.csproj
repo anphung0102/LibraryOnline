@@ -247,6 +247,12 @@
       <DependentUpon>LibraryOnline.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EssayViewModel.cs" />
+    <Compile Include="Models\ImportError.cs">
+      <DependentUpon>LibraryOnline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ImportTemp.cs">
+      <DependentUpon>LibraryOnline.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\LibraryOnline.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -271,6 +277,9 @@
       <DependentUpon>LibraryOnline.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SearchFile.cs">
+      <DependentUpon>LibraryOnline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SlideImage.cs">
       <DependentUpon>LibraryOnline.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_helpdiagramdefinition1_Result.cs">
@@ -539,6 +548,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\imageUser\" />
     <Folder Include="excelfolder\" />
   </ItemGroup>
   <ItemGroup>

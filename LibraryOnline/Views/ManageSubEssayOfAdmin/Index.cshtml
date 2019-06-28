@@ -42,7 +42,7 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Mã sách</th>
+                <th>Mã môn</th>
                 <th>Tên môn</th>
                 <th></th>
                 @*<th></th>*@
@@ -63,6 +63,10 @@
             <!-- Sửa môn học -->
             <div id="modal" class="modal-body">
                 <form id="formEbookEdit" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="text">Mã môn:</label>
+                        <input type="text" class="form-control" id="subidEdit" placeholder="Mã môn" name="subidEdit">
+                    </div>
                     <div class="form-group">
                         <label for="text">Tên môn:</label>
                         <input type="text" class="form-control" id="nameEdit" placeholder="Tên môn" name="nameEdit">
@@ -97,7 +101,11 @@
             </div>
             <!-- Tạo môn học -->
             <div id="modal" class="modal-body">
-                <form id="formEbook" method="post" enctype="multipart/form-data">
+                <form id="formEssay" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="text">Mã môn:</label>
+                        <input type="text" class="form-control" id="subid" placeholder="Mã môn" name="subid">
+                    </div>
                     <div class="form-group">
                         <label for="text">Tên môn:</label>
                         <input type="text" class="form-control" id="name" placeholder="Tên môn" name="name">
@@ -190,9 +198,17 @@
         }
 
         $("#btnSaveAdd").click(function () {
+            var subid = $("#subid").val();
             var name = $("#name").val();
             var data = {};
+            data.subessay_Id = subid;
             data.name = name;
+            
+            if (subid == null || subid == "") {
+                $("#subid").focus();
+                $.notify("Bạn phải nhập mã môn!", warnOptions);
+                return;
+            }
             if (name == null || name == "") {
                 $("#name").focus();
                 $.notify("Bạn phải nhập tên môn!", warnOptions);
@@ -216,7 +232,7 @@
                                 "name": result.name
                             }).draw();
                             t.responsive.recalc();
-                            $("#formEbook")[0].reset();//reset form
+                            $("#formEssay")[0].reset();//reset form
                         } else {
                             $.notify("Tên môn đã bị trùng!", errorOptions);
                         }
@@ -232,17 +248,25 @@
             console.log("rowCurrent", index);
             var id = $(this).closest("tr").find(".id").text();
             var name = $(this).closest("tr").find(".name").text();
-            var subebook_id = $(this).closest("tr").find(".subebook_id").text();
+            var subessay_id = $(this).closest("tr").find(".subessay_id").text();
             $("#nameEdit").val(name);
             $("#idEdit").val(id);
+            $("#subidEdit").val(subessay_id);
         });
 
         $('body').on('click', '#btnSaveEdit', function () {
             var id = $("#idEdit").val();
+            var subid = $("#subidEdit").val();
             var name = $("#nameEdit").val();
             var data = {};
             data.id = id;
+            data.subessay_id = subid;
             data.name = name;
+            if (subid == null || subid == "") {
+                $("#subidEdit").focus();
+                $.notify("Bạn phải nhập mã môn!", warnOptions);
+                return;
+            }
             if (name == null || name == "") {
                 $("#nameEdit").focus();
                 $.notify("Bạn phải nhập tên môn!", warnOptions);
@@ -259,6 +283,7 @@
                         if (result.isSuccess) {
                             $.notify("Cập nhật thành công!", successOptions);
                             var t = $('#loadsubject').DataTable();
+                            t.cell(index, 1).data(result.subessay_Id).draw();
                             t.cell(index, 2).data(result.name).draw();
                             t.responsive.recalc();
                         } else {

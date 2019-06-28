@@ -28,11 +28,23 @@
         $(window).bind('beforeunload', function (e) {
             //do something
             //wnd.close();
+             var subid;
+            $.ajax({
+             type: "GET",
+                url: "/api/AdminAPI/GetSubByBookID?bookid=" + '@ViewBag.ID',
+             contentType: "application/json; charset=utf-8",
+             dataType: "json",
+             async: false,
+             success: function (result) {
+                subid = result;
+             }
+            });
              var bookId = '@ViewBag.Id';
                 var model = {};
                 model.UserId = $("#userid").html();
                 model.BookId = bookId;
                 model.Time = $("#counter").html();
+                model.SubId = subid;
                 $.ajax({
                     type: "POST",
                     url: "/api/TimeAPI/SaveTime",
@@ -80,8 +92,8 @@
             data: { ebook_id: val},
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function (v) {
-                console.log(v);
+            success: function (result) {
+                console.log(result[0]);
                //var data = "<div class='col-lg-12 col-md-6 mb-4' >";
                // //data += "<h2>Sách: " + v.title + "</h2>";
                // data += "<embed src='/Content/Upload/" + v.filename + "' type='application/pdf' height='700px' width='70%' class='responsive'>";
@@ -89,7 +101,7 @@
                // data += "</div > ";
                // $("#loadfile").append(data);
                 //data += "<h2>Sách: " + v.title + "</h2>";
-                var data = "<embed src='/Content/Upload/" + v.filename + "' type='application/pdf' height='564px' width='100%' class='responsive'>";
+                var data = "<embed src='/Content/Upload/" + result[0].filename + "' type='application/pdf' height='564px' width='100%' class='responsive'>";
                 
                 $("#loadfile").append(data);
             }

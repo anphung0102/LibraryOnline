@@ -30,16 +30,42 @@
           <Property Name="essay_id" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="title" Type="nvarchar(max)" Nullable="false" />
           <Property Name="instructor" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="executor1" Type="nvarchar" MaxLength="50" />
-          <Property Name="executor2" Type="nvarchar" MaxLength="50" />
+          <Property Name="executor1" Type="nvarchar(max)" />
+          <Property Name="executor2" Type="nvarchar(max)" />
           <Property Name="describe" Type="nvarchar(max)" />
           <Property Name="filename" Type="nvarchar(max)" />
           <Property Name="date_upload" Type="datetime" />
           <Property Name="user_id" Type="int" />
           <Property Name="sub_id" Type="int" />
-          <Property Name="course" Type="nchar" MaxLength="10" />
+          <Property Name="course" Type="nvarchar(max)" />
           <Property Name="countView" Type="int" />
           <Property Name="countDowload" Type="int" />
+        </EntityType>
+        <EntityType Name="ImportError">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="nvarchar(max)" />
+          <Property Name="password" Type="nvarchar" MaxLength="50" />
+          <Property Name="role_id" Type="int" />
+          <Property Name="fullname" Type="nvarchar(max)" />
+          <Property Name="mssv" Type="nvarchar(max)" />
+          <Property Name="class_id" Type="nvarchar(max)" />
+          <Property Name="image" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="ImportTemp">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="role_id" Type="int" />
+          <Property Name="fullname" Type="nvarchar(max)" />
+          <Property Name="mssv" Type="nvarchar(max)" />
+          <Property Name="class_id" Type="nvarchar(max)" />
+          <Property Name="image" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="RateStar">
           <Key>
@@ -50,6 +76,7 @@
           <Property Name="usename" Type="nvarchar" MaxLength="50" />
           <Property Name="user_id" Type="int" Nullable="false" />
           <Property Name="rate" Type="int" Nullable="false" />
+          <Property Name="sub_id" Type="int" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -69,39 +96,49 @@
           <Property Name="author" Type="nvarchar(max)" />
           <Property Name="year" Type="nvarchar" MaxLength="10" />
           <Property Name="instructor" Type="nvarchar(max)" />
-          <Property Name="executor1" Type="nvarchar" MaxLength="50" />
-          <Property Name="executor2" Type="nvarchar" MaxLength="50" />
+          <Property Name="executor1" Type="nvarchar(max)" />
+          <Property Name="executor2" Type="nvarchar(max)" />
           <Property Name="describe" Type="nvarchar(max)" />
           <Property Name="filename" Type="nvarchar(max)" />
           <Property Name="date_upload" Type="datetime" />
           <Property Name="user_id" Type="int" />
           <Property Name="sub_id" Type="int" />
-          <Property Name="username" Type="nvarchar" MaxLength="50" />
+          <Property Name="username" Type="nvarchar(max)" />
           <Property Name="type" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="SlideImage">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="nvarchar(max)" />
+          <Property Name="link" Type="nvarchar(max)" />
+          <Property Name="image" Type="nvarchar(max)" />
+          <Property Name="sortid" Type="int" />
         </EntityType>
         <EntityType Name="Subject_Ebook">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="subebook_id" Type="nvarchar" MaxLength="10" Nullable="false" />
-          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="subebook_id" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="name" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Subject_Essay">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="subessay_id" Type="nvarchar" MaxLength="10" Nullable="false" />
-          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="subessay_id" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="name" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Subject_Thesis">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="subthesis_id" Type="nvarchar" MaxLength="10" Nullable="false" />
-          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="subthesis_id" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="name" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -121,14 +158,14 @@
           <Property Name="thesis_id" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="title" Type="nvarchar(max)" Nullable="false" />
           <Property Name="instructor" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="executor1" Type="nvarchar" MaxLength="50" />
-          <Property Name="executor2" Type="nvarchar" MaxLength="50" />
+          <Property Name="executor1" Type="nvarchar(max)" />
+          <Property Name="executor2" Type="nvarchar(max)" />
           <Property Name="describe" Type="nvarchar(max)" />
           <Property Name="filename" Type="nvarchar(max)" />
           <Property Name="date_upload" Type="datetime" />
           <Property Name="user_id" Type="int" />
           <Property Name="sub_id" Type="int" />
-          <Property Name="cource" Type="nchar" MaxLength="10" />
+          <Property Name="cource" Type="nvarchar(max)" />
           <Property Name="countView" Type="int" />
           <Property Name="countDowload" Type="int" />
         </EntityType>
@@ -139,21 +176,23 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="userid" Type="int" />
           <Property Name="bookid" Type="nchar" MaxLength="10" />
-          <Property Name="bookname" Type="nvarchar" MaxLength="50" />
-          <Property Name="time" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="bookname" Type="nvarchar(max)" />
+          <Property Name="time" Type="nvarchar(max)" Nullable="false" />
           <Property Name="date" Type="datetime" />
+          <Property Name="sub_id" Type="int" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="username" Type="nvarchar(max)" Nullable="false" />
           <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="role_id" Type="int" Nullable="false" />
-          <Property Name="fullname" Type="nvarchar" MaxLength="50" />
-          <Property Name="mssv" Type="nvarchar" MaxLength="10" />
-          <Property Name="class_id" Type="nvarchar" MaxLength="10" />
+          <Property Name="fullname" Type="nvarchar(max)" />
+          <Property Name="mssv" Type="nvarchar(max)" />
+          <Property Name="class_id" Type="nvarchar(max)" />
+          <Property Name="image" Type="nvarchar(max)" />
           <Property Name="resetPasswordCode" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <Association Name="fk_EBOOKS_SUBJECTEBOOK">
@@ -303,9 +342,12 @@
         <EntityContainer Name="LibraryOnlineFinalModelStoreContainer">
           <EntitySet Name="Ebook" EntityType="Self.Ebook" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Essay" EntityType="Self.Essay" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ImportError" EntityType="Self.ImportError" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ImportTemp" EntityType="Self.ImportTemp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RateStar" EntityType="Self.RateStar" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SearchFile" EntityType="Self.SearchFile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SlideImage" EntityType="Self.SlideImage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Subject_Ebook" EntityType="Self.Subject_Ebook" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Subject_Essay" EntityType="Self.Subject_Essay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Subject_Thesis" EntityType="Self.Subject_Thesis" Schema="dbo" store:Type="Tables" />
@@ -493,6 +535,9 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Time" EntitySet="Times" />
           </AssociationSet>
+          <EntitySet Name="ImportErrors" EntityType="LibraryOnlineFinalModel.ImportError" />
+          <EntitySet Name="ImportTemps" EntityType="LibraryOnlineFinalModel.ImportTemp" />
+          <EntitySet Name="SlideImages" EntityType="LibraryOnlineFinalModel.SlideImage" />
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -554,14 +599,14 @@
           <Property Name="essay_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="instructor" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="executor1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="executor2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="executor1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="executor2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="describe" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="filename" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="date_upload" Type="DateTime" Precision="3" />
           <Property Name="user_id" Type="Int32" />
           <Property Name="sub_id" Type="Int32" />
-          <Property Name="course" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="course" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="countView" Type="Int32" />
           <Property Name="countDowload" Type="Int32" />
           <NavigationProperty Name="Subject_Essay" Relationship="LibraryOnlineFinalModel.fk_EBOOKS_SUBJECTESSAY" FromRole="Essay" ToRole="Subject_Essay" />
@@ -577,6 +622,7 @@
           <Property Name="user_id" Type="Int32" Nullable="false" />
           <Property Name="rate" Type="Int32" Nullable="false" />
           <NavigationProperty Name="User" Relationship="LibraryOnlineFinalModel.FK_RateStar_Users" FromRole="RateStar" ToRole="User" />
+          <Property Name="sub_id" Type="Int32" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -597,14 +643,14 @@
           <Property Name="author" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="year" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="instructor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="executor1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="executor2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="executor1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="executor2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="describe" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="filename" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="date_upload" Type="DateTime" Precision="3" />
           <Property Name="user_id" Type="Int32" />
           <Property Name="sub_id" Type="Int32" />
-          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="type" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="Subject_Ebook">
@@ -612,8 +658,8 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="subebook_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="subebook_id" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Ebooks" Relationship="LibraryOnlineFinalModel.fk_EBOOKS_SUBJECTEBOOK" FromRole="Subject_Ebook" ToRole="Ebook" />
         </EntityType>
         <EntityType Name="Subject_Essay">
@@ -621,8 +667,8 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="subessay_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="subessay_id" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Essays" Relationship="LibraryOnlineFinalModel.fk_EBOOKS_SUBJECTESSAY" FromRole="Subject_Essay" ToRole="Essay" />
         </EntityType>
         <EntityType Name="Subject_Thesis">
@@ -630,8 +676,8 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="subthesis_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="subthesis_id" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Theses" Relationship="LibraryOnlineFinalModel.fk_EBOOKS_SUBJECTTHESIS" FromRole="Subject_Thesis" ToRole="Thesis" />
         </EntityType>
         <EntityType Name="sysdiagram">
@@ -652,14 +698,14 @@
           <Property Name="thesis_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="instructor" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="executor1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="executor2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="executor1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="executor2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="describe" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="filename" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="date_upload" Type="DateTime" Precision="3" />
           <Property Name="user_id" Type="Int32" />
           <Property Name="sub_id" Type="Int32" />
-          <Property Name="cource" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="cource" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="countView" Type="Int32" />
           <Property Name="countDowload" Type="Int32" />
           <NavigationProperty Name="Subject_Thesis" Relationship="LibraryOnlineFinalModel.fk_EBOOKS_SUBJECTTHESIS" FromRole="Thesis" ToRole="Subject_Thesis" />
@@ -672,22 +718,23 @@
           <Property Name="id" Type="Int32" Nullable="false" />
           <Property Name="userid" Type="Int32" />
           <Property Name="bookid" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="bookname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="time1" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="bookname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="time1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="User" Relationship="LibraryOnlineFinalModel.FK_Time_Users" FromRole="Time" ToRole="User" />
           <Property Name="date" Type="DateTime" Precision="3" />
+          <Property Name="sub_id" Type="Int32" />
         </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="role_id" Type="Int32" Nullable="false" />
-          <Property Name="fullname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="mssv" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="class_id" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="fullname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="mssv" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="class_id" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Ebooks" Relationship="LibraryOnlineFinalModel.fk_EBOOKS_USERS" FromRole="User" ToRole="Ebook" />
           <NavigationProperty Name="Essays" Relationship="LibraryOnlineFinalModel.fk_ESSAYS_USERS" FromRole="User" ToRole="Essay" />
           <NavigationProperty Name="RateStars" Relationship="LibraryOnlineFinalModel.FK_RateStar_Users" FromRole="User" ToRole="RateStar" />
@@ -695,6 +742,7 @@
           <NavigationProperty Name="Theses" Relationship="LibraryOnlineFinalModel.fk_THESIS_USERS" FromRole="User" ToRole="Thesis" />
           <NavigationProperty Name="Times" Relationship="LibraryOnlineFinalModel.FK_Time_Users" FromRole="User" ToRole="Time" />
           <Property Name="resetPasswordCode" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="fk_EBOOKS_SUBJECTEBOOK">
           <End Type="LibraryOnlineFinalModel.Subject_Ebook" Role="Subject_Ebook" Multiplicity="0..1" />
@@ -804,6 +852,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ImportError">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="role_id" Type="Int32" />
+          <Property Name="fullname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="mssv" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="class_id" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ImportTemp">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="role_id" Type="Int32" />
+          <Property Name="fullname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="mssv" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="class_id" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SlideImage">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="link" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="sortid" Type="Int32" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -875,6 +959,7 @@
           <EntitySetMapping Name="RateStars">
             <EntityTypeMapping TypeName="LibraryOnlineFinalModel.RateStar">
               <MappingFragment StoreEntitySet="RateStar">
+                <ScalarProperty Name="sub_id" ColumnName="sub_id" />
                 <ScalarProperty Name="rate" ColumnName="rate" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="usename" ColumnName="usename" />
@@ -974,6 +1059,7 @@
           <EntitySetMapping Name="Times">
             <EntityTypeMapping TypeName="LibraryOnlineFinalModel.Time">
               <MappingFragment StoreEntitySet="Time">
+                <ScalarProperty Name="sub_id" ColumnName="sub_id" />
                 <ScalarProperty Name="date" ColumnName="date" />
                 <ScalarProperty Name="time1" ColumnName="time" />
                 <ScalarProperty Name="bookname" ColumnName="bookname" />
@@ -986,6 +1072,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="LibraryOnlineFinalModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="image" ColumnName="image" />
                 <ScalarProperty Name="resetPasswordCode" ColumnName="resetPasswordCode" />
                 <ScalarProperty Name="class_id" ColumnName="class_id" />
                 <ScalarProperty Name="mssv" ColumnName="mssv" />
@@ -993,6 +1080,45 @@
                 <ScalarProperty Name="role_id" ColumnName="role_id" />
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ImportErrors">
+            <EntityTypeMapping TypeName="LibraryOnlineFinalModel.ImportError">
+              <MappingFragment StoreEntitySet="ImportError">
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
+                <ScalarProperty Name="mssv" ColumnName="mssv" />
+                <ScalarProperty Name="fullname" ColumnName="fullname" />
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ImportTemps">
+            <EntityTypeMapping TypeName="LibraryOnlineFinalModel.ImportTemp">
+              <MappingFragment StoreEntitySet="ImportTemp">
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
+                <ScalarProperty Name="mssv" ColumnName="mssv" />
+                <ScalarProperty Name="fullname" ColumnName="fullname" />
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SlideImages">
+            <EntityTypeMapping TypeName="LibraryOnlineFinalModel.SlideImage">
+              <MappingFragment StoreEntitySet="SlideImage">
+                <ScalarProperty Name="sortid" ColumnName="sortid" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="link" ColumnName="link" />
+                <ScalarProperty Name="title" ColumnName="title" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

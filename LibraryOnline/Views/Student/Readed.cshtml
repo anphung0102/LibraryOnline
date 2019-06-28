@@ -44,7 +44,18 @@
                 data: data,
                 "columns": [
                     { "data": "id" },
-                    { "data": "bookid" },
+                    {
+                        "data": "bookid", render: function (data) {
+                            debugger;
+                            var type = data.slice(0, 2);
+                            if (type == "EB")
+                                return "<a href='/Details/Details?ebook_id=" + data + "' style='text-decoration: none;'>" + data + "</a>";
+                            if (type == "ES")
+                                return "<a href='/Details/DetailsEssay?essay_id=" + data + "'style='text-decoration: none;'>" + data + "</a>";
+                            if (type == "TH")
+                                return "<a href='/Details/DetailsThesis?thesis_id=" + data + "'style='text-decoration: none;'>" + data + "</a>";
+                        }
+                    },
                     { "data": "bookname" },
                     { "data": "time1" },
                     {

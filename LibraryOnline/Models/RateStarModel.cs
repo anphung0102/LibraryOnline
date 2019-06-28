@@ -11,7 +11,8 @@ namespace LibraryOnline.Models
         public string BookId { get; set; }
         public string Username { get; set; }
         public int UserId { get; set; }
-        public int Rate { get; set; } 
+        public int Rate { get; set; }
+        public int SubId { get; set; } 
     }
 
     public class RateStarResult : RateStarModel 

@@ -59,15 +59,15 @@
             data: { essay_id: val},
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function (v) {
-                console.log(v);
+            success: function (result) {
+                console.log(result[0]);
                //var data = "<div class='col-lg-12 col-md-6 mb-4' >";
                // data += "<h2>Sách: " + v.title + "</h2>";
                // data += "<embed src='/Content/Upload/" + v.filename + "' type='application/pdf' height='700px' width='70%' class='responsive'>";
 
                // data += "</div > ";
                // $("#loadfile").append(data);
-                var data = "<embed src='/Content/Upload/" + v.filename + "' type='application/pdf' height='564px' width='100%' class='responsive'>";
+                var data = "<embed src='/Content/Upload/" + result[0].filename + "' type='application/pdf' height='564px' width='100%' class='responsive'>";
 
                 $("#loadfile").append(data);
             }

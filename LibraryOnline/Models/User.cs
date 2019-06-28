@@ -32,6 +32,7 @@ namespace LibraryOnline.Models
         public string mssv { get; set; }
         public string class_id { get; set; }
         public string resetPasswordCode { get; set; }
+        public string image { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Ebook> Ebooks { get; set; }

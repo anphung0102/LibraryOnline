@@ -22,6 +22,7 @@ namespace LibraryOnline.Models
         public string Course { get; set; }
         public string Message { get; set; }
         public string Sub_Name { get; set; }
+        public string User_Name { get; set; } 
     }
     public class ThesisCreationResult : ThesisViewModel
     {

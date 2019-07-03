@@ -23,7 +23,6 @@
     @*<link href="~/Content/bootstrap.min.css" rel="stylesheet">*@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <!-- Custom styles for this template -->
-
     <link href="~/Content/styles/style-homepage.css" rel="stylesheet" />
     <link href="~/Content/styles/details.css" rel="stylesheet" />
     <link href="~/Content/styles/common.css" rel="stylesheet" />
@@ -86,6 +85,8 @@
                             <h5 class="dropdown-header">Quản lý Khóa luận</h5>
                             <a class="dropdown-item" href="/ManageSubThesisOfAdmin/Index">Quản lý bộ môn</a>
                             <a class="dropdown-item" href="/ManageUploadThesisOfAdmin/Index">Quản lý Upload</a>
+                            <h5 class="dropdown-header">Quản lý Slide</h5>
+                            <a class="dropdown-item" href="/ManageSlideImage/Index">Quản lý</a>
                         </div>
                     </li>
 
@@ -213,7 +214,7 @@
                             @*<label for="text">Browser</label>
                                 <input type="file" name="Files" id="fileInput" />*@
                             <input type="file" onchange="previewFile()" multiple id="fileInputImage" style="margin-bottom: 5px;margin-top: 5px;"><br>
-                            <img id="imguserinfo"  height="200" alt="Image preview...">
+                            <img id="imguserinfo" style="width: 30%;height: 15%;" alt="Image preview...">
                         </div>
                         @*<div class="form-group mar_bottom">
                                 <div style="width:180px;height:180px;"><img id="ImageUser" src="http://placehold.it/180" alt="your image" /></div>
@@ -288,9 +289,13 @@
             }
         }
         $(document).ready(function () {
+            // unblock when ajax activity stops 
+            $(document).ajaxStop($.unblockUI); 
              //load thông tin lên form user info 
             var fname;
             var img;
+            //$.blockUI({ message: '<i class="fa fa-spinner fa-spin" style="font-size:50px;color:#16B3E3"></i>' }); 
+            //$.blockUI();
             $.ajax({
                 type: 'GET',
                 url: '/api/LoginAPI/GetPassByUserId?id=' + @Session["user_id"],

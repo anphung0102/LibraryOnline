@@ -181,7 +181,7 @@
                             @*<label for="text">Browser</label>
                                 <input type="file" name="Files" id="fileInput" />*@
                             <input type="file" onchange="previewFile()" multiple id="fileInputImage" style="margin-bottom: 5px;margin-top: 5px;"><br>
-                            <img id="imguserinfo" height="200" alt="Image preview...">
+                            <img id="imguserinfo" style="width: 30%;height: 15%;" alt="Image preview...">
                         </div>
                         @*<div class="form-group mar_bottom">
                                 <div style="width:180px;height:180px;"><img id="ImageUser" src="http://placehold.it/180" alt="your image" /></div>
@@ -254,6 +254,7 @@
             }
         }
         $(document).ready(function () {
+         $(document).ajaxStop($.unblockUI); 
              //load thông tin lên form user info
             var fname;
             var img;

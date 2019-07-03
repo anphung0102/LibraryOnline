@@ -1,0 +1,419 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var user = Session["username"];
+    if (Session["username"] == null || Session["user_id"] == null || Session["role_id"].ToString() != "1")
+    {
+        Response.Redirect("~/Login/Index");
+    }
+}
+<style>
+    .mar_bottom {
+        margin-bottom: 5px;
+    }
+
+    .fas {
+        font-size: 22px;
+    }
+
+    .far {
+        font-size: 22px;
+    }
+</style>
+
+<div class="container" id="manage">
+    <h2 style="text-align: center; margin-top: 4px;">Quản lý Slide ảnh</h2>
+    <div>
+        <button type="button" class="btn btn-success" style="margin-bottom: 4px;" data-toggle="modal" data-target="#myModal">
+            <i class="fas fa-plus-square"></i>
+        </button>
+    </div>
+
+    <table id="loadsubject" class="table table-bordered table-striped no-footer dt-responsive nowrap" role="grid" aria-describedby="crudTable_info">
+        <thead>
+            <tr>
+                <th class="none">ID</th>
+                <th>Tiêu đề</th>
+                <th>Hình ảnh</th>
+                <th>Link</th>
+                <th>Thứ tự</th>
+                <th class="none">Tên ảnh</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+<!--Popup edit-->
+<div class="modal" id="myModalEdit">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Cập nhật</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Tạo môn học -->
+            <div id="modal" class="modal-body">
+                <form id="formImageEdit" method="post" enctype="multipart/form-data">
+                    <div class="form-row mar_bottom">
+                        <div class="row col-md-6">
+                            <div class="col-md-3"> <label for="text">Tiêu đề:</label></div>
+                            <div class="col-md-9">  <input type="text" class="form-control" id="titleImgEdit" placeholder="Tiêu đề" name="titleImgEdit"></div>
+                        </div>
+                        <div class="row col-md-6">
+                            <div class="col-md-3"> <label for="text">Link:</label></div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="linkImgEdit" placeholder="Link" name="linkImgEdit">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row mar_bottom">
+                        <div class="row col-md-6">
+                            <div class="col-md-3"> <label for="text">Thứ tự:</label></div>
+                            <div class="col-md-9"><input type="number" class="form-control" id="sortImgEdit" placeholder="Thứ tự" name="sortImgEdit"></div>
+                        </div>
+                        <div class="row col-md-6" hidden>
+                            <div class="col-md-3"> <label for="text">Thứ tự:</label></div>
+                            <div class="col-md-9"><input type="text" class="form-control"  id="idImgEdit" placeholder="Thứ tự" name="idImgEdit"></div>
+                        </div>
+                    </div>
+                    <div class="form-group mar_bottom">
+                        <input type="file" onchange="previewSlideImageEdit()" multiple id="fileSlideImageEdit" style="margin-bottom: 5px;margin-top: 5px;"><br>
+                        <img id="imgEditSlide" style="width: 30%;height: 15%;" alt="Image preview...">
+                    </div>
+                    <div class="modal-footer">
+                        <button id="btnSaveEdit" type="button" class="btn btn-primary" style="width: 70px;">Lưu</button>
+                        <button type="button" class="btn btn-dark" data-dismiss="modal">Đóng</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--Popup Add-->
+<div class="modal" id="myModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Thêm</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Tạo môn học -->
+            <div id="modal" class="modal-body">
+                <form id="formImage" method="post" enctype="multipart/form-data">
+                    <div class="form-row mar_bottom">
+                        <div class="row col-md-6">
+                            <div class="col-md-3"> <label for="text">Tiêu đề:</label></div>
+                            <div class="col-md-9">  <input type="text" class="form-control" id="titleImg" placeholder="Tiêu đề" name="titleImg"></div>
+                        </div>
+                        <div class="row col-md-6">
+                            <div class="col-md-3"> <label for="text">Link:</label></div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="linkImg" placeholder="Link" name="linkImg">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row mar_bottom">
+                        <div class="row col-md-6">
+                            <div class="col-md-3"> <label for="text">Thứ tự:</label></div>
+                            <div class="col-md-9"><input type="number" class="form-control" id="sortImg" placeholder="Thứ tự" name="sortImg"></div>
+                        </div>
+                    </div>
+                    <div class="form-group mar_bottom">
+                        <input type="file" onchange="previewSlideImage()" multiple id="fileSlideImage" style="margin-bottom: 5px;margin-top: 5px;"><br>
+                        <img id="imgAddSlide" style="width: 30%;height: 15%;" alt="Thêm hình ảnh.">
+                    </div>
+                    <div class="modal-footer">
+                        <button id="btnSaveAdd" type="button" class="btn btn-primary" style="width: 70px;">Lưu</button>
+                        <button type="button" class="btn btn-dark" data-dismiss="modal">Đóng</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Load môn học-->
+<script>
+    function previewSlideImage() {
+        //var preview = document.querySelector('#imguserinfo'); //selects the query named img
+        var file = document.querySelector('input[id=fileSlideImage]').files[0]; //sames as here
+        var reader = new FileReader();
+
+        reader.onloadend = function () {
+            //preview.src = reader.result;
+            $("#imgAddSlide").attr("src", reader.result);
+        }
+
+        if (file) {
+            reader.readAsDataURL(file); //reads the data as a URL
+        }
+    }
+    function previewSlideImageEdit() {
+        //var preview = document.querySelector('#imguserinfo'); //selects the query named img
+        var file = document.querySelector('input[id=fileSlideImageEdit]').files[0]; //sames as here
+        var reader = new FileReader();
+
+        reader.onloadend = function () {
+            //preview.src = reader.result;
+            $("#imgEditSlide").attr("src", reader.result);
+        }
+
+        if (file) {
+            reader.readAsDataURL(file); //reads the data as a URL
+        }
+    }
+    //load môn học ebook
+    $(document).ready(function () {
+        var warnOptions = {
+            autoHideDelay: 1000,
+            showAnimation: "fadeIn",
+            hideAnimation: "fadeOut",
+            hideDuration: 700,
+            arrowShow: false,
+            className: "warn",
+        };
+        var successOptions = {
+            autoHideDelay: 1000,
+            showAnimation: "fadeIn",
+            hideAnimation: "fadeOut",
+            hideDuration: 700,
+            arrowShow: false,
+            className: "success",
+        };
+        var errorOptions = {
+            autoHideDelay: 1000,
+            showAnimation: "fadeIn",
+            hideAnimation: "fadeOut",
+            hideDuration: 700,
+            arrowShow: false,
+            className: "error",
+        };
+
+
+    $.ajax({
+        type: "GET",
+        url: "/api/AdminAPI/LoadSLideImage",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+            debugger;
+            InitTable(data);
+        }
+    });
+    function InitTable(data) {
+        $('#loadsubject').DataTable({
+            data: data,
+            "columns": [
+                {
+                    "data": "id", className: "id"
+                },
+                { "data": "title", className: "title" },
+                {
+                    "data": "image", className: "image", "render": function (data, type, row) {
+                        return '<img src=/Content/slideImage/' + data + ' style="width:100px;height:50px">';
+                    }
+                },
+                {
+                    "data": "link", className: "link", 
+                    //"data": "link", className: "link", "render": function (data, type, row) {
+                    //    var widthscreen = window.innerWidth;
+                    //    if (widthscreen >= 1000)
+                    //        return "<p style='white-space: pre-line;width:800px' class='breakdown'>" + data + "</p>"
+                    //    if (widthscreen >= 500)
+                    //        return "<p style='white-space: pre-line;width:400px' class='breakdown'>" + data + "</p>"
+                    //    if (widthscreen >= 400)
+                    //        return "<p style='white-space: pre-line;width:350px' class='breakdown'>" + data + "</p>"
+                    //}
+                },
+                {
+                    "data": "sortid", className: "sortid"
+                },
+                {
+                    "data": "image", className: "imageName"
+                },
+                
+                { "data": "edit" },
+            ],
+
+            "columnDefs": [{
+                "targets": -1,
+                "data": null,
+                "defaultContent": "<button type='button' class='btn btn-warning btnEdit' data-toggle='modal' data-target='#myModalEdit'><i class='far fa-edit'></i></button><button type='button' class='btn btn-danger btnDel'><i class='far fa-trash-alt'></i></button>"
+            },
+            { responsivePriority: 1, targets: -1 }
+            ]
+        });
+    }
+   
+    $("#btnSaveAdd").click(function () {
+        debugger
+        var title = $("#titleImg").val();
+        var link = $("#linkImg").val();
+        var sort = $("#sortImg").val();
+        var files = $("#fileSlideImage").get(0).files;
+        var data = new FormData();
+        for (var i = 0; i < files.length; i++) {
+            data.append("fileSlideImage", files[i]);
+        }
+        data.append("title", title);
+        data.append("link", link);
+        data.append("sort", sort);
+        if (sort == null || sort == "") {
+            $("#sortImg").focus();
+            $.notify("Bạn phải nhập thứ tự!", warnOptions);
+            return;
+        }
+        if (files.length <= 0) {
+            $.notify("Bạn phải chọn hình ảnh!", warnOptions);
+            return;
+        }
+        else {
+            var test_value = $("#fileSlideImage").val();
+            var extension = test_value.split('.').pop().toLowerCase();
+
+            if (test_value != "") {
+                if ($.inArray(extension, ['png', 'gif', 'jpeg', 'jpg']) == -1) {
+                    $.notify("File ảnh không hợp lệ!", warnOptions);
+                    return;
+                }
+            }
+            $.ajax({
+                type: "POST",
+                url: "/api/AdminAPI/AddSLideImage",
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                data: data,
+                success: function (result) {
+                    if (result.flag == true) {
+                        $.notify("Lưu thành công!", successOptions);
+                        //add row datatable
+                        var t = $('#loadsubject').DataTable();
+                        t.row.add({
+                            "id": result.id,
+                            "title": result.title,
+                            "image": '<img src=/Content/slideImage/' + result.image + '>',
+                            "link": result.link,
+                            "sortid": result.sortId,
+                            "image": result.image,
+                            
+                        }).draw();
+                        //t.responsive.recalc();
+                        $("#formImage")[0].reset();//reset form
+                        $("#imgAddSlide").attr("src", "");
+                    } else {
+                        $.notify("Thứ tự đã bị trùng!", errorOptions);
+                    }
+                }
+            });
+
+        }
+        });
+        var index = 0;
+        $('#loadsubject tbody').on('click', 'tr', function () {
+            debugger
+            var rowCurrent = $(this);
+            console.log("index", rowCurrent);
+            index = rowCurrent[0].sectionRowIndex;
+            console.log("rowCurrent", index);
+        var title = $(this).closest("tr").find(".title").text();
+        var imageName = $(this).closest("tr").find(".imageName").text();
+        var link = $(this).closest("tr").find(".link").text();
+        var sortid = $(this).closest("tr").find(".sortid").text();
+        var id = $(this).closest("tr").find(".id").text();
+        $("#titleImgEdit").val(title);
+        $("#linkImgEdit").val(link);
+        $("#sortImgEdit").val(sortid);
+        $("#idImgEdit").val(id);
+        $("#imgEditSlide").attr("src", "/Content/slideImage/" + imageName);
+    });
+
+      $('body').on('click', '#btnSaveEdit', function () {
+        var id = $("#idImgEdit").val();
+        var title = $("#titleImgEdit").val();
+        var link = $("#linkImgEdit").val();
+        var sort = $("#sortImgEdit").val();
+        var files = $("#fileSlideImageEdit").get(0).files;
+        var data = new FormData();
+        for (var i = 0; i < files.length; i++) {
+            data.append("fileSlideImageEdit", files[i]);
+        }
+        data.append("title", title);
+        data.append("link", link);
+        data.append("sort", sort);
+        data.append("id", id);
+        if (sort == null || sort == "") {
+            $("#sortImg").focus();
+            $.notify("Bạn phải nhập thứ tự!", warnOptions);
+            return;
+        }
+        else {
+            var test_value = $("#fileSlideImageEdit").val();
+            var extension = test_value.split('.').pop().toLowerCase();
+
+            if (test_value != "") {
+                if ($.inArray(extension, ['png', 'gif', 'jpeg', 'jpg']) == -1) {
+                    $.notify("File ảnh không hợp lệ!", warnOptions);
+                    return;
+                }
+            }
+            $.ajax({
+                type: "POST",
+                url: "/api/AdminAPI/EditSLideImage",
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                data: data,
+                success: function (result) {
+                    debugger
+                    if (result.flag == true) {
+                        $.notify("Lưu thành công!", successOptions);
+                        var t = $('#loadsubject').DataTable();
+                        t.cell(index, 1).data(result.title).draw();
+                        //t.cell(index, 1).data('<img src=/Content/slideImage/' + result.image + '>').draw();
+                        t.cell(index, 2).data(result.image).draw();
+                        t.cell(index, 3).data(result.link).draw();
+                        t.cell(index, 4).data(result.sortId).draw();
+                        t.cell(index, 5).data(result.image).draw();
+                        t.responsive.recalc();
+                    } else {
+                        $.notify("Thứ tự đã bị trùng!", errorOptions);
+                    }
+                }
+            });
+
+        }
+    });
+
+    //hàm xóa
+    function DeleteEbook(id) {
+        var r = confirm("Bạn có chắc muốn xóa không?");
+
+        if (r == true) {
+            $.ajax({
+                type: "POST",
+                url: "/api/AdminAPI/DeleteSLideImage?id=" + id,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    $.notify(result, successOptions);
+                    var table = $('#loadsubject').DataTable();
+                    table.row(index).remove().draw();
+                }
+            });
+        }
+    }
+    //Xóa
+    $('#loadsubject tbody').on('click', '.btnDel', function () {
+        debugger
+        var id = $(this).closest("tr").find(".id").text();
+        DeleteEbook(id);
+
+    });
+});
+</script>

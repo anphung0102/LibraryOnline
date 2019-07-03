@@ -32,15 +32,15 @@
     }
 </style>
 <div class="container">
-    <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel" style="width:1140px;">
-        <ol class="carousel-indicators">
-            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+    <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
+        <ol class="carousel-indicators" id="carouseIndicator">
+            @*<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>*@
 
         </ol>
-        <div class="carousel-inner" role="listbox">
-            <div class="carousel-item active">
+        <div class="carousel-inner" id="carouseImage" role="listbox">
+            @*<div class="carousel-item active">
                 <img class="d-block img-fluid" src="~/Content/img/banner1110.png" alt="First slide">
-            </div>
+            </div>*@
 
         </div>
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -162,7 +162,7 @@
                 data += "<button id='btnViewBook'  type='button' class='btn btn-info' style='width: 100px;' >Xem</button>";
                 data += "<div id='countView' hidden='hidden' >" + result[0].countView + "</div>";
                 //data += `<a href="/Content/Upload/${v.filename}" download><input type="button" value="Download" /></a >`
-                data += `<button id='btnDowBook' type='button' class='btn btn-info' ><a href="/Content/Upload/${result[0].filename}" download style='color:white;text-decoration: none; '>Dowload</a></button>`;
+                data += `<button id='btnDowBook' type='button' class='btn btn-info' ><a href="/Content/Upload/${result[0].filename}" download style='color:white;text-decoration: none; '>Download</a></button>`;
                 data += "<div id='countDowload' hidden='hidden'>" + result[0].countDowload + "</div>";
                 data += " </div>"
 
@@ -262,7 +262,38 @@
             arrowShow: false,
             className: "info",
         };
-        $.blockUI();
+        $.blockUI({ message: '<i class="fa fa-spinner fa-spin" style="font-size:50px;color:#16B3E3"></i>' });
+        $.ajax({
+            type: "GET",
+            url: "/api/AdminAPI/GetListRecently",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                //load slide image
+                var firstImage = true;
+                $.each(result.loadSlide, function (i, res) {
+                    if (firstImage) {
+                        var data = '<li data-target="#carouselExampleIndicators" class="active" data-slide-to="' + res.sortid + '"></li>';
+                        var data1 = '<div class="carousel-item active">';
+                        data1 += '<a href="' + res.link + '" target="_blank">';
+                        data1 += '<img class="d-block img-fluid" src = "/Content/slideImage/' + res.image + '" style="height:300px;width:100%"></a>';
+                        data1 += '<div class="carousel-caption"><h3>' + res.title + '</h3></div></div>';
+                        $("#carouseIndicator").append(data);
+                        $("#carouseImage").append(data1);
+                        firstImage = false;
+                    } else {
+                        var data = '<li data-target="#carouselExampleIndicators" data-slide-to="' + res.sortid + '"></li>';
+                        var data1 = '<div class="carousel-item">';
+                        data1 += '<a href="' + res.link + '" target="_blank">';
+                        data1 += '<img class="d-block img-fluid" src = "/Content/slideImage/' + res.image + '" style="height:300px;width:100%"></a>';
+                        data1 += '<div class="carousel-caption"><h3>' + res.title + '</h3></div></div>';
+                        $("#carouseIndicator").append(data);
+                        $("#carouseImage").append(data1);
+                    }
+                });
+            }
+        });
         var data = {};
         data.userid = $("#userid").html();
         data.bookid = '@ViewBag.ID';
@@ -282,7 +313,7 @@
                 }
             }
         });
-        $.unblockUI();
+        //$.unblockUI();
         function refreshListUserRate() {
             $("#listUserRate1").empty();
             $("#listUserRate2").empty();
@@ -292,7 +323,7 @@
         }
         function loadNumberStar() {
             var bookid = '@ViewBag.ID';
-            $.blockUI();
+            //$.blockUI();
             $.ajax({
                 type: "GET",
                 url: "/api/RateAPI/GetRateStar",
@@ -324,7 +355,7 @@
                     $("#averageStar").append(result.averageStar + '<i class="fas fa-star"></i>');
                 }
             });
-            $.unblockUI();
+            //$.unblockUI();
         }
         refreshListUserRate();
         loadNumberStar();

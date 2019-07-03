@@ -349,14 +349,37 @@ namespace LibraryOnline.Controllers.API
             //}
             var ess = db.Essays.Where(x => x.id == essay.id).FirstOrDefault();
             var search = db.SearchFiles.Where(x => x.book_id == ess.essay_id).FirstOrDefault();
-            var rate = db.RateStars.Where(x => x.book_id == ess.essay_id).FirstOrDefault();
-            var time = db.Times.Where(x => x.bookid == ess.essay_id).FirstOrDefault();
-            db.Essays.Remove(ess);
-            db.SearchFiles.Remove(search);
-            db.RateStars.Remove(rate);
-            db.Times.Remove(time);
-            db.SaveChanges();
+            var rate = db.RateStars.Where(x => x.book_id == ess.essay_id).ToList();
+            var time = db.Times.Where(x => x.bookid == ess.essay_id).ToList();
+            if(ess != null)
+            {
+                db.Essays.Remove(ess);
+                db.SaveChanges();
+            }
+            if (search != null)
+            {
+                db.SearchFiles.Remove(search);
+                db.SaveChanges();
+            }
+            if (rate != null)
+            {
+                foreach(var item in rate)
+                {
+                    db.RateStars.Remove(item);
+                    db.SaveChanges();
+                }
+                
+            }
+            if (time != null)
+            {
+                foreach (var item in time)
+                {
+                    db.Times.Remove(item);
+                    db.SaveChanges();
+                }
 
+               
+            }
             return "Xóa thành công";
         }
 
@@ -469,13 +492,38 @@ namespace LibraryOnline.Controllers.API
         {
             var the = db.Theses.Where(x => x.id == thesis.id).FirstOrDefault();
             var search = db.SearchFiles.Where(x => x.book_id == the.thesis_id).FirstOrDefault();
-            var rate = db.RateStars.Where(x => x.book_id == the.thesis_id).FirstOrDefault();
-            var time = db.Times.Where(x => x.bookid == the.thesis_id).FirstOrDefault();
-            db.Theses.Remove(the);
-            db.SearchFiles.Remove(search);
-            db.RateStars.Remove(rate);
-            db.Times.Remove(time);
-            db.SaveChanges();
+            var rate = db.RateStars.Where(x => x.book_id == the.thesis_id).ToList();
+            var time = db.Times.Where(x => x.bookid == the.thesis_id).ToList();
+           
+            if (the != null)
+            {
+                db.Theses.Remove(the);
+                db.SaveChanges();
+            }
+            if (search != null)
+            {
+                db.SearchFiles.Remove(search);
+                db.SaveChanges();
+            }
+            if (rate != null)
+            {
+                foreach (var item in rate)
+                {
+                    db.RateStars.Remove(item);
+                    db.SaveChanges();
+                }
+
+            }
+            if (time != null)
+            {
+                foreach (var item in time)
+                {
+                    db.Times.Remove(item);
+                    db.SaveChanges();
+                }
+
+
+            }
 
             return "Xóa thành công";
         }
@@ -498,7 +546,8 @@ namespace LibraryOnline.Controllers.API
                             fullname = u.fullname,
                             mssv = u.mssv,
                             class_id = u.class_id,
-                            role_name = r.name
+                            role_name = r.name,
+                            image = u.image
                         }).ToList();
 
             return data;
@@ -509,9 +558,11 @@ namespace LibraryOnline.Controllers.API
         public string DeleteUser(User user)
         {
             var sub = db.Users.Where(x => x.id == user.id).FirstOrDefault();
-            db.Users.Remove(sub);
-            db.SaveChanges();
-
+            if(sub != null)
+            {
+                db.Users.Remove(sub);
+                db.SaveChanges();
+            }
             return "Xóa thành công";
         }
 
@@ -656,41 +707,65 @@ namespace LibraryOnline.Controllers.API
         public string DeleteUserByID(int id)
         {
             
-            var user_ebook = db.Ebooks.Where(x => x.user_id == id).FirstOrDefault();
+            var user_ebook = db.Ebooks.Where(x => x.user_id == id).ToList();
             if (user_ebook != null)
             {
-                db.Ebooks.Remove(user_ebook);
-                db.SaveChanges();
+                foreach(var item in user_ebook)
+                {
+                    db.Ebooks.Remove(item);
+                    db.SaveChanges();
+                }
             }
-            var user_essay = db.Essays.Where(x => x.user_id == id).FirstOrDefault();
+            var user_essay = db.Essays.Where(x => x.user_id == id).ToList();
             if (user_essay != null)
             {
-                db.Essays.Remove(user_essay);
-                db.SaveChanges();
+                foreach (var item in user_essay)
+                {
+                    db.Essays.Remove(item);
+                    db.SaveChanges();
+                }
+                
             }
-            var user_thesis = db.Theses.Where(x => x.user_id == id).FirstOrDefault();
+            var user_thesis = db.Theses.Where(x => x.user_id == id).ToList();
             if (user_thesis != null)
             {
-                db.Theses.Remove(user_thesis);
-                db.SaveChanges();
+                foreach (var item in user_thesis)
+                {
+                    db.Theses.Remove(item);
+                    db.SaveChanges();
+                }
+                
             }
-            var user_search = db.SearchFiles.Where(x => x.user_id == id).FirstOrDefault();
+            var user_search = db.SearchFiles.Where(x => x.user_id == id).ToList();
             if (user_search != null)
             {
-                db.SearchFiles.Remove(user_search);
-                db.SaveChanges();
+                foreach (var item in user_search)
+                {
+                    db.SearchFiles.Remove(item);
+                    db.SaveChanges();
+                }
+               
             }
-            var user_rate = db.RateStars.Where(x => x.user_id == id).FirstOrDefault();
+            var user_rate = db.RateStars.Where(x => x.user_id == id).ToList();
             if (user_rate != null)
             {
-                db.RateStars.Remove(user_rate);
-                db.SaveChanges();
+                foreach (var item in user_rate)
+                {
+                    db.RateStars.Remove(item);
+                    db.SaveChanges();
+                }
+
+               
             }
-            var user_time = db.Times.Where(x => x.userid == id).FirstOrDefault();
+            var user_time = db.Times.Where(x => x.userid == id).ToList();
             if (user_time != null)
             {
-                db.Times.Remove(user_time);
-                db.SaveChanges();
+                foreach (var item in user_time)
+                {
+                    db.Times.Remove(item);
+                    db.SaveChanges();
+                }
+               
             }
             var user = db.Users.Where(x => x.id == id).FirstOrDefault();
             if (user != null)
@@ -718,7 +793,7 @@ namespace LibraryOnline.Controllers.API
                 httpPostedFile.SaveAs(Path.Combine(HttpContext.Current.Server.MapPath("/excelfolder"), filename));
                 InsertExceldata(filepath, filename);
             }
-            
+             
             return Ok();
         }
 
@@ -742,7 +817,7 @@ namespace LibraryOnline.Controllers.API
 
             SqlBulkCopy objbulk = new SqlBulkCopy(con);
 
-            objbulk.DestinationTableName = "Users";
+            objbulk.DestinationTableName = "ImportTemp";
             objbulk.ColumnMappings.Add("username", "username");
             objbulk.ColumnMappings.Add("password", "password");
             objbulk.ColumnMappings.Add("role_id", "role_id");
@@ -751,10 +826,35 @@ namespace LibraryOnline.Controllers.API
             objbulk.ColumnMappings.Add("class_id", "class_id");
 
             var a = objbulk;
-            
             con.Open();
             objbulk.WriteToServer(dt);
             con.Close();
+            var importTemp = db.ImportTemps.ToList();
+            var userlist = db.Users.ToList();
+            foreach(var item in importTemp)
+            {
+                var check = db.Users.Where(x => x.username == item.username || x.mssv == item.mssv).FirstOrDefault();
+                if(check == null)
+                {
+                    db.Users.Add(new User
+                    {
+                        username = item.username,
+                        password = Encrypt(item.password),
+                        role_id = item.role_id.Value,
+                        fullname = item.fullname,
+                        mssv = item.mssv,
+                        class_id = item.class_id
+
+                    });
+                    db.SaveChanges();
+                }
+            }
+            foreach (var item in importTemp)
+            {
+                db.ImportTemps.Remove(item);
+                db.SaveChanges();
+            }
+                
         }
     }
 }

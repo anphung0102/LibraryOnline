@@ -227,14 +227,36 @@ namespace LibraryOnline.Controllers
             //}
             var eb = db.Ebooks.Where(x => x.id == id ).FirstOrDefault();
             var search = db.SearchFiles.Where(x => x.book_id == eb.ebook_id).FirstOrDefault();
-            var rate = db.RateStars.Where(x => x.book_id == eb.ebook_id).FirstOrDefault();
-            var time = db.Times.Where(x => x.bookid == eb.ebook_id).FirstOrDefault();
-            db.Ebooks.Remove(eb);
-            db.SearchFiles.Remove(search);
-            db.RateStars.Remove(rate);
-            db.Times.Remove(time);
-            db.SaveChanges();
+            var rate = db.RateStars.Where(x => x.book_id == eb.ebook_id).ToList();
+            var time = db.Times.Where(x => x.bookid == eb.ebook_id).ToList();
+            if(eb!=null)
+            {
+                db.Ebooks.Remove(eb);
+                db.SaveChanges();
+            }
+            if(search != null)
+            {
+                db.SearchFiles.Remove(search);
+                db.SaveChanges();
+            }
+            if (rate != null)
+            {
+                foreach (var item in rate)
+                {
+                    db.RateStars.Remove(item);
+                    db.SaveChanges();
+                }
 
+            }
+            if (time != null)
+            {
+                foreach (var item in time)
+                {
+                    db.Times.Remove(item);
+                    db.SaveChanges();
+                }
+                
+            }
             return "Xóa thành công";
         }
     }

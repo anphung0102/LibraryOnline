@@ -264,7 +264,13 @@
                     { "data": "course", className: "course"},
                     {
                         "data": "describe", className: "describe", "render": function (data, type, row) {
-                            return "<p style='white-space: pre-line;width:800px'>" + data + "</p>"
+                            var widthscreen = window.innerWidth;
+                            if (widthscreen >= 1000)
+                                return "<p style='white-space: pre-line;width:800px' class='breakdown'>" + data + "</p>"
+                            if (widthscreen >= 500)
+                                return "<p style='white-space: pre-line;width:400px' class='breakdown'>" + data + "</p>"
+                            if (widthscreen >= 400)
+                                return "<p style='white-space: pre-line;width:350px' class='breakdown'>" + data + "</p>"
                         }
                     },
                     { "data": "filename", className: "filename"},

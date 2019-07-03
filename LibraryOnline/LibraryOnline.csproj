@@ -224,6 +224,7 @@
     <Compile Include="Controllers\LecturersController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ManageFileEbookController.cs" />
+    <Compile Include="Controllers\ManageSlideImageController.cs" />
     <Compile Include="Controllers\ManageStudentController.cs" />
     <Compile Include="Controllers\ManageSubEssayOfAdminController.cs" />
     <Compile Include="Controllers\ManageSubjectEbookController.cs" />
@@ -342,6 +343,7 @@
     <Content Include="Content\css\style.css" />
     <Content Include="Content\css\style1.css" />
     <Content Include="Content\css\styles.minc726.css" />
+    <Content Include="Content\css\styles_menu.css" />
     <Content Include="Content\Datatables\datatables.css" />
     <Content Include="Content\Datatables\dataTables.editor.min.js" />
     <Content Include="Content\Datatables\datatables.js" />
@@ -545,11 +547,14 @@
     <Content Include="Views\ForgotPassword\ResetPassword.cshtml" />
     <Content Include="Views\Student\Readed.cshtml" />
     <Content Include="Views\Home\Student.cshtml" />
+    <Content Include="Views\ManageSlideImage\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\imageUser\" />
+    <Folder Include="Content\slideImage\" />
     <Folder Include="excelfolder\" />
+    <Folder Include="Views\ManageImageSlide\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

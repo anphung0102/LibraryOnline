@@ -79,7 +79,7 @@
                         <input type="email" class="user" id="email" placeholder="Email" name="email">
                         <span class="icon1"><i class="fa fa-user" aria-hidden="true"></i></span><br><br>
                         <input type="password" class="pass" id="pwd" placeholder="Mật khẩu" name="pwd">
-                        <span class="icon2"><i class="fa fa-unlock" aria-hidden="true"></i></span><br>
+                        <span class="icon2"><i toggle="#pwd" class="fa fa-fw fa-eye field-icon toggle-password1" aria-hidden="true"></i></span><br>
                         <div class="sub-w3l">
                             <h6>@Html.ActionLink("Quên mật khẩu?", "Index", "ForgotPassword")</h6>
                             <div class="right-w3l">
@@ -105,6 +105,17 @@
 <script src="~/Scripts/notify.min.js"></script>
 <script>
     $(document).ready(function () {
+        $(".toggle-password1").click(function () {
+
+            $(this).toggleClass("fa-eye fa-eye-slash");
+            var input = $($(this).attr("toggle"));
+            if (input.attr("type") == "password") {
+                $("#pwd").attr("type", "text");
+            }
+            //} else {
+            //    input.attr("type", "password");
+            //}
+        });
         $("#email").empty();
         $("pwd").empty();
         var warnOptions = {

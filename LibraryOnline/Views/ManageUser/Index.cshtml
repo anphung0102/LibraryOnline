@@ -39,16 +39,32 @@
 <div class="container" id="manage">
     <h2 style="text-align: center; margin-top: 4px;margin-bottom: 10px;">Quản lý Users</h2>
     <div class="row"> 
-        <div class="col-lg-3 col-md-3 col-3">
+        <div class="col-lg-6 col-md-3 col-12">
             <button type="button" class="btn btn-success" style="margin-bottom: 4px;" data-toggle="modal" data-target="#modalAddUser">
                 <i class="fas fa-plus-square"></i>
             </button>
         </div>
-        <div class="col-lg-9 col-md-9 col-9">
+        <div class="col-lg-6 col-md-9 col-12">
             <form method="post" enctype="multipart/form-data">
-                <input type="file" name="Files" multiple id="fileInput" />
-                <button class='btn btn-success' id="btn_Import" type="button">Import</button>
-
+                <div class="row">
+                    <div class="col-lg-8 col-md-8 col-8">
+                       @* <input type="file" name="Files" multiple id="fileInput" />*@
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                    <button id="btn_Import" type="submit" class="input-group-text">Import</button>
+                              
+                            </div>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" multiple id="fileInput" 
+                                       aria-describedby="inputGroupFileAddon01">
+                                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="col-lg-4 col-md-4 col-4">
+                        <button class='btn btn-success' id="btn_Import" type="submit">Import</button>
+                    </div>*@
+                </div>
             </form>
         </div>
     </div>
@@ -85,674 +101,6 @@
         </div>
         <!--Popup edit-->
         <div class="modal" id="EditUser">
-   
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -841,7 +189,7 @@
                                 </div>
                                 <div class="row col-md-6">
                                     <div class="col-md-3"><label for="text">Mã lớp:</label></div>
-                                    <div class="col-md-9"><input type="text" class="form-control" id="classid" placeholder="Mã lớp" name="malop"></div>
+                                    <div class="col-md-9"><input type="text" class="form-control" id="classidAdd" placeholder="Mã lớp" name="malop"></div>
                                 </div>
                             </div>
                             <!-- Modal footer -->
@@ -872,7 +220,15 @@
         </script>
 
         <!--Load môn học-->
-        <script>
+<script>
+         function IsEmail(email) {
+                var regex = /^([a-zA-Z0-9_\.\-\+])+\@@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                if(!regex.test(email)) {
+                    return false;
+                 }else{
+                    return true;
+                }
+          }
             var warnOptions = {
                 autoHideDelay: 1000,
                 showAnimation: "fadeIn",
@@ -1014,6 +370,11 @@
                         $.notify("Bạn phải nhập email!", warnOptions);
                         return;
                     }
+                    if (IsEmail(email) == false) {
+                        $("#emailEdit").focus();
+                        $.notify("Email không hợp lệ!", warnOptions);
+                        return false;
+                    }
                     //if (password == null || password == "") {
                     //    $("#passwordEdit").focus();
                     //    $.notify("Bạn phải nhập mật khẩu!", warnOptions);
@@ -1089,7 +450,7 @@
                     var role = $("#role").val();
                     var name = $("#name").val();
                     var studentid = $("#studentid").val();
-                    var classid = $("#classid").val();
+                    var classid = $("#classidAdd").val();
 
                     var data = new FormData();
                     data.append("email", email);
@@ -1100,9 +461,14 @@
                     data.append("classid", classid);
 
                     if (email == null || email == "") {
-                        $("#email").focus();
+                        $("#emailAdd").focus();
                         $.notify("Bạn phải nhập email!", warnOptions);
                         return;
+                    }
+                    if (IsEmail(email) == false) {
+                        $("#emailAdd").focus();
+                        $.notify("Email không hợp lệ!", warnOptions);
+                        return false;
                     }
                     if (password == null || password == "") {
                         $("#password").focus();

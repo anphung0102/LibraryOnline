@@ -1,32 +1,112 @@
 ﻿@{
-    Layout = null;
+    Layout = "~/Views/Shared/_LayoutForgotPass.cshtml";
 }
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+<link href="~/Scripts/css/bootstrap.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<style>
+    .input-group-addon {
+        padding: 12px 12px;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1;
+        color: #555;
+        text-align: center;
+        background-color: #eee;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        white-space: nowrap;
+        vertical-align: middle;
+        height: 38px;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
 
-<h2 style="text-align: center">Quên mật khẩu</h2>
+    .csscenter {
+        border: 1px solid #808080;
+        margin: auto;
+        display: block;
+        border-radius: 14px;
+        box-shadow: 5px 10px 18px #888888;
+        padding: 20px 20px;
+    }
 
-@using (Html.BeginForm())
-{
-<div class="form-horizontal" style="text-align:center;">
-    <hr />
-    <div class="text-success" style="margin-bottom:10px;">
-        @ViewBag.Message
+    .back {
+        background-color: #2f272769;
+    }
+</style>
+
+@*<h2 style="text-align: center">Quên mật khẩu</h2>*@
+
+@*@using (Html.BeginForm())
+    {
+    <div class="form-horizontal" style="text-align:center;">
+        <hr />
+        <div class="text-success" style="margin-bottom:10px;">
+            @ViewBag.Message
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" style="margin-left: -285px;">Nhập Email: </label>
+            @Html.TextBox("EmailID", "", new { @class = "form-control", @style = " margin-top: -38px;margin-left: 587px;width: 280px" })
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Gửi" style="margin-left: 90px;" class="btn btn-success" />
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        <label class="control-label col-md-2" style="margin-left: -285px;">Nhập Email: </label>
-        @Html.TextBox("EmailID", "", new { @class = "form-control", @style = " margin-top: -38px;margin-left: 587px;width: 280px" })
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Gửi" style="margin-left: 90px;" class="btn btn-success" />
+    }
+    <div style= "text-decoration-line: none;margin-left: 500px;">
+        @Html.ActionLink("Trở về", "Index", "Login")
+    </div>*@
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-sm-10 csscenter">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="text-center">
+                        <h3><i class="fa fa-lock fa-4x"></i></h3>
+                        <h2 class="text-center">Quên mật khẩu?</h2>
+                        <p>Bạn vui lòng nhập email chính xác để reset lại mật khẩu.</p>
+                        <div class="panel-body">
+                            @using (Html.BeginForm())
+                            {
+                                <form id="register-form" role="form" autocomplete="off" class="form" method="post">
+                                    <div class="text-success" style="margin-bottom:10px;">
+                                        @ViewBag.Message
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fas fa-envelope"></i></span>
+                                            @Html.TextBox("EmailID", "", new { @class = "form-control cssinput", @type = "email", @placeholder = "email" })
+                                            @*<input id="email" name="email" placeholder="email address" class="form-control" type="email">*@
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input name="recover-submit" class="btn btn-lg btn-primary btn-block" value="Reset Password" type="submit">
+                                    </div>
+                                </form>
+                            }
+                        </div>
+                        <div style="text-decoration-line: none;">
+                            <button id="backLogin" class="btn back">Trở về</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-}
-<div style= "text-decoration-line: none;margin-left: 500px;">
-    @Html.ActionLink("Trở về", "Index", "Login")
-</div>
-<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script>
+    $("#backLogin").click(function () {
+        window.location.href = "/Login/Index";
+    });
+</script>
 @*<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>*@
 @*<script src="~/Scripts/popper.min.js"></script>*@
 <script src="~/Scripts/bootstrap.min.js"></script>

@@ -6,6 +6,8 @@ using System.Net;
 using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace LibraryOnline.Controllers
 {
@@ -55,7 +57,7 @@ namespace LibraryOnline.Controllers
             var verifyUrl = "/ForgotPassword/" + emailFor + "/" + activationCode;
             var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, verifyUrl);
 
-            var fromEmail = new MailAddress("quantrivien.fit.spkt@gmail.com", "Dotnet Awesome");
+            var fromEmail = new MailAddress("quantrivien.fit.spkt@gmail.com", "FIT UTE");
             var toEmail = new MailAddress(emailID);
             var fromEmailPassword = "spkt2019"; // Replace with actual password
 
@@ -72,7 +74,7 @@ namespace LibraryOnline.Controllers
             else if (emailFor == "ResetPassword")
             {
                 subject = "Reset Password";
-                body = "Hi,<br/>br/>We got request for reset your account password. Please click on the below link to reset your password" +
+                body = "Hi,<br/><br/>We got request for reset your account password. Please click on the below link to reset your password" +
                     "<br/><br/><a href=" + link + ">Reset Password link</a>";
             }
 
@@ -135,7 +137,47 @@ namespace LibraryOnline.Controllers
         {
             return BitConverter.ToString(encryptData(data)).Replace("-", "").ToLower();
         }
+        //mã hóa và giải mã
+        static string key { get; set; } = "A!9HHhi%XjjYY4YP2@Nob009X";
+        public static string Encrypt(string text)
+        {
+            using (var md5 = new MD5CryptoServiceProvider())
+            {
+                using (var tdes = new TripleDESCryptoServiceProvider())
+                {
+                    tdes.Key = md5.ComputeHash(UTF8Encoding.UTF8.GetBytes(key));
+                    tdes.Mode = CipherMode.ECB;
+                    tdes.Padding = PaddingMode.PKCS7;
 
+                    using (var transform = tdes.CreateEncryptor())
+                    {
+                        byte[] textBytes = UTF8Encoding.UTF8.GetBytes(text);
+                        byte[] bytes = transform.TransformFinalBlock(textBytes, 0, textBytes.Length);
+                        return Convert.ToBase64String(bytes, 0, bytes.Length);
+                    }
+                }
+            }
+        }
+
+        public static string Decrypt(string cipher)
+        {
+            using (var md5 = new MD5CryptoServiceProvider())
+            {
+                using (var tdes = new TripleDESCryptoServiceProvider())
+                {
+                    tdes.Key = md5.ComputeHash(UTF8Encoding.UTF8.GetBytes(key));
+                    tdes.Mode = CipherMode.ECB;
+                    tdes.Padding = PaddingMode.PKCS7;
+
+                    using (var transform = tdes.CreateDecryptor())
+                    {
+                        byte[] cipherBytes = Convert.FromBase64String(cipher);
+                        byte[] bytes = transform.TransformFinalBlock(cipherBytes, 0, cipherBytes.Length);
+                        return UTF8Encoding.UTF8.GetString(bytes);
+                    }
+                }
+            }
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ResetPassword(ResetPasswordModel model)
@@ -149,7 +191,8 @@ namespace LibraryOnline.Controllers
                     if (user != null)
                     {
                         //user.Password = Crypto.Hash(model.NewPassword);
-                        user.password = md5(model.NewPassword);
+                        //user.password = md5(model.NewPassword);
+                        user.password = Encrypt(model.NewPassword);
                         user.resetPasswordCode = "";
                         db.Configuration.ValidateOnSaveEnabled = false;
                         db.SaveChanges();

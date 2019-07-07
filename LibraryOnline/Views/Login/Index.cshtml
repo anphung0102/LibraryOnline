@@ -8,7 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="Classic Login Form Responsive Widget,Login form widgets, Sign up Web forms , Login signup Responsive web form,Flat Pricing table,Flat Drop downs,Registration Forms,News letter Forms,Elements" />
-
+    <title>Thư viện Online FIT</title>
+    <link rel="shortcut icon" type="image/png" href="~/Content/img/books.png" />
     @*<link href="~/Content/bootstrap.min.css" rel="stylesheet">*@
     @*<link href="~/Content/css/style1.css" rel="stylesheet" />*@
     @*<script src="~/Scripts/jquery-3.3.1.min.js"></script>*@
@@ -53,6 +54,13 @@
             border-radius: .25rem;
             transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
         }
+
+        .field-icon1 {
+            float: right;
+            margin-left: -25px;
+            position: relative;
+            z-index: 2;
+        }
     </style>
 </head>
 
@@ -78,8 +86,9 @@
                     <form id="formLogin" method="post" enctype="multipart/form-data">
                         <input type="email" class="user" id="email" placeholder="Email" name="email">
                         <span class="icon1"><i class="fa fa-user" aria-hidden="true"></i></span><br><br>
-                        <input type="password" class="pass" id="pwd" placeholder="Mật khẩu" name="pwd">
-                        <span class="icon2"><i toggle="#pwd" class="fa fa-fw fa-eye field-icon toggle-password1" aria-hidden="true"></i></span><br>
+                        <input type="password" class="pass" id="pwd" placeholder="Mật khẩu" name="pwd" >
+                        <span class="icon2"><i toggle="#pwd" class="fa fa-fw fa-eye field-icon1 toggle-password"></i></span><br>
+                        
                         <div class="sub-w3l">
                             <h6>@Html.ActionLink("Quên mật khẩu?", "Index", "ForgotPassword")</h6>
                             <div class="right-w3l">
@@ -105,16 +114,15 @@
 <script src="~/Scripts/notify.min.js"></script>
 <script>
     $(document).ready(function () {
-        $(".toggle-password1").click(function () {
+        $(".toggle-password").click(function () {
 
             $(this).toggleClass("fa-eye fa-eye-slash");
             var input = $($(this).attr("toggle"));
             if (input.attr("type") == "password") {
-                $("#pwd").attr("type", "text");
+                input.attr("type", "text");
+            } else {
+                input.attr("type", "password");
             }
-            //} else {
-            //    input.attr("type", "password");
-            //}
         });
         $("#email").empty();
         $("pwd").empty();

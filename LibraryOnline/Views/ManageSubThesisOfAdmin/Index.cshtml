@@ -25,7 +25,7 @@
         font-size: 22px;
     }
 </style>
-<div class="container" id="manage">
+<div class="container" id="admin-container">
     <h2 style="text-align: center; margin-top: 4px;">Quản lý môn học khóa luận</h2>
     <div>
         <button type="button" class="btn btn-success" style="margin-bottom: 4px;" data-toggle="modal" data-target="#myModal">
@@ -169,6 +169,7 @@
         function InitTable(data) {
             $('#loadsubject').DataTable({
                 data: data,
+                "autoWidth": false,
                 "columns": [
                     { "data": "id", className: "id" },
                     { "data": "subthesis_id", className: "subthesis_id" },

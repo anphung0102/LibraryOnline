@@ -31,7 +31,7 @@
         font-size: 22px;
     }
 </style>
-<div class="container" id="manage">
+<div class="container" id="admin-container">
     <h2 style="text-align: center; margin-top: 4px;">Quản lý tiểu luận</h2>
     <div>
         <button type="button" class="btn btn-success" style="margin-bottom: 4px;" data-toggle="modal" data-target="#modalEssay">
@@ -255,6 +255,7 @@
         function InitTable(data) {
             $('#loadsubject').DataTable({
                 data: data,
+                "autoWidth": false,
                 "columns": [
                     { "data": "id", className:"id" },
                     { "data": "essay_id", className: "essay_id"},
@@ -265,13 +266,14 @@
                     { "data": "course", className: "course" },
                     {
                         "data": "describe", className: "describe", "render": function (data, type, row) {
-                            var widthscreen = window.innerWidth;
-                            if (widthscreen >= 1000)
-                                return "<p style='white-space: pre-line;width:800px' class='breakdown'>" + data + "</p>"
-                            if (widthscreen >= 500)
-                                return "<p style='white-space: pre-line;width:400px' class='breakdown'>" + data + "</p>"
-                            if (widthscreen >= 400)
-                                return "<p style='white-space: pre-line;width:350px' class='breakdown'>" + data + "</p>"
+                            return "<p id='break-down'>" + data + "</p>"
+                            //var widthscreen = window.innerWidth;
+                            //if (widthscreen >= 1000)
+                            //    return "<p style='white-space: pre-line;width:800px' class='breakdown'>" + data + "</p>"
+                            //if (widthscreen >= 500)
+                            //    return "<p style='white-space: pre-line;width:400px' class='breakdown'>" + data + "</p>"
+                            //if (widthscreen >= 400)
+                            //    return "<p style='white-space: pre-line;width:350px' class='breakdown'>" + data + "</p>"
                         }
                     },
                     { "data": "filename", className: "filename" },

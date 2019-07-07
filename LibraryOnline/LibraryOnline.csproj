@@ -355,6 +355,7 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\img\banner.png" />
     <Content Include="Content\img\banner1.png" />
+    <Content Include="Content\img\books.png" />
     <Content Include="Content\img\loading_gif.gif" />
     <Content Include="Content\img\logo-login.png" />
     <Content Include="Content\delete.gif" />
@@ -554,6 +555,7 @@
     <Content Include="Views\Student\Readed.cshtml" />
     <Content Include="Views\Home\Student.cshtml" />
     <Content Include="Views\ManageSlideImage\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutForgotPass.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

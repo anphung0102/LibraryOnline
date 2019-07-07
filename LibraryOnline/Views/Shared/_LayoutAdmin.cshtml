@@ -17,8 +17,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Homepage</title>
-
+    <title>Thư viện Online FIT</title>
+    <link rel="shortcut icon" type="image/png" href="~/Content/img/books.png" />
     <!-- Bootstrap core CSS -->
     @*<link href="~/Content/bootstrap.min.css" rel="stylesheet">*@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
@@ -49,6 +49,7 @@
         .mar_bottom {
             margin-bottom: 5px;
         }
+
         .field-icon {
             float: right;
             margin-left: -25px;
@@ -56,101 +57,96 @@
             position: relative;
             z-index: 2;
         }
-
-        .container {
-            padding-top: 50px;
-            margin: auto;
-        }
     </style>
 </head>
 
 <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="/Home/Index">Thư viện Online</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="/Home/Index">Thư viện Online</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/Home/Index">Trang chủ <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Quản lý
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <h5 class="dropdown-header">Quản lý người dùng</h5>
-                            <a class="dropdown-item" href="/ManageUser/Index">Quản lý</a>
-                            <h5 class="dropdown-header">Quản lý Ebooks</h5>
-                            <a class="dropdown-item" href="/ManageSubjectEbook/Index">Quản lý bộ môn</a>
-                            <a class="dropdown-item" href="/Home/ManageUploadEbook">Quản lý Upload</a>
-                            <div class="dropdown-divider"></div>
-                            <h5 class="dropdown-header">Quản lý Tiểu luận</h5>
-                            <a class="dropdown-item" href="/ManageSubEssayOfAdmin/Index">Quản lý bộ môn</a>
-                            <a class="dropdown-item" href="/ManageUploadEssayOfAdmin/Index">Quản lý Upload</a>
-                            <div class="dropdown-divider"></div>
-                            <h5 class="dropdown-header">Quản lý Khóa luận</h5>
-                            <a class="dropdown-item" href="/ManageSubThesisOfAdmin/Index">Quản lý bộ môn</a>
-                            <a class="dropdown-item" href="/ManageUploadThesisOfAdmin/Index">Quản lý Upload</a>
-                            <h5 class="dropdown-header">Quản lý Slide</h5>
-                            <a class="dropdown-item" href="/ManageSlideImage/Index">Quản lý</a>
-                        </div>
-                    </li>
-
-                </ul>
-                <form class="form-inline my-2 my-lg-0 search-container" action="/Search/Index">
-                    <input class="form-control mr-sm-2 searchData" type="text" placeholder="Tìm kiếm" aria-label="Search" name="search" id="searchData" style="width: 450px;">
-                    <button class="btn btn-outline-success my-2 my-sm-0 search" type="submit" id="search">Tìm kiếm</button>
-                </form>
-                <ul class="navbar-nav mr-sm-0">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            @*<span id="imageUser"></span>*@
-                            <img id="imageUser"  style="width: 50px;height: 50px;border-radius: 30px;">
-                        </a>
-                        <div class="dropdown-menu" style="margin-left: 0px;" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" data-toggle="modal" data-target="#changeInfo">
-                                @*<div id="fullnameUser"><h5>Hi @Session["fullname"]</h5></div>
-        <div id="fullname" hidden>@Session["fullname"]</div>*@
-                                <div id="fullnameUser"></div>
-                                <small><span id="username">@Session["username"]</span></small>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/Home/Index">Trang chủ <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Quản lý
                             </a>
-                            <lable hidden id="userid">@Session["user_id"]</lable>
-                            <div class="dropdown-divider"></div>
-                            @*<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">
-                                    Đổi mật khẩu
-                                </button>*@
-                            <a class="dropdown-item" data-toggle="modal" data-target="#changPass">Đổi mật khẩu</a>
-                            @*<a class="dropdown-item" id="changePass">Đổi mật khẩu</a>*@
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" id="logout">Đăng xuất</a>
-                            <script>
-                                $(document).ready(function () {
-                                    $("#logout").click(function () {
-                                        $.ajax({
-                                            type: 'GET',
-                                            url: '/api/LoginAPI/Logout',
-                                            contentType: "application/json; charset=utf-8",
-                                            dataType: "json",
-                                            success: function (response) {
-                                                sessionStorage.clear();
-                                                window.location.href = response;
-                                            }
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <h5 class="dropdown-header">Quản lý người dùng</h5>
+                                <a class="dropdown-item" href="/ManageUser/Index">Quản lý</a>
+                                <h5 class="dropdown-header">Quản lý Ebooks</h5>
+                                <a class="dropdown-item" href="/ManageSubjectEbook/Index">Quản lý bộ môn</a>
+                                <a class="dropdown-item" href="/Home/ManageUploadEbook">Quản lý Upload</a>
+                                <div class="dropdown-divider"></div>
+                                <h5 class="dropdown-header">Quản lý Tiểu luận</h5>
+                                <a class="dropdown-item" href="/ManageSubEssayOfAdmin/Index">Quản lý bộ môn</a>
+                                <a class="dropdown-item" href="/ManageUploadEssayOfAdmin/Index">Quản lý Upload</a>
+                                <div class="dropdown-divider"></div>
+                                <h5 class="dropdown-header">Quản lý Khóa luận</h5>
+                                <a class="dropdown-item" href="/ManageSubThesisOfAdmin/Index">Quản lý bộ môn</a>
+                                <a class="dropdown-item" href="/ManageUploadThesisOfAdmin/Index">Quản lý Upload</a>
+                                <h5 class="dropdown-header">Quản lý Slide</h5>
+                                <a class="dropdown-item" href="/ManageSlideImage/Index">Quản lý</a>
+                            </div>
+                        </li>
+
+                    </ul>
+                    <form class="form-inline my-2 my-lg-0 search-container" action="/Search/Index">
+                        <input class="form-control mr-sm-2 searchData" type="text" placeholder="Tìm kiếm" aria-label="Search" name="search" id="searchData" style="width: 450px;">
+                        <button class="btn btn-outline-success my-2 my-sm-0 search" type="submit" id="search">Tìm kiếm</button>
+                    </form>
+                    <ul class="navbar-nav mr-sm-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @*<span id="imageUser"></span>*@
+                                <img id="imageUser" style="width: 50px;height: 50px;border-radius: 30px;">
+                            </a>
+                            <div class="dropdown-menu" style="margin-left: 0px;" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" data-toggle="modal" data-target="#changeInfo">
+                                    @*<div id="fullnameUser"><h5>Hi @Session["fullname"]</h5></div>
+                                        <div id="fullname" hidden>@Session["fullname"]</div>*@
+                                    <div id="fullnameUser"></div>
+                                    <small><span id="username">@Session["username"]</span></small>
+                                </a>
+                                <lable hidden id="userid">@Session["user_id"]</lable>
+                                <div class="dropdown-divider"></div>
+                                @*<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">
+                                        Đổi mật khẩu
+                                    </button>*@
+                                <a class="dropdown-item" data-toggle="modal" data-target="#changPass">Đổi mật khẩu</a>
+                                @*<a class="dropdown-item" id="changePass">Đổi mật khẩu</a>*@
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" id="logout">Đăng xuất</a>
+                                <script>
+                                    $(document).ready(function () {
+                                        $("#logout").click(function () {
+                                            $.ajax({
+                                                type: 'GET',
+                                                url: '/api/LoginAPI/Logout',
+                                                contentType: "application/json; charset=utf-8",
+                                                dataType: "json",
+                                                success: function (response) {
+                                                    sessionStorage.clear();
+                                                    window.location.href = response;
+                                                }
+                                            });
                                         });
                                     });
-                                });
-                            </script>
-                        </div>
-                    </li>
-                </ul>
+                                </script>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+
+    <!-- Navigation -->
 
     <div class="modal" id="changPass">
         <div class="modal-dialog">
@@ -165,11 +161,15 @@
                     <form id="formChangePass" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="text">Mật khẩu cũ:</label>
-                            <input type="password" class="form-control" id="passOld" placeholder="Mật khẩu cũ" name="passOld">
+                            <input type="password" class="form-control" id="passOld" name="passOld">
+                            <span toggle="#passOld" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                            @*<input type="password" class="form-control" id="passOld" placeholder="Mật khẩu cũ" name="passOld">*@
                         </div>
                         <div class="form-group">
                             <label for="text">Mật khẩu mới:</label>
-                            <input type="password" class="form-control" id="passNew" placeholder="Mật khẩu mới" name="passNew">
+                            <input type="password" class="form-control" id="passNew" name="passNew">
+                            <span toggle="#passNew" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                            @*<input type="password" class="form-control" id="passNew" placeholder="Mật khẩu mới" name="passNew">*@
                         </div>
                         <!-- Modal footer -->
                         <div class="modal-footer">
@@ -194,48 +194,48 @@
                 <div id="modal" class="modal-body">
                     <form id="formInfo" method="post" enctype="multipart/form-data">
                         <div class="form-row mar_bottom">
-                                <div class="row col-md-6">
-                                    <div class="col-md-3"> <label for="text">Email:</label></div>
-                                    <div class="col-md-9"> <input type="email" class="form-control" id="emailuser" name="emailuser" readonly style="background-color: antiquewhite;"></div>
-                                </div>
-                                <div class="row col-md-6">
-                                    <div class="col-md-3">  <label for="text" style="width: 86px;">Mật khẩu:</label></div>
-                                    <div class="col-md-9">
-                                        @*<input type="password" class="form-control" id="pass" name="pass" readonly style="background-color: antiquewhite;">
-        <input type="checkbox" id="showPassWord"/>*@
-                                        <input type="password" class="form-control" id="pass" name="pass" readonly value="secret" style="background-color: antiquewhite;">
-                                        <span toggle="#pass" class="fa fa-fw fa-eye field-icon toggle-password"></span>
-                                    </div>
+                            <div class="row col-md-6">
+                                <div class="col-md-3"> <label for="text">Email:</label></div>
+                                <div class="col-md-9"> <input type="email" class="form-control" id="emailuser" name="emailuser" readonly style="background-color: antiquewhite;"></div>
+                            </div>
+                            <div class="row col-md-6">
+                                <div class="col-md-3"><label for="text" style="width: 86px;">Mật khẩu:</label></div>
+                                <div class="col-md-9">
+                                    @*<input type="password" class="form-control" id="pass" name="pass" readonly style="background-color: antiquewhite;">
+                                        <input type="checkbox" id="showPassWord"/>*@
+                                    <input type="password" class="form-control" id="pass" name="pass" readonly style="background-color: antiquewhite;">
+                                    <span toggle="#pass" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                                 </div>
                             </div>
-                            <div class="form-row mar_bottom">
-                                <div class="row col-md-6">
-                                    <div class="col-md-3"> <label for="text">Họ tên:</label></div>
-                                    <div class="col-md-9"> <input type="text" class="form-control" id="nameUser" name="nameUser"></div>
-                                </div>
-                                @*<div class="row col-md-6">
-                                    <div class="col-md-3">  <label for="text">MSSV:</label></div>
-                                    <div class="col-md-9"><input type="text" class="form-control" id="classid" name="classid" readonly style="background-color: antiquewhite;"></div>
-                                </div>*@
-                            </div>
-                        @*<div class="form-row mar_bottom">
+                        </div>
+                        <div class="form-row mar_bottom">
                             <div class="row col-md-6">
                                 <div class="col-md-3"> <label for="text">Họ tên:</label></div>
                                 <div class="col-md-9"> <input type="text" class="form-control" id="nameUser" name="nameUser"></div>
                             </div>
-                        </div>*@
-                            <div class="form-group mar_bottom">
-                                <div class="input-group row col-md-6">
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input" multiple id="fileInputImage" onchange="previewFile()"
-                                               aria-describedby="inputGroupFileAddon01">
-                                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-                                    </div>
+                            @*<div class="row col-md-6">
+                                    <div class="col-md-3">  <label for="text">MSSV:</label></div>
+                                    <div class="col-md-9"><input type="text" class="form-control" id="classid" name="classid" readonly style="background-color: antiquewhite;"></div>
+                                </div>*@
+                        </div>
+                        @*<div class="form-row mar_bottom">
+                                <div class="row col-md-6">
+                                    <div class="col-md-3"> <label for="text">Họ tên:</label></div>
+                                    <div class="col-md-9"> <input type="text" class="form-control" id="nameUser" name="nameUser"></div>
                                 </div>
-                                <img id="imguserinfo" style="margin-top:5px;width: 30%;height: 15%;" alt="Image preview...">
-                                @*<input type="file" onchange="previewFile()" multiple id="fileInputImage" style="margin-bottom: 5px;margin-top: 5px;"><br>
-        <img id="imguserinfo" style="width: 30%;height: 15%;" alt="Image preview...">*@
+                            </div>*@
+                        <div class="form-group mar_bottom">
+                            <div class="input-group row col-md-6">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" multiple id="fileInputImage" onchange="previewFile()"
+                                           aria-describedby="inputGroupFileAddon01">
+                                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                </div>
                             </div>
+                            <img id="imguserinfo" style="margin-top:5px;width: 30%;height: 15%;" alt="Image preview...">
+                            @*<input type="file" onchange="previewFile()" multiple id="fileInputImage" style="margin-bottom: 5px;margin-top: 5px;"><br>
+                                <img id="imguserinfo" style="width: 30%;height: 15%;" alt="Image preview...">*@
+                        </div>
                         @*<div class="form-group mar_bottom">
                                 <div style="width:180px;height:180px;"><img id="ImageUser" src="http://placehold.it/180" alt="your image" /></div>
                             </div>*@
@@ -250,10 +250,10 @@
         </div>
     </div>
 
+        <!-- Page Content -->
+        @RenderBody()
 
 
-    <!-- Page Content -->
-    @RenderBody()
 
     <!-- /.container -->
     <!-- Footer -->
@@ -293,6 +293,7 @@
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/notify.js"></script>
     <script src="~/Scripts/notify.min.js"></script>
+    
     <script>
         function previewFile() {
             //var preview = document.querySelector('#imguserinfo'); //selects the query named img
@@ -309,12 +310,12 @@
             }
         }
         $(document).ready(function () {
-            // unblock when ajax activity stops 
-            $(document).ajaxStop($.unblockUI); 
-             //load thông tin lên form user info 
+            // unblock when ajax activity stops
+            $(document).ajaxStop($.unblockUI);
+             //load thông tin lên form user info
             var fname;
             var img;
-            //$.blockUI({ message: '<i class="fa fa-spinner fa-spin" style="font-size:50px;color:#16B3E3"></i>' }); 
+            //$.blockUI({ message: '<i class="fa fa-spinner fa-spin" style="font-size:50px;color:#16B3E3"></i>' });
             //$.blockUI();
             $.ajax({
                 type: 'GET',
@@ -472,7 +473,7 @@
                             } else {
                                 $("#imageUser").attr("src", "/Content/imageUser/no_images.png");
                             }
-                            
+
                             $("#fullnameUser").empty();
                             $("#fullnameUser").append('<h5>Hi ' +  result.fullname + '</h5>');
                             $.notify("Cập nhật thông tin thành công!", successOptions);

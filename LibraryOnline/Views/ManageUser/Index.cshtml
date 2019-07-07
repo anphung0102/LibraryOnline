@@ -36,690 +36,691 @@
     }
 </style>
 
-<div class="container" id="manage">
-    <h2 style="text-align: center; margin-top: 4px;margin-bottom: 10px;">Quản lý Users</h2>
-    <div class="row"> 
-        <div class="col-lg-6 col-md-3 col-12">
-            <button type="button" class="btn btn-success" style="margin-bottom: 4px;" data-toggle="modal" data-target="#modalAddUser">
-                <i class="fas fa-plus-square"></i>
-            </button>
-        </div>
-        <div class="col-lg-6 col-md-9 col-12">
-            <form method="post" enctype="multipart/form-data">
-                <div class="row">
-                    <div class="col-lg-8 col-md-8 col-8">
-                       @* <input type="file" name="Files" multiple id="fileInput" />*@
-                        <div class="input-group">
-                            <div class="input-group-prepend">
+    <div class="container" id="admin-container">
+        <h2 style="text-align: center; margin-top: 4px;margin-bottom: 10px;">Quản lý Users</h2>
+        <div class="row">
+            <div class="col-lg-6 col-md-3 col-12">
+                <button type="button" class="btn btn-success" style="margin-bottom: 4px;" data-toggle="modal" data-target="#modalAddUser">
+                    <i class="fas fa-plus-square"></i>
+                </button>
+            </div>
+            <div class="col-lg-6 col-md-9 col-12">
+                <form method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-8 col-12">
+                            @* <input type="file" name="Files" multiple id="fileInput" />*@
+                            <div class="input-group">
+                                <div class="input-group-prepend">
                                     <button id="btn_Import" type="submit" class="input-group-text">Import</button>
-                              
-                            </div>
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" multiple id="fileInput" 
-                                       aria-describedby="inputGroupFileAddon01">
-                                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+
+                                </div>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" multiple id="fileInput"
+                                           aria-describedby="inputGroupFileAddon01">
+                                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                </div>
                             </div>
                         </div>
+                        @*<div class="col-lg-4 col-md-4 col-4">
+                                <button class='btn btn-success' id="btn_Import" type="submit">Import</button>
+                            </div>*@
                     </div>
-                    @*<div class="col-lg-4 col-md-4 col-4">
-                        <button class='btn btn-success' id="btn_Import" type="submit">Import</button>
-                    </div>*@
+                </form>
+            </div>
+        </div>
+        @*<div>
+                <button type="button" class="btn btn-success" style="margin-bottom: 4px;" data-toggle="modal" data-target="#modalAddUser">
+                    <i class="fas fa-plus-square"></i>
+                </button>
+                <div style="float:right;">
+                    <form method="post" enctype="multipart/form-data">
+                        <input type="file" name="Files" multiple id="fileInput" />
+                        <button class='btn btn-success' id="btn_Import" type="button" style="width:90.7px; margin-bottom:15px;float: right; margin-top: -4px;margin-right: 0px;">Import</button>
+
+                    </form>
                 </div>
-            </form>
+            </div>*@
+        <table id="loadsubject" class="table table-bordered table-striped no-footer dt-responsive nowrap" role="grid" aria-describedby="crudTable_info">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Ảnh</th>
+                    <th>Email</th>
+                    @*<th>Mật khẩu</th>*@
+                    <th class="none">Mã quyền</th>
+                    <th>Quyền</th>
+                    <th>Họ tên</th>
+                    <th>MSSV</th>
+                    <th>Mã lớp</th>
+                    <th></th>
+                    @*<th></th>*@
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <!--Popup edit-->
+    <div class="modal" id="EditUser">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Cập nhật User</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form accept-charset="UTF-8" id="submit_EditUser" role="form">
+                        <div class="row col-md-12 mar_bottom">
+                            <div class="row col-md-6">
+                                <div class="col-md-3"><label for="text">Email:</label></div>
+                                <div class="col-md-9"><input type="email" class="form-control" id="emailEdit" placeholder="Email" name="emailEdit"></div>
+                            </div>
+                            @*<div class="row col-md-6">
+                                    <div class="col-md-3"><label for="text">Password:</label></div>
+                                    <div class="col-md-9"><input type="password" class="form-control" id="passwordEdit" placeholder="Mật khẩu" name="passwordEdit"></div>
+                                </div>*@
+                            <div class="row col-md-6">
+                                <div class="col-md-3"><label for="text">MSSV:</label></div>
+                                <div class="col-md-9"> <input type="text" class="form-control" id="studentidEdit" placeholder="MSSV" name="studentidEdit"></div>
+                            </div>
+                        </div>
+                        <div class="row col-md-12 mar_bottom">
+                            <div class="row col-md-6">
+                                <div class="col-md-3"><label for="text">Họ tên:</label></div>
+                                <div class="col-md-9"><input type="text" class="form-control" id="nameEdit" placeholder="Họ tên" name="nameEdit"></div>
+                            </div>
+                            <div class="row col-md-6">
+                                <div class="col-md-3"><label for="text">Mã lớp:</label></div>
+                                <div class="col-md-9"><input type="text" class="form-control" id="classidEdit" placeholder="Mã lớp" name="classidEdit"></div>
+                            </div>
+                        </div>
+                        <div class="row col-md-12 mar_bottom">
+                            <div class="row col-md-6">
+                                <div class="col-md-3"><label for="text">Quyền:</label></div>
+                                <div class="col-md-9"><select class="form-control" id="roleEdit" name="roleEdit"></select></div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button id="SaveUser" type="button" class="btn btn-primary" style="width: 70px;">Lưu</button>
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Đóng</button>
+                </div>
+
+            </div>
         </div>
     </div>
-            @*<div>
-                    <button type="button" class="btn btn-success" style="margin-bottom: 4px;" data-toggle="modal" data-target="#modalAddUser">
-                        <i class="fas fa-plus-square"></i>
-                    </button>
-                    <div style="float:right;">
-                        <form method="post" enctype="multipart/form-data">
-                            <input type="file" name="Files" multiple id="fileInput" />
-                            <button class='btn btn-success' id="btn_Import" type="button" style="width:90.7px; margin-bottom:15px;float: right; margin-top: -4px;margin-right: 0px;">Import</button>
-
-                        </form>
-                    </div>
-                </div>*@
-            <table id="loadsubject" class="table table-bordered table-striped no-footer dt-responsive nowrap" role="grid" aria-describedby="crudTable_info">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Ảnh</th>
-                        <th>Email</th>
-                        @*<th>Mật khẩu</th>*@
-                        <th class="none">Mã quyền</th>
-                        <th>Quyền</th>
-                        <th>Họ tên</th>
-                        <th>MSSV</th>
-                        <th>Mã lớp</th>
-                        <th></th>
-                        @*<th></th>*@
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-        <!--Popup edit-->
-        <div class="modal" id="EditUser">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Cập nhật User</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <form accept-charset="UTF-8" id="submit_EditUser" role="form">
-                            <div class="row col-md-12 mar_bottom">
-                                <div class="row col-md-6">
-                                    <div class="col-md-3"><label for="text">Email:</label></div>
-                                    <div class="col-md-9"><input type="email" class="form-control" id="emailEdit" placeholder="Email" name="emailEdit"></div>
-                                </div>
-                                @*<div class="row col-md-6">
-                                        <div class="col-md-3"><label for="text">Password:</label></div>
-                                        <div class="col-md-9"><input type="password" class="form-control" id="passwordEdit" placeholder="Mật khẩu" name="passwordEdit"></div>
-                                    </div>*@
-                                <div class="row col-md-6">
-                                    <div class="col-md-3"><label for="text">MSSV:</label></div>
-                                    <div class="col-md-9"> <input type="text" class="form-control" id="studentidEdit" placeholder="MSSV" name="studentidEdit"></div>
-                                </div>
-                            </div>
-                            <div class="row col-md-12 mar_bottom">
-                                <div class="row col-md-6">
-                                    <div class="col-md-3"><label for="text">Họ tên:</label></div>
-                                    <div class="col-md-9"><input type="text" class="form-control" id="nameEdit" placeholder="Họ tên" name="nameEdit"></div>
-                                </div>
-                                <div class="row col-md-6">
-                                    <div class="col-md-3"><label for="text">Mã lớp:</label></div>
-                                    <div class="col-md-9"><input type="text" class="form-control" id="classidEdit" placeholder="Mã lớp" name="classidEdit"></div>
-                                </div>
-                            </div>
-                            <div class="row col-md-12 mar_bottom">
-                                <div class="row col-md-6">
-                                    <div class="col-md-3"><label for="text">Quyền:</label></div>
-                                    <div class="col-md-9"><select class="form-control" id="roleEdit" name="roleEdit"></select></div>
-                                </div>
-
-                            </div>
-                        </form>
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button id="SaveUser" type="button" class="btn btn-primary" style="width: 70px;">Lưu</button>
-                        <button type="button" class="btn btn-dark" data-dismiss="modal">Đóng</button>
-                    </div>
-
+    <div class="modal" id="modalAddUser">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Thêm User</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
+                <div class="modal-body">
+                    <form accept-charset="UTF-8" id="submit_addUser" method="post" enctype="multipart/form-data">
+                        <div class="row col-md-12 mar_bottom">
+                            <div class="row col-md-6">
+                                <div class="col-md-3"><label for="text">Email:</label></div>
+                                <div class="col-md-9"><input type="email" class="form-control" id="emailAdd" placeholder="Email" name="emailAdd"></div>
+                            </div>
+                            <div class="row col-md-6">
+                                <div class="col-md-3"><label for="text">Password:</label></div>
+                                <div class="col-md-9"><input type="password" class="form-control" id="password" placeholder="Mật khẩu" name="password"></div>
+                            </div>
+
+                        </div>
+                        <div class="row col-md-12 mar_bottom">
+                            <div class="row col-md-6">
+                                <div class="col-md-3"><label for="text">Họ tên:</label></div>
+                                <div class="col-md-9"><input type="text" class="form-control" id="name" placeholder="Họ tên" name="name"></div>
+                            </div>
+                            <div class="row col-md-6">
+                                <div class="col-md-3"><label for="text">MSSV:</label></div>
+                                <div class="col-md-9"> <input type="text" class="form-control" id="studentid" placeholder="MSSV" name="mssv"></div>
+                            </div>
+
+                        </div>
+                        <div class="row col-md-12 mar_bottom">
+                            <div class="row col-md-6">
+                                <div class="col-md-3"><label for="text">Quyền:</label></div>
+                                <div class="col-md-9"><select class="form-control" id="role" name="role"></select></div>
+                            </div>
+                            <div class="row col-md-6">
+                                <div class="col-md-3"><label for="text">Mã lớp:</label></div>
+                                <div class="col-md-9"><input type="text" class="form-control" id="classidAdd" placeholder="Mã lớp" name="malop"></div>
+                            </div>
+                        </div>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button id="addUser" type="button" class="btn btn-primary" style="width: 70px;">Lưu</button>
+                            <button type="button" class="btn btn-dark" data-dismiss="modal">Đóng</button>
+                        </div>
+                    </form>
+                </div>
+
+
             </div>
         </div>
-        <div class="modal" id="modalAddUser">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Thêm User</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <form accept-charset="UTF-8" id="submit_addUser" method="post" enctype="multipart/form-data">
-                            <div class="row col-md-12 mar_bottom">
-                                <div class="row col-md-6">
-                                    <div class="col-md-3"><label for="text">Email:</label></div>
-                                    <div class="col-md-9"><input type="email" class="form-control" id="emailAdd" placeholder="Email" name="emailAdd"></div>
-                                </div>
-                                <div class="row col-md-6">
-                                    <div class="col-md-3"><label for="text">Password:</label></div>
-                                    <div class="col-md-9"><input type="password" class="form-control" id="password" placeholder="Mật khẩu" name="password"></div>
-                                </div>
+    </div>
 
-                            </div>
-                            <div class="row col-md-12 mar_bottom">
-                                <div class="row col-md-6">
-                                    <div class="col-md-3"><label for="text">Họ tên:</label></div>
-                                    <div class="col-md-9"><input type="text" class="form-control" id="name" placeholder="Họ tên" name="name"></div>
-                                </div>
-                                <div class="row col-md-6">
-                                    <div class="col-md-3"><label for="text">MSSV:</label></div>
-                                    <div class="col-md-9"> <input type="text" class="form-control" id="studentid" placeholder="MSSV" name="mssv"></div>
-                                </div>
+    @*<script src="~/Scripts/jquery-3.3.1.js"></script>
+        <script src="~/Content/Datatables/jquery.dataTables.min.js"></script>
+        <script src="~/Scripts/jquery.signalR-2.4.0.min.js"></script>
+        <script src="~/signalr/hubs"></script>
+        <script type="text/javascript" src="~/Scripts/dist/ez.countimer.min.js"></script>
+        <script src="~/Scripts/jquery.validate.min.js"></script>*@
+    <script>
+        // Add the following code if you want the name of the file appear on select
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
 
-                            </div>
-                            <div class="row col-md-12 mar_bottom">
-                                <div class="row col-md-6">
-                                    <div class="col-md-3"><label for="text">Quyền:</label></div>
-                                    <div class="col-md-9"><select class="form-control" id="role" name="role"></select></div>
-                                </div>
-                                <div class="row col-md-6">
-                                    <div class="col-md-3"><label for="text">Mã lớp:</label></div>
-                                    <div class="col-md-9"><input type="text" class="form-control" id="classidAdd" placeholder="Mã lớp" name="malop"></div>
-                                </div>
-                            </div>
-                            <!-- Modal footer -->
-                            <div class="modal-footer">
-                                <button id="addUser" type="button" class="btn btn-primary" style="width: 70px;">Lưu</button>
-                                <button type="button" class="btn btn-dark" data-dismiss="modal">Đóng</button>
-                            </div>
-                        </form>
-                    </div>
-
-
-                </div>
-            </div>
-        </div>
-
-        @*<script src="~/Scripts/jquery-3.3.1.js"></script>
-            <script src="~/Content/Datatables/jquery.dataTables.min.js"></script>
-            <script src="~/Scripts/jquery.signalR-2.4.0.min.js"></script>
-            <script src="~/signalr/hubs"></script>
-            <script type="text/javascript" src="~/Scripts/dist/ez.countimer.min.js"></script>
-            <script src="~/Scripts/jquery.validate.min.js"></script>*@
-        <script>
-            // Add the following code if you want the name of the file appear on select
-            $(".custom-file-input").on("change", function () {
-                var fileName = $(this).val().split("\\").pop();
-                $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-            });
-        </script>
-
-        <!--Load môn học-->
-<script>
-         function IsEmail(email) {
-                var regex = /^([a-zA-Z0-9_\.\-\+])+\@@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-                if(!regex.test(email)) {
-                    return false;
-                 }else{
-                    return true;
-                }
-          }
-            var warnOptions = {
-                autoHideDelay: 1000,
-                showAnimation: "fadeIn",
-                hideAnimation: "fadeOut",
-                hideDuration: 700,
-                arrowShow: false,
-                className: "warn",
-            };
-            var successOptions = {
-                autoHideDelay: 1000,
-                showAnimation: "fadeIn",
-                hideAnimation: "fadeOut",
-                hideDuration: 700,
-                arrowShow: false,
-                className: "success",
-            };
-            var errorOptions = {
-                autoHideDelay: 1000,
-                showAnimation: "fadeIn",
-                hideAnimation: "fadeOut",
-                hideDuration: 700,
-                arrowShow: false,
-                className: "error",
-            };
-            var index = 0;
-            var flag = false;
-            //load môn học ebook
-            $(document).ready(function () {
-                //lấy danh sách quyền
-                $.ajax({
-                    type: "GET",
-                    url: "/api/AdminAPI/GetRole",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    async: false,
-                    success: function (result) {
-                        $.each(result, function (i, v) {
-                            $("#role").append("<option value='" + v.id + "'>" + v.name + "</option>");
-                            $("#roleEdit").append("<option value='" + v.id + "'>" + v.name + "</option>");
-                        });
-                    }
-                });
-                $.ajax({
-                    type: "GET",
-                    url: "/api/ManageOfAdminAPI/GetUsers",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    async: false,
-                    success: function (data) {
-                        InitTable(data);
-                    }
-                });
-                function InitTable(data) {
-                    $('#loadsubject').DataTable({
-                        data: data,
-                        "columns": [
-                            { "data": "id", className: "id" },
-                            {
-                                "data": "image", className: "image", "render": function (data, type, row) {
-                                    if (data != null) {
-                                        return '<img src=/Content/imageUser/' + data + ' style="width:50px;height:50px;border-radius: 35px;">';
-                                    } else {
-                                        return '<img src="/Content/imageUser/no_images.png" style="width:50px;height:50px;border-radius: 35px;">';
-                                    }
-                                }
-                            },
-                            { "data": "username", className: "username" },
-                            //{ "data": "password", className: "password" },
-                            {
-                                "data": "role_id", className: "role_id",
-                            },
-                            { "data": "role_name", className: "role_name" },
-                            { "data": "fullname", className: "fullname" },
-                            { "data": "mssv", className: "mssv" },
-                            { "data": "class_id", className: "class_id" },
-                            { "data": "edit" },
-                            //{ "data": "del" },
-                        ],
-                        "columnDefs": [{
-                            "targets": -1,
-                            "data": null,
-                            "defaultContent": "<button type='button' class='btn btn-warning btnEdit' data-toggle='modal' data-target='#EditUser'><i class='far fa-edit'></i></button><button type='button' class='btn btn-danger btnDel'><i class='far fa-trash-alt'></i></button>"
-                        },
-                        //{
-                        //    "targets": -1,
-                        //    "data": null,
-                        //    "defaultContent": "<button type='button' class='btn btn-danger btnDel'>Xóa</button>"
-                        //},
-                        //{ responsivePriority: 2, targets: -2 },
-                        { responsivePriority: 1, targets: -1 }
-                            //{
-                            //    "targets": 3,
-                            //    "visible": false
-                            //}
-                        ]
+    <!--Load môn học-->
+    <script>
+        function IsEmail(email) {
+            var regex = /^([a-zA-Z0-9_\.\-\+])+\@@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            if (!regex.test(email)) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+        var warnOptions = {
+            autoHideDelay: 1000,
+            showAnimation: "fadeIn",
+            hideAnimation: "fadeOut",
+            hideDuration: 700,
+            arrowShow: false,
+            className: "warn",
+        };
+        var successOptions = {
+            autoHideDelay: 1000,
+            showAnimation: "fadeIn",
+            hideAnimation: "fadeOut",
+            hideDuration: 700,
+            arrowShow: false,
+            className: "success",
+        };
+        var errorOptions = {
+            autoHideDelay: 1000,
+            showAnimation: "fadeIn",
+            hideAnimation: "fadeOut",
+            hideDuration: 700,
+            arrowShow: false,
+            className: "error",
+        };
+        var index = 0;
+        var flag = false;
+        //load môn học ebook
+        $(document).ready(function () {
+            //lấy danh sách quyền
+            $.ajax({
+                type: "GET",
+                url: "/api/AdminAPI/GetRole",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    $.each(result, function (i, v) {
+                        $("#role").append("<option value='" + v.id + "'>" + v.name + "</option>");
+                        $("#roleEdit").append("<option value='" + v.id + "'>" + v.name + "</option>");
                     });
                 }
+            });
+            $.ajax({
+                type: "GET",
+                url: "/api/ManageOfAdminAPI/GetUsers",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    InitTable(data);
+                }
+            });
+            function InitTable(data) {
+                $('#loadsubject').DataTable({
+                    data: data,
+                    "autoWidth": false,
+                    "columns": [
+                        { "data": "id", className: "id" },
+                        {
+                            "data": "image", className: "image", "render": function (data, type, row) {
+                                if (data != null) {
+                                    return '<img src=/Content/imageUser/' + data + ' style="width:50px;height:50px;border-radius: 35px;">';
+                                } else {
+                                    return '<img src="/Content/imageUser/no_images.png" style="width:50px;height:50px;border-radius: 35px;">';
+                                }
+                            }
+                        },
+                        { "data": "username", className: "username" },
+                        //{ "data": "password", className: "password" },
+                        {
+                            "data": "role_id", className: "role_id",
+                        },
+                        { "data": "role_name", className: "role_name" },
+                        { "data": "fullname", className: "fullname" },
+                        { "data": "mssv", className: "mssv" },
+                        { "data": "class_id", className: "class_id" },
+                        { "data": "edit" },
+                        //{ "data": "del" },
+                    ],
+                    "columnDefs": [{
+                        "targets": -1,
+                        "data": null,
+                        "defaultContent": "<button type='button' class='btn btn-warning btnEdit' data-toggle='modal' data-target='#EditUser'><i class='far fa-edit'></i></button><button type='button' class='btn btn-danger btnDel'><i class='far fa-trash-alt'></i></button>"
+                    },
+                    //{
+                    //    "targets": -1,
+                    //    "data": null,
+                    //    "defaultContent": "<button type='button' class='btn btn-danger btnDel'>Xóa</button>"
+                    //},
+                    //{ responsivePriority: 2, targets: -2 },
+                    { responsivePriority: 1, targets: -1 }
+                        //{
+                        //    "targets": 3,
+                        //    "visible": false
+                        //}
+                    ]
+                });
+            }
+            $('#loadsubject tbody').on('click', 'tr', function () {
+                debugger
+                var table = $('#loadsubject').DataTable();
+                var rowCurrent = $(this);
+                console.log("index", rowCurrent);
+                index = rowCurrent[0].sectionRowIndex;
+                console.log("rowCurrent", index);
+                var username = $(this).closest("tr").find(".username").text();
+                //var password = $(this).closest("tr").find(".password").text();
+                var role_id = $(this).closest("tr").find(".role_id").text();
+                var role_name = $(this).closest("tr").find(".role_name").text();
+                var fullname = $(this).closest("tr").find(".fullname").text();
+                var mssv = $(this).closest("tr").find(".mssv").text();
+                var class_id = $(this).closest("tr").find(".class_id").text();
+                $("#emailEdit").val(username);
+                //$("#passwordEdit").val(password);
+                $("#nameEdit").val(fullname);
+                $("#studentidEdit").val(mssv);
+                $("#classidEdit").val(class_id);
+                //$("#roleEdit option[value=" + role_id + "]").prop("selected", true);
+                $("#roleEdit option[value=" + role_id + "]").prop('selected', true);
+            });
+            //Cập nhật
+            $('body').on('click', '#SaveUser', function () {
+                debugger
+                var email = $("#emailEdit").val();
+                //var password = $("#passwordEdit").val();
+                var role = $("#roleEdit").val();
+                var name = $("#nameEdit").val();
+                var studentid = $("#studentidEdit").val();
+                var classid = $("#classidEdit").val();
+                var data = new FormData();
+                data.append("email", email);
+                //data.append("password", password);
+                data.append("role", role);
+                data.append("name", name);
+                data.append("studentid", studentid);
+                data.append("classid", classid);
+                console.log(data);
+                if (email == null || email == "") {
+                    $("#emailEdit").focus();
+                    $.notify("Bạn phải nhập email!", warnOptions);
+                    return;
+                }
+                if (IsEmail(email) == false) {
+                    $("#emailEdit").focus();
+                    $.notify("Email không hợp lệ!", warnOptions);
+                    return false;
+                }
+                //if (password == null || password == "") {
+                //    $("#passwordEdit").focus();
+                //    $.notify("Bạn phải nhập mật khẩu!", warnOptions);
+                //    return;
+                //}
+                if (name == null || name == "") {
+                    $("#nameEdit").focus();
+                    $.notify("Bạn phải nhập họ tên!", warnOptions);
+                    return;
+                }
+                else {
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/ManageOfAdminAPI/UpdateUser",
+                        dataType: "json",
+                        contentType: false,
+                        processData: false,
+                        data: data,
+                        async: false,
+                        success: function (result) {
+                            if (result.isSuccess) {
+                                $.notify("Cập nhật thành công!", successOptions);
+                                debugger
+                                var t = $('#loadsubject').DataTable();
+                                t.cell(index, 1).data(result.userName).draw();
+                                //t.cell(index, 2).data(result.passWord).draw();
+                                t.cell(index, 2).data(result.role_Id).draw();
+                                t.cell(index, 3).data(result.roleName).draw();
+                                t.cell(index, 4).data(result.fullName).draw();
+                                t.cell(index, 5).data(result.mssv).draw();
+                                t.cell(index, 6).data(result.class_Id).draw();
+                                //$("#submit_EditUser")[0].reset();
+                                t.responsive.recalc();
+
+                            } else {
+                                $.notify("Cập nhật thất bại!", errorOptions);
+                            }
+                        }
+                    });
+                }
+
+            });
+            //hàm xóa
+            function DeleteUser(id) {
+                var r = confirm("Bạn có chắc muốn xóa không?");
+
+                if (r == true) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/ManageOfAdminAPI/DeleteUserByID?id=" + id,
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (result) {
+                            $.notify(result, successOptions);
+                            var table = $('#loadsubject').DataTable();
+                            table.row(index).remove().draw();
+                        }
+                    });
+                }
+            }
+            //Xóa
+            $('#loadsubject tbody').on('click', '.btnDel', function () {
+                debugger
+                var id = $(this).closest("tr").find(".id").text();
+                DeleteUser(id);
+
+            });
+            //Thêm
+            $("#addUser").click(function () {
+                debugger;
+                var email = $("#emailAdd").val();
+                var password = $("#password").val();
+                var role = $("#role").val();
+                var name = $("#name").val();
+                var studentid = $("#studentid").val();
+                var classid = $("#classidAdd").val();
+
+                var data = new FormData();
+                data.append("email", email);
+                data.append("password", password);
+                data.append("role", role);
+                data.append("name", name);
+                data.append("studentid", studentid);
+                data.append("classid", classid);
+
+                if (email == null || email == "") {
+                    $("#emailAdd").focus();
+                    $.notify("Bạn phải nhập email!", warnOptions);
+                    return;
+                }
+                if (IsEmail(email) == false) {
+                    $("#emailAdd").focus();
+                    $.notify("Email không hợp lệ!", warnOptions);
+                    return false;
+                }
+                if (password == null || password == "") {
+                    $("#password").focus();
+                    $.notify("Bạn phải nhập mật khẩu!", warnOptions);
+                    return;
+                }
+                if (name == null || name == "") {
+                    $("#name").focus();
+                    $.notify("Bạn phải nhập họ tên!", warnOptions);
+                    return;
+                }
+                else {
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/ManageOfAdminAPI/AddUsers",
+                        dataType: "json",
+                        contentType: false,
+                        processData: false,
+                        data: data,
+                        async: false,
+                        success: function (result) {
+                            if (result.isSuccess) {
+                                $.notify("Thêm thành công!", successOptions);
+                                console.log("aaa", result);
+                                //add row datatable
+                                var t = $('#loadsubject').DataTable();
+                                t.row.add({
+                                    "id": result.id,
+                                    "username": result.userName,
+                                    //"password": result.passWord,
+                                    "role_id": result.role_Id,
+                                    "role_name": result.roleName,
+                                    "fullname": result.fullName,
+                                    "mssv": result.mssv,
+                                    "class_id": result.class_Id
+                                }).draw();
+                                t.responsive.recalc();
+                                $("#submit_addUser")[0].reset();
+
+                            } else {
+                                $.notify("Thêm thất bại!", errorOptions);
+                            }
+                        }
+                    });
+                }
+            });
+            //Import
+            $("#btn_Import").click(function () {
+                debugger
+                var data = new FormData();
+                var files = $("#fileInput").get(0).files;
+
+                for (var i = 0; i < files.length; i++) {
+                    data.append("fileInput", files[i]);
+                }
+
+                console.log("file", data);
+                $.ajax({
+                    type: "POST",
+                    url: "/api/ManageOfAdminAPI/ImportFile",
+                    dataType: "json",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (result) {
+
+                    }
+                });
+            });
+        });
+    </script>
+    <!--Xóa user-->
+    @*<script>
+            //Import
+            $("#btn_Import").click(function () {
+                debugger
+                var data = new FormData();
+                var files = $("#fileInput").get(0).files;
+
+                for (var i = 0; i < files.length; i++) {
+                    data.append("fileInput", files[i]);
+                }
+
+                console.log("file", data);
+                $.ajax({
+                    type: "POST",
+                    url: "/api/ManageOfAdminAPI/ImportFile",
+                    dataType: "json",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (result) {
+                        alert(result);
+                    }
+                });
+            });
+            //hàm xóa
+            function DeleteUser(id) {
+                var r = confirm("Bạn có chắc muốn xóa không?");
+
+                if (r == true) {
+                    var data = {};
+                    data.id = id;
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/ManageOfAdminAPI/DeleteUser",
+                        data: JSON.stringify(data),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (result) {
+                            alert(result);
+                        }
+                    });
+                }
+            }
+
+            var index = 0;
+            var flag = false;
+            $(document).ready(function () {
+                //click vào row của datatable
                 $('#loadsubject tbody').on('click', 'tr', function () {
-                    debugger
+                    flag = true;
                     var table = $('#loadsubject').DataTable();
                     var rowCurrent = $(this);
                     console.log("index", rowCurrent);
                     index = rowCurrent[0].sectionRowIndex;
                     console.log("rowCurrent", index);
-                    var username = $(this).closest("tr").find(".username").text();
-                    //var password = $(this).closest("tr").find(".password").text();
-                    var role_id = $(this).closest("tr").find(".role_id").text();
-                    var role_name = $(this).closest("tr").find(".role_name").text();
-                    var fullname = $(this).closest("tr").find(".fullname").text();
-                    var mssv = $(this).closest("tr").find(".mssv").text();
-                    var class_id = $(this).closest("tr").find(".class_id").text();
-                    $("#emailEdit").val(username);
-                    //$("#passwordEdit").val(password);
-                    $("#nameEdit").val(fullname);
-                    $("#studentidEdit").val(mssv);
-                    $("#classidEdit").val(class_id);
-                    //$("#roleEdit option[value=" + role_id + "]").prop("selected", true);
-                    $("#roleEdit option[value=" + role_id + "]").prop('selected', true);
-                });
-                //Cập nhật
-                $('body').on('click', '#SaveUser', function () {
-                    debugger
-                    var email = $("#emailEdit").val();
-                    //var password = $("#passwordEdit").val();
-                    var role = $("#roleEdit").val();
-                    var name = $("#nameEdit").val();
-                    var studentid = $("#studentidEdit").val();
-                    var classid = $("#classidEdit").val();
-                    var data = new FormData();
-                    data.append("email", email);
-                    //data.append("password", password);
-                    data.append("role", role);
-                    data.append("name", name);
-                    data.append("studentid", studentid);
-                    data.append("classid", classid);
-                    console.log(data);
-                    if (email == null || email == "") {
-                        $("#emailEdit").focus();
-                        $.notify("Bạn phải nhập email!", warnOptions);
-                        return;
-                    }
-                    if (IsEmail(email) == false) {
-                        $("#emailEdit").focus();
-                        $.notify("Email không hợp lệ!", warnOptions);
-                        return false;
-                    }
-                    //if (password == null || password == "") {
-                    //    $("#passwordEdit").focus();
-                    //    $.notify("Bạn phải nhập mật khẩu!", warnOptions);
-                    //    return;
-                    //}
-                    if (name == null || name == "") {
-                        $("#nameEdit").focus();
-                        $.notify("Bạn phải nhập họ tên!", warnOptions);
-                        return;
+                    if ($(this).hasClass('selected')) {
+                        $(this).removeClass('selected');
                     }
                     else {
-                        $.ajax({
-                            type: "POST",
-                            url: "/api/ManageOfAdminAPI/UpdateUser",
-                            dataType: "json",
-                            contentType: false,
-                            processData: false,
-                            data: data,
-                            async: false,
-                            success: function (result) {
-                                if (result.isSuccess) {
-                                    $.notify("Cập nhật thành công!", successOptions);
-                                    debugger
-                                    var t = $('#loadsubject').DataTable();
-                                    t.cell(index, 1).data(result.userName).draw();
-                                    //t.cell(index, 2).data(result.passWord).draw();
-                                    t.cell(index, 2).data(result.role_Id).draw();
-                                    t.cell(index, 3).data(result.roleName).draw();
-                                    t.cell(index, 4).data(result.fullName).draw();
-                                    t.cell(index, 5).data(result.mssv).draw();
-                                    t.cell(index, 6).data(result.class_Id).draw();
-                                    //$("#submit_EditUser")[0].reset();
-                                    t.responsive.recalc();
-
-                                } else {
-                                    $.notify("Cập nhật thất bại!", errorOptions);
-                                }
-                            }
-                        });
+                        table.$('tr.selected').removeClass('selected');
+                        $(this).addClass('selected');
                     }
 
                 });
-                //hàm xóa
-                function DeleteUser(id) {
-                    var r = confirm("Bạn có chắc muốn xóa không?");
-
-                    if (r == true) {
-                        $.ajax({
-                            type: "POST",
-                            url: "/api/ManageOfAdminAPI/DeleteUserByID?id=" + id,
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            success: function (result) {
-                                $.notify(result, successOptions);
-                                var table = $('#loadsubject').DataTable();
-                                table.row(index).remove().draw();
-                            }
-                        });
-                    }
-                }
-                //Xóa
-                $('#loadsubject tbody').on('click', '.btnDel', function () {
-                    debugger
-                    var id = $(this).closest("tr").find(".id").text();
-                    DeleteUser(id);
-
-                });
-                //Thêm
-                $("#addUser").click(function () {
-                    debugger;
-                    var email = $("#emailAdd").val();
-                    var password = $("#password").val();
-                    var role = $("#role").val();
-                    var name = $("#name").val();
-                    var studentid = $("#studentid").val();
-                    var classid = $("#classidAdd").val();
-
-                    var data = new FormData();
-                    data.append("email", email);
-                    data.append("password", password);
-                    data.append("role", role);
-                    data.append("name", name);
-                    data.append("studentid", studentid);
-                    data.append("classid", classid);
-
-                    if (email == null || email == "") {
-                        $("#emailAdd").focus();
-                        $.notify("Bạn phải nhập email!", warnOptions);
-                        return;
-                    }
-                    if (IsEmail(email) == false) {
-                        $("#emailAdd").focus();
-                        $.notify("Email không hợp lệ!", warnOptions);
-                        return false;
-                    }
-                    if (password == null || password == "") {
-                        $("#password").focus();
-                        $.notify("Bạn phải nhập mật khẩu!", warnOptions);
-                        return;
-                    }
-                    if (name == null || name == "") {
-                        $("#name").focus();
-                        $.notify("Bạn phải nhập họ tên!", warnOptions);
-                        return;
-                    }
-                    else {
-                        $.ajax({
-                            type: "POST",
-                            url: "/api/ManageOfAdminAPI/AddUsers",
-                            dataType: "json",
-                            contentType: false,
-                            processData: false,
-                            data: data,
-                            async: false,
-                            success: function (result) {
-                                if (result.isSuccess) {
-                                    $.notify("Thêm thành công!", successOptions);
-                                    console.log("aaa", result);
-                                    //add row datatable
-                                    var t = $('#loadsubject').DataTable();
-                                    t.row.add({
-                                        "id": result.id,
-                                        "username": result.userName,
-                                        //"password": result.passWord,
-                                        "role_id": result.role_Id,
-                                        "role_name": result.roleName,
-                                        "fullname": result.fullName,
-                                        "mssv": result.mssv,
-                                        "class_id": result.class_Id
-                                    }).draw();
-                                    t.responsive.recalc();
-                                    $("#submit_addUser")[0].reset();
-
-                                } else {
-                                    $.notify("Thêm thất bại!", errorOptions);
-                                }
-                            }
-                        });
+                //xóa 1 row datatable
+                $('#btnDel').click(function () {
+                    var table = $('#loadsubject').DataTable();
+                    console.log("aaa", table.rows({ selected: true }).data());
+                    var rowData = table.rows({ selected: true }).data()[index]['id'];
+                    console.log("rowData", rowData);
+                    if (flag == true) {
+                        DeleteUser(rowData);
+                        table.row('.selected').remove().draw(false);
                     }
                 });
-                //Import
-                $("#btn_Import").click(function () {
-                    debugger
-                    var data = new FormData();
-                    var files = $("#fileInput").get(0).files;
-
-                    for (var i = 0; i < files.length; i++) {
-                        data.append("fileInput", files[i]);
-                    }
-
-                    console.log("file", data);
+                $('body').on('click', '#btnEdit', function (e) {
+                    var table = $('#loadsubject').DataTable();
+                    var name = table.rows({ selected: true }).data()[index]['name'];
+                    alert(name);
+                    $("input[id='EditNameSub_Eb']").val(name);
+                    $("#EditSub").show();
+                });
+                $("#btnSaveEdit").click(function () {
+                    var table = $('#loadsubject').DataTable();
+                    var id = table.rows({ selected: true }).data()[index]['id'];
+                    var name = table.rows({ selected: true }).data()[index]['name'];
+                    var data = {};
+                    data.id = id;
+                    data.name = name;
                     $.ajax({
                         type: "POST",
-                        url: "/api/ManageOfAdminAPI/ImportFile",
+                        url: "/api/EbookAPI/EditSubjectById",
+                        data: JSON.stringify(data),
+                        contentType: "application/json; charset=utf-8",
                         dataType: "json",
-                        contentType: false,
-                        processData: false,
-                        data: data,
                         success: function (result) {
-
+                            if (result.isSuccess) {
+                                alert("Sửa thành công.");
+                                //add row datatable
+                                var t = $('#loadsubject').DataTable();
+                                //t.row.edit({
+                                //    "id": id,
+                                //    "name": name
+                                //}).draw();
+                                alert(index);
+                                t.row(index).edit({
+                                    name: name
+                                });
+                            } else {
+                                alert("Sửa không thành công.");
+                            }
                         }
                     });
                 });
             });
-        </script>
-        <!--Xóa user-->
-        @*<script>
-                //Import
-                $("#btn_Import").click(function () {
-                    debugger
-                    var data = new FormData();
-                    var files = $("#fileInput").get(0).files;
+        </script>*@
+    <!--Sửa môn học-->
+    @*<script>
+            $(document).ready(function () {
 
-                    for (var i = 0; i < files.length; i++) {
-                        data.append("fileInput", files[i]);
-                    }
-
-                    console.log("file", data);
-                    $.ajax({
-                        type: "POST",
-                        url: "/api/ManageOfAdminAPI/ImportFile",
-                        dataType: "json",
-                        contentType: false,
-                        processData: false,
-                        data: data,
-                        success: function (result) {
-                            alert(result);
-                        }
-                    });
-                });
-                //hàm xóa
-                function DeleteUser(id) {
-                    var r = confirm("Bạn có chắc muốn xóa không?");
-
-                    if (r == true) {
-                        var data = {};
-                        data.id = id;
-                        $.ajax({
-                            type: "POST",
-                            url: "/api/ManageOfAdminAPI/DeleteUser",
-                            data: JSON.stringify(data),
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            success: function (result) {
-                                alert(result);
-                            }
-                        });
-                    }
-                }
-
-                var index = 0;
-                var flag = false;
-                $(document).ready(function () {
-                    //click vào row của datatable
-                    $('#loadsubject tbody').on('click', 'tr', function () {
-                        flag = true;
-                        var table = $('#loadsubject').DataTable();
-                        var rowCurrent = $(this);
-                        console.log("index", rowCurrent);
-                        index = rowCurrent[0].sectionRowIndex;
-                        console.log("rowCurrent", index);
-                        if ($(this).hasClass('selected')) {
-                            $(this).removeClass('selected');
-                        }
-                        else {
-                            table.$('tr.selected').removeClass('selected');
-                            $(this).addClass('selected');
-                        }
-
-                    });
-                    //xóa 1 row datatable
-                    $('#btnDel').click(function () {
-                        var table = $('#loadsubject').DataTable();
-                        console.log("aaa", table.rows({ selected: true }).data());
-                        var rowData = table.rows({ selected: true }).data()[index]['id'];
-                        console.log("rowData", rowData);
-                        if (flag == true) {
-                            DeleteUser(rowData);
-                            table.row('.selected').remove().draw(false);
-                        }
-                    });
-                    $('body').on('click', '#btnEdit', function (e) {
-                        var table = $('#loadsubject').DataTable();
-                        var name = table.rows({ selected: true }).data()[index]['name'];
-                        alert(name);
-                        $("input[id='EditNameSub_Eb']").val(name);
-                        $("#EditSub").show();
-                    });
-                    $("#btnSaveEdit").click(function () {
-                        var table = $('#loadsubject').DataTable();
-                        var id = table.rows({ selected: true }).data()[index]['id'];
-                        var name = table.rows({ selected: true }).data()[index]['name'];
-                        var data = {};
-                        data.id = id;
-                        data.name = name;
-                        $.ajax({
-                            type: "POST",
-                            url: "/api/EbookAPI/EditSubjectById",
-                            data: JSON.stringify(data),
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            success: function (result) {
-                                if (result.isSuccess) {
-                                    alert("Sửa thành công.");
-                                    //add row datatable
-                                    var t = $('#loadsubject').DataTable();
-                                    //t.row.edit({
-                                    //    "id": id,
-                                    //    "name": name
-                                    //}).draw();
-                                    alert(index);
-                                    t.row(index).edit({
-                                        name: name
-                                    });
-                                } else {
-                                    alert("Sửa không thành công.");
-                                }
-                            }
-                        });
-                    });
-                });
-            </script>*@
-        <!--Sửa môn học-->
-        @*<script>
-                $(document).ready(function () {
-
-                    //Khi bàn phím được nhấn và thả ra thì sẽ chạy phương thức này
-                    $('#submit_addUser').validate({
-                        rules: {
-                            email: {
-                                required: true,
-                                email: true
-                            },
-                            password:
-                                {
-                                    required: true
-                                },
-                            role: {
-                                number: true,
-                                minlength: 1,
-                                maxlength: 1,
-                                required: true
-                            },
-                            name: {
-                                required: true
-                            },
-                            mssv: {
-                                required: true,
-                                number: true,
-                                minlength: 8,
-                                maxlength: 8,
-                            },
-                            malop: {
-                                required: true
-                            }
-
+                //Khi bàn phím được nhấn và thả ra thì sẽ chạy phương thức này
+                $('#submit_addUser').validate({
+                    rules: {
+                        email: {
+                            required: true,
+                            email: true
                         },
-                        messages: {
-                            email: {
-                                required: "Bạn phải nhập email",
-                                email: "Email không hợp lệ"
+                        password:
+                            {
+                                required: true
                             },
-                            password: {
-                                required: "Bạn phải nhập mật khẩu"
-                            },
-                            role: {
-                                number: "Số điện thoại phải là số",
-                                minlength: "Số điện thoại dài ít nhất 1 số",
-                                maxlength: "Số điện thoại không quá 1 số",
-                                required: "Bạn phải nhập mã quyền"
-                            },
-                            name:
-                                {
-                                    required: "Bạn phải nhập họ tên"
-                                },
-                            mssv: {
-                                required: "Bạn phải nhập MSSV",
-                                number: "MSSV phải là số",
-                                minlength: "MSSV dài ít nhất 8 ký tự",
-                                maxlength: "MSSV dài nhiều nhất 8 ký tự"
-                            },
-                            malop: {
-                                required: "Bạn phải nhập mã lớp"
-                            }
+                        role: {
+                            number: true,
+                            minlength: 1,
+                            maxlength: 1,
+                            required: true
+                        },
+                        name: {
+                            required: true
+                        },
+                        mssv: {
+                            required: true,
+                            number: true,
+                            minlength: 8,
+                            maxlength: 8,
+                        },
+                        malop: {
+                            required: true
                         }
-                    });
+
+                    },
+                    messages: {
+                        email: {
+                            required: "Bạn phải nhập email",
+                            email: "Email không hợp lệ"
+                        },
+                        password: {
+                            required: "Bạn phải nhập mật khẩu"
+                        },
+                        role: {
+                            number: "Số điện thoại phải là số",
+                            minlength: "Số điện thoại dài ít nhất 1 số",
+                            maxlength: "Số điện thoại không quá 1 số",
+                            required: "Bạn phải nhập mã quyền"
+                        },
+                        name:
+                            {
+                                required: "Bạn phải nhập họ tên"
+                            },
+                        mssv: {
+                            required: "Bạn phải nhập MSSV",
+                            number: "MSSV phải là số",
+                            minlength: "MSSV dài ít nhất 8 ký tự",
+                            maxlength: "MSSV dài nhiều nhất 8 ký tự"
+                        },
+                        malop: {
+                            required: "Bạn phải nhập mã lớp"
+                        }
+                    }
                 });
-            </script>*@
+            });
+        </script>*@

@@ -34,7 +34,8 @@ namespace LibraryOnline.Controllers.API
         [HttpPost]
         public SubjectCreationResult CreateSubject(SubjectViewModel subject)
         {
-            var sub = db.Subject_Essay.Where(x => x.name.Equals(subject.Name)).FirstOrDefault();
+            var sub = db.Subject_Essay.Where(x => x.name.Equals(subject.Name.Trim())||
+                            x.subessay_id.Equals(subject.Subessay_Id.Trim())).FirstOrDefault();
             if (sub != null)
             {
                 return new SubjectCreationResult
@@ -46,7 +47,7 @@ namespace LibraryOnline.Controllers.API
             {
                 db.Subject_Essay.Add(new Subject_Essay
                 {
-                    subessay_id = subject.Subessay_Id,
+                    subessay_id = subject.Subessay_Id.Trim(),
                     name = subject.Name,
                 });
                 db.SaveChanges();
@@ -106,17 +107,17 @@ namespace LibraryOnline.Controllers.API
         [HttpGet]
         public IEnumerable<Subject_Thesis> GetSubjectThesis()
         {
-            //var a = db.Subject_Ebook.ToList();
+            var a = db.Subject_Thesis.ToList();
             //return a;
             return db.Subject_Thesis.ToList();
         }
-
         //Tạo môn học trong Thesis
         [Route("api/ManageOfAdminAPI/CreateSubjectThesis")]
         [HttpPost]
         public SubjectCreationResult CreateSubjectThesis(SubjectViewModel subject)
         {
-            var sub = db.Subject_Thesis.Where(x => x.name.Equals(subject.Name)).FirstOrDefault();
+            var sub = db.Subject_Thesis.Where(x => x.name.Equals(subject.Name.Trim()) ||
+                    x.subthesis_id.Equals(subject.Subthesis_Id.Trim())).FirstOrDefault();
             if (sub != null)
             {
                 return new SubjectCreationResult
@@ -128,7 +129,7 @@ namespace LibraryOnline.Controllers.API
             {
                 db.Subject_Thesis.Add(new Subject_Thesis
                 {
-                    subthesis_id = subject.Subthesis_Id,
+                    subthesis_id = subject.Subthesis_Id.Trim(),
                     name = subject.Name,
                 });
                 db.SaveChanges();
@@ -151,8 +152,8 @@ namespace LibraryOnline.Controllers.API
         [HttpPost]
         public SubjectCreationResult EditSubjectEssayById(Subject_Essay subject)
         {
-            var sub = db.Subject_Essay.Where(x => x.id == subject.id).FirstOrDefault();
-            if (sub == null)
+            var check = db.Subject_Essay.Where(x => x.id == subject.id).FirstOrDefault();
+            if (check == null)
             {
                 return new SubjectCreationResult
                 {
@@ -161,24 +162,56 @@ namespace LibraryOnline.Controllers.API
             }
             else
             {
-                sub.subessay_id = subject.subessay_id;
-                sub.name = subject.name;
-                db.SaveChanges();
-                return new SubjectCreationResult
+                var sub = db.Subject_Essay.Where(x => (x.id != subject.id) &&
+                    (x.subessay_id == subject.subessay_id || x.name == subject.name)).FirstOrDefault();
+                if (sub != null)
                 {
-                    IsSuccess = true,
-                    Subessay_Id = sub.subessay_id,
-                    Name = sub.name
-                };
+                    return new SubjectCreationResult
+                    {
+                        IsSuccess = false
+                    };
+                }
+                else
+                {
+                    check.subessay_id = subject.subessay_id;
+                    check.name = subject.name;
+                    db.SaveChanges();
+                    return new SubjectCreationResult
+                    {
+                        IsSuccess = true,
+                        Subessay_Id = check.subessay_id,
+                        Name = check.name
+                    };
+                }
             }
+            //var sub = db.Subject_Essay.Where(x => x.id == subject.id).FirstOrDefault();
+            //if (sub == null)
+            //{
+            //    return new SubjectCreationResult
+            //    {
+            //        IsSuccess = false
+            //    };
+            //}
+            //else
+            //{
+            //    sub.subessay_id = subject.subessay_id;
+            //    sub.name = subject.name;
+            //    db.SaveChanges();
+            //    return new SubjectCreationResult
+            //    {
+            //        IsSuccess = true,
+            //        Subessay_Id = sub.subessay_id,
+            //        Name = sub.name
+            //    };
+            //}
         }
         //sửa thesis
         [Route("api/ManageOfAdminAPI/EditSubjectThesisById")]
         [HttpPost]
         public SubjectCreationResult EditSubjectThesisById(Subject_Thesis subject)
         {
-            var sub = db.Subject_Thesis.Where(x => x.id == subject.id).FirstOrDefault();
-            if (sub == null)
+            var check = db.Subject_Thesis.Where(x => x.id == subject.id).FirstOrDefault();
+            if (check == null)
             {
                 return new SubjectCreationResult
                 {
@@ -187,16 +220,48 @@ namespace LibraryOnline.Controllers.API
             }
             else
             {
-                sub.subthesis_id = subject.subthesis_id;
-                sub.name = subject.name;
-                db.SaveChanges();
-                return new SubjectCreationResult
+                var sub = db.Subject_Thesis.Where(x => (x.id != subject.id) &&
+                    (x.subthesis_id == subject.subthesis_id || x.name == subject.name)).FirstOrDefault();
+                if (sub != null)
                 {
-                    IsSuccess = true,
-                    Subthesis_Id = sub.subthesis_id,
-                    Name = sub.name
-                };
+                    return new SubjectCreationResult
+                    {
+                        IsSuccess = false
+                    };
+                }
+                else
+                {
+                    check.subthesis_id = subject.subthesis_id;
+                    check.name = subject.name;
+                    db.SaveChanges();
+                    return new SubjectCreationResult
+                    {
+                        IsSuccess = true,
+                        Subthesis_Id = check.subthesis_id,
+                        Name = check.name
+                    };
+                }
             }
+            //var sub = db.Subject_Thesis.Where(x => x.id == subject.id).FirstOrDefault();
+            //if (sub == null)
+            //{
+            //    return new SubjectCreationResult
+            //    {
+            //        IsSuccess = false
+            //    };
+            //}
+            //else
+            //{
+            //    sub.subthesis_id = subject.subthesis_id;
+            //    sub.name = subject.name;
+            //    db.SaveChanges();
+            //    return new SubjectCreationResult
+            //    {
+            //        IsSuccess = true,
+            //        Subthesis_Id = sub.subthesis_id,
+            //        Name = sub.name
+            //    };
+            //}
         }
         //xoá essay
         [Route("api/ManageOfAdminAPI/DeleteSubjectThesis")]
@@ -615,7 +680,7 @@ namespace LibraryOnline.Controllers.API
 
             int role_id = Convert.ToInt32(role);
 
-            var sub = db.Users.Where(x =>x.username == username).FirstOrDefault();
+            var sub = db.Users.Where(x =>x.username == username.Trim() || (x.mssv == studentid && x.mssv != "")).FirstOrDefault();
             if (sub != null)
             {
                 return new UserCreationResult
@@ -627,7 +692,7 @@ namespace LibraryOnline.Controllers.API
             {
                     db.Users.Add(new User
                     {
-                        username = username,
+                        username = username.Trim(),
                         password = Encrypt(password),
                         role_id = role_id,
                         mssv = studentid,
@@ -665,10 +730,11 @@ namespace LibraryOnline.Controllers.API
             var studentid = HttpContext.Current.Request["studentid"];
             var name = HttpContext.Current.Request["name"];
             var classid = HttpContext.Current.Request["classid"];
-
+            var id = Convert.ToInt32(HttpContext.Current.Request["id"]);
             int role_id = Convert.ToInt32(role);
 
-            var user = db.Users.Where(x => x.mssv == studentid || x.username == username).FirstOrDefault();
+            //var user = db.Users.Where(x => (x.mssv == studentid && x.mssv != "") || x.username == username.Trim()).FirstOrDefault();
+            var user = db.Users.Where(x => x.id == id).FirstOrDefault();
             if (user == null)
             {
                 return new UserCreationResult
@@ -678,28 +744,71 @@ namespace LibraryOnline.Controllers.API
             }
             else
             {
-                user.username = username;
-                //user.password = md5(password);
-                user.role_id = role_id;
-                user.mssv = studentid;
-                user.fullname = name;
-                user.class_id = classid;
-                db.SaveChanges();
-                var loaduser = db.Users.Where(x=>x.username == username).FirstOrDefault();
-                var rolename = db.Roles.Where(x => x.id == loaduser.role_id).FirstOrDefault();
-                return new UserCreationResult
+                var check = db.Users.Where(x=> ((x.mssv == studentid && x.mssv != "") || x.username == username.Trim()) && x.id != id).FirstOrDefault();
+                if (check != null)
                 {
-                    IsSuccess = true,
-                    Id = loaduser.id,
-                    UserName = loaduser.username,
-                    //PassWord = loaduser.password,
-                    Role_Id = loaduser.role_id,
-                    RoleName = rolename.name,
-                    Mssv = loaduser.mssv,
-                    FullName = loaduser.fullname,
-                    Class_Id = loaduser.class_id
-                };
+                    return new UserCreationResult
+                    {
+                        IsSuccess = false
+                    };
+                }
+                else
+                {
+                    user.username = username.Trim();
+                    //user.password = md5(password);
+                    user.role_id = role_id;
+                    user.mssv = studentid;
+                    user.fullname = name;
+                    user.class_id = classid;
+                    db.SaveChanges();
+                    var loaduser = db.Users.Where(x => x.username == username).FirstOrDefault();
+                    var rolename = db.Roles.Where(x => x.id == loaduser.role_id).FirstOrDefault();
+                    return new UserCreationResult
+                    {
+                        IsSuccess = true,
+                        Id = loaduser.id,
+                        UserName = loaduser.username,
+                        //PassWord = loaduser.password,
+                        Role_Id = loaduser.role_id,
+                        RoleName = rolename.name,
+                        Mssv = loaduser.mssv,
+                        FullName = loaduser.fullname,
+                        Class_Id = loaduser.class_id
+                    };
+                }
             }
+                
+            //if (user == null)
+            //{
+            //    return new UserCreationResult
+            //    {
+            //        IsSuccess = false
+            //    };
+            //}
+            //else
+            //{
+            //    user.username = username.Trim();
+            //    //user.password = md5(password);
+            //    user.role_id = role_id;
+            //    user.mssv = studentid;
+            //    user.fullname = name;
+            //    user.class_id = classid;
+            //    db.SaveChanges();
+            //    var loaduser = db.Users.Where(x=>x.username == username).FirstOrDefault();
+            //    var rolename = db.Roles.Where(x => x.id == loaduser.role_id).FirstOrDefault();
+            //    return new UserCreationResult
+            //    {
+            //        IsSuccess = true,
+            //        Id = loaduser.id,
+            //        UserName = loaduser.username,
+            //        //PassWord = loaduser.password,
+            //        Role_Id = loaduser.role_id,
+            //        RoleName = rolename.name,
+            //        Mssv = loaduser.mssv,
+            //        FullName = loaduser.fullname,
+            //        Class_Id = loaduser.class_id
+            //    };
+            //}
         }
 
         [Route("api/ManageOfAdminAPI/DeleteUserByID")]
@@ -788,12 +897,26 @@ namespace LibraryOnline.Controllers.API
             var httpPostedFile = HttpContext.Current.Request.Files["fileInput"];//lấy file
             if (httpPostedFile != null)
             {
-                string filename = Guid.NewGuid() + Path.GetExtension(httpPostedFile.FileName);
-                string filepath = "/excelfolder/" + filename;
-                httpPostedFile.SaveAs(Path.Combine(HttpContext.Current.Server.MapPath("/excelfolder"), filename));
-                InsertExceldata(filepath, filename);
+                var strExtexsion = Path.GetExtension(httpPostedFile.FileName).Trim();//lấy đuôi file
+                if (strExtexsion == ".xlsx")
+                {
+                    string filename = Guid.NewGuid() + Path.GetExtension(httpPostedFile.FileName);
+                    string filepath = "/excelfolder/" + filename;
+                    httpPostedFile.SaveAs(Path.Combine(HttpContext.Current.Server.MapPath("/excelfolder"), filename));
+                    InsertExceldata(filepath, filename);
+                }
+                else
+                {
+                    var flag = 1;
+                    return Ok(flag);
+                }
+                
             }
-             
+            else
+            {
+                var flag1 = 2;
+                return Ok(flag1);
+            }
             return Ok();
         }
 

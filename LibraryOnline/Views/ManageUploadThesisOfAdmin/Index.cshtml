@@ -107,8 +107,17 @@
                         </div>
                     </div>
                     <div class="form-group mar_bottom">
-                        <label for="text">Browser</label>
-                        <input type="file" name="Files" multiple id="fileInputEdit" />
+                        @*<label for="text">Browser</label>
+        <input type="file" name="Files" multiple id="fileInputEdit" />*@
+                        <div class="row col-md-6">
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" multiple id="fileInputEdit"
+                                           aria-describedby="inputGroupFileAddon01" accept="application/pdf">
+                                    <label class="custom-file-label" for="inputGroupFile01" style="overflow: hidden  !important;">Choose file</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="text">Mô tả:</label>
@@ -172,8 +181,17 @@
                         </div>
                     </div>
                     <div class="form-group mar_bottom">
-                        <label for="text">Browser</label>
-                        <input type="file" name="Files" multiple id="fileInputT" />
+                        @*<label for="text">Browser</label>
+        <input type="file" name="Files" multiple id="fileInputT" />*@
+                        <div class="row col-md-6">
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" multiple id="fileInputT"
+                                           aria-describedby="inputGroupFileAddon01" accept="application/pdf">
+                                    <label class="custom-file-label" for="inputGroupFile01" style="overflow: hidden  !important;">Choose file</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="text">Mô tả:</label>
@@ -201,6 +219,11 @@
 
 <!--Load môn học-->
 <script>
+    // Add the following code if you want the name of the file appear on select
+    $(".custom-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
     //load môn học ebook
     $(document).ready(function () {
         var warnOptions = {
@@ -266,14 +289,15 @@
                     {
                         "data": "describe", className: "describe", "render": function (data, type, row) {
                             return "<p id='break-down'>" + data + "</p>"
-                        //    var widthscreen = window.innerWidth;
-                        //    if (widthscreen >= 1000)
-                        //        return "<p style='white-space: pre-line;width:800px' class='breakdown'>" + data + "</p>"
-                        //    if (widthscreen >= 500)
-                        //        return "<p style='white-space: pre-line;width:400px' class='breakdown'>" + data + "</p>"
-                        //    if (widthscreen >= 400)
-                        //        return "<p style='white-space: pre-line;width:350px' class='breakdown'>" + data + "</p>"
-                        //}
+                            //    var widthscreen = window.innerWidth;
+                            //    if (widthscreen >= 1000)
+                            //        return "<p style='white-space: pre-line;width:800px' class='breakdown'>" + data + "</p>"
+                            //    if (widthscreen >= 500)
+                            //        return "<p style='white-space: pre-line;width:400px' class='breakdown'>" + data + "</p>"
+                            //    if (widthscreen >= 400)
+                            //        return "<p style='white-space: pre-line;width:350px' class='breakdown'>" + data + "</p>"
+                            //}
+                        }
                     },
                     { "data": "filename", className: "filename"},
                     {
@@ -384,6 +408,7 @@
                             }).draw();
                             t.responsive.recalc();
                             $("#formThesis")[0].reset();//reset form
+                            $(".custom-file-label").removeClass("selected").html("Choose file");
                         } else {
                             if (result.message != null) {
                                 $.notify(result.message, errorOptions);
@@ -400,10 +425,13 @@
 
         $('#loadsubject tbody').on('click', 'tr', function () {
 
-            var rowCurrent = $(this);
-            console.log("index", rowCurrent);
-            index = rowCurrent[0].sectionRowIndex;
-            console.log("rowCurrent", index);
+            //var rowCurrent = $(this);
+            //console.log("index", rowCurrent);
+            //index = rowCurrent[0].sectionRowIndex;
+            //console.log("rowCurrent", index);
+            var table = $('#loadsubject').DataTable();
+            //lấy index currentrow
+            index = table.rows({ order: 'applied' }).nodes().indexOf(this);
             var thesis_id = $(this).closest("tr").find(".thesis_id").text();
             var title = $(this).closest("tr").find(".title").text();
             var instructor = $(this).closest("tr").find(".instructor").text();
@@ -477,17 +505,28 @@
                             var d = new Date(result.date_Upload);
                             $.notify("Cập nhật thành công!", successOptions);
                             var t = $('#loadsubject').DataTable();
-                            t.cell(index, 2).data(result.title).draw();
-                            t.cell(index, 3).data(result.instructor).draw();
-                            t.cell(index, 4).data(result.executor1).draw();
-                            t.cell(index, 5).data(result.executor2).draw();
-                            t.cell(index, 6).data(result.course).draw();
-                            t.cell(index, 7).data(result.describe).draw();
-                            t.cell(index, 8).data(result.fileName).draw();
-                            t.cell(index, 9).data(d.toLocaleString()).draw();
-                            t.cell(index, 10).data(result.sub_Id).draw();
-                            t.cell(index, 11).data(result.sub_Name).draw();
+                            //t.cell(index, 2).data(result.title).draw();
+                            //t.cell(index, 3).data(result.instructor).draw();
+                            //t.cell(index, 4).data(result.executor1).draw();
+                            //t.cell(index, 5).data(result.executor2).draw();
+                            //t.cell(index, 6).data(result.course).draw();
+                            //t.cell(index, 7).data(result.describe).draw();
+                            //t.cell(index, 8).data(result.fileName).draw();
+                            //t.cell(index, 9).data(d.toLocaleString()).draw();
+                            //t.cell(index, 10).data(result.sub_Id).draw();
+                            //t.cell(index, 11).data(result.sub_Name).draw();
+                            t.cell(':eq(' + index + ')', 2).data(result.title).draw();
+                            t.cell(':eq(' + index + ')', 3).data(result.instructor).draw();
+                            t.cell(':eq(' + index + ')', 4).data(result.executor1).draw();
+                            t.cell(':eq(' + index + ')', 5).data(result.executor2).draw();
+                            t.cell(':eq(' + index + ')', 6).data(result.course).draw();
+                            t.cell(':eq(' + index + ')', 7).data(result.describe).draw();
+                            t.cell(':eq(' + index + ')', 8).data(result.fileName).draw();
+                            t.cell(':eq(' + index + ')', 9).data(d.toLocaleString()).draw();
+                            t.cell(':eq(' + index + ')', 10).data(result.sub_Id).draw();
+                            t.cell(':eq(' + index + ')', 11).data(result.sub_Name).draw();
                             $("#fileInputEdit").val(null);
+                            $(".custom-file-label").removeClass("selected").html("Choose file");
                             t.responsive.recalc();
                         } else {
                             if (result.message != null) {
@@ -517,7 +556,8 @@
                     success: function (result) {
                         $.notify(result, successOptions);
                         var table = $('#loadsubject').DataTable();
-                        table.row(index).remove().draw();
+                        //table.row(index).remove().draw();
+                        table.row(':eq(' + index + ')').remove().draw();
                     }
                 });
             }

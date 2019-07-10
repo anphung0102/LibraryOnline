@@ -235,7 +235,7 @@
                             t.responsive.recalc();
                             $("#formEssay")[0].reset();//reset form
                         } else {
-                            $.notify("Tên môn đã bị trùng!", errorOptions);
+                            $.notify("Tên môn hoặc mã môn đã bị trùng!", errorOptions);
                         }
                     }
                 });
@@ -243,10 +243,13 @@
             }
         });
         $('#loadsubject tbody').on('click', 'tr', function () {
-            var rowCurrent = $(this);
-            console.log("index", rowCurrent);
-            index = rowCurrent[0].sectionRowIndex;
-            console.log("rowCurrent", index);
+            //var rowCurrent = $(this);
+            //console.log("index", rowCurrent);
+            //index = rowCurrent[0].sectionRowIndex;
+            //console.log("rowCurrent", index);
+            var table = $('#loadsubject').DataTable();
+            //lấy index currentrow
+            index = table.rows({ order: 'applied' }).nodes().indexOf(this);
             var id = $(this).closest("tr").find(".id").text();
             var name = $(this).closest("tr").find(".name").text();
             var subessay_id = $(this).closest("tr").find(".subessay_id").text();
@@ -284,11 +287,13 @@
                         if (result.isSuccess) {
                             $.notify("Cập nhật thành công!", successOptions);
                             var t = $('#loadsubject').DataTable();
-                            t.cell(index, 1).data(result.subessay_Id).draw();
-                            t.cell(index, 2).data(result.name).draw();
+                            //t.cell(index, 1).data(result.subessay_Id).draw();
+                            //t.cell(index, 2).data(result.name).draw();
+                            t.cell(':eq(' + index + ')', 1).data(result.subessay_Id).draw();
+                            t.cell(':eq(' + index + ')', 2).data(result.name).draw();
                             t.responsive.recalc();
                         } else {
-                            $.notify("Cập nhật thất bại!", errorOptions);
+                            $.notify("Cập nhật thất bại!Mã hoặc tên môn bị trùng!", errorOptions);
                         }
                     }
                 });
@@ -312,7 +317,8 @@
                     success: function (result) {
                         $.notify(result, successOptions);
                         var table = $('#loadsubject').DataTable();
-                        table.row(index).remove().draw();
+                        //table.row(index).remove().draw();
+                        table.row(':eq(' + index + ')').remove().draw();
                     }
                 });
             }

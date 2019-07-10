@@ -37,8 +37,8 @@
             text-decoration-line: none;
         }
 </style>
-<div class="container" id="manage">
-    <div class="d-flex justify-content-between mb-3">
+<div class="container" id="admin-container">
+    <div class=" mb-3">
         <h3>Kết quả tìm kiếm:</h3>
     </div>
     <div class="row" id="loadDataSearch" data-bind="foreach: resultArr">
@@ -54,6 +54,7 @@
             // hàm trả về html thông tin file
             function simpleTemplating(result) {
                 var data = "";
+                debugger
                 if (result.length > 0) {
                     $.each(result, function (i, v) {
                         var typebook = "";
@@ -83,7 +84,7 @@
                         data += " </div></div></div>";
                     });
                 } else {
-                    data = "<div style='height:350px'><p style='margin-left: 400px;'>Không tìm thấy ! Bạn vui lòng thử với từ khóa khác .</p><div>"
+                    data = "<div class='text-center' style='height:350px; margin: auto;padding: 5px;'><p >Không tìm thấy ! Bạn vui lòng thử với từ khóa khác .</p><div>"
                 }
                 
                 return data;
@@ -91,6 +92,7 @@
                 $('#pagination-container').pagination({
                     dataSource: function (done) {
                         //var val = '@ViewBag.Search';
+
                         var val= @Html.Raw(Json.Encode(ViewBag.Search));
                         //console.log("search", yourVariable);
                         $.ajax({

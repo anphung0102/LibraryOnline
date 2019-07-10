@@ -30,8 +30,8 @@ namespace LibraryOnline.Controllers
         [HttpPost]
         public SubjectCreationResult EditSubjectById(Subject_Ebook subject)
         {
-            var sub = db.Subject_Ebook.Where(x => x.id == subject.id).FirstOrDefault();
-            if (sub == null)
+            var check = db.Subject_Ebook.Where(x => x.id == subject.id).FirstOrDefault();
+            if(check == null)
             {
                 return new SubjectCreationResult
                 {
@@ -40,17 +40,53 @@ namespace LibraryOnline.Controllers
             }
             else
             {
-                sub.subebook_id = subject.subebook_id;
-                sub.name = subject.name;
-                db.SaveChanges();
-                return new SubjectCreationResult
+                var sub = db.Subject_Ebook.Where(x => (x.id != subject.id) && 
+                    (x.subebook_id == subject.subebook_id || x.name == subject.name)).FirstOrDefault();
+                if (sub != null)
                 {
-                    IsSuccess = true,
-                    Subebook_Id = sub.subebook_id,
-                    Name = sub.name,
+                    return new SubjectCreationResult
+                    {
+                        IsSuccess = false
+                    };
+                }
+                else
+                {
+                    check.subebook_id = subject.subebook_id;
+                    check.name = subject.name;
+                    db.SaveChanges();
+                    return new SubjectCreationResult
+                    {
+                        IsSuccess = true,
+                        Subebook_Id = check.subebook_id,
+                        Name = check.name,
 
-                };
+                    };
+                }
             }
+
+
+            //var sub = db.Subject_Ebook.Where(x => x.id == subject.id).FirstOrDefault();
+
+            //if (sub == null)
+            //{
+            //    return new SubjectCreationResult
+            //    {
+            //        IsSuccess = false
+            //    };
+            //}
+            //else
+            //{
+            //    sub.subebook_id = subject.subebook_id;
+            //    sub.name = subject.name;
+            //    db.SaveChanges();
+            //    return new SubjectCreationResult
+            //    {
+            //        IsSuccess = true,
+            //        Subebook_Id = sub.subebook_id,
+            //        Name = sub.name,
+
+            //    };
+            //}
         }
 
         ////Lấy môn học của ebook

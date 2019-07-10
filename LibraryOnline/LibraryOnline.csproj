@@ -360,6 +360,8 @@
     <Content Include="Content\img\logo-login.png" />
     <Content Include="Content\delete.gif" />
     <Content Include="Content\img\logo-lv1.png" />
+    <Content Include="Content\img\noimage.png" />
+    <Content Include="Content\img\noimageavailable.png" />
     <Content Include="Content\img\pdf.png" />
     <Content Include="Content\img\user.png" />
     <Content Include="Content\js\jquery-2.1.4.min.js" />
@@ -470,6 +472,7 @@
     <Content Include="Content\css\sweet-alert-animations.less" />
     <Content Include="Content\css\sweet-alert-combine.less" />
     <Content Include="Content\css\sweet-alert.less" />
+    <Content Include="Content\Upload\68ad9936-c4c5-423f-b6b1-d6d846e3ff52.pdf" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

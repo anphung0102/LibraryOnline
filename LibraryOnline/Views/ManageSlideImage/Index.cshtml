@@ -18,6 +18,23 @@
     .far {
         font-size: 22px;
     }
+    .dropdown1 {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content1 {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+    .dropdown1:hover .dropdown-content1 {
+        display: block;
+    }
 </style>
 
 <div class="container" id="admin-container">
@@ -34,8 +51,9 @@
                 <th>ID</th>
                 <th class="none">Tiêu đề</th>
                 <th>Hình ảnh</th>
-                <th>Link</th>
                 <th>Thứ tự</th>
+                <th>Link</th>
+
                 <th>Tên ảnh</th>
                 <th></th>
             </tr>
@@ -73,13 +91,23 @@
                             <div class="col-md-9"><input type="number" class="form-control" id="sortImgEdit" placeholder="Thứ tự" name="sortImgEdit"></div>
                         </div>
                         <div class="row col-md-6" hidden>
-                            <div class="col-md-3"> <label for="text">Thứ tự:</label></div>
+                            <div class="col-md-3"> <label for="text">ID:</label></div>
                             <div class="col-md-9"><input type="text" class="form-control"  id="idImgEdit" placeholder="Thứ tự" name="idImgEdit"></div>
                         </div>
                     </div>
                     <div class="form-group mar_bottom">
-                        <input type="file" onchange="previewSlideImageEdit()" multiple id="fileSlideImageEdit" style="margin-bottom: 5px;margin-top: 5px;"><br>
-                        <img id="imgEditSlide" style="width: 30%;height: 15%;" alt="Image preview...">
+                        <div class="row col-md-6">
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" multiple id="fileSlideImageEdit" onchange="previewSlideImageEdit()"
+                                           aria-describedby="inputGroupFileAddon01" accept=".png, .jpg, .jpeg,.gif" >
+                                    <label class="custom-file-label" for="inputGroupFile01" style="overflow: hidden  !important;">Choose file</label>
+                                </div>
+                            </div>
+                        </div>
+                        @*<input type="file" onchange="previewSlideImageEdit()" multiple id="fileSlideImageEdit" style="margin-bottom: 5px;margin-top: 5px;"><br>*@
+                        @*<img id="imgEditSlide" style="width: 30%;height: 15%;" alt="Image preview...">*@
+                        <img class="size-img" id="imgEditSlide" alt="Image preview...">
                     </div>
                     <div class="modal-footer">
                         <button id="btnSaveEdit" type="button" class="btn btn-primary" style="width: 70px;">Lưu</button>
@@ -124,8 +152,18 @@
                         </div>
                     </div>
                     <div class="form-group mar_bottom">
-                        <input type="file" onchange="previewSlideImage()" multiple id="fileSlideImage" style="margin-bottom: 5px;margin-top: 5px;"><br>
-                        <img id="imgAddSlide" style="width: 30%;height: 15%;" alt="Thêm hình ảnh.">
+                        <div class="row col-md-6">
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" multiple id="fileSlideImage" onchange="previewSlideImage()"
+                                           aria-describedby="inputGroupFileAddon01" accept=".png, .jpg, .jpeg,.gif">
+                                    <label class="custom-file-label" for="inputGroupFile01" style="overflow: hidden  !important;">Choose file</label>
+                                </div>
+                            </div>
+                        </div>
+                        @*<input type="file" onchange="previewSlideImage()" multiple id="fileSlideImage" style="margin-bottom: 5px;margin-top: 5px;"><br>*@
+                        @*<img id="imgAddSlide" style="width: 30%;height: 15%;" alt="Thêm hình ảnh.">*@
+                        <img class="size-img" src="/Content/img/noimageavailable.png" id="imgAddSlide" alt="Image preview...">
                     </div>
                     <div class="modal-footer">
                         <button id="btnSaveAdd" type="button" class="btn btn-primary" style="width: 70px;">Lưu</button>
@@ -139,6 +177,11 @@
 
 <!--Load môn học-->
 <script>
+    // Add the following code if you want the name of the file appear on select
+    $(".custom-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
     function previewSlideImage() {
         //var preview = document.querySelector('#imguserinfo'); //selects the query named img
         var file = document.querySelector('input[id=fileSlideImage]').files[0]; //sames as here
@@ -208,6 +251,7 @@
     function InitTable(data) {
         $('#loadsubject').DataTable({
             data: data,
+            rowId: 'id',
             "autoWidth": false,
             "columns": [
                 {
@@ -216,8 +260,17 @@
                 { "data": "title", className: "title" },
                 {
                     "data": "image", className: "image", "render": function (data, type, row) {
-                        return '<img src=/Content/slideImage/' + data + ' style="width:100px;height:50px">';
+                        //return '<img src=/Content/slideImage/' + data + ' style="width:100px;height:50px">';
+                        return "<div class='dropdown1'>" +
+                            "<img src=/Content/slideImage/" + data + " style ='width:100px;height:50px'>" +
+                            "<div class='dropdown-content1'>" +
+                            "<img src=/Content/slideImage/" + data + " style='width:300px;height:200px;max-width:none'>" +
+                            "</div>" +
+                            "</div>";
                     }
+                },
+                {
+                    "data": "sortid", className: "sortid"
                 },
                 {
                     "data": "link", className: "link", "render": function (data, type, row) {
@@ -233,9 +286,7 @@
                     //        return "<p style='white-space: pre-line;width:350px' class='breakdown'>" + data + "</p>"
                     //}
                 },
-                {
-                    "data": "sortid", className: "sortid"
-                },
+                
                 {
                     "data": "image", className: "imageName"
                 },
@@ -301,14 +352,15 @@
                             "id": result.id,
                             "title": result.title,
                             "image": '<img src=/Content/slideImage/' + result.image + '>',
-                            "link": result.link,
                             "sortid": result.sortId,
+                            "link": result.link,
                             "image": result.image,
                             
                         }).draw();
                         //t.responsive.recalc();
                         $("#formImage")[0].reset();//reset form
-                        $("#imgAddSlide").attr("src", "");
+                        $("#imgAddSlide").attr("src", "/Content/img/noimageavailable.png");
+                        $(".custom-file-label").removeClass("selected").html("Choose file");
                     } else {
                         $.notify("Thứ tự đã bị trùng!", errorOptions);
                     }
@@ -320,9 +372,12 @@
         var index = 0;
         $('#loadsubject tbody').on('click', 'tr', function () {
             debugger
-            var rowCurrent = $(this);
-            console.log("index", rowCurrent);
-            index = rowCurrent[0].sectionRowIndex;
+            //var rowCurrent = $(this);
+            //console.log("index", rowCurrent);
+            //index = rowCurrent[0].sectionRowIndex;
+            var table = $('#loadsubject').DataTable();
+            //lấy index currentrow
+            index = table.rows({ order: 'applied'}).nodes().indexOf(this);
             console.log("rowCurrent", index);
         var title = $(this).closest("tr").find(".title").text();
         var imageName = $(this).closest("tr").find(".imageName").text();
@@ -377,13 +432,19 @@
                     if (result.flag == true) {
                         $.notify("Lưu thành công!", successOptions);
                         var t = $('#loadsubject').DataTable();
-                        t.cell(index, 1).data(result.title).draw();
-                        //t.cell(index, 1).data('<img src=/Content/slideImage/' + result.image + '>').draw();
-                        t.cell(index, 2).data(result.image).draw();
-                        t.cell(index, 3).data(result.link).draw();
-                        t.cell(index, 4).data(result.sortId).draw();
-                        t.cell(index, 5).data(result.image).draw();
+                      
+                        //t.cell(index, 1).data(result.title).draw();
+                        //t.cell(index, 2).data(result.image).draw();
+                        //t.cell(index, 3).data(result.sortId).draw();
+                        //t.cell(index, 4).data(result.link).draw();
+                        //t.cell(index, 5).data(result.image).draw();
+                        t.cell(':eq('+index+')', 1).data(result.title).draw();
+                        t.cell(':eq(' + index + ')', 2).data(result.image).draw();
+                        t.cell(':eq(' + index + ')', 3).data(result.sortId).draw();
+                        t.cell(':eq(' + index + ')', 4).data(result.link).draw();
+                        t.cell(':eq(' + index + ')', 5).data(result.image).draw();
                         t.responsive.recalc();
+                        $(".custom-file-label").removeClass("selected").html("Choose file");
                     } else {
                         $.notify("Thứ tự đã bị trùng!", errorOptions);
                     }
@@ -406,7 +467,8 @@
                 success: function (result) {
                     $.notify(result, successOptions);
                     var table = $('#loadsubject').DataTable();
-                    table.row(index).remove().draw();
+                    //table.row(index).remove().draw();
+                    table.row(':eq(' + index + ')').remove().draw();
                 }
             });
         }

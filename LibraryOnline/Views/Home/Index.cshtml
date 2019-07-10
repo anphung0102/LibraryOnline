@@ -24,7 +24,7 @@
     }
     .readmore {
         white-space: nowrap;
-        width: 232px;
+        width: 216px;
         overflow: hidden;
         text-overflow: ellipsis;
     }
@@ -389,7 +389,29 @@
             dataType: "json",
             async: false,
             success: function (result) {
-                debugger
+                //load slide image
+                var firstImage = true;
+                $.each(result.loadSlide, function (i, res) {
+                    if (firstImage) {
+                        var data = '<li data-target="#carouselExampleIndicators" class="active" data-slide-to="' + res.sortid + '"></li>';
+                        var data1 = '<div class="carousel-item active">';
+                        data1 += '<a href="' + res.link + '" target="_blank">';
+                        data1 += '<img class="d-block img-fluid" src = "/Content/slideImage/' + res.image + '" style="height:300px;width:100%"></a>';
+                        data1 += '<div class="carousel-caption"><h3>' + res.title + '</h3></div></div>';
+                        $("#carouseIndicator").append(data);
+                        $("#carouseImage").append(data1);
+                        firstImage = false;
+                    } else {
+                        var data = '<li data-target="#carouselExampleIndicators" data-slide-to="' + res.sortid + '"></li>';
+                        var data1 = '<div class="carousel-item">';
+                        data1 += '<a href="' + res.link + '" target="_blank">';
+                        data1 += '<img class="d-block img-fluid" src = "/Content/slideImage/' + res.image + '" style="height:300px;width:100%"></a>';
+                        data1 += '<div class="carousel-caption"><h3>' + res.title + '</h3></div></div>';
+                        $("#carouseIndicator").append(data);
+                        $("#carouseImage").append(data1);
+                    }
+
+                });
                 $.each(result.lstebook, function (i, v) {
                     var data = "<div class='col-lg-4 col-md-6 mb-4' data-bind='attr: { id: id }'>";
                     data += "<div class='card h-100'>";
@@ -398,7 +420,7 @@
                     data += "<div class='card-title readmore title'>";
                     //data += "<a href='/Details/Details?ebook_id=" + v.ebook_id + "'" + "data-bind='text:title' data-toggle='tooltip' title='" + v.title +"'>" + v.title + "</a> </div>";
                     data += "<a href='/Details/Details?ebook_id=" + v.ebook_Id + "'" + "data-bind='text:title' data-toggle='tooltip' title='" + v.title + "'>" + v.title + "</a> </div>";
-                    data += "<div class='readmore'>Người đăng: " + v.poster + "</div>";
+                    data += "<div>Người đăng: " + v.poster + "</div>";
                     //data += "<div class='readmore'>Tác giả: " + v.author + "</div>";
                     data += "<p class='card-text' data-bind='text:author'></p>";
                     //data += "<div class='card-footer'></div>";
@@ -441,29 +463,7 @@
                     data1 += " </div></div></div>";
                     $("#loadThesis").append(data1);
                 });
-                //load slide image
-                var firstImage = true;
-                $.each(result.loadSlide, function (i, res) {
-                    if (firstImage) {
-                        var data = '<li data-target="#carouselExampleIndicators" class="active" data-slide-to="' + res.sortid + '"></li>';
-                        var data1 = '<div class="carousel-item active">';
-                        data1 += '<a href="' + res.link + '" target="_blank">'; 
-                        data1 += '<img class="d-block img-fluid" src = "/Content/slideImage/' + res.image + '" style="height:300px;width:100%"></a>';
-                        data1 += '<div class="carousel-caption"><h3>' + res.title + '</h3></div></div>';
-                        $("#carouseIndicator").append(data);
-                        $("#carouseImage").append(data1);
-                        firstImage = false;
-                    } else {
-                        var data = '<li data-target="#carouselExampleIndicators" data-slide-to="' + res.sortid + '"></li>';
-                        var data1 = '<div class="carousel-item">';
-                        data1 += '<a href="' + res.link + '" target="_blank">'; 
-                        data1 += '<img class="d-block img-fluid" src = "/Content/slideImage/' + res.image + '" style="height:300px;width:100%"></a>';
-                        data1 += '<div class="carousel-caption"><h3>' + res.title + '</h3></div></div>';
-                        $("#carouseIndicator").append(data);
-                        $("#carouseImage").append(data1);
-                    }
-                   
-                });
+              
             }
         });
         //$.unblockUI();
@@ -511,6 +511,7 @@
                         $("#subject").empty();
                         $("#subject").append("<option value='" + v.id + "'>" + v.name + "</option>");
                         $("#loadEbook").empty();
+                        $("#titleSubjectEbook").empty();
                         $("#titleSubjectEbook").append(v.name);
                         //ẩn menu bar
                         $("#listCategory li a").removeClass("active");
@@ -713,6 +714,7 @@
 
                         $("#SubjectEssay").empty();
                         $("#SubjectEssay").append("<option value='" + v.id + "'>" + v.name + "</option>");
+                        $("#titleSubjectEssay").empty();
                         $("#titleSubjectEssay").append(v.name);
                         //ẩn menu bar
                         $("#listCategory li a").removeClass("active");
@@ -900,6 +902,7 @@
                         $("#loadEbook").empty();
                         $("#SubjectThesis").empty();
                         $("#SubjectThesis").append("<option value='" + v.id + "'>" + v.name + "</option>");
+                        $("#titleSubjectThesis").empty();
                         $("#titleSubjectThesis").append(v.name);
                         //ẩn menu bar
                         $("#listCategory li a").removeClass("active");

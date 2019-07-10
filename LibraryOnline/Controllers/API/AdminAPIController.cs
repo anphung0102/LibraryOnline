@@ -678,7 +678,7 @@ namespace LibraryOnline.Controllers.API
         [HttpPost]
         public SubjectCreationResult CreateSubject(SubjectViewModel subject)
         {
-            var sub = db.Subject_Ebook.Where(x => x.name.Equals(subject.Name) || x.subebook_id.Equals(subject.Subebook_Id)).FirstOrDefault();
+            var sub = db.Subject_Ebook.Where(x => x.name == subject.Name.Trim()|| x.subebook_id == subject.Subebook_Id.Trim()).FirstOrDefault();
             if (sub != null)
             {
                 return new SubjectCreationResult
@@ -691,7 +691,7 @@ namespace LibraryOnline.Controllers.API
                 db.Subject_Ebook.Add(new Subject_Ebook
                 {
                     //subebook_id = "",
-                    subebook_id = subject.Subebook_Id,
+                    subebook_id = subject.Subebook_Id.Trim(),
                     name = subject.Name,
                 });
                 db.SaveChanges();

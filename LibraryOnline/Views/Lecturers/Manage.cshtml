@@ -19,7 +19,7 @@
         font-size: 22px;
     }
 </style>
-<div class="container">
+<div class="container" id="admin-container">
     <h2 style="text-align: center; margin-top: 4px;">Quản lý Ebook</h2>
     <div>
         <button type="button" class="btn btn-success" style="margin-bottom: 4px;" data-toggle="modal" data-target="#myModal">
@@ -83,9 +83,19 @@
                         </div>
                     </div>
                     <div class="form-group mar_bottom">
-                        <label for="text">Browser</label>
+                        @*<label for="text">Browser</label>
 
-                        <input type="file" name="Files" multiple id="fileInput" />
+        <input type="file" name="Files" multiple id="fileInput" />*@
+                        <div class="row col-md-6">
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" multiple id="fileInput"
+                                           aria-describedby="inputGroupFileAddon01" accept="application/pdf">
+                                    <label class="custom-file-label" for="inputGroupFile01" style="overflow: hidden  !important;">Choose file</label>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="form-group">
                         <label for="text">Mô tả:</label>
@@ -136,8 +146,17 @@
                         </div>
                     </div>
                     <div class="form-group mar_bottom">
-                        <label for="text">Browser</label>
-                        <input type="file" name="Files" multiple id="fileInputEdit" />
+                        @*<label for="text">Browser</label>
+        <input type="file" name="Files" multiple id="fileInputEdit" />*@
+                        <div class="row col-md-6">
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" multiple id="fileInputEdit"
+                                           aria-describedby="inputGroupFileAddon01" accept="application/pdf">
+                                    <label class="custom-file-label" for="inputGroupFile01" style="overflow: hidden  !important;">Choose file</label>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row col-md-6" hidden>
                             <div class="col-md-3"><label for="text">Mã sách:</label></div>
                             <div class="col-md-9"><input type="text" class="form-control" id="ebook_idEdit" placeholder="Năm xuất bản" name="ebook_idEdit"></div>
@@ -170,6 +189,11 @@
 
 <!--Load Ebook-->
 <script>
+    // Add the following code if you want the name of the file appear on select
+    $(".custom-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
     var warnOptions = {
         autoHideDelay: 1000,
         showAnimation: "fadeIn",
@@ -341,6 +365,7 @@
                             t.responsive.recalc();
                             //$("#formEbook")[0].reset();//reset form
                             ResetFormEbook();
+                            $(".custom-file-label").removeClass("selected").html("Choose file");
                         } else {
                             if (result.message != null) {
                                 $.notify(result.message, errorOptions);
@@ -356,10 +381,14 @@
         });
     });
     $('#loadsubject tbody').on('click', 'tr', function () {
-        debugger
-        var rowCurrent = $(this);
-        console.log("index", rowCurrent);
-        index = rowCurrent[0].sectionRowIndex;
+        //debugger
+        //var rowCurrent = $(this);
+        //console.log("index", rowCurrent);
+        //index = rowCurrent[0].sectionRowIndex;
+        //console.log("rowCurrent", index);
+        var table = $('#loadsubject').DataTable();
+        //lấy index currentrow
+        index = table.rows({ order: 'applied' }).nodes().indexOf(this);
         console.log("rowCurrent", index);
         var ebook_id = $(this).closest("tr").find(".ebook_id").text();
         var title = $(this).closest("tr").find(".title").text();
@@ -423,13 +452,20 @@
                             var d = new Date(result.date_Upload);
                             $.notify("Cập nhật thành công!", successOptions);
                             var t = $('#loadsubject').DataTable();
-                            t.cell(index, 2).data(result.title).draw();
-                            t.cell(index, 3).data(result.author).draw();
-                            t.cell(index, 4).data(result.year).draw();
-                            t.cell(index, 5).data(result.describe).draw();
-                            t.cell(index, 6).data(result.fileName).draw();
-                            t.cell(index, 7).data(d.toLocaleString()).draw();
+                            //t.cell(index, 2).data(result.title).draw();
+                            //t.cell(index, 3).data(result.author).draw();
+                            //t.cell(index, 4).data(result.year).draw();
+                            //t.cell(index, 5).data(result.describe).draw();
+                            //t.cell(index, 6).data(result.fileName).draw();
+                            //t.cell(index, 7).data(d.toLocaleString()).draw();
+                            t.cell(':eq(' + index + ')', 2).data(result.title).draw();
+                            t.cell(':eq(' + index + ')', 3).data(result.author).draw();
+                            t.cell(':eq(' + index + ')', 4).data(result.fileName).draw();
+                            t.cell(':eq(' + index + ')', 5).data(result.describe).draw();
+                            t.cell(':eq(' + index + ')', 6).data(result.year).draw();
+                            t.cell(':eq(' + index + ')', 7).data(d.toLocaleString()).draw();
                             $("#fileInputEdit").val(null);
+                            $(".custom-file-label").removeClass("selected").html("Choose file");
                             t.responsive.recalc();
                         } else {
                             if (result.message != null) {
@@ -457,7 +493,8 @@
                     debugger;
                     $.notify(result, successOptions);
                     var table = $('#loadsubject').DataTable();
-                    table.row(index).remove().draw();
+                    //table.row(index).remove().draw();
+                    table.row(':eq(' + index + ')').remove().draw();
                 }
             });
         }

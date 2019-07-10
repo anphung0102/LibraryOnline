@@ -28,7 +28,7 @@
     <link href="~/Content/styles/details.css" rel="stylesheet" />
     <link href="~/Content/styles/common.css" rel="stylesheet" />
     <link href="~/Content/styles/pagination.css" rel="stylesheet" />
-
+    <link rel="stylesheet" href="~/Content/css/style.css" type="text/css" media="all" />
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">*@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -46,12 +46,25 @@
         <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
         <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css" rel="stylesheet" />*@
     @*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>*@
+    <style>
+        .mar_bottom {
+            margin-bottom: 5px;
+        }
+
+        .field-icon {
+            float: right;
+            margin-left: -25px;
+            margin-top: -25px;
+            position: relative;
+            z-index: 2;
+        }
+    </style>
 </head>
 
 <body>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-info fixed-top">
         <div class="container">
             <a class="navbar-brand" href="/Home/Student">Thư viện Online</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,7 +84,7 @@
                 </ul>
                 <form class="form-inline my-2 my-lg-0 search-container" action="/Search/Index">
                     <input class="form-control mr-sm-2 searchData" type="text" placeholder="Tìm kiếm" aria-label="Search" name="search" id="searchData" style="width: 450px;">
-                    <button class="btn btn-outline-success my-2 my-sm-0 search" type="submit" id="search">Tìm kiếm</button>
+                    <button class="btn btn-success my-2 my-sm-0 search" type="submit" id="search">Tìm kiếm</button>
                 </form>
                 <ul class="navbar-nav mr-sm-0">
                     <li class="nav-item dropdown">
@@ -122,11 +135,15 @@
                     <form id="formEbook" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="text">Mật khẩu cũ:</label>
-                            <input type="password" class="form-control" id="passOld" placeholder="Mật khẩu cũ" name="passOld">
+                            <input type="password" class="form-control" id="passOld" name="passOld">
+                            <span toggle="#passOld" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                            @*<input type="password" class="form-control" id="passOld" placeholder="Mật khẩu cũ" name="passOld">*@
                         </div>
                         <div class="form-group">
                             <label for="text">Mật khẩu mới:</label>
-                            <input type="password" class="form-control" id="passNew" placeholder="Mật khẩu mới" name="passNew">
+                            <input type="password" class="form-control" id="passNew" name="passNew">
+                            <span toggle="#passNew" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                            @*<input type="password" class="form-control" id="passNew" placeholder="Mật khẩu mới" name="passNew">*@
                         </div>
                         <!-- Modal footer -->
                         <div class="modal-footer">
@@ -158,7 +175,9 @@
                                 <div class="col-md-3">  <label for="text" style="width: 86px;">Mật khẩu:</label></div>
                                 <div class="col-md-9">
                                     <input type="password" class="form-control" id="pass" name="pass" readonly style="background-color: antiquewhite;">
-                                    <input type="checkbox" id="showPassWord" />
+                                    <span toggle="#pass" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                                    @*<input type="password" class="form-control" id="pass" name="pass" readonly style="background-color: antiquewhite;">
+        <input type="checkbox" id="showPassWord" />*@
                                 </div>
                             </div>
                         </div>
@@ -204,7 +223,7 @@
     @RenderBody()
     <!-- /.container -->
     <!-- Footer -->
-    <footer class="py-5 bg-dark">
+    <footer class="py-5 bg-info">
         <div class="container">
             <p class="m-0 text-center text-white">Copyright &copy; Thư viện Online 2019</p>
         </div>
@@ -285,12 +304,22 @@
                     }
                 }
             });
-            $('#showPassWord').click(function () {
-                if ($(this).prop("checked") == true) {
-                    $("#pass").attr("type", "text");
-                }
-                else if ($(this).prop("checked") == false) {
-                    $("#pass").attr("type", "password");
+            //$('#showPassWord').click(function () {
+            //    if ($(this).prop("checked") == true) {
+            //        $("#pass").attr("type", "text");
+            //    }
+            //    else if ($(this).prop("checked") == false) {
+            //        $("#pass").attr("type", "password");
+            //    }
+            //});
+            $(".toggle-password").click(function () {
+
+                $(this).toggleClass("fa-eye fa-eye-slash");
+                var input = $($(this).attr("toggle"));
+                if (input.attr("type") == "password") {
+                    input.attr("type", "text");
+                } else {
+                    input.attr("type", "password");
                 }
             });
             var warnOptions = {

@@ -505,5 +505,10 @@ span.icon1, span.icon2{
         white-space: pre-line;
         width: 900px
     }
+    .size-img{
+        width:352px !important;
+        height:200px;
+        margin-top:5px;
+    }
 }
 /*--//responsive--*/

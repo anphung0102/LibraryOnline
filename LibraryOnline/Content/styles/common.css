@@ -2,8 +2,9 @@
 }
 /* trang detail*/
 #info_details {
-    margin-left: 20px;
-    margin-right: 20px;
+    /*margin-left: 20px;
+    margin-right: 20px;*/
+    padding: 15px 15px;
 }
 
 #btnDowBook {
@@ -22,4 +23,9 @@
 }
 .btn {
     margin-right: 20px;
+}
+
+.detail_css {
+    border: 1px solid #aaa;
+    border-radius: 12px;
 }

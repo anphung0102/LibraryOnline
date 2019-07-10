@@ -58,17 +58,26 @@ namespace LibraryOnline.Controllers.API
         [HttpGet]
         public IHttpActionResult Search(string search)
         {
-            string strSearch = ConvertToUnSign(search).ToLower();
-            var query = db.SearchFiles.Where(delegate (SearchFile s)
+            bool checkNull = string.IsNullOrEmpty(search);
+            if (!checkNull)
             {
-                if (ConvertToUnSign(s.title.ToLower()).Contains(strSearch) ||
-                ConvertToUnSign(s.username.ToLower()).Contains(strSearch) ||
-                ConvertToUnSign(s.describe.ToLower()).Contains(strSearch) )
-                    return true;
-                else
-                    return false;
-            });
-            return Ok(query);
+                string strSearch = ConvertToUnSign(search).ToLower();
+                var query = db.SearchFiles.Where(delegate (SearchFile s)
+                {
+                    if (ConvertToUnSign(s.title.ToLower()).Contains(strSearch) ||
+                    ConvertToUnSign(s.username.ToLower()).Contains(strSearch) ||
+                    ConvertToUnSign(s.describe.ToLower()).Contains(strSearch))
+                        return true;
+                    else
+                        return false;
+                });
+                return Ok(query);
+            }
+            else
+            {
+                List<string> a = new List<string>();
+                return Ok(a);
+            }
         }
         //var query = db.Categories.Where(delegate (Category c)
         //{

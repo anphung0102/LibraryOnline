@@ -466,6 +466,14 @@ span.icon1, span.icon2{
         white-space: pre-line;
         width: 220px
     }
+    #read-container {
+        margin-top: 40px;
+    }
+
+    .size-pdf {
+        height: 569px;
+        width: 100%;
+    }
 }
 
 @media (min-width: 576px) and (max-width: 767.98px) {
@@ -476,6 +484,7 @@ span.icon1, span.icon2{
         white-space: pre-line;
         width: 400px
     }
+    
 }
 
 @media (min-width: 768px) and (max-width: 991.98px) {
@@ -486,6 +495,14 @@ span.icon1, span.icon2{
         white-space: pre-line;
         width: 800px
     }
+    #read-container {
+        margin-top: 36px;
+    }
+
+    .size-pdf {
+        height: 1364px;
+        width: 100%;
+    }
 }
 
 @media (min-width: 992px) and (max-width: 1199.98px) {
@@ -495,6 +512,14 @@ span.icon1, span.icon2{
     #break-down {
         white-space: pre-line;
         width: 800px
+    }
+    #read-container {
+        margin-top: 80px;
+    }
+
+    .size-pdf {
+        height: 1364px;
+        width: 100%;
     }
 }
 @media (min-width: 1200px) {
@@ -509,6 +534,13 @@ span.icon1, span.icon2{
         width:352px !important;
         height:200px;
         margin-top:5px;
+    }
+    #read-container {
+        margin-top: 58px;
+    }
+    .size-pdf {
+        height: 569px;
+        width: 100%;
     }
 }
 /*--//responsive--*/

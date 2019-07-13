@@ -167,8 +167,9 @@
             className: "info",
         };
         var val = '@ViewBag.ID';
-       
-        $.blockUI({ message: '<i class="fa fa-spinner fa-spin" style="font-size:50px;color:#16B3E3"></i>' });
+        
+        //$.blockUI({ message: '<i class="fa fa-spinner fa-spin" style="font-size:50px;color:#16B3E3"></i>' });
+        //$(document).ajaxStop($.unblockUI);
         $.ajax({
             type: "GET",
             url: "/api/AdminAPI/GetListRecently",
@@ -246,6 +247,7 @@
                 data += "<p>" + result[0].describe + "</p>";
                 data += "</div ></div ></div >";
                 $("#detail").append(data);
+
                  $("#btnViewBook").click(function () {
                                     debugger
 

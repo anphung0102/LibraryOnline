@@ -17,7 +17,7 @@
         Layout = "~/Views/Shared/_LayoutStudent.cshtml";
     }
 }
-<div class="container" id="admin-container">
+<div class="container" id="read-container">
     <span id="counter" class="timer" hidden></span> <br />
     <div id="loadfile" style="text-align:center; margin-top:5px"></div>
 </div>
@@ -47,7 +47,9 @@
         $('.timer').countimer();
         $("footer").hide();
     });
- $(document).ready(function () {
+    $(document).ready(function () {
+        $.blockUI({ message: '<i class="fa fa-spinner fa-spin" style="font-size:50px;color:#16B3E3"></i><h5 style="color:white"> Vui lòng chờ...</h5>' });
+
       var val = '@ViewBag.Id';
         $.ajax({
             type: "GET",
@@ -62,9 +64,19 @@
 
                // data += "</div > ";
                // $("#loadfile").append(data);
-                var data = "<embed src='/Content/Upload/" + result[0].filename + "' type='application/pdf' height='564px' width='100%' class='responsive'>";
+                //var data = "<embed src='/Content/Upload/" + result[0].filename + "' type='application/pdf' height='564px' width='100%' class='responsive'>";
+                //var data = '<iframe src="http://docs.google.com/viewer?url=http://ebooks.fit.hcmute.edu.vn/Content/Upload/10.hd.hoc%20tạp%20lam%20theo%20loi%20Bac%202019.pdf' + '&embedded=true" class="size-pdf"  frameborder="0" scrolling="no"></iframe>';
+                //var data = '<iframe src="http://docs.google.com/viewer?url=http://ebooks.fit.hcmute.edu.vn/Content/Upload/' + result[0].filename + '&embedded=true"  width="100%" height="564px"  style="width: 100%; height: 564px;" frameborder="0" scrolling="no"></iframe>';
+
+                //$("#loadfile").append(data);
+                var data = '<iframe src="http://docs.google.com/viewer?url=http://ebooks.fit.hcmute.edu.vn/Content/Upload/10.hd.hoc%20tạp%20lam%20theo%20loi%20Bac%202019.pdf' + '&embedded=true" class="size-pdf"  frameborder="0" scrolling="no"></iframe>';
+                //var data = '<iframe src="http://docs.google.com/viewer?url=http://ebooks.fit.hcmute.edu.vn/Content/Upload/' + result[0].filename + '&embedded=true"  width="100%" height="564px"  style="width: 100%; height: 564px;" frameborder="0" scrolling="no"></iframe>';
 
                 $("#loadfile").append(data);
+                $('.size-pdf').on('load', function () {
+
+                    $.unblockUI();
+                });
             }
         });
     });

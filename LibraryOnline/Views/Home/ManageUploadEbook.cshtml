@@ -251,7 +251,11 @@
                     //},
                     { "data": "id", className:"id"},
                     { "data": "ebook_id", className: "ebook_id"},
-                    { "data": "title", className: "title"},
+                    {
+                        "data": "title", className: "title", "render": function (data, type, row) {
+                            return "<p id='break-down'>" + data + "</p>"
+                        }
+                    },
                     { "data": "author", className: "author"},
 
                     {

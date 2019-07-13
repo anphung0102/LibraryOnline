@@ -146,9 +146,9 @@
                 data += "<p><b>Bộ môn: </b>" + result[0].subname + "</p>";
                 //data += "<p><b>Sinh viên:: </b>" + v.executor2 + "</p>";
                 data += "<div class ='d-flex '>";
-                data += "<p>Lượt xem: " + result[0].countView + "</p>";
+                data += "<p>Lượt xem: <span id='countView'>" + result[0].countView + "</span></p>";
                 data += "&nbsp | &nbsp ";
-                data += "<p>Lượt tải: " + result[0].countDowload + "</p>";
+                data += "<p>Lượt tải: <span id='countDowload'>" + result[0].countDowload + "</span></p>";
                 data += " </div>";
                 //data += "<p><b>Năm xuất bản: </b>" + v.year + "</p>";
                 //data += "<div id='rate' class='rateit'></div>";
@@ -160,10 +160,10 @@
                 //data += `<a href="/Content/Upload/${v.filename}" ><input type="button" value="Download" /></a >`
                 //data += `<button type='button' class='btn btn-info' style='width: 100px;'><a href=/Content/Upload/${v.filename } style='color:white;text-decoration: none;'>Dowload</a></button>`;
                 data += "<button id='btnViewBook'  type='button' class='btn btn-info' style='width: 100px;' >Xem</button>";
-                data += "<div id='countView' hidden='hidden' >" + result[0].countView + "</div>";
+                //data += "<div id='countView' hidden='hidden' >" + result[0].countView + "</div>";
                 //data += `<a href="/Content/Upload/${v.filename}" download><input type="button" value="Download" /></a >`
                 data += `<button id='btnDowBook' type='button' class='btn btn-info' ><a href="/Content/Upload/${result[0].filename}" download style='color:white;text-decoration: none; '>Download</a></button>`;
-                data += "<div id='countDowload' hidden='hidden'>" + result[0].countDowload + "</div>";
+                //data += "<div id='countDowload' hidden='hidden'>" + result[0].countDowload + "</div>";
                 data += " </div>"
 
                 data += " <hr align='center'>";

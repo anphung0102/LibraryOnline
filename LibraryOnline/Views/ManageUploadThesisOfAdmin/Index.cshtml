@@ -281,7 +281,11 @@
                 "columns": [
                     { "data": "id", className: "id"},
                     { "data": "thesis_id", className: "thesis_id" },
-                    { "data": "title", className: "title"},
+                    {
+                        "data": "title", className: "title", "render": function (data, type, row) {
+                            return "<p id='break-down'>" + data + "</p>"
+                        }
+                    },
                     { "data": "instructor", className: "instructor"},
                     { "data": "executor1", className: "executor1"},
                     { "data": "executor2", className: "executor2"},

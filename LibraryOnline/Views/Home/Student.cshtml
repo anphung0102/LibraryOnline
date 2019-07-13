@@ -383,7 +383,7 @@
             className: "error",
         };
 
-        $.blockUI();
+        //$.blockUI();
         $.ajax({
             type: "GET",
             url: "/api/AdminAPI/GetListRecently",
@@ -469,7 +469,7 @@
                 });
             }
         });
-        $.unblockUI();
+        //$.unblockUI();
         // hàm trả về html thông tin file ebooks
         function simpleTemplating(result) {
             var data = "";

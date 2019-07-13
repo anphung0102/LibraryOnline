@@ -199,9 +199,18 @@
                             </div>*@
                         <div class="form-group mar_bottom">
                             @*<label for="text">Browser</label>
-                                <input type="file" name="Files" id="fileInput" />*@
-                            <input type="file" onchange="previewFile()" multiple id="fileInputImage" style="margin-bottom: 5px;margin-top: 5px;"><br>
-                            <img id="imguserinfo" style="width: 30%;height: 15%;" alt="Image preview...">
+        <input type="file" name="Files" id="fileInput" />*@
+                            @*<input type="file" onchange="previewFile()" multiple id="fileInputImage" style="margin-bottom: 5px;margin-top: 5px;"><br>
+        <img id="imguserinfo" style="width: 30%;height: 15%;" alt="Image preview...">*@
+                            <div class="input-group row col-md-6">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" multiple id="fileInputImage" onchange="previewFile()"
+                                           aria-describedby="inputGroupFileAddon01" accept=".png, .jpg, .jpeg,.gif">
+                                    <label class="custom-file-label" for="inputGroupFile01" style="overflow: hidden  !important;">Choose file</label>
+                                </div>
+                            </div>
+                            <img id="imguserinfo" class="size-img" alt="Image preview...">
+
                         </div>
                         @*<div class="form-group mar_bottom">
                                 <div style="width:180px;height:180px;"><img id="ImageUser" src="http://placehold.it/180" alt="your image" /></div>
@@ -237,8 +246,8 @@
         <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>*@
     <script src="~/Scripts/jquery.dataTables.min.js"></script>
     <script src="~/Scripts/dataTables.bootstrap4.min.js"></script>
-    <script src="~/Scripts/dataTables.responsive.min.js"></script>"
-    <script src="~/Scripts/responsive.bootstrap4.min.js"></script>"
+    <script src="~/Scripts/dataTables.responsive.min.js"></script>
+    <script src="~/Scripts/responsive.bootstrap4.min.js"></script>
 
 
 

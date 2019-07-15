@@ -458,11 +458,11 @@
                 $.notify("Bạn phải nhập tác giả!", warnOptions);
                 return;
             }
-            if (year == null || year == "") {
-                $("#yearEdit").focus();
-                $.notify("Bạn phải nhập năm xuất bản!", warnOptions);
-                return;
-            }
+            //if (year == null || year == "") {
+            //    $("#yearEdit").focus();
+            //    $.notify("Bạn phải nhập năm xuất bản!", warnOptions);
+            //    return;
+            //}
             else {
                 $.ajax({
                     type: "POST",

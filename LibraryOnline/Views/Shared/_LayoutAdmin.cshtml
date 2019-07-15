@@ -154,7 +154,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal Header -->
-                <div class="modal-header">
+                <div class="modal-header bg-modal-header">
                     <h4 class="modal-title">Thay đổi mật khẩu</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
@@ -162,13 +162,13 @@
                 <div id="modal" class="modal-body">
                     <form id="formChangePass" method="post" enctype="multipart/form-data">
                         <div class="form-group">
-                            <label for="text">Mật khẩu cũ:</label>
+                            <label class="bold-title" for="text">Mật khẩu cũ:</label>
                             <input type="password" class="form-control" id="passOld" name="passOld">
                             <span toggle="#passOld" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                             @*<input type="password" class="form-control" id="passOld" placeholder="Mật khẩu cũ" name="passOld">*@
                         </div>
                         <div class="form-group">
-                            <label for="text">Mật khẩu mới:</label>
+                            <label class="bold-title" for="text">Mật khẩu mới:</label>
                             <input type="password" class="form-control" id="passNew" name="passNew">
                             <span toggle="#passNew" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                             @*<input type="password" class="form-control" id="passNew" placeholder="Mật khẩu mới" name="passNew">*@
@@ -188,7 +188,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <!-- Modal Header -->
-                <div class="modal-header">
+                <div class="modal-header bg-modal-header">
                     <h4 class="modal-title">Thông tin cá nhân</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
@@ -197,11 +197,11 @@
                     <form id="formInfo" method="post" enctype="multipart/form-data">
                         <div class="form-row mar_bottom">
                             <div class="row col-md-6">
-                                <div class="col-md-3"> <label for="text">Email:</label></div>
+                                <div class="col-md-3"> <label class="bold-title" for="text">Email:</label></div>
                                 <div class="col-md-9"> <input type="email" class="form-control" id="emailuser" name="emailuser" readonly style="background-color: antiquewhite;"></div>
                             </div>
                             <div class="row col-md-6">
-                                <div class="col-md-3"><label for="text" style="width: 86px;">Mật khẩu:</label></div>
+                                <div class="col-md-3"><label class="bold-title" for="text" style="width: 86px;">Mật khẩu:</label></div>
                                 <div class="col-md-9">
                                     @*<input type="password" class="form-control" id="pass" name="pass" readonly style="background-color: antiquewhite;">
                                         <input type="checkbox" id="showPassWord"/>*@
@@ -212,7 +212,7 @@
                         </div>
                         <div class="form-row mar_bottom">
                             <div class="row col-md-6">
-                                <div class="col-md-3"> <label for="text">Họ tên:</label></div>
+                                <div class="col-md-3"> <label class="bold-title" for="text">Họ tên:</label></div>
                                 <div class="col-md-9"> <input type="text" class="form-control" id="nameUser" name="nameUser"></div>
                             </div>
                             @*<div class="row col-md-6">

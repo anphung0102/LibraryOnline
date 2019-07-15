@@ -25,7 +25,7 @@
 
     .readmore {
         white-space: nowrap;
-        width: 232px;
+        width: 216px;
         overflow: hidden;
         text-overflow: ellipsis;
     }
@@ -81,7 +81,7 @@
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <!-- Modal Header -->
-                        <div class="modal-header">
+                        <div class="modal-header bg-modal-header">
                             <h4 class="modal-title">Thêm</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
@@ -90,21 +90,21 @@
                             <form id="formEbook" method="post" enctype="multipart/form-data">
                                 <div class="form-row mar_bottom">
                                     <div class="row col-md-6">
-                                        <div class="col-md-3"> <label for="text">Tiêu đề:</label></div>
+                                        <div class="col-md-3"> <label class="bold-title" for="text">Tiêu đề:</label></div>
                                         <div class="col-md-9"> <input type="text" class="form-control" id="title" placeholder="Tiêu đề" name="title"></div>
                                     </div>
                                     <div class="row col-md-6">
-                                        <div class="col-md-3">  <label for="text">Tác giả:</label></div>
+                                        <div class="col-md-3">  <label class="bold-title" for="text">Tác giả:</label></div>
                                         <div class="col-md-9"> <input type="text" class="form-control" id="author" placeholder="Tác giả" name="author"></div>
                                     </div>
                                 </div>
                                 <div class="form-row mar_bottom">
                                     <div class="row col-md-6">
-                                        <div class="col-md-3"><label for="text">Năm xuất bản:</label></div>
+                                        <div class="col-md-3"><label class="bold-title" for="text">Năm xuất bản:</label></div>
                                         <div class="col-md-9"><input type="number" class="form-control" id="year" placeholder="Năm xuất bản" name="year"></div>
                                     </div>
                                     <div class="row col-md-6">
-                                        <div class="col-md-3"><label for="text">Bộ môn:</label></div>
+                                        <div class="col-md-3"><label class="bold-title" for="text">Bộ môn:</label></div>
                                         <div class="col-md-9"><select id="subject" class="form-control"></select></div>
                                     </div>
                                 </div>
@@ -114,7 +114,7 @@
                                     <input type="file" name="Files" multiple id="fileInput" />
                                 </div>
                                 <div class="form-group">
-                                    <label for="text">Mô tả:</label>
+                                    <label class="bold-title" for="text">Mô tả:</label>
                                     <textarea type="text" class="form-control" id="describe" placeholder="Mô tả" name="describe" style="height: 150px;"></textarea>
                                 </div>
 
@@ -133,7 +133,7 @@
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <!-- Modal Header -->
-                        <div class="modal-header">
+                        <div class="modal-header bg-modal-header">
                             <h4 class="modal-title">Thêm</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
@@ -196,7 +196,7 @@
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <!-- Modal Header -->
-                        <div class="modal-header">
+                        <div class="modal-header bg-modal-header">
                             <h4 class="modal-title">Thêm</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
@@ -315,7 +315,7 @@
                         <div class="d-flex justify-content-between mb-3">
                             <div id="titleSubjectEbook" class="khoangcachduoi"></div>
                             <div>
-                                <button id="btn_upload" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#myModal" style="margin-top:10px;"><i class="fas fa-plus-square"></i></button>
+                                <button hidden id="btn_upload" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#myModal" style="margin-top:10px;"><i class="fas fa-plus-square"></i></button>
                             </div>
                         </div>
                         <div class="row" id="loadEbook" data-bind="foreach: resultArr">
@@ -325,7 +325,7 @@
                         <div class="d-flex justify-content-between mb-3">
                             <div id="titleSubjectEssay" class="khoangcachduoi"></div>
                             <div>
-                                <button id="btn_upload1" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalEssay" style="margin-top:10px;"><i class="fas fa-plus-square"></i></button>
+                                <button hidden id="btn_upload1" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalEssay" style="margin-top:10px;"><i class="fas fa-plus-square"></i></button>
                             </div>
                         </div>
                         <div class="row" id="loadEssay" data-bind="foreach: resultArr">
@@ -336,7 +336,7 @@
                         <div class="d-flex justify-content-between mb-3">
                             <div id="titleSubjectThesis" class="khoangcachduoi"></div>
                             <div>
-                                <button id="btn_upload2" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalThesis" style="margin-top:10px;"><i class="fas fa-plus-square"></i></button>
+                                <button hidden id="btn_upload2" type="button" class="btn_login btn btn-success" data-toggle="modal" data-target="#modalThesis" style="margin-top:10px;"><i class="fas fa-plus-square"></i></button>
                             </div>
                         </div>
                         <div class="row" id="loadThesis" data-bind="foreach: resultArr">
@@ -547,9 +547,9 @@
                                     //data += "<div>tác giả: " + v.author + "</div>";
                                     data += "<a href='/Details/Details?ebook_id=" + v.ebook_Id + "'" + "data-bind='text:title data-toggle='tooltip' title='" + v.title + "'>" + v.title + "</a> </div>";
                                     data += "<div>Người đăng: " + v.poster + "</div>";
-                                    data += "<p class='card-text' data-bind='text:author'></p>";
-                                    data += "<div class='card-footer'></div>";
-                                    data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
+                                    //data += "<p class='card-text' data-bind='text:author'></p>";
+                                    //data += "<div class='card-footer'></div>";
+                                    //data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
                                     data += " </div></div></div>";
 
 
@@ -641,8 +641,8 @@
                             //data += "<div>Tác giả: " + result.author + "</div>";
                             data += "<a href='/Details/Details?ebook_id=" + result.ebook_Id + "'" + "data-bind='text:title data-toggle='tooltip' title='" + result.title + "'>" + result.title + "</a> </div>";
                             data += "<div>Người đăng: " + result.user_Name + "</div>";
-                            data += "<p class='card-text' data-bind='text:author'></p>";
-                            data += "<div class='card-footer'></div>";
+                            //data += "<p class='card-text' data-bind='text:author'></p>";
+                            //data += "<div class='card-footer'></div>";
                             //data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
                             data += " </div></div></div>";
 
@@ -677,8 +677,8 @@
                 //data += "<div>GVHD: " + v.instructor + "</div>";
                 data += "<a href='/Details/DetailsEssay?essay_id=" + v.essay_Id + "'" + "data-bind='text:title data-toggle='tooltip' title='" + v.title + "'>" + v.title + "</a> </div>";
                 data += "<div>Người đăng: " + v.poster + "</div>";
-                data += "<p class='card-text' data-bind='text:author'></p>";
-                data += "<div class='card-footer'></div>";
+                //data += "<p class='card-text' data-bind='text:author'></p>";
+                //data += "<div class='card-footer'></div>";
                 //data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
                 data += " </div></div></div>";
             });
@@ -826,8 +826,8 @@
                             //data += "<div>GVHD: " + v.instructor + "</div>";
                             data += "<a href='/Details/DetailsEssay?essay_id=" + result.essay_Id + "'" + "data-bind='text:title data-toggle='tooltip' title='" + result.title + "'>" + result.title + "</a> </div>";
                             data += "<div>Người đăng: " + result.user_Name + "</div>";
-                            data += "<p class='card-text' data-bind='text:author'></p>";
-                            data += "<div class='card-footer'></div>";
+                            //data += "<p class='card-text' data-bind='text:author'></p>";
+                            //data += "<div class='card-footer'></div>";
                             // data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
                             data += " </div></div></div>";
                             $('#loadEssay').append(data);
@@ -858,7 +858,7 @@
                 //data += "<div>GVHD: " + v.instructor + "</div>";
                 data += "<a href='/Details/DetailsThesis?thesis_id=" + v.thesis_Id + "'" + "data-bind='text:title data-toggle='tooltip' title='" + v.title + "'>" + v.title + "</a> </div>";
                 data += "<div>Người đăng: " + v.poster + "</div>";
-                data += "<p class='card-text' data-bind='text:author'></p>";
+                //data += "<p class='card-text' data-bind='text:author'></p>";
                 //data += "<div class='card-footer'></div>";
                 //data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
                 data += " </div></div></div>";
@@ -1007,8 +1007,8 @@
                             data += "<a href='/Details/DetailsThesis?thesis_id=" + result.thesis_id + "'" + "data-bind='text:title data-toggle='tooltip' title='" + v.title + "'>" + result.title + "</a> </div>";
                             //data += "<div>GVHD: " + result.instructor + "</div>";
                             data += "<div>Người đăng: " + result.user_Name + "</div>";
-                            data += "<p class='card-text' data-bind='text:author'></p>";
-                            data += "<div class='card-footer'></div>";
+                            //data += "<p class='card-text' data-bind='text:author'></p>";
+                            //data += "<div class='card-footer'></div>";
                             //data += "<small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9733;</small>";
                             data += " </div></div></div>";
                             $("#loadThesis").append(data);

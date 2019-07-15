@@ -469,7 +469,9 @@ span.icon1, span.icon2{
     #read-container {
         margin-top: 40px;
     }
-
+    .size-img {
+        margin-top: 5px;
+    }
     .size-pdf {
         height: 569px;
         width: 100%;
@@ -484,7 +486,9 @@ span.icon1, span.icon2{
         white-space: pre-line;
         width: 400px
     }
-    
+    .size-img {
+        margin-top: 5px;
+    }
 }
 
 @media (min-width: 768px) and (max-width: 991.98px) {
@@ -498,7 +502,9 @@ span.icon1, span.icon2{
     #read-container {
         margin-top: 36px;
     }
-
+    .size-img {
+        margin-top: 5px;
+    }
     .size-pdf {
         height: 1364px;
         width: 100%;
@@ -542,5 +548,12 @@ span.icon1, span.icon2{
         height: 569px;
         width: 100%;
     }
+}
+.bold-title {
+    font-weight: 500;
+}
+.bg-modal-header {
+    background-color: #5e9eea;
+    color: white;
 }
 /*--//responsive--*/

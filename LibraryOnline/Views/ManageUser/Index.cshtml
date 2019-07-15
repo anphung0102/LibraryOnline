@@ -100,7 +100,7 @@
     <div class="modal" id="EditUser">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-modal-header">
                     <h4 class="modal-title">Cập nhật User</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
@@ -108,7 +108,7 @@
                     <form accept-charset="UTF-8" id="submit_EditUser" role="form">
                         <div class="row col-md-12 mar_bottom">
                             <div class="row col-md-6">
-                                <div class="col-md-3"><label for="text">Email:</label></div>
+                                <div class="col-md-3"><label class="bold-title" for="text">Email:</label></div>
                                 <div class="col-md-9"><input type="email" class="form-control" id="emailEdit" placeholder="Email" name="emailEdit"></div>
                             </div>
                             @*<div class="row col-md-6">
@@ -116,27 +116,27 @@
                                     <div class="col-md-9"><input type="password" class="form-control" id="passwordEdit" placeholder="Mật khẩu" name="passwordEdit"></div>
                                 </div>*@
                             <div class="row col-md-6">
-                                <div class="col-md-3"><label for="text">MSSV:</label></div>
+                                <div class="col-md-3"><label class="bold-title" for="text">MSSV:</label></div>
                                 <div class="col-md-9"> <input type="number" class="form-control" id="studentidEdit" placeholder="MSSV" name="studentidEdit"></div>
                             </div>
                         </div>
                         <div class="row col-md-12 mar_bottom">
                             <div class="row col-md-6">
-                                <div class="col-md-3"><label for="text">Họ tên:</label></div>
+                                <div class="col-md-3"><label class="bold-title" for="text">Họ tên:</label></div>
                                 <div class="col-md-9"><input type="text" class="form-control" id="nameEdit" placeholder="Họ tên" name="nameEdit"></div>
                             </div>
                             <div class="row col-md-6">
-                                <div class="col-md-3"><label for="text">Mã lớp:</label></div>
+                                <div class="col-md-3"><label class="bold-title" style="width: 86px;" for="text">Mã lớp:</label></div>
                                 <div class="col-md-9"><input type="text" class="form-control" id="classidEdit" placeholder="Mã lớp" name="classidEdit"></div>
                             </div>
                         </div>
                         <div class="row col-md-12 mar_bottom">
                             <div class="row col-md-6">
-                                <div class="col-md-3"><label for="text">Quyền:</label></div>
+                                <div class="col-md-3"><label class="bold-title" for="text">Quyền:</label></div>
                                 <div class="col-md-9"><select class="form-control" id="roleEdit" name="roleEdit"></select></div>
                             </div>
                             <div class="row col-md-6" hidden>
-                                <div class="col-md-3"><label for="text">ID:</label></div>
+                                <div class="col-md-3"><label class="bold-title" for="text">ID:</label></div>
                                 <div class="col-md-9"><input type="text" class="form-control" id="idEdit" placeholder="Mã lớp" name="idEdit"></div>
                             </div>
                         </div>
@@ -154,7 +154,7 @@
     <div class="modal" id="modalAddUser">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-modal-header">
                     <h4 class="modal-title">Thêm User</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
@@ -162,33 +162,33 @@
                     <form accept-charset="UTF-8" id="submit_addUser" method="post" enctype="multipart/form-data">
                         <div class="row col-md-12 mar_bottom">
                             <div class="row col-md-6">
-                                <div class="col-md-3"><label for="text">Email:</label></div>
+                                <div class="col-md-3"><label class="bold-title" for="text">Email:</label></div>
                                 <div class="col-md-9"><input type="email" class="form-control" id="emailAdd" placeholder="Email" name="emailAdd"></div>
                             </div>
                             <div class="row col-md-6">
-                                <div class="col-md-3"><label for="text">Password:</label></div>
+                                <div class="col-md-3"><label class="bold-title" for="text">Password:</label></div>
                                 <div class="col-md-9"><input type="password" class="form-control" id="password" placeholder="Mật khẩu" name="password"></div>
                             </div>
 
                         </div>
                         <div class="row col-md-12 mar_bottom">
                             <div class="row col-md-6">
-                                <div class="col-md-3"><label for="text">Họ tên:</label></div>
+                                <div class="col-md-3"><label class="bold-title" for="text">Họ tên:</label></div>
                                 <div class="col-md-9"><input type="text" class="form-control" id="name" placeholder="Họ tên" name="name"></div>
                             </div>
                             <div class="row col-md-6">
-                                <div class="col-md-3"><label for="text">MSSV:</label></div>
+                                <div class="col-md-3"><label class="bold-title" for="text">MSSV:</label></div>
                                 <div class="col-md-9"> <input type="number" class="form-control" id="studentid" placeholder="MSSV" name="mssv"></div>
                             </div>
 
                         </div>
                         <div class="row col-md-12 mar_bottom">
                             <div class="row col-md-6">
-                                <div class="col-md-3"><label for="text">Quyền:</label></div>
+                                <div class="col-md-3"><label class="bold-title" for="text">Quyền:</label></div>
                                 <div class="col-md-9"><select class="form-control" id="role" name="role"></select></div>
                             </div>
                             <div class="row col-md-6">
-                                <div class="col-md-3"><label for="text">Mã lớp:</label></div>
+                                <div class="col-md-3"><label class="bold-title" style="width: 86px;" for="text">Mã lớp:</label></div>
                                 <div class="col-md-9"><input type="text" min="8" maxlength="8" class="form-control" id="classidAdd" placeholder="Mã lớp" name="malop"></div>
                             </div>
                         </div>
@@ -259,6 +259,7 @@
         var flag = false;
         //load môn học ebook
         $(document).ready(function () {
+            
             //lấy danh sách quyền
             $.ajax({
                 type: "GET",

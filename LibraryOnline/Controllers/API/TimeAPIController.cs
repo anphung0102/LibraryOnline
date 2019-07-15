@@ -57,7 +57,7 @@ namespace LibraryOnline.Controllers.API
         {
             var data = from user in db.Users
                        from time in db.Times
-                       where user.id == time.userid
+                       where user.id == time.userid && user.role_id == 3
                        select new
                        {
                            time.id,
